@@ -12,10 +12,22 @@
 // import { ColorModeSwitcher } from "./ColorModeSwitcher"
 // import { Logo } from "./Logo"
 
+
+import {
+   ChakraProvider,
+   Box,
+   Text,
+   Link,
+   VStack,
+   Code,
+   Grid,
+   theme,
+ } from "@chakra-ui/react"
 import { Container } from "react-bootstrap";
 import { Route, Routes } from "react-router-dom";
-import Home from "./pages/home";
-import LoginPage from "./pages/Login";
+//import Home from "./pages/home";
+import Login from "./features/login/components/login-template"
+//import LoginPage from "./pages/Login";
 
 // export const App = () => (
 //   <ChakraProvider theme={theme}>
@@ -45,11 +57,13 @@ import LoginPage from "./pages/Login";
 
 function App() {
   return (
-    <Container>
+    <ChakraProvider>
       <Routes>
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/" element={<Login />} />
+
+        
       </Routes>
-    </Container>);
+    </ChakraProvider>);
 };
 
 export default App;
