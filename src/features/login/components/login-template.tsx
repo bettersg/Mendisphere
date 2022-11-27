@@ -1,10 +1,12 @@
 import { Box, Button, Container, Flex, Link, Spacer, StackDivider, Text, VStack } from '@chakra-ui/react'
-import EmailCredential from "./email-credential"
+
 import {ArrowBackIcon} from '@chakra-ui/icons'
 
-
+import EmailCredential from "./email-credential"
 import LoginMenuMessage from './login-menu-message'
-import "./../../../assets/login/login.scss"
+import LoginDesign from "./login-design"
+
+import "./../scss/login.scss"
 
 export default function Login(){
 
@@ -50,7 +52,7 @@ export default function Login(){
                             align='stretch'
                             minWidth="100%"
                         >
-                                <Button colorScheme='blue'>Button</Button>
+                                <Button colorScheme='blue'>Sign in</Button>
                         </VStack>
                         <Flex >
                             <Spacer />
@@ -67,7 +69,7 @@ export default function Login(){
                 </VStack>
             </Box>
             <Box flex='1' className="rounded_edge_rectangle">
-                put image here
+                <LoginDesign/>
             </Box>
                 
       
