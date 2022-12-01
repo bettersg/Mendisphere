@@ -2,13 +2,14 @@ import { Box, Button, Container, Flex, Link, Spacer, StackDivider, Text, VStack 
 
 import {ArrowBackIcon} from '@chakra-ui/icons'
 
-import EmailCredential from "./email-credential"
-import LoginMenuMessage from './login-menu-message'
-import LoginDesign from "./login-design"
+import EmailCredential from "./components/email-credential"
+import LoginMenuMessage from './components/login-menu-message'
+import LoginDesign from "./components/login-design"
 
-import "./../scss/login.scss"
+import "./scss/login.scss"
+import GoogleSignInButton from './components/google-sign-in-button'
 
-export default function Login(){
+export default function LoginPage(){
 
     return (
         <Flex minH="100vH">
@@ -39,7 +40,7 @@ export default function Login(){
                         <EmailCredential />
                     </Container>
 
-                    <Container maxW='container.sm' >
+                    {/* <Container maxW='container.sm' >
                         <Flex >
                             <Box p='1'></Box>
                             <Spacer />
@@ -64,6 +65,9 @@ export default function Login(){
                             </Box>
                             <Spacer />
                         </Flex>
+                    </Container> */}
+                    <Container>
+                        <GoogleSignInButton/>
                     </Container>
 
                 </VStack>
