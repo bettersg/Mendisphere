@@ -1,8 +1,4 @@
-import { Box, Button, Center, Container, Flex, Link, Spacer, StackDivider, Text, VStack, Image } from '@chakra-ui/react'
-
-
-
-
+import { Center, Spacer, VStack, Image } from '@chakra-ui/react'
 
 export default function LoginDesign(){
     return (
