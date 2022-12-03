@@ -26,7 +26,7 @@ export default function LoginSection(){
             </Container>
             
             <Container maxW='container.sm' >
-                <LoginForm />
+                <LoginForm /> 
             </Container>
 
         </VStack>
