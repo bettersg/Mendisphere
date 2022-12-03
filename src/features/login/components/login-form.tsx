@@ -1,9 +1,9 @@
-import { Box, Button, Container, Flex, Input, InputGroup, InputRightElement, StackDivider, Text, VStack } from '@chakra-ui/react'
+import { Box, Button, Input, InputGroup, InputRightElement, Text, VStack } from '@chakra-ui/react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
 import React from 'react'
 import ForgotPassword from './forgot-password'
-import SignInButton from './sign-in-button'
 import Signup from './sign-up'
+import GoogleSignInButton from './google-sign-in-button'
 
 
 
@@ -59,7 +59,7 @@ export default function LoginForm(){
                     <ForgotPassword  />
                 </Box>
                 <Box>
-                    <SignInButton  />
+                    <GoogleSignInButton/>
                 </Box>
                 <Box>
                     <Signup />
