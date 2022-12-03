@@ -1,4 +1,4 @@
-import { Box, Button, Container, Flex, Link, Spacer, StackDivider, Text, VStack } from '@chakra-ui/react'
+import { Button, VStack } from '@chakra-ui/react'
 import React from 'react';
 
 
@@ -7,11 +7,9 @@ export default function SignInButton(){
 
     const [isLoading, setLoading] = React.useState(false);
     
-
     const handleSignIn = () => {
         
     }
-
 
     return (
         <VStack
@@ -20,10 +18,6 @@ export default function SignInButton(){
         >
             <Button colorScheme='blue' isLoading={isLoading} onClick={handleSignIn}>Sign in</Button>
         </VStack>
-
-        
-
     )
-
 
 }
