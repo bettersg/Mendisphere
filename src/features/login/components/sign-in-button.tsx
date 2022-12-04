@@ -1,4 +1,4 @@
-import { Box, Button, Container, Flex, Link, Spacer, StackDivider, Text, VStack } from '@chakra-ui/react'
+import { Button, VStack } from '@chakra-ui/react'
 import React from 'react';
 
 
@@ -6,10 +6,9 @@ import React from 'react';
 export default function SignInButton(){
 
     const [isLoading, setLoading] = React.useState(false);
-    
 
     const handleSignIn = () => {
-        
+        console.log(`sign in button clicked`)
     }
 
 

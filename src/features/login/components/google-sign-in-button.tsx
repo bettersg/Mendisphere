@@ -1,8 +1,9 @@
 import { GoogleOAuthProvider, GoogleLogin, CredentialResponse } from '@react-oauth/google';
 import { VStack } from '@chakra-ui/react';
+import AuthenticationService from '../../../services/authentication';
+import { AuthenticationRequestData } from '../../../data/auth/authRequestData';
 
 function errorHandler(error: string): void{
-    // handle error if login got failed...
     console.error(error)
 }
 
@@ -10,9 +11,24 @@ function successHandler(response: CredentialResponse): void {
     const clientId = response.clientId;
     const token = response.credential;
 
-    console.log("Login success!")
+    console.log("Received response from google.")
     console.log(`Client ID: ${clientId}`);
     console.log(`Token: ${token}`);
+    
+    var authRequest : AuthenticationRequestData = {
+        userName: token ?? ""
+    }
+    
+    try {
+        AuthenticationService.authenticate(authRequest)
+        .then((response: any) =>{
+            console.log(response.data)
+        })
+    } catch (error) {
+        console.log("Authentication Failed.")
+    }
+
+    console.log("Login success!")
 }
 
 export default function GoogleSignInButton(){
