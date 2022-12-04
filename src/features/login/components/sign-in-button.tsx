@@ -6,11 +6,10 @@ import React from 'react';
 export default function SignInButton(){
 
     const [isLoading, setLoading] = React.useState(false);
-
+    
     const handleSignIn = () => {
         console.log(`sign in button clicked`)
     }
-
 
     return (
         <VStack
@@ -19,10 +18,6 @@ export default function SignInButton(){
         >
             <Button colorScheme='blue' isLoading={isLoading} onClick={handleSignIn}>Sign in</Button>
         </VStack>
-
-        
-
     )
-
 
 }

@@ -1,7 +1,5 @@
 import { Box, Flex, Link, Spacer,  Text } from '@chakra-ui/react'
 
-
-
 export default function ForgotPassword(){
 
     return (
