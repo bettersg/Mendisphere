@@ -5,6 +5,7 @@ import ForgotPassword from './forgot-password'
 import Signup from './sign-up'
 import GoogleSignInButton from './google-sign-in-button'
 import SignInButton from './sign-in-button'
+import { AuthProvider } from '../../../services/firebase/authProvider'
 
 
 
@@ -31,7 +32,7 @@ export default function LoginForm(){
     }
 
     return (
-        
+        <AuthProvider>
             <VStack
                 spacing={4}
                 align='stretch'
@@ -75,7 +76,7 @@ export default function LoginForm(){
                 </Box>
 
             </VStack>
-     
+        </AuthProvider>
     )
 
 }
