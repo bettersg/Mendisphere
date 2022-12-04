@@ -1,5 +1,8 @@
 import { Button, VStack } from '@chakra-ui/react'
+import { User, UserCredential } from 'firebase/auth';
 import React from 'react';
+import { AuthenticationRequestData } from '../../../data/auth/authRequestData';
+import AuthenticationService from '../../../services/authentication';
 import { useAuth } from '../../../services/firebase/authProvider';
 
 interface LoginCredentials {
@@ -11,13 +14,24 @@ export default function SignInButton(LoginCredentials: LoginCredentials){
 
     const [isLoading, setLoading] = React.useState(false);
     const {signIn} = useAuth();
+    const authRequest : AuthenticationRequestData = {
+        userName: ""
+    }
     
     const handleSignIn = async () => {
         console.log(`sign in button clicked ${LoginCredentials.email}, ${LoginCredentials.password}`)
         try{
             setLoading(true);
-            await signIn(LoginCredentials.email, LoginCredentials.password);
-            console.log("Authentication success");
+            let userCred: UserCredential = await signIn(LoginCredentials.email, LoginCredentials.password);
+            let user: User = userCred.user
+            let token: string = await user.getIdToken();
+            console.log(`Authentication success userid: ${user.uid}, ${token}`);
+            authRequest.userName = user.uid;
+            console.log(`Authenticating with MindBetter backend...`);
+            AuthenticationService.authenticate(authRequest)
+            .then((response: any) =>{
+                console.log(response.data)
+            })
         } catch(error: unknown) {
             let errorMessage = 'error.unknown';
             if (typeof error === 'string') {
