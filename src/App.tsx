@@ -1,16 +1,18 @@
-import {ChakraProvider, theme} from "@chakra-ui/react";
-import {Route, Routes, BrowserRouter as Router} from "react-router-dom";
+import {
+   ChakraProvider
+ } from "@chakra-ui/react"
+import { Route, Routes } from "react-router-dom";
 import Landing from "./features/landing/Landing";
+import LoginPage from "./features/login/login-page";
 
 
-export function App() {
+function App() {
   return (
-    <ChakraProvider theme={theme}>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Landing />} />
-        </Routes>
-      </Router>
-    </ChakraProvider>
-  );
-}
+    <ChakraProvider>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+      </Routes>
+    </ChakraProvider>);
+};
+
+export default App;
