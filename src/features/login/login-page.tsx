@@ -14,12 +14,6 @@ export default function LoginPage(){
             <Box flex='1' className="rounded_edge_rectangle">
                 <LoginDesign/>
             </Box>
-                
-      
         </Flex>
-
     )
-
 }
-
- 
