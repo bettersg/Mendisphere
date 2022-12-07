@@ -11,6 +11,8 @@ function App() {
     <ChakraProvider>
       <Routes>
         <Route path="/" element={<Landing />} />
+        <Route path="/login" element={<LoginPage />} />
+       
       </Routes>
     </ChakraProvider>);
 };
