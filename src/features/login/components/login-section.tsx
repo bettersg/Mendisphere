@@ -3,8 +3,6 @@ import { Container, Link, StackDivider, Text, VStack } from '@chakra-ui/react'
 import LoginForm from './login-form'
 import LoginMenuMessage from './login-menu-message'
 
-
-
 export default function LoginSection(){
 
     return (

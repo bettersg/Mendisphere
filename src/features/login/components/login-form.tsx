@@ -1,17 +1,19 @@
 import { Box, Button, Input, InputGroup, InputRightElement, Text, VStack } from '@chakra-ui/react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
-import React from 'react'
+import { useState } from 'react'
 import ForgotPassword from './forgot-password'
 import Signup from './sign-up'
 import GoogleSignInButton from './google-sign-in-button'
-
-
-
+import SignInButton from './sign-in-button'
+import { AuthProvider } from '../../../services/firebase/authProvider'
 
 export default function LoginForm(){
 
-    const [show, setShow] = React.useState(false)
-    const [noText, setNoText] = React.useState(true)
+    const [show, setShow] = useState(false)
+    const [noText, setNoText] = useState(true)
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
     const handleClick = () => setShow(!show)
     
@@ -19,14 +21,15 @@ export default function LoginForm(){
 
         if(event.target.value.length > 0){
             setNoText(false);
-            
         }else{
             setNoText(true);
         }
+        
+        setPassword(event.target.value);
     }
 
     return (
-        
+        <AuthProvider>
             <VStack
                 spacing={4}
                 align='stretch'
@@ -34,7 +37,8 @@ export default function LoginForm(){
             >
                 <Box >
                     <Text>Email</Text>
-                    <Input placeholder='Enter your email' />
+                    <Input placeholder='Enter your email'
+                            onChange={(e) => setEmail(e.target.value)} />
                 </Box>
                 <Box >
                     <Text>Password</Text>
@@ -59,14 +63,17 @@ export default function LoginForm(){
                     <ForgotPassword  />
                 </Box>
                 <Box>
+                <Box>
+                    <SignInButton email={email} password={password}/>
+                <Box>
                     <GoogleSignInButton/>
                 </Box>
-                <Box>
+                </Box>
                     <Signup />
                 </Box>
 
             </VStack>
-     
+        </AuthProvider>
     )
 
 }

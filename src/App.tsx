@@ -3,6 +3,7 @@ import {
  } from "@chakra-ui/react"
 import { Route, Routes } from "react-router-dom";
 import LoginPage from "./features/login/login-page";
+import UserDashboardPage from "./features/user-dashboard/user-dashboard-page";
 
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
     <ChakraProvider>
       <Routes>
         <Route path="/" element={<LoginPage />} />
+        <Route path="dashboard" element={<UserDashboardPage />} />
       </Routes>
     </ChakraProvider>);
 };
