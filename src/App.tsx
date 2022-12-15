@@ -3,6 +3,7 @@ import {
   ChakraProvider
 } from "@chakra-ui/react"
 import { Route, Routes } from "react-router-dom";
+import Landing from "./features/landing/Landing";
 import LoginPage from "./features/login/login-page";
 import UserDashboardPage from "./features/user-dashboard/user-dashboard-page";
 import { AuthProvider } from "./services/firebase/authProvider";
