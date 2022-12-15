@@ -12,7 +12,7 @@ export default function NavigationBar(){
             <Center h='3vh'/>
             <Center h='6vh' >
                 <Flex minWidth="max-content">
-                        <Center  w="8.8vw" h="6vh" />
+                    <Center w="8.8vw" h="6vh" />
 
                     <Center p='4' w="9vw" h="6vh" >
                         Logo Here
