@@ -1,7 +1,5 @@
 import { GoogleOAuthProvider, GoogleLogin, CredentialResponse } from '@react-oauth/google';
 import { VStack } from '@chakra-ui/react';
-import AuthenticationService from '../../../services/authentication';
-import { AuthenticationRequestData } from '../../../data/auth/authRequestData';
 
 function errorHandler(error: string): void{
     console.error(error)
@@ -15,18 +13,18 @@ function successHandler(response: CredentialResponse): void {
     console.log(`Client ID: ${clientId}`);
     console.log(`Token: ${token}`);
     
-    var authRequest : AuthenticationRequestData = {
-        userName: token ?? ""
-    }
+    // var authRequest : AuthenticationRequestData = {
+    //     userName: token ?? ""
+    // }
     
-    try {
-        AuthenticationService.authenticate(authRequest)
-        .then((response: any) =>{
-            console.log(response.data)
-        })
-    } catch (error) {
-        console.log("Authentication Failed.")
-    }
+    // try {
+    //     AuthenticationService.authenticate(authRequest)
+    //     .then((response: any) =>{
+    //         console.log(response.data)
+    //     })
+    // } catch (error) {
+    //     console.log("Authentication Failed.")
+    // }
 
     console.log("Login success!")
 }

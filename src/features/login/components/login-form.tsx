@@ -1,14 +1,11 @@
 import { Box, Button, Input, InputGroup, InputRightElement, Text, VStack } from '@chakra-ui/react'
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import ForgotPassword from './forgot-password'
 import Signup from './sign-up'
 import GoogleSignInButton from './google-sign-in-button'
 import SignInButton from './sign-in-button'
 import { AuthProvider } from '../../../services/firebase/authProvider'
-
-
-
 
 export default function LoginForm(){
 
@@ -66,11 +63,11 @@ export default function LoginForm(){
                     <ForgotPassword  />
                 </Box>
                 <Box>
-                    <GoogleSignInButton/>
-                </Box>
-                <Box>
                 <Box>
                     <SignInButton email={email} password={password}/>
+                <Box>
+                    <GoogleSignInButton/>
+                </Box>
                 </Box>
                     <Signup />
                 </Box>
