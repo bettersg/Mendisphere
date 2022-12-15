@@ -5,9 +5,8 @@ import ForgotPassword from './forgot-password'
 import Signup from './sign-up'
 import GoogleSignInButton from './google-sign-in-button'
 import SignInButton from './sign-in-button'
-import { AuthProvider } from '../../../services/firebase/authProvider'
 
-export default function LoginForm(){
+export default function LoginForm() {
 
     const [show, setShow] = useState(false)
     const [noText, setNoText] = useState(true)
@@ -16,64 +15,62 @@ export default function LoginForm(){
     const [password, setPassword] = useState('');
 
     const handleClick = () => setShow(!show)
-    
-    const handleChange = (event:any) => {
 
-        if(event.target.value.length > 0){
+    const handleChange = (event: any) => {
+
+        if (event.target.value.length > 0) {
             setNoText(false);
-        }else{
+        } else {
             setNoText(true);
         }
-        
+
         setPassword(event.target.value);
     }
 
     return (
-        <AuthProvider>
-            <VStack
-                spacing={4}
-                align='stretch'
-                minWidth="100%"
-            >
-                <Box >
-                    <Text>Email</Text>
-                    <Input placeholder='Enter your email'
-                            onChange={(e) => setEmail(e.target.value)} />
-                </Box>
-                <Box >
-                    <Text>Password</Text>
-                    <InputGroup size='md'>
-                        <Input
-                            pr='4.5rem'
-                            type={show ? 'text' : 'password'}
-                            placeholder='Enter password'
-                            onChange={handleChange}
-               
-                        ></Input>
+        <VStack
+            spacing={4}
+            align='stretch'
+            minWidth="100%"
+        >
+            <Box >
+                <Text>Email</Text>
+                <Input placeholder='Enter your email'
+                    onChange={(e) => setEmail(e.target.value)} />
+            </Box>
+            <Box >
+                <Text>Password</Text>
+                <InputGroup size='md'>
+                    <Input
+                        pr='4.5rem'
+                        type={show ? 'text' : 'password'}
+                        placeholder='Enter password'
+                        onChange={handleChange}
 
-                        <InputRightElement width='4.5rem'>
-                            <Button h='1.75rem' size='sm' onClick={handleClick} disabled={noText}>
-                                {show ? <ViewOffIcon/> : <ViewIcon/>}
-                            </Button>
-                        </InputRightElement>
-                    </InputGroup>
-                </Box>
+                    ></Input>
 
-                <Box>
-                    <ForgotPassword  />
-                </Box>
-                <Box>
-                <Box>
-                    <SignInButton email={email} password={password}/>
-                <Box>
-                    <GoogleSignInButton/>
-                </Box>
-                </Box>
-                    <Signup />
-                </Box>
+                    <InputRightElement width='4.5rem'>
+                        <Button h='1.75rem' size='sm' onClick={handleClick} disabled={noText}>
+                            {show ? <ViewOffIcon /> : <ViewIcon />}
+                        </Button>
+                    </InputRightElement>
+                </InputGroup>
+            </Box>
 
-            </VStack>
-        </AuthProvider>
+            <Box>
+                <ForgotPassword />
+            </Box>
+            <Box>
+                <Box>
+                    <SignInButton email={email} password={password} />
+                    <Box>
+                        <GoogleSignInButton />
+                    </Box>
+                </Box>
+                <Signup />
+            </Box>
+
+        </VStack>
     )
 
 }
