@@ -1,0 +1,15 @@
+name: Move New Pull Request to Pull Request Column
+on:
+  pull_request:
+    types:
+      - opened
+jobs:
+  move-assigned-card:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: alex-page/github-project-automation-plus@v0.8.2
+        with:
+          project: MindBetter Kanban Board
+          column: Pull Request
+
+
