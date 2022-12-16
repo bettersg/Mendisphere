@@ -9,7 +9,11 @@ export default function NavigationBar(){
         align='stretch'
 
         h="10vh"
+
+        h="10vh"
         >
+            <Center h='2.5vh'/>
+            <Center h='5vh' >
             <Center h='2.5vh'/>
             <Center h='5vh' >
                 <Flex minWidth="max-content">
@@ -20,13 +24,17 @@ export default function NavigationBar(){
 >>>>>>> 9d93001 (MBF-00023 resized the variable height in NavigationBar components)
 
                     <Center p='4' w="9vw" h="5vh" >
+                    <Center p='4' w="9vw" h="5vh" >
                         Logo Here
                     </Center>
 
                         <Center w="14.9vw" h="5vh" />
+                        <Center w="14.9vw" h="5vh" />
 
                     <Center w="30vw" h="5vh">
+                    <Center w="30vw" h="5vh">
                         <Flex>
+                            <Center w="9vw" h="5vh">
                             <Center w="9vw" h="5vh">
                                 <Link 
                                     fontFamily={"Inter"}
@@ -36,6 +44,7 @@ export default function NavigationBar(){
                                 </Link>
                             </Center>
                             <Center w="9vw" h="5vh">
+                            <Center w="9vw" h="5vh">
                                 <Link
                                      fontFamily={"Inter"}
                                      fontSize='12px'    
@@ -43,6 +52,7 @@ export default function NavigationBar(){
                                     Apply for Services
                                 </Link>
                             </Center>
+                            <Center w="9vw" h="5vh">
                             <Center w="9vw" h="5vh">
                                 <Link
                                      fontFamily={"Inter"}
@@ -70,6 +80,7 @@ export default function NavigationBar(){
                             <NavigationButton navigationLink="/login" buttonText="Log in" />
 
                         <Center w="1.2vw" h="5vh"/>        
+                        <Center w="1.2vw" h="5vh"/>        
                             
                             <NavigationButton  navigationLink="" buttonText="Sign up" />
 >>>>>>> 9d93001 (MBF-00023 resized the variable height in NavigationBar components)
@@ -77,10 +88,13 @@ export default function NavigationBar(){
                     </Center>
 
                     <Center w="8.8vw" h="5vh" />
+                    <Center w="8.8vw" h="5vh" />
                 </Flex>
             </Center>
             <Center h='2.5vh' />
+            <Center h='2.5vh' />
         </VStack>
     );
+
 
 }
