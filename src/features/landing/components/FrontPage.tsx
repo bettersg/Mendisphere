@@ -8,11 +8,9 @@ export default function FrontPage(){
         <Flex minWidth="max-content">
             <Center w="8vw" h="89.7vh" />
 
-            <Flex w="82vw" h="89.7vh">
+            <Flex w="82.9vw" h="89.7vh">
                 
-               
-                    
-                <VStack w="36.2vw" h="89.7vh"
+                <VStack w="34.2vw" h="89.7vh"
                     divider={<StackDivider borderColor="whiteAlpha.400" />}
                     spacing={4}
                     align='stretch'
@@ -33,7 +31,8 @@ export default function FrontPage(){
                 </VStack>
 
                 <Box w="7.7vw" h="89.7vh" ></Box>
-                <HStack w="38.1vw" h="89.7vhh" >
+
+                <HStack w="41vw" h="89.7vh" >
                     
                     <VStack 
                         w="19.3vw" h="89.7vh"
