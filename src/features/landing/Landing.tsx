@@ -1,4 +1,5 @@
 import {Box, Flex, StackDivider, VStack} from '@chakra-ui/react'
+import Footer from './components/Footer';
 import FrontPage from './components/FrontPage';
 import NavigationBar from './components/NavigationBar';
 
@@ -12,7 +13,7 @@ export default function Landing(){
             <Box minH="10vh" >
                 <NavigationBar />
             </Box>
-            <Box h='88.5vh'>
+            <Box minH='88.5vh'>
                 <FrontPage />
             </Box>
             <Box h='81.3vh' bg='pink.100'>
