@@ -1,4 +1,5 @@
 import {Box, Flex, StackDivider, VStack} from '@chakra-ui/react'
+import FrontPage from './components/FrontPage';
 import NavigationBar from './components/NavigationBar';
 
 export default function Landing(){
@@ -8,16 +9,16 @@ export default function Landing(){
             spacing={0}
             align='stretch'
         >
-            <Box minH="12.5vh" >
+            <Box minH="10vh" >
                 <NavigationBar />
             </Box>
-            <Box h='87.5vh' bg='blue'>
-                Expand your impact with Mindbetter
+            <Box h='88.5vh'>
+                <FrontPage />
             </Box>
             <Box h='100vh' bg='pink.100'>
                 Get connected to what matters most.
             </Box>
-            <Box h='100vh' bg='pink.100'>
+            <Box h='100vh' bg='blue.100'>
                 Hear their stories!
             </Box>
             <Box h='100vh' bg='green.100'>
