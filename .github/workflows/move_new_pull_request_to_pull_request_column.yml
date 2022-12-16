@@ -11,5 +11,5 @@ jobs:
         with:
           project: MindBetter Kanban Board
           column: Pull Request
-
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
 
