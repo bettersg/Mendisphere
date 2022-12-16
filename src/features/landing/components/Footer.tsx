@@ -4,7 +4,7 @@ import {Box, Center, Divider, Flex, Spacer, StackDivider, VStack} from '@chakra-
 export default function Footer(){
 
     return (
-        <Flex minWidth="max-content">
+        <Flex >
             <Center w="8.8vw" h="24.1vh" />
             <Box w="82.2vw" h="24.1vh">
                 <VStack 
