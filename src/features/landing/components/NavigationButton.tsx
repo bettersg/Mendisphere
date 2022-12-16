@@ -8,8 +8,8 @@ export default function NavigationButton(props:any){
             <Box
             as='button'
             fontFamily={"Inter"}
-            height='6vh'
-            width="9vw"
+            height={props.height}
+            width={props.width}
             lineHeight='1.2'
             transition='all 0.2s cubic-bezier(.08,.52,.52,1)'
             border='1px'
@@ -17,7 +17,7 @@ export default function NavigationButton(props:any){
             borderRadius='2px'
             fontSize='12px'
             fontWeight='semibold'
-            bg='#192873'
+            bg={props.backgroundColor}
             borderColor='#ccd0d5'
             color='#ffffff'
             _hover={{ bg: '#ebedf0' }}
