@@ -8,21 +8,23 @@ export default function NavigationBar(){
         divider={<StackDivider borderColor='whiteAlpha.200' />}
         spacing={0}
         align='stretch'
-        >
-            <Center h='3vh'/>
-            <Center h='6vh' >
-                <Flex minWidth="max-content">
-                        <Center  w="8.8vw" h="6vh" />
 
-                    <Center p='4' w="9vw" h="6vh" >
+        h="10vh"
+        >
+            <Center h='2.5vh'/>
+            <Center h='5vh' >
+                <Flex minWidth="max-content">
+                        <Center  w="8.8vw" h="5vh" />
+
+                    <Center p='4' w="9vw" h="5vh" >
                         Logo Here
                     </Center>
 
-                        <Center w="14.9vw" h="6vh" />
+                        <Center w="14.9vw" h="5vh" />
 
-                    <Center w="30vw" h="6vh">
+                    <Center w="30vw" h="5vh">
                         <Flex>
-                            <Center w="9vw" h="6vh">
+                            <Center w="9vw" h="5vh">
                                 <Link 
                                     fontFamily={"Inter"}
                                     fontSize='12px'
@@ -30,7 +32,7 @@ export default function NavigationBar(){
                                     Organisations
                                 </Link>
                             </Center>
-                            <Center w="9vw" h="6vh">
+                            <Center w="9vw" h="5vh">
                                 <Link
                                      fontFamily={"Inter"}
                                      fontSize='12px'    
@@ -38,7 +40,7 @@ export default function NavigationBar(){
                                     Apply for Services
                                 </Link>
                             </Center>
-                            <Center w="9vw" h="6vh">
+                            <Center w="9vw" h="5vh">
                                 <Link
                                      fontFamily={"Inter"}
                                      fontSize='12px'
@@ -51,22 +53,22 @@ export default function NavigationBar(){
         
                     </Center>
 
-                    <Center w="14.9vw" h="6vh"/>
+                    <Center w="14.9vw" h="5vh"/>
 
-                    <Center w="19.3vw" h="6vh">
+                    <Center w="19.3vw" h="5vh">
 
-                            <NavigationButton navigationLink="/login" buttonText="Log in"/>
+                            <NavigationButton backgroundColor="#192873" navigationLink="/login" buttonText="Log in" height="6vh" width="9vw"/>
 
-                        <Center w="1.2vw" h="6vh"/>        
+                        <Center w="1.2vw" h="5vh"/>        
                             
-                            <NavigationButton navigationLink="" buttonText="Sign up"/>
-                        
+                            <NavigationButton backgroundColor="#192873" navigationLink="" buttonText="Sign up" height="6vh" width="9vw"/>
+                           
                     </Center>
 
-                    <Center w="8.8vw" h="6vh" />
+                    <Center w="8.8vw" h="5vh" />
                 </Flex>
             </Center>
-            <Center h='3vh' />
+            <Center h='2.5vh' />
         </VStack>
     );
 }
