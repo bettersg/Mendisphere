@@ -1,11 +1,12 @@
 import {Box, Flex, StackDivider, VStack} from '@chakra-ui/react'
 import React, { Component } from 'react';
-import Footer from './components/Footer';
+
 import FrontPage from './components/FrontPage';
 import NavigationBar from './components/NavigationBar';
 
 import { addDoc, collection, Firestore, getFirestore } from "firebase/firestore";
 import { FirebaseApp, initializeApp, getApps, getApp  } from 'firebase/app';
+import Footer from '../common/footer';
 
 
 
@@ -88,7 +89,7 @@ class Home extends Component{
                 <Box h='54.7vh' bg='blue.100'>
                     Go faster, together
                 </Box>
-                <Box h='24.1vh'>
+                <Box minH='37.33vh'>
                     <Footer />
                 </Box>
             </VStack>

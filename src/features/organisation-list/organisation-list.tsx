@@ -39,7 +39,7 @@ class OrganisationList extends Component{
                     4
                 </Box>
                 <Box minH='37.33vh' >
-                    
+                    <Footer />
                 </Box>
             </VStack>
         );
