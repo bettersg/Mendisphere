@@ -11,7 +11,7 @@ import { FirebaseApp, initializeApp, getApps, getApp  } from 'firebase/app';
 
 
 
-class Landing extends Component{
+class Home extends Component{
 
     private firebaseConfig = {
         //removed the firebaseConfig
@@ -99,4 +99,4 @@ class Landing extends Component{
 
 
 
-export default Landing;
+export default Home;
