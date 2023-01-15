@@ -18,17 +18,17 @@ class Home extends Component{
     }; 
 
 
-    private app: FirebaseApp; 
-    private appList: FirebaseApp[];
+    //private app: FirebaseApp; 
+    //private appList: FirebaseApp[];
 
 
-    private db: Firestore;
+    //private db: Firestore;
 
     constructor(props:any){
         super(props);
         
         
-        this.appList = getApps();
+        /*this.appList = getApps();
         if (this.appList.length > 0){
             this.app = getApp("[DEFAULT]");
         }else{
@@ -40,14 +40,14 @@ class Home extends Component{
         
 
         this.testing(this.db);
-     
+        */
 
     }
 
 
     public async testing(db: Firestore){
         
-        try {
+        /*try {
             const docRef = await addDoc(collection(db, "test"), {
               test: "Ada"
               //last: "Lovelace",
@@ -57,6 +57,7 @@ class Home extends Component{
           } catch (e) {
             console.error("Error adding document: ", e);
           }
+         */ 
     }
 
 
