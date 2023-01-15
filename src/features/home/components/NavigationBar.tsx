@@ -1,5 +1,7 @@
 import {Flex, VStack, StackDivider, Link, Center} from '@chakra-ui/react'
 import NavigationButton from './NavigationButton';
+import { Link as ReactRouterLink } from "react-router-dom";
+
 
 export default function NavigationBar(){
     return (
@@ -26,11 +28,14 @@ export default function NavigationBar(){
 
                             <Center w="8vw" h="5vh">
                                 <Link 
+                                    as={ReactRouterLink}
+                                    to={"/organisation"}
                                     fontFamily={"Inter"}
                                     fontSize='12px'
                                 >
                                     Organisations
                                 </Link>
+
                             </Center>
 
                             <Center w="8vw" h="5vh">
