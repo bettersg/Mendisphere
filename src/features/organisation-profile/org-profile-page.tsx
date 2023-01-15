@@ -1,10 +1,12 @@
-import { Flex } from "@chakra-ui/react";
+import { VStack } from "@chakra-ui/react";
 import SimpleNavigationBar from "./components/simple-navbar";
+import TextNavigator from "./components/text-navigator";
 
 export default function OrgProfilePage() {
   return (
-    <Flex minH="100vH">
+    <VStack minH="100vH">
       <SimpleNavigationBar />
-    </Flex>
+      <TextNavigator />
+    </VStack>
   );
 }
