@@ -23,11 +23,11 @@ class HeaderBreadCrumbs extends Component<HeaderBreadCrumbsProps> {
     this.pageName = props.pageName;
   }
 
-  // REVIEW use referential links 
+  // REVIEW use referential links
 
   render() {
     return (
-      <Flex className="textNavigatorBox">
+      <Flex className="breadCrumbFlex">
         <Box className="breadCrumbBox">
           <Breadcrumb spacing="15px" separator={<ChevronRightIcon />}>
             <BreadcrumbItem>
