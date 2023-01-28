@@ -1,20 +1,10 @@
-import { Box, Flex, StackDivider, VStack } from "@chakra-ui/react";
+import { Box, VStack } from "@chakra-ui/react";
 import { Component} from "react";
-import { FirebaseApp, getApp, getApps, initializeApp } from "firebase/app";
-import { addDoc, collection, Firestore, getFirestore } from "firebase/firestore";
 import NavigationBar from "./components/navigation-bar";
 import Footer from "../common/footer";
 
 
 class OrganisationList extends Component{
-
-
-    constructor(props:any){
-        super(props);
-        
-        
-
-    }
 
 
     //TODO: Need to add another lifecycle method to prevent double requests in react
