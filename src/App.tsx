@@ -15,8 +15,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="dashboard" element={<UserDashboardPage />} />
-          <Route path="organisation" element={<OrganisationList />} />
-          <Route path="orgprofile" element={<OrgProfilePage />} />
+          <Route path="organisations" element={<OrganisationList />} />
+          <Route path="organisations/1" element={<OrgProfilePage />} />
         </Routes>
       </AuthProvider>
     </ChakraProvider>
