@@ -4,9 +4,9 @@ import {
   HStack,
   Divider,
   Text,
-  Spacer,
   VStack,
   SimpleGrid,
+  Spacer,
 } from "@chakra-ui/react";
 import { Component } from "react";
 import { Service } from "../../../data/enums/service.enum";
@@ -43,23 +43,27 @@ class Services extends Component {
   render() {
     return (
       <Flex className="servicesFlex">
-        <Box className="servicesBox">
-          <HStack spacing="65px" height="100%" align="flex-start">
-            <VStack className="needsBox" align="flex-start" spacing="15px">
-              <Text>What we need</Text>
-              <Spacer />
-              {generateServiceView(this.testServices.needs)}
-            </VStack>
-            <Divider className="divider" orientation="vertical" />
-            <VStack className="offerringBox" align="flex-start" spacing="15px">
-              <Text>What we offer</Text>
-              <Spacer />
-              <SimpleGrid columns={2} spacingX="24px" spacingY="15px">
-                {generateServiceView(this.testServices.offerrings)}
-              </SimpleGrid>
-            </VStack>
-          </HStack>
-        </Box>
+        <Flex className="servicesContainer">
+          <Box height="100%" width="1440px">
+            <HStack spacing="65px" align="flex-start">
+              <VStack className="needsBox" align="flex-start" spacing="15px">
+                <Text>What we need</Text>
+                {generateServiceView(this.testServices.needs)}
+              </VStack>
+              <Divider className="divider" orientation="vertical" />
+              <VStack
+                className="offerringBox"
+                align="flex-start"
+                spacing="15px"
+              >
+                <Text>What we offer</Text>
+                <SimpleGrid columns={2} spacingX="24px" spacingY="15px">
+                  {generateServiceView(this.testServices.offerrings)}
+                </SimpleGrid>
+              </VStack>
+            </HStack>
+          </Box>
+        </Flex>
       </Flex>
     );
   }
