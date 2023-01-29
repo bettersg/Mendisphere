@@ -21,7 +21,7 @@ type ServicesProp = {
 function generateServiceView(collection: Service[]) {
   return collection.map((item) => {
     return (
-      <HStack>
+      <HStack key={item}>
         {GetIconForService(item)}
         <Text className="serviceText">{item}</Text>
       </HStack>

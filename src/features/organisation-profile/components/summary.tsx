@@ -72,8 +72,12 @@ class Summary extends Component {
 
   render() {
     // dynamically generate social icons based on organisation data
-    const socialIconsView = this.testDetails.socials.map((item) => {
-      return <a href={item.url}>{GetIconForSocials(item.socialType)}</a>;
+    const socialIconsView = this.testDetails.socials.map((item, index) => {
+      return (
+        <Box key={index}>
+          <a href={item.url}>{GetIconForSocials(item.socialType)}</a>
+        </Box>
+      );
     });
 
     return (
