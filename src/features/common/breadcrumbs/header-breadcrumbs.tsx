@@ -12,18 +12,16 @@ import "./header-breadcrumbs.scss";
 import { HomeIcon } from "@primer/octicons-react";
 
 type HeaderBreadCrumbsProps = {
-  pageName: string;
+  pageName?: string;
 };
 
 class HeaderBreadCrumbs extends Component<HeaderBreadCrumbsProps> {
-  private pageName: string;
+  private pageName: string | undefined;
 
   constructor(props: HeaderBreadCrumbsProps) {
     super(props);
     this.pageName = props.pageName;
   }
-
-  // REVIEW use referential links
 
   render() {
     return (
@@ -37,14 +35,20 @@ class HeaderBreadCrumbs extends Component<HeaderBreadCrumbsProps> {
             </BreadcrumbItem>
 
             <BreadcrumbItem>
-              <BreadcrumbLink href="/organisations">
-                Organisations
+              <BreadcrumbLink
+                href={this.pageName ? "/organisations" : undefined}
+              >
+                <Text className={!this.pageName ? "currentPage" : undefined}>
+                  Organisations
+                </Text>
               </BreadcrumbLink>
             </BreadcrumbItem>
 
-            <BreadcrumbItem isCurrentPage>
-              <Text>{this.pageName}</Text>
-            </BreadcrumbItem>
+            {this.pageName && (
+              <BreadcrumbItem isCurrentPage>
+                <Text className="currentPage">{this.pageName}</Text>
+              </BreadcrumbItem>
+            )}
           </Breadcrumb>
         </Box>
       </Flex>
