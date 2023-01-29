@@ -1,0 +1,31 @@
+.profileFlex {
+  height: 1740px;
+  width: 1440px;
+
+  font-family: "Inter";
+  font-style: normal;
+}
+
+.tabsContainer {
+  height: 100%;
+  width: 100%;
+}
+
+.tabList {
+  margin-left: 128px;
+  margin-right: 128px;
+}
+
+.tabStyle {
+  height: 103px;
+
+  color: #707070;
+
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 22px;
+
+  display: flex;
+  align-items: center;
+  letter-spacing: -0.015em;
+}
