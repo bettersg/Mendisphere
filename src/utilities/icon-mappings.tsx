@@ -4,13 +4,39 @@ import { ReactComponent as InstagramIcon } from "../assets/icons/socials/instagr
 import { ReactComponent as LinkedInIcon } from "../assets/icons/socials/linkedin.svg";
 import { ReactComponent as YoutubeIcon } from "../assets/icons/socials/youtube.svg";
 import { ReactComponent as TiktokIcon } from "../assets/icons/socials/tiktok.svg";
+import { ReactComponent as SupportGroupIcon } from "../assets/icons/services/support-group.svg";
+import { ReactComponent as SpeakingEngagementsIcon } from "../assets/icons/services/speaking-engagements.svg";
+import { ReactComponent as PartnershipOpportunitiesIcon } from "../assets/icons/services/partnership-opportunities.svg";
+import { ReactComponent as FundingSupportIcon } from "../assets/icons/services/funding-support.svg";
+import { ReactComponent as CounsellingIcon } from "../assets/icons/services/counselling.svg";
+import { ReactComponent as CorporateTrainingIcon } from "../assets/icons/services/corporate-training.svg";
 import { SocialType } from "../data/enums/social-type.enum";
 import { MentalHealthIssue } from "../data/enums/mental-health-issue.enum";
+import { Service } from "../data/enums/service.enum";
 
 export function GetIconForIssue(issue: MentalHealthIssue) {
   switch (issue) {
     case MentalHealthIssue.AntiStigmatism:
       return <AntiStigmatismIcon />;
+    default:
+      return null;
+  }
+}
+
+export function GetIconForService(service: Service) {
+  switch (service) {
+    case Service.CorporateTraining:
+      return <CorporateTrainingIcon />;
+    case Service.Counselling:
+      return <CounsellingIcon />;
+    case Service.FundingSupport:
+      return <FundingSupportIcon />;
+    case Service.PartnershipOpportunities:
+      return <PartnershipOpportunitiesIcon />;
+    case Service.SpeakingEngagements:
+      return <SpeakingEngagementsIcon />;
+    case Service.SupportGroup:
+      return <SupportGroupIcon />;
     default:
       return null;
   }

@@ -1,8 +1,49 @@
 .servicesFlex {
-    width: 100%;
-    height: 240px;
-  
-    background: #E0E5FF;
-    border: 1px solid #CBCBCB;
-  }
-  
+  width: 100%;
+  height: 240px;
+  font-family: "Inter";
+  font-style: normal;
+
+  background: #e0e5ff;
+}
+
+.servicesBox {
+  margin-left: 128px;
+  margin-right: 128px;
+  margin-bottom: 47px;
+  margin-top: 47px;
+  width: 100%;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 22px;
+  /* identical to box height */
+
+  align-items: center;
+  letter-spacing: -0.015em;
+
+  /* Neutral/neutral-primary */
+
+  color: #333333;
+}
+
+.divider {
+  border: 2px solid #cbcbcb;
+}
+
+.needsBox {
+  width: 33%;
+}
+
+.serviceText {
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 29px;
+  letter-spacing: -0.015em;
+
+  /* Neutral/neutral-primary */
+
+  color: #333333;
+}
