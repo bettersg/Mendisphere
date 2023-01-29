@@ -5,7 +5,6 @@ import {
   TabList,
   TabPanels,
   TabPanel,
-  Divider,
 } from "@chakra-ui/react";
 import { Component } from "react";
 import "../scss/profile.scss";

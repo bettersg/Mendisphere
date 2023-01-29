@@ -1,5 +1,5 @@
 import { Flex, Text } from "@chakra-ui/react";
-import "../scss/simple-navbar.scss";
+import "./simple-navbar.scss";
 
 export default function SimpleNavigationBar() {
   return (

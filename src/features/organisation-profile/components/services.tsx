@@ -6,7 +6,6 @@ import {
   Text,
   VStack,
   SimpleGrid,
-  Spacer,
 } from "@chakra-ui/react";
 import { Component } from "react";
 import { Service } from "../../../data/enums/service.enum";
