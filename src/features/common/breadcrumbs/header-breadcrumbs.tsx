@@ -8,7 +8,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Component } from "react";
-import "../scss/header-breadcrumbs.scss";
+import "./header-breadcrumbs.scss";
 import { HomeIcon } from "@primer/octicons-react";
 
 type HeaderBreadCrumbsProps = {
