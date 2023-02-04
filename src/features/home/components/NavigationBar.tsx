@@ -27,7 +27,11 @@ export default function NavigationBar() {
               <Center w="8vw" h="5vh">
                 <Link
                   as={ReactRouterLink}
+<<<<<<< Updated upstream
                   to={"/organisations"}
+=======
+                  to={"/organisation"}
+>>>>>>> Stashed changes
                   fontFamily={"Inter"}
                   fontSize="12px"
                 >
@@ -64,7 +68,11 @@ export default function NavigationBar() {
 
             <NavigationButton
               backgroundColor="#192873"
+<<<<<<< Updated upstream
               navigationLink=""
+=======
+              navigationLink="/registration"
+>>>>>>> Stashed changes
               buttonText="Sign up"
               height="6vh"
               width="9vw"
