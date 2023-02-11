@@ -1,9 +1,5 @@
-<<<<<<< Updated upstream
-import { ChakraProvider } from "@chakra-ui/react";
-=======
 import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { StepsTheme as Steps } from "chakra-ui-steps";
->>>>>>> Stashed changes
 import { Route, Routes } from "react-router-dom";
 import Home from "./features/home/home";
 import LoginPage from "./features/login/login-page";
@@ -28,14 +24,10 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="dashboard" element={<UserDashboardPage />} />
-<<<<<<< Updated upstream
-          <Route path="organisations" element={<OrganisationList />} />
-          <Route path="organisations/1" element={<OrgProfilePage />} />
-=======
           <Route path="registration" element={<RegistrationPage />} />
           <Route path="profile-setup" element={<ProfileSetupPage />} />
-          <Route path="organisation" element={<OrganisationList />} />
->>>>>>> Stashed changes
+          <Route path="organisations" element={<OrganisationList />} />
+          <Route path="organisations/1" element={<OrgProfilePage />} />
         </Routes>
       </AuthProvider>
     </ChakraProvider>

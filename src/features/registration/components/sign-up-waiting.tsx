@@ -3,27 +3,35 @@ import { Center, Image, Spinner, Text, VStack } from "@chakra-ui/react";
 import { User, UserCredential } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { LoginCredentials } from "../../../data/auth/loginCredentials";
 import { useAuth } from "../../../services/firebase/authProvider";
+import { handleSubmit } from "../../../services/firebase/organizationInfo";
+import { IOrgData } from "../profile-page-setup";
+export interface LoginCredentials {
+  email: string;
+  password: string;
+  validated: boolean;
+  submitData?: IOrgData;
+}
 
 export default function SignUpWaiting(loginCredentials: LoginCredentials) {
   const [isLoading, setLoading] = useState(true);
   const { signUp } = useAuth();
+  const { email, password, validated, submitData } = loginCredentials || {};
   const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
   const navigate = useNavigate();
   const handleSignIn = async () => {
     console.log(
-      `sign up request sent ${loginCredentials.email}, ${loginCredentials.password}`
+      `sign up request sent ${email}, ${password}`
     );
     try {
       setLoading(true);
-      let userCred: UserCredential = await signUp(
-        loginCredentials.email,
-        loginCredentials.password
-      );
+      let userCred: UserCredential = await signUp(email, password);
       let user: User = userCred.user;
       let token: string = await user.getIdToken();
+      // TODO user the token as uid to save the submitData
+      console.log('submitData', submitData)
+      await handleSubmit(user.uid, submitData);
       console.log(`Authentication success userid: ${user.uid}, ${token}`);
       setLoading(false);
       console.log("Routing to user dashboard page.");
@@ -44,7 +52,7 @@ export default function SignUpWaiting(loginCredentials: LoginCredentials) {
   };
 
   useEffect(() => {
-    if (!loginCredentials.validated) {
+    if (!validated) {
       console.log(
         "Login credentials are not validated. Redirecting to sign up."
       );
@@ -70,7 +78,7 @@ export default function SignUpWaiting(loginCredentials: LoginCredentials) {
           <CheckCircleIcon w={8} h={8} color="green.500" />
         )}
         <Text className="loadingTitle">
-          Welcome, {loginCredentials.email.split("@", 1)}! 👋🏻
+          Welcome, {email.split("@", 1)}! 👋🏻
         </Text>
         <Text className="loadingSubTitle">
           We’re setting up your profile right now. This will take just a second!
