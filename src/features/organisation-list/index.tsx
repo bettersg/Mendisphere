@@ -5,10 +5,7 @@ import SimpleNavigationBar from "../common/simple-header/simple-navbar";
 import HeaderBreadCrumbs from "../common/breadcrumbs/header-breadcrumbs";
 import CardView from "./Components/CardView";
 import ListView from "./Components/ListView";
-import { ReactComponent as ViewCardActive } from '../../assets/icons/viewCardActive.svg'
-import { ReactComponent as ViewCardInactive } from '../../assets/icons/viewCardInactive.svg'
-import { ReactComponent as ViewListActive } from '../../assets/icons/viewListActive.svg'
-import { ReactComponent as ViewListInactive } from '../../assets/icons/viewListInactive.svg'
+import ViewToggle from "./Components/ViewToggle";
 
 interface IFilterOptions {
   focusesOn?: string;
@@ -22,6 +19,10 @@ export interface IOrganization extends IFilterOptions {
   image?: JSX.Element; // unique to <CardView />
 }
 
+export enum EViewOption {
+  Card = 'card',
+  List = 'list'
+}
 // TODO remove mock when the actual data is ready to be used
 const mockOrganizations: IOrganization[] = [
   {
@@ -93,7 +94,7 @@ const mockOrganizations: IOrganization[] = [
 const OrganisationList: React.FC = () => {
   //TODO: Need to add another lifecycle method to prevent double requests in react
   const [filterOptions, setFilterOptions] = useState<IFilterOptions>({});
-  const [viewOption, setViewOption] = useState<"card" | "list">("card");
+  const [viewOption, setViewOption] = useState<EViewOption>(EViewOption.Card);
   // TODO: integrate filter with organization card
 
   // TODO: replace mockCards with actual list of organization cards from database
@@ -140,40 +141,8 @@ const OrganisationList: React.FC = () => {
         </Grid>
       </Box>
       <Flex direction={'column'} paddingLeft={128} paddingRight={128} paddingBottom={5} paddingTop={5}>
-        <div style={{alignSelf: 'end', display: 'flex', flexDirection: 'row'}}>
-          <div onClick={() => setViewOption("card")} style={{display: 'flex', flexDirection: 'row', alignItems: 'baseline', marginRight: 5}}>
-            {viewOption === "card" ? <ViewCardActive/> : <ViewCardInactive/>}
-            <Text
-              marginLeft={2}
-              style={viewOption === "card" ? {
-                color: "#3959FF",
-                fontWeight: 'bold',
-              }
-              : {
-                color: "#CBCBCB",
-              }}
-            >
-              Card View
-            </Text>
-          </div>
-          <div style={{textAlign: 'start'}}>|</div>
-          <div onClick={() => setViewOption("list")} style={{display: 'flex', flexDirection: 'row', alignItems: 'baseline', marginLeft: 5}}>
-          {viewOption === "list" ? <ViewListActive/> : <ViewListInactive/>}
-            <Text
-              marginLeft={2}
-              style={viewOption === "list" ? {
-                color: "#3959FF",
-                fontWeight: 'bold',
-              }
-              : {
-                color: "#CBCBCB",
-              }}
-            >
-              List View
-            </Text>
-          </div>
-        </div>
-        {viewOption === "card"
+        <ViewToggle onChange={(option) => setViewOption(option)} viewOption={viewOption}/>
+        {viewOption === EViewOption.Card
           ? <CardView organizationList={validOrganizations}/>
           : <ListView organizationList={validOrganizations}/>
         }
