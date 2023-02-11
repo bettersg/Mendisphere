@@ -1,8 +1,14 @@
-import { Box, VStack, Text, Select, Grid, GridItem, Flex } from "@chakra-ui/react";
+import { Box, VStack, Text, Select, Grid, Flex } from "@chakra-ui/react";
 import React, { useState } from "react";
 import Footer from "../common/footer";
 import SimpleNavigationBar from "../common/simple-header/simple-navbar";
 import HeaderBreadCrumbs from "../common/breadcrumbs/header-breadcrumbs";
+import CardView from "./Components/CardView";
+import ListView from "./Components/ListView";
+import { ReactComponent as ViewCardActive } from '../../assets/icons/viewCardActive.svg'
+import { ReactComponent as ViewCardInactive } from '../../assets/icons/viewCardInactive.svg'
+import { ReactComponent as ViewListActive } from '../../assets/icons/viewListActive.svg'
+import { ReactComponent as ViewListInactive } from '../../assets/icons/viewListInactive.svg'
 
 interface IFilterOptions {
   focusesOn?: string;
@@ -10,99 +16,95 @@ interface IFilterOptions {
   IPCRegistered?: string;
   lookingFor?: string;
 }
-
-interface ICard extends IFilterOptions {
+export interface IOrganization extends IFilterOptions {
   renderText: string;
+  verified?: string; // unique to <ListView/>
+  image?: JSX.Element; // unique to <CardView />
 }
 
 // TODO remove mock when the actual data is ready to be used
-const mockCards: ICard[] = [
+const mockOrganizations: IOrganization[] = [
   {
     focusesOn: 'antiStigma',
     services: 'counselling',
     IPCRegistered: 'yes',
     lookingFor: 'fundingSupport',
-    renderText: `focusesOn: 'antiStigma',\nservices: 'counselling',\nIPCRegistered: 'yes',\nlookingFor: 'fundingSupport',`
+    renderText: `focusesOn: 'antiStigma',\nservices: 'counselling',\nIPCRegistered: 'yes',\nlookingFor: 'fundingSupport',`,
+    verified: 'yes',
   },
   {
     focusesOn: 'eatingDisorder',
     services: 'supportGroup',
     IPCRegistered: 'no',
     lookingFor: 'partnershipOpportunities',
-    renderText: `focusesOn: 'eatingDisorder',\nservices: 'supportGroup',\nIPCRegistered: 'no',\n\nlookingFor: 'partnershipOpportunities',`
+    renderText: `focusesOn: 'eatingDisorder',\nservices: 'supportGroup',\nIPCRegistered: 'no',\n\nlookingFor: 'partnershipOpportunities',`,
+    verified: 'pending',
   },
   {
     focusesOn: 'youthMentalWellness',
     services: 'trainingProvider',
     IPCRegistered: 'yes',
     lookingFor: 'fundingSupport',
-    renderText: `focusesOn: 'youthMentalWellness',\nservices: 'trainingProvider',\nIPCRegistered: 'yes',\nlookingFor: 'fundingSupport',`
+    renderText: `focusesOn: 'youthMentalWellness',\nservices: 'trainingProvider',\nIPCRegistered: 'yes',\nlookingFor: 'fundingSupport',`,
+    verified: 'no',
   },
   {
     focusesOn: 'ocd',
     services: 'workshops',
     IPCRegistered: 'no',
     lookingFor: 'fundingSupport',
-    renderText: `focusesOn: 'ocd',\nservices: 'workshops',\nIPCRegistered: 'no',\nlookingFor: 'fundingSupport',`
+    renderText: `focusesOn: 'ocd',\nservices: 'workshops',\nIPCRegistered: 'no',\nlookingFor: 'fundingSupport',`,
+    verified: 'pending',
   },
   {
     focusesOn: 'overallMentalWellbeing',
     services: 'counselling',
     IPCRegistered: 'yes',
     lookingFor: 'fundingSupport',
-    renderText: `focusesOn: 'overallMentalWellbeing',\nservices: 'counselling',\nIPCRegistered: 'yes',\nlookingFor: 'fundingSupport',`
+    renderText: `focusesOn: 'overallMentalWellbeing',\nservices: 'counselling',\nIPCRegistered: 'yes',\nlookingFor: 'fundingSupport',`,
+    verified: 'no',
   },
   {
     focusesOn: 'antiStigma',
     services: 'counselling',
     IPCRegistered: 'no',
     lookingFor: 'partnershipOpportunities',
-    renderText: `focusesOn: 'antiStigma',\nservices: 'counselling',\nIPCRegistered: 'no',\nlookingFor: 'partnershipOpportunities',`
+    renderText: `focusesOn: 'antiStigma',\nservices: 'counselling',\nIPCRegistered: 'no',\nlookingFor: 'partnershipOpportunities',`,
+    verified: 'yes',
   },
   {
     focusesOn: 'eatingDisorder',
     services: 'counselling',
     IPCRegistered: 'yes',
     lookingFor: 'fundingSupport',
-    renderText: `focusesOn: 'eatingDisorder',\nservices: 'counselling',\nIPCRegistered: 'yes',\nlookingFor: 'fundingSupport',`
+    renderText: `focusesOn: 'eatingDisorder',\nservices: 'counselling',\nIPCRegistered: 'yes',\nlookingFor: 'fundingSupport',`,
+    verified: 'no',
   },
   {
     focusesOn: 'antiStigma',
     services: 'counselling',
     IPCRegistered: 'no',
     lookingFor: 'fundingSupport',
-    renderText: `focusesOn: 'antiStigma',\nservices: 'counselling',\nIPCRegistered: 'no',\nlookingFor: 'fundingSupport',`
+    renderText: `focusesOn: 'antiStigma',\nservices: 'counselling',\nIPCRegistered: 'no',\nlookingFor: 'fundingSupport',`,
+    verified: 'pending',
   },
 ]
 
 const OrganisationList: React.FC = () => {
   //TODO: Need to add another lifecycle method to prevent double requests in react
   const [filterOptions, setFilterOptions] = useState<IFilterOptions>({});
+  const [viewOption, setViewOption] = useState<"card" | "list">("card");
   // TODO: integrate filter with organization card
 
   // TODO: replace mockCards with actual list of organization cards from database
-  let validOrganizationCards: ICard[] = mockCards;
-  let renderedRow: JSX.Element[] = [<></>];
-  
+  let validOrganizations: IOrganization[] = mockOrganizations;
   Object.entries(filterOptions).forEach(([key, value]) => {
     if (Boolean(value)) {
-      validOrganizationCards = validOrganizationCards.filter((card) => {
-        return (card as any)[key] === value
+      validOrganizations = validOrganizations.filter((org) => {
+        return (org as any)[key] === value
       })
     }
   })
-
-  for (let i = 0; i < validOrganizationCards.length; i += 4) {
-    let cardsToRender = validOrganizationCards.slice(i, i+4);
-    renderedRow.push(
-      <Grid templateColumns='repeat(4, 1fr)' gap={5} marginTop={5} key={i}>
-        {cardsToRender.map((card) =>
-          <GridItem borderRadius={5} bg={'tomato'} key={card.renderText}>
-            {card.renderText}
-          </GridItem>)}
-      </Grid>
-    )
-  }
 
   return (
     <VStack spacing={0} align="stretch">
@@ -137,8 +139,44 @@ const OrganisationList: React.FC = () => {
           </Select>
         </Grid>
       </Box>
-      <Flex direction={'column'} paddingLeft={128} paddingRight={128} paddingBottom={5}>
-        {renderedRow}
+      <Flex direction={'column'} paddingLeft={128} paddingRight={128} paddingBottom={5} paddingTop={5}>
+        <div style={{alignSelf: 'end', display: 'flex', flexDirection: 'row'}}>
+          <div onClick={() => setViewOption("card")} style={{display: 'flex', flexDirection: 'row', alignItems: 'baseline', marginRight: 5}}>
+            {viewOption === "card" ? <ViewCardActive/> : <ViewCardInactive/>}
+            <Text
+              marginLeft={2}
+              style={viewOption === "card" ? {
+                color: "#3959FF",
+                fontWeight: 'bold',
+              }
+              : {
+                color: "#CBCBCB",
+              }}
+            >
+              Card View
+            </Text>
+          </div>
+          <div style={{textAlign: 'start'}}>|</div>
+          <div onClick={() => setViewOption("list")} style={{display: 'flex', flexDirection: 'row', alignItems: 'baseline', marginLeft: 5}}>
+          {viewOption === "list" ? <ViewListActive/> : <ViewListInactive/>}
+            <Text
+              marginLeft={2}
+              style={viewOption === "list" ? {
+                color: "#3959FF",
+                fontWeight: 'bold',
+              }
+              : {
+                color: "#CBCBCB",
+              }}
+            >
+              List View
+            </Text>
+          </div>
+        </div>
+        {viewOption === "card"
+          ? <CardView organizationList={validOrganizations}/>
+          : <ListView organizationList={validOrganizations}/>
+        }
       </Flex>
       <Box minH="37.33vh">
         <Footer />

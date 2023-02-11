@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Home from "./features/home/home";
 import LoginPage from "./features/login/login-page";
 import OrgProfilePage from "./features/organisation-profile/org-profile-page";
-import OrganisationList from "./features/organisation-list/organisation-list";
+import OrganisationList from "./features/organisation-list";
 import UserDashboardPage from "./features/user-dashboard/user-dashboard-page";
 import { AuthProvider } from "./services/firebase/authProvider";
 
