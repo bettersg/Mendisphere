@@ -3,9 +3,9 @@ import React, { useState } from "react";
 import Footer from "../common/footer";
 import SimpleNavigationBar from "../common/simple-header/simple-navbar";
 import HeaderBreadCrumbs from "../common/breadcrumbs/header-breadcrumbs";
-import CardView from "./Components/CardView";
-import ListView from "./Components/ListView";
-import ViewToggle from "./Components/ViewToggle";
+import CardView from "./components/CardView";
+import ListView from "./components/ListView";
+import ViewToggle from "./components/ViewToggle";
 
 interface IFilterOptions {
   focusesOn?: string;
