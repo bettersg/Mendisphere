@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
 import { IOrganization } from "..";
+import { useNavigate } from "react-router-dom";
 import { ReactComponent as Approved } from '../../../assets/icons/statusApproved.svg'
 import { ReactComponent as NotApproved } from '../../../assets/icons/statusNotApproved.svg'
 import { ReactComponent as Pending } from '../../../assets/icons/statusPending.svg'
@@ -19,6 +21,9 @@ const verifiedUIMap = {
 }
 
 const ListView: React.FC<{organizationList: IOrganization[]}> = ({organizationList}) => {
+    const navigate = useNavigate();
+    const [bgColor, setBgColor] = useState<string>();
+
     return (
         <TableContainer>
             <Table variant='simple'>
@@ -36,7 +41,10 @@ const ListView: React.FC<{organizationList: IOrganization[]}> = ({organizationLi
                 <Tbody>
                     {organizationList.map((organization, index) => {
                         return (
-                            <Tr>
+                            <Tr
+                                onClick={() => navigate(`/organisations/${organization.index}`)}
+                                style={{cursor: 'pointer'}}
+                            >
                                 <Td>{index} name</Td>
                                 <Td>{organization.renderText}</Td>
                                 <Td>{!!organization.verified && verifiedUIMap[organization.verified]}</Td>

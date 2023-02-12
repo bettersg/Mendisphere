@@ -17,6 +17,7 @@ export interface IOrganization extends IFilterOptions {
   renderText: string;
   verified?: string; // unique to <ListView/>
   image?: JSX.Element; // unique to <CardView />
+  index: number;
 }
 
 export enum EViewOption {
@@ -32,6 +33,7 @@ const mockOrganizations: IOrganization[] = [
     lookingFor: 'fundingSupport',
     renderText: `focusesOn: 'antiStigma',\nservices: 'counselling',\nIPCRegistered: 'yes',\nlookingFor: 'fundingSupport',`,
     verified: 'yes',
+    index: 1
   },
   {
     focusesOn: 'eatingDisorder',
@@ -40,6 +42,7 @@ const mockOrganizations: IOrganization[] = [
     lookingFor: 'partnershipOpportunities',
     renderText: `focusesOn: 'eatingDisorder',\nservices: 'supportGroup',\nIPCRegistered: 'no',\n\nlookingFor: 'partnershipOpportunities',`,
     verified: 'pending',
+    index: 2
   },
   {
     focusesOn: 'youthMentalWellness',
@@ -48,6 +51,7 @@ const mockOrganizations: IOrganization[] = [
     lookingFor: 'fundingSupport',
     renderText: `focusesOn: 'youthMentalWellness',\nservices: 'trainingProvider',\nIPCRegistered: 'yes',\nlookingFor: 'fundingSupport',`,
     verified: 'no',
+    index: 3
   },
   {
     focusesOn: 'ocd',
@@ -56,6 +60,7 @@ const mockOrganizations: IOrganization[] = [
     lookingFor: 'fundingSupport',
     renderText: `focusesOn: 'ocd',\nservices: 'workshops',\nIPCRegistered: 'no',\nlookingFor: 'fundingSupport',`,
     verified: 'pending',
+    index: 4
   },
   {
     focusesOn: 'overallMentalWellbeing',
@@ -64,6 +69,7 @@ const mockOrganizations: IOrganization[] = [
     lookingFor: 'fundingSupport',
     renderText: `focusesOn: 'overallMentalWellbeing',\nservices: 'counselling',\nIPCRegistered: 'yes',\nlookingFor: 'fundingSupport',`,
     verified: 'no',
+    index: 5
   },
   {
     focusesOn: 'antiStigma',
@@ -72,6 +78,7 @@ const mockOrganizations: IOrganization[] = [
     lookingFor: 'partnershipOpportunities',
     renderText: `focusesOn: 'antiStigma',\nservices: 'counselling',\nIPCRegistered: 'no',\nlookingFor: 'partnershipOpportunities',`,
     verified: 'yes',
+    index: 6
   },
   {
     focusesOn: 'eatingDisorder',
@@ -80,6 +87,7 @@ const mockOrganizations: IOrganization[] = [
     lookingFor: 'fundingSupport',
     renderText: `focusesOn: 'eatingDisorder',\nservices: 'counselling',\nIPCRegistered: 'yes',\nlookingFor: 'fundingSupport',`,
     verified: 'no',
+    index: 7
   },
   {
     focusesOn: 'antiStigma',
@@ -88,6 +96,7 @@ const mockOrganizations: IOrganization[] = [
     lookingFor: 'fundingSupport',
     renderText: `focusesOn: 'antiStigma',\nservices: 'counselling',\nIPCRegistered: 'no',\nlookingFor: 'fundingSupport',`,
     verified: 'pending',
+    index: 8
   },
 ]
 
