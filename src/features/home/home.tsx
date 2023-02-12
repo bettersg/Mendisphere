@@ -1,32 +1,47 @@
-import { Box, VStack } from "@chakra-ui/react";
+import { Box, Button, VStack } from "@chakra-ui/react";
 import { Component } from "react";
 import FrontPage from "./components/FrontPage";
 import NavigationBar from "./components/NavigationBar";
 
-import { Firestore } from "firebase/firestore";
 import Footer from "../common/footer";
+import {
+  createOrganisation,
+  createOrganisationWithAdminData,
+  getOrganisations,
+  IOrganisation,
+} from "../../data/model/organisation";
+import { IOrganisationAdminData } from "../../data/model/organisationAdmin";
+import { OrgSize } from "../../data/enums/org-size.enum";
+import { CapitalGoal } from "../../data/enums/captial-goal.enum";
+import { Timestamp } from "firebase/firestore";
 
 class Home extends Component {
-  //private app: FirebaseApp;
-  //private appList: FirebaseApp[];
-
+  //TODO: Need to add another lifecycle method to prevent double requests in react
   //private db: Firestore;
 
-  public async testing(db: Firestore) {
-    /*try {
-            const docRef = await addDoc(collection(db, "test"), {
-              test: "Ada"
-              //last: "Lovelace",
-              //born: 1815
-            });
-            console.log("Document written with ID: ", docRef.id);
-          } catch (e) {
-            console.error("Error adding document: ", e);
-          }
-         */
-  }
+  runGetOrgs = () => {
+    // create preliminary org data
 
-  //TODO: Need to add another lifecycle method to prevent double requests in react
+    // const org: IOrganisation = {
+    //   name: "Test at " + new Date(),
+    //   ipcApproved: true,
+    //   verified: false,
+    // };
+
+    // const orgAdminData: IOrganisationAdminData = {
+    //   address: "test address",
+    //   size: OrgSize.max10,
+    //   capital: "$1000",
+    //   capitalGoal: CapitalGoal.max50K,
+    //   ipcExpiry: Timestamp.now(),
+    //   uen: "UEN test",
+    //   orgId: null,
+    // };
+
+    // test creating an organisation and storing it in the db
+
+    // createOrganisationWithAdminData(org, orgAdminData);
+  };
 
   render() {
     return (
@@ -34,6 +49,7 @@ class Home extends Component {
         <Box minH="10vh">
           <NavigationBar />
         </Box>
+        <Button onClick={this.runGetOrgs}>Test</Button>
         <Box minH="88.5vh">
           <FrontPage />
         </Box>
