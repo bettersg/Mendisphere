@@ -55,7 +55,7 @@ export const organisationConverter: FirestoreDataConverter<Organisation> = {
   ): Organisation {
     const data: DocumentData = snapshot.data(options);
     return new Organisation(
-      snapshot.id,
+      data.id,
       data.name,
       data.ipcApproved,
       data.verified
@@ -92,13 +92,16 @@ export async function createOrganisation(
 export async function createOrganisationWithAdminData(
     org: IOrganisation,
     orgAdminData: IOrganisationAdminData
-  ): Promise<void> {
+  ): Promise<string> {
     return createOrganisation(org)
       .then((o) => {
         console.log("org data added");
         // set the organisation id from firestore
         orgAdminData.orgId = o.id;
       })
-      .then(() => createOrganisationAdminData(orgAdminData))
-      .then(() => console.log("org admin data added"));
+      .then(() => {
+        const orgId = createOrganisationAdminData(orgAdminData)
+        console.log("org admin data added")
+        return orgId;
+      })
   }
