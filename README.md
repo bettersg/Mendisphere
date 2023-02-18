@@ -6,10 +6,10 @@
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">MindBetter</h3>
+  <h3 align="center">Mendisphere</h3>
 
   <p align="center">
-    Mindbetter is a platform that helps nonprofit mental health organisations who are struggling financially, specifically with securing grants.
+    Mendisphere is a platform that helps nonprofit mental health organisations who are struggling financially, specifically with securing grants.
     <br />
     <a href="https://github.com/bettersg/MindBetter-Frontend"><strong>Explore the docs »</strong></a>
     <br />
