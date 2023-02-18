@@ -10,12 +10,23 @@ import {
 } from "firebase/firestore";
 import { Collections } from "../../services/firebase/names";
 import { db } from "../../services/firebase/firebaseConfig";
-import { createOrganisationAdminData, IOrganisationAdminData } from "./organisationAdmin";
+import {
+  createOrganisationAdminData,
+  IOrganisationAdminData,
+} from "./organisationAdmin";
+import { SupportArea } from "../enums/support-area.enum";
+import { MentalHealthIssue } from "../enums/mental-health-issue.enum";
+import { Service } from "../enums/service.enum";
 
 export interface IOrganisation {
   name: string;
   ipcApproved: boolean;
   verified: boolean;
+  mainSpecialisation: string;
+  mainSupportArea: string;
+  services: string[];
+  description: string;
+  cardImageUrl: string;
 }
 
 export class Organisation implements IOrganisation {
@@ -23,17 +34,32 @@ export class Organisation implements IOrganisation {
   name: string;
   ipcApproved: boolean;
   verified: boolean;
+  mainSpecialisation: string;
+  mainSupportArea: string;
+  services: string[];
+  description: string;
+  cardImageUrl: string;
 
   constructor(
     _id: string,
     _name: string,
     _ipcApproved: boolean,
-    _verified: boolean
+    _verified: boolean,
+    _mainSpecialisation: string,
+    _mainSupportArea: string,
+    _services: string[],
+    _description: string,
+    _cardImageUrl: string
   ) {
     this.id = _id;
     this.name = _name;
     this.ipcApproved = _ipcApproved;
     this.verified = _verified;
+    this.mainSpecialisation = _mainSpecialisation;
+    this.mainSupportArea = _mainSupportArea;
+    this.services = _services;
+    this.description = _description;
+    this.cardImageUrl = _cardImageUrl;
   }
 
   toString() {
@@ -55,10 +81,15 @@ export const organisationConverter: FirestoreDataConverter<Organisation> = {
   ): Organisation {
     const data: DocumentData = snapshot.data(options);
     return new Organisation(
-      data.id,
+      snapshot.id,
       data.name,
       data.ipcApproved,
-      data.verified
+      data.verified,
+      data.mainSpecialisation,
+      data.mainSupportArea,
+      data.services,
+      data.description,
+      data.cardImageUrl
     );
   },
 };
@@ -85,23 +116,25 @@ export async function createOrganisation(
     res.id,
     orgData.name,
     orgData.ipcApproved,
-    orgData.verified
+    orgData.verified,
+    orgData.mainSpecialisation,
+    orgData.mainSupportArea,
+    orgData.services,
+    orgData.description,
+    orgData.cardImageUrl
   );
 }
 
 export async function createOrganisationWithAdminData(
-    org: IOrganisation,
-    orgAdminData: IOrganisationAdminData
-  ): Promise<string> {
-    return createOrganisation(org)
-      .then((o) => {
-        console.log("org data added");
-        // set the organisation id from firestore
-        orgAdminData.orgId = o.id;
-      })
-      .then(() => {
-        const orgId = createOrganisationAdminData(orgAdminData)
-        console.log("org admin data added")
-        return orgId;
-      })
-  }
+  org: IOrganisation,
+  orgAdminData: IOrganisationAdminData
+): Promise<void> {
+  return createOrganisation(org)
+    .then((o) => {
+      console.log("org data added");
+      // set the organisation id from firestore
+      orgAdminData.orgId = o.id;
+    })
+    .then(() => createOrganisationAdminData(orgAdminData))
+    .then(() => console.log("org admin data added"));
+}

@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Over The Rainbow (OTR)",
+    "ipcApproved": true,
+    "verified": true,
+    "mainSpecialisation": "Youth Mental Wellness",
+    "mainSupportArea": "Funding Support",
+    "services": [
+      "Youth",
+      "Workshops",
+      "Counselling"
+    ],
+    "description": "Advocacy group that hopes to empower youth with practical, hands on and holistic self-care strategies.",
+    "cardImageUrl": "https://picsum.photos/278/425"
+  },
+  {
+    "name": "OCDNetwork",
+    "ipcApproved": true,
+    "verified": true,
+    "mainSpecialisation": "Obsessive Compulsive Disorder",
+    "mainSupportArea": "Funding Support",
+    "services": [
+      "Workshops",
+      "Counselling"
+    ],
+    "description": "Non-profit society providing support services, cohesion activities and community for those struggling with OCD.",
+    "cardImageUrl": "https://picsum.photos/278/425"
+  },
+  {
+    "name": "Rebound With Resilience",
+    "ipcApproved": true,
+    "verified": false,
+    "mainSpecialisation": "Overall Mental Wellbeing",
+    "mainSupportArea": "Partnership Opportunities",
+    "services": [
+      "Workshops",
+      "Speaking Engagements"
+    ],
+    "description": "Training provider and podcast commited to cultivating resilience and positive mental wellness.",
+    "cardImageUrl": "https://picsum.photos/278/425"
+  }
+]

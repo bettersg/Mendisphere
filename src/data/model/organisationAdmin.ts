@@ -11,7 +11,6 @@ import { db } from "../../services/firebase/firebaseConfig";
 import { Collections } from "../../services/firebase/names";
 import { CapitalGoal } from "../enums/captial-goal.enum";
 import { OrgSize } from "../enums/org-size.enum";
-import { createOrganisation, IOrganisation } from "./organisation";
 
 export interface IOrganisationAdminData {
   orgId: string | null;
