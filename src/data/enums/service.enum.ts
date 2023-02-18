@@ -7,7 +7,5 @@ export enum Service {
     TrainingProvider="Training Provider",
     Counselling="Counselling",
     SpeakingEngagements="Speaking Engagements",
-    PartnershipOpportunities="Partnership Opportunities",
-    FundingSupport="Funding Support",
     CorporateTraining="Corporate Training"
 }
