@@ -89,9 +89,10 @@ export const organisationAdminConverter: FirestoreDataConverter<OrganisationAdmi
 
 export async function createOrganisationAdminData(
   orgAdminData: IOrganisationAdminData
-): Promise<void> {
-  await addDoc(
+): Promise<string> {
+  const docRef = await addDoc(
     collection(db, Collections.organisationsAdminData),
     orgAdminData
   );
+  return docRef.id;
 }
