@@ -13,6 +13,7 @@ import { ReactComponent as CorporateTrainingIcon } from "../assets/icons/service
 import { SocialType } from "../data/enums/social-type.enum";
 import { MentalHealthIssue } from "../data/enums/mental-health-issue.enum";
 import { Service } from "../data/enums/service.enum";
+import { SupportArea } from "../data/enums/support-area.enum";
 
 export function GetIconForIssue(issue: MentalHealthIssue) {
   switch (issue) {
@@ -23,16 +24,16 @@ export function GetIconForIssue(issue: MentalHealthIssue) {
   }
 }
 
-export function GetIconForService(service: Service) {
+export function GetIcon(service: Service | SupportArea) {
   switch (service) {
+    case SupportArea.FundingSupport:
+      return <FundingSupportIcon />;
+    case SupportArea.PartnershipOpportunities:
+      return <PartnershipOpportunitiesIcon />;
     case Service.CorporateTraining:
       return <CorporateTrainingIcon />;
     case Service.Counselling:
       return <CounsellingIcon />;
-    case Service.FundingSupport:
-      return <FundingSupportIcon />;
-    case Service.PartnershipOpportunities:
-      return <PartnershipOpportunitiesIcon />;
     case Service.SpeakingEngagements:
       return <SpeakingEngagementsIcon />;
     case Service.SupportGroup:

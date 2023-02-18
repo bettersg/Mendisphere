@@ -9,19 +9,20 @@ import {
 } from "@chakra-ui/react";
 import { Component } from "react";
 import { Service } from "../../../data/enums/service.enum";
-import { GetIconForService } from "../../../utilities/icon-mappings";
+import { SupportArea } from "../../../data/enums/support-area.enum";
+import { GetIcon } from "../../../utilities/icon-mappings";
 import "../scss/services.scss";
 
 type ServicesProp = {
-  needs: Service[]; // limit to 2
+  needs: SupportArea[]; // limit to 2
   offerrings: Service[]; // limit to 4
 };
 
-function generateServiceView(collection: Service[]) {
+function generateServiceView(collection: Service[] | SupportArea[]) {
   return collection.map((item) => {
     return (
       <HStack key={item}>
-        {GetIconForService(item)}
+        {GetIcon(item)}
         <Text className="serviceText">{item}</Text>
       </HStack>
     );
@@ -30,7 +31,7 @@ function generateServiceView(collection: Service[]) {
 
 class Services extends Component {
   private testServices: ServicesProp = {
-    needs: [Service.PartnershipOpportunities, Service.FundingSupport],
+    needs: [SupportArea.PartnershipOpportunities, SupportArea.FundingSupport],
     offerrings: [
       Service.Counselling,
       Service.SupportGroup,
