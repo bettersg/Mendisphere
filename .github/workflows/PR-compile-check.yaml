@@ -1,4 +1,6 @@
 name: Validate build on PR request # add unit tests in future?
+env:
+  CI: ""
 on:
   pull_request:
     branches:

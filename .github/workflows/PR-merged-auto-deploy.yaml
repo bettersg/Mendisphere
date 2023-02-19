@@ -1,4 +1,6 @@
 name: Deploy on merge PR to "main" branch
+env:
+  CI: ""
 on:
   push:
     branches:
