@@ -10,6 +10,7 @@
 
 # misc
 .DS_Store
-.env.development.local
+.env
 npm-debug.log*
 firebase-debug.log
+.firebase

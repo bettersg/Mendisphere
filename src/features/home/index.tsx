@@ -166,18 +166,18 @@ const Home: React.FC = () => {
           <Flex direction={'row'}>
             <div style={{alignSelf: 'center', paddingRight: 24}}>
               <Center>
-                <Box style={styles.blueButton}
+                <Button style={styles.blueButton}
                 // TODO registerPage path onClick={this.navigate()}
                 >
                   Join Mendisphere
-                </Box>
+                </Button>
               </Center>
             </div>
             <div style={{alignSelf: 'center', paddingRight: 240}}>
               <Center>
-                <Box style={styles.whiteButton2} onClick={() => navigate('/organisations')}>
+                <Button style={styles.whiteButton2} onClick={() => navigate('/organisations')}>
                   For Corporates
-                </Box>
+                </Button>
               </Center>
             </div>
             <img src={require('../../assets/icons/homeIcon4.png')}/>
