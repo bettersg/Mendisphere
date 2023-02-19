@@ -80,7 +80,7 @@ const Home: React.FC = () => {
         <NavigationBar />
       </Box>
       <Box>
-        <Button style={{width: '100%'}} onClick={() => runGetOrgs}>Test</Button>
+        <Button style={{width: '100%'}} onClick={() => runGetOrgs()}>Test</Button>
         <FrontPage />
       </Box>
       <Animate.FadeUp>  
