@@ -1,4 +1,4 @@
-import {Flex, Center, Box, VStack, StackDivider, Text, HStack, Image} from '@chakra-ui/react'
+import { Flex, Center, Box, VStack, StackDivider, Text, HStack } from '@chakra-ui/react'
 import NavigationButton from './NavigationButton'
 
 
@@ -44,7 +44,7 @@ export default function FrontPage(){
                         <Center w="19.3vw" h="25.4vh" ></Center>
                         
                         <Center w="19.3vw" h="35.9vh">
-                            <Image src="/images/rectangle-2.png"></Image>
+                            <img src={require('../../../assets/icons/homeIcon1.png')}></img>
                         </Center>
 
                         <Center w="19.3vw" h="28.4vh" ></Center>
@@ -63,13 +63,13 @@ export default function FrontPage(){
                         <Center w="19.3vw" h="5.2vh" />
 
                         <Center w="19.3vw" h="35.9vh">
-                            <Image src="/images/rectangle-1.png"></Image>
+                            <img src={require('../../../assets/icons/homeIcon0.png')}></img>
                         </Center>
                         
                         <Center w="19.3vw" h="2.4vh" />
                         
                         <Center w="19.3vw" h="35.9vh">
-                            <Image src="/images/rectangle-3.png"></Image>
+                            <img src={require('../../../assets/icons/homeIcon2.png')}></img>
                         </Center>
 
                         <Center w="19.3vw" h="10.3vh" />
