@@ -19,7 +19,7 @@ import {
 } from "../../../utilities/icon-mappings";
 import { MentalHealthIssue } from "../../../data/enums/mental-health-issue.enum";
 
-type Social = {
+export type Social = {
   socialType: SocialType;
   url: string;
 };

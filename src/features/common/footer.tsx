@@ -35,7 +35,7 @@ class Footer extends Component {
                 letterSpacing={"-0.015em"}
                 color={"#3959FF"}
               >
-                Mindbetter
+                Mendisphere
               </Text>
             </Box>
 
