@@ -32,5 +32,10 @@
       "port": 4000
     },
     "singleProjectMode": true
-  }
+  },
+  "hosting": [ {
+      "target": "test",
+      "public": "build/."
+    }
+  ]
 }

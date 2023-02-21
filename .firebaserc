@@ -1,0 +1,15 @@
+{
+  "projects": {
+    "default": "mindbetter-bettersg"
+  },
+  "targets": {
+    "mindbetter-bettersg": {
+      "hosting": {
+        "test": [
+          "mendisphere-test"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

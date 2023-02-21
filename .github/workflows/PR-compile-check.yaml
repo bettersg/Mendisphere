@@ -1,0 +1,14 @@
+name: Validate build on PR request # add unit tests in future?
+env:
+  CI: ""
+on:
+  pull_request:
+    branches:
+      - main
+jobs:
+  validate-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm install
+      - run: npm run build

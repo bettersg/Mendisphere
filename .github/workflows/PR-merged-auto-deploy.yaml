@@ -1,0 +1,20 @@
+name: Deploy on merge PR to "main" branch
+env:
+  CI: ""
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: npm install
+      - run: npm run build
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MENDISPHERE }}' # refer to this https://github.com/FirebaseExtended/action-hosting-deploy/blob/main/docs/service-account.md
+          channelId: test
+          projectId: mindbetter-bettersg
