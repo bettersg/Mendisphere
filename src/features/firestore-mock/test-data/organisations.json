@@ -38,5 +38,18 @@
     ],
     "description": "Training provider and podcast commited to cultivating resilience and positive mental wellness.",
     "cardImageUrl": "https://picsum.photos/278/425"
+  },
+  {
+    "name": "Resilience Collective (RC)",
+    "ipcApproved": false,
+    "verified": true,
+    "mainSpecialisation": "Anti-Stigmatism",
+    "mainSupportArea": "Partnership Opportunities",
+    "services": [
+      "Workshops",
+      "Speaking Engagements"
+    ],
+    "description": "By harnessing the voices of peers with first-hand perspectives of mental health recovery, RC aims to drive anti-stigmatism and promote help-seeking among those at risk.",
+    "cardImageUrl": "https://picsum.photos/278/425"
   }
 ]

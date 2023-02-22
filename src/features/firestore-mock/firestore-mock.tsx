@@ -1,14 +1,19 @@
-import { Button } from "@chakra-ui/react";
+import { Button, Heading, VStack } from "@chakra-ui/react";
 import { addDoc, collection, doc, setDoc } from "firebase/firestore";
 import { Component } from "react";
 import {
   createOrganisation,
+  getOrganisationsForListingsPage,
   IOrganisation,
   Organisation,
+  OrganisationListingQueryFilters,
 } from "../../data/model/organisation";
 import orgsJson from "./test-data/organisations.json";
 import { db } from "../../services/firebase/firebaseConfig";
 import { Collections } from "../../services/firebase/names";
+import { MentalHealthIssue } from "../../data/enums/mental-health-issue.enum";
+import { Service } from "../../data/enums/service.enum";
+import { SupportArea } from "../../data/enums/support-area.enum";
 
 class FirestoreMockPage extends Component {
   orgs: Organisation[] = [];
@@ -16,7 +21,7 @@ class FirestoreMockPage extends Component {
   parseData = async () => {
     // parse json files into interfaces
     for (let i = 0; i < orgsJson.length; i++) {
-      const orgData: IOrganisation = orgsJson[i];
+      const orgData = orgsJson[i] as IOrganisation;
       const id = `mock_${orgData.name.replace(/\s/g, "")}`;
       const docRef = doc(db, Collections.organisations, id);
       console.log(JSON.stringify(orgData));
@@ -27,8 +32,35 @@ class FirestoreMockPage extends Component {
     }
   };
 
+  getOrgs = async () => {
+    getOrganisationsForListingsPage().then((orgs) =>
+      orgs.forEach((o) => console.log(o))
+    );
+  };
+
+  clearOrgs = async () => {};
+
+  getOrgsFiltered = async () => {
+    const filters: OrganisationListingQueryFilters = {
+      specialisations: [MentalHealthIssue.AntiStigmatism],
+      services: undefined,
+      ipcRegistered: false,
+      supportAreas: undefined,
+    };
+
+    getOrganisationsForListingsPage(filters).then((orgs) => console.log(orgs));
+  };
+
   render() {
-    return <Button onClick={this.parseData}>Parse test files</Button>;
+    return (
+      <VStack>
+        <Heading>Firestore testing</Heading>
+        <Button onClick={this.clearOrgs}>Clear Mock Orgs</Button>
+        <Button onClick={this.parseData}>Upload mock data to firestore</Button>
+        <Button onClick={this.getOrgs}>Get All Organisations</Button>
+        <Button onClick={this.getOrgsFiltered}>Test filters</Button>
+      </VStack>
+    );
   }
 }
 

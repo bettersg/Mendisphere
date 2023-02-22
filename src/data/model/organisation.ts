@@ -7,6 +7,13 @@ import {
   QueryDocumentSnapshot,
   SnapshotOptions,
   QuerySnapshot,
+  orderBy,
+  limit,
+  where,
+  Query,
+  query,
+  QueryConstraint,
+  QueryFieldFilterConstraint,
 } from "firebase/firestore";
 import { Collections } from "../../services/firebase/names";
 import { db } from "../../services/firebase/firebaseConfig";
@@ -17,26 +24,34 @@ import {
 import { SupportArea } from "../enums/support-area.enum";
 import { MentalHealthIssue } from "../enums/mental-health-issue.enum";
 import { Service } from "../enums/service.enum";
+import { Exception } from "sass";
 
 export interface IOrganisation {
   name: string;
   ipcApproved: boolean;
   verified: boolean;
-  mainSpecialisation: string;
-  mainSupportArea: string;
-  services: string[];
+  mainSpecialisation: MentalHealthIssue;
+  mainSupportArea: SupportArea;
+  services: Service[];
   description: string;
   cardImageUrl: string;
 }
+
+export type OrganisationListingQueryFilters = {
+  specialisations?: MentalHealthIssue[];
+  services?: Service[];
+  ipcRegistered?: boolean;
+  supportAreas?: SupportArea[];
+};
 
 export class Organisation implements IOrganisation {
   id: string;
   name: string;
   ipcApproved: boolean;
   verified: boolean;
-  mainSpecialisation: string;
-  mainSupportArea: string;
-  services: string[];
+  mainSpecialisation: MentalHealthIssue;
+  mainSupportArea: SupportArea;
+  services: Service[];
   description: string;
   cardImageUrl: string;
 
@@ -45,9 +60,9 @@ export class Organisation implements IOrganisation {
     _name: string,
     _ipcApproved: boolean,
     _verified: boolean,
-    _mainSpecialisation: string,
-    _mainSupportArea: string,
-    _services: string[],
+    _mainSpecialisation: MentalHealthIssue,
+    _mainSupportArea: SupportArea,
+    _services: Service[],
     _description: string,
     _cardImageUrl: string
   ) {
@@ -94,15 +109,87 @@ export const organisationConverter: FirestoreDataConverter<Organisation> = {
   },
 };
 
-// get all organisations in the collection
-export async function getOrganisations(): Promise<Organisation[]> {
+// get all organisations in the collection with pagination
+// list parameters must be limited to a size of 10 due to
+// limitations in firestore
+export async function getOrganisationsForListingsPage(
+  filters?: OrganisationListingQueryFilters
+): Promise<Organisation[]> {
+  const queryConstraints: QueryConstraint[] = [];
+  let onlyServicesFilter = false;
+
+  if (filters !== undefined) {
+    if ((filters.specialisations?.length ?? 0) > 10) {
+      return Promise.reject(
+        new RangeError(
+          `Specialisations provided for filter exceeds maximum allowed limit of 10.`
+        )
+      );
+    }
+
+    if ((filters.services?.length ?? 0) > 10) {
+      return Promise.reject(
+        new RangeError(
+          `Services provided for filter exceeds maximum allowed limit of 10.`
+        )
+      );
+    }
+
+    if ((filters.supportAreas?.length ?? 0) > 10) {
+      return Promise.reject(
+        new RangeError(
+          `Support areas provided for filter exceeds maximum allowed limit of 10.`
+        )
+      );
+    }
+
+    if (filters.specialisations !== undefined) {
+      queryConstraints.push(
+        where("mainSpecialisation", "in", filters.specialisations)
+      );
+    }
+
+    if (filters.ipcRegistered !== undefined) {
+      queryConstraints.push(where("ipcApproved", "==", filters.ipcRegistered));
+    }
+
+    if (filters.supportAreas !== undefined) {
+      queryConstraints.push(
+        where("mainSupportArea", "in", filters.supportAreas)
+      );
+    }
+
+    if (filters.services !== undefined && !queryConstraints.length) {
+      // must perform this condition at the end
+      // current limitation in firestore does not allow the use of
+      // 'array-contains-any' and 'in' clause in the same query
+
+      onlyServicesFilter = true;
+      queryConstraints.push(
+        where("services", "array-contains-any", filters.services)
+      );
+    }
+  }
+
+  // define the organisation collection reference
+  const orgsRef: Query<Organisation> = collection(
+    db,
+    Collections.organisations
+  ).withConverter<Organisation>(organisationConverter);
+
+  // get organisations with the supplied filters
   const querySnapshot: QuerySnapshot<Organisation> = await getDocs(
-    collection(db, Collections.organisations).withConverter<Organisation>(
-      organisationConverter
-    )
+    query(orgsRef, ...queryConstraints)
   );
+
   const orgs: Organisation[] = [];
   querySnapshot.forEach((doc) => orgs.push(doc.data()));
+
+  if (filters?.services !== undefined && !onlyServicesFilter) {
+    return orgs.filter((org) =>
+      org.services.some((s) => filters?.services?.includes(s))
+    );
+  }
 
   return orgs;
 }
