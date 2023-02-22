@@ -14,6 +14,7 @@ import { Collections } from "../../services/firebase/names";
 import { MentalHealthIssue } from "../../data/enums/mental-health-issue.enum";
 import { Service } from "../../data/enums/service.enum";
 import { SupportArea } from "../../data/enums/support-area.enum";
+import { IPCStatus } from "../../data/enums/ipc-status.enum";
 
 class FirestoreMockPage extends Component {
   orgs: Organisation[] = [];
@@ -42,9 +43,9 @@ class FirestoreMockPage extends Component {
 
   getOrgsFiltered = async () => {
     const filters: OrganisationListingQueryFilters = {
-      specialisations: [MentalHealthIssue.AntiStigmatism],
+      specialisations: [MentalHealthIssue.OCD],
       services: undefined,
-      ipcRegistered: false,
+      ipcStatus: undefined,
       supportAreas: undefined,
     };
 
