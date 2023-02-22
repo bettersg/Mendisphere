@@ -13,6 +13,7 @@ export default function SignUpButton(LoginCredentials: LoginCredentials) {
         disabled={disable}
         colorScheme="blue"
         onClick={() => {
+          console.log(LoginCredentials);
           navigate("/profile-setup", { state: LoginCredentials });
         }}
       >

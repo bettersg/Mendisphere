@@ -11,7 +11,7 @@ export function IsPasswordMinLength(password: string) {
     var letter = /[a-zA-Z]/; 
     var number = /[0-9]/;
     var valid = number.test(password) && letter.test(password); //match a letter _and_ a number
-    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password) && password.length >= 8;
+    return /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$/.test(password) && password.length >= 8;
 }
 
 

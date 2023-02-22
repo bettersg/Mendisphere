@@ -1,9 +1,11 @@
 import {
   Button,
   ButtonGroup,
+  Center,
   Container,
   Flex,
   Heading,
+  Image,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -74,11 +76,17 @@ export default function ProfileSetupPage() {
             <ModalHeader>Modal Title</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              Having your profile incomplete will result in placeholder
-              information and limit your access to resources. We recommend that
-              you complete your profile set up now, however, we understand that
-              you might be busy. So feel free to continue at a later time if it
-              is more convenient.
+              <Center minH="10em">
+                <Image src="/images/disclaimer.png"></Image>
+              </Center>
+              Having your profile incomplete will{" "}
+              <strong>
+                result in placeholder information and limit your access to
+                resources.{" "}
+              </strong>{" "}
+              We recommend that you complete your profile set up now, however,
+              we understand that you might be busy. So feel free to continue at
+              a later time if it is more convenient.
             </ModalBody>
 
             <ModalFooter>
@@ -93,20 +101,16 @@ export default function ProfileSetupPage() {
     );
   };
 
+  const onClickNext = () => {};
+
   return (
-    console.log(activeStep),
-    (
-      <VStack
-        divider={
-          <StackDivider
-            borderColor="#D3D3D3;
-            "
-          />
-        }
-        spacing={4}
-        align="stretch"
-      >
-        <Container maxW="1024 ">
+    <VStack
+      divider={<StackDivider borderColor="#D3D3D3" />}
+      spacing={4}
+      align="stretch"
+    >
+      <Container maxW="1024">
+        <form>
           <Flex
             className="setupHeader"
             flexDir="row"
@@ -115,10 +119,10 @@ export default function ProfileSetupPage() {
             gap="200"
           >
             <Heading className="setupHeading">Mindbetter</Heading>
+            <form></form>
             <Steps
               colorScheme="blue"
               onClickStep={(step) => {
-                console.log(step + 1);
                 return setStep(step + 1);
               }}
               activeStep={activeStep}
@@ -173,14 +177,16 @@ export default function ProfileSetupPage() {
               >
                 Continue Later
               </Button>
-
-              <Button className="nextButton" onClick={nextStep}>
+              <Button
+                className="nextButton"
+                onClick={activeStep === 3 ? onClickNext : nextStep}
+              >
                 Next
               </Button>
             </ButtonGroup>
           </Flex>
-        </Container>
-      </VStack>
-    )
+        </form>
+      </Container>
+    </VStack>
   );
 }
