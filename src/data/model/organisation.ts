@@ -24,12 +24,13 @@ import {
 import { SupportArea } from "../enums/support-area.enum";
 import { MentalHealthIssue } from "../enums/mental-health-issue.enum";
 import { Service } from "../enums/service.enum";
-import { Exception } from "sass";
+import { IPCStatus } from "../enums/ipc-status.enum";
+import { VerificationStatus } from "../enums/verification-status.enum";
 
 export interface IOrganisation {
   name: string;
-  ipcApproved: boolean;
-  verified: boolean;
+  ipcApproved: IPCStatus;
+  verified: VerificationStatus;
   mainSpecialisation: MentalHealthIssue;
   mainSupportArea: SupportArea;
   services: Service[];
@@ -37,29 +38,23 @@ export interface IOrganisation {
   cardImageUrl: string;
 }
 
-export type OrganisationListingQueryFilters = {
-  specialisations?: MentalHealthIssue[];
-  services?: Service[];
-  ipcRegistered?: boolean;
-  supportAreas?: SupportArea[];
-};
 
 export class Organisation implements IOrganisation {
   id: string;
   name: string;
-  ipcApproved: boolean;
-  verified: boolean;
+  ipcApproved: IPCStatus;
+  verified: VerificationStatus;
   mainSpecialisation: MentalHealthIssue;
   mainSupportArea: SupportArea;
   services: Service[];
   description: string;
   cardImageUrl: string;
-
+  
   constructor(
     _id: string,
     _name: string,
-    _ipcApproved: boolean,
-    _verified: boolean,
+    _ipcApproved: IPCStatus,
+    _verified: VerificationStatus,
     _mainSpecialisation: MentalHealthIssue,
     _mainSupportArea: SupportArea,
     _services: Service[],
@@ -76,7 +71,7 @@ export class Organisation implements IOrganisation {
     this.description = _description;
     this.cardImageUrl = _cardImageUrl;
   }
-
+  
   toString() {
     return `Organisation {id: ${this.id}, name:${this.name}, ipcApproved:${this.ipcApproved}, verified:${this.verified}}`;
   }
@@ -93,32 +88,38 @@ export const organisationConverter: FirestoreDataConverter<Organisation> = {
   fromFirestore(
     snapshot: QueryDocumentSnapshot,
     options?: SnapshotOptions
-  ): Organisation {
-    const data: DocumentData = snapshot.data(options);
-    return new Organisation(
-      snapshot.id,
-      data.name,
-      data.ipcApproved,
-      data.verified,
-      data.mainSpecialisation,
-      data.mainSupportArea,
-      data.services,
-      data.description,
+    ): Organisation {
+      const data: DocumentData = snapshot.data(options);
+      return new Organisation(
+        snapshot.id,
+        data.name,
+        data.ipcApproved,
+        data.verified,
+        data.mainSpecialisation,
+        data.mainSupportArea,
+        data.services,
+        data.description,
       data.cardImageUrl
     );
   },
 };
 
+export type OrganisationListingQueryFilters = {
+  specialisations?: MentalHealthIssue[];
+  services?: Service[];
+  ipcStatus?: IPCStatus;
+  supportAreas?: SupportArea[];
+};
 // get all organisations in the collection with pagination
 // list parameters must be limited to a size of 10 due to
 // limitations in firestore
 export async function getOrganisationsForListingsPage(
   filters?: OrganisationListingQueryFilters
-): Promise<Organisation[]> {
-  const queryConstraints: QueryConstraint[] = [];
-  let onlyServicesFilter = false;
-
-  if (filters !== undefined) {
+  ): Promise<Organisation[]> {
+    const queryConstraints: QueryConstraint[] = [];
+    let onlyServicesFilter = false;
+    
+    if (filters !== undefined) {
     if ((filters.specialisations?.length ?? 0) > 10) {
       return Promise.reject(
         new RangeError(
@@ -149,8 +150,8 @@ export async function getOrganisationsForListingsPage(
       );
     }
 
-    if (filters.ipcRegistered !== undefined) {
-      queryConstraints.push(where("ipcApproved", "==", filters.ipcRegistered));
+    if (filters.ipcStatus !== undefined) {
+      queryConstraints.push(where("ipcApproved", "==", filters.ipcStatus));
     }
 
     if (filters.supportAreas !== undefined) {

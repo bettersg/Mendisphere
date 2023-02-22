@@ -1,8 +1,8 @@
 [
   {
     "name": "Over The Rainbow (OTR)",
-    "ipcApproved": true,
-    "verified": true,
+    "ipcApproved": 1,
+    "verified": 1,
     "mainSpecialisation": "Youth Mental Wellness",
     "mainSupportArea": "Funding Support",
     "services": [
@@ -15,8 +15,8 @@
   },
   {
     "name": "OCDNetwork",
-    "ipcApproved": true,
-    "verified": true,
+    "ipcApproved": 2,
+    "verified": 1,
     "mainSpecialisation": "Obsessive Compulsive Disorder",
     "mainSupportArea": "Funding Support",
     "services": [
@@ -28,8 +28,8 @@
   },
   {
     "name": "Rebound With Resilience",
-    "ipcApproved": true,
-    "verified": false,
+    "ipcApproved": 1,
+    "verified": 0,
     "mainSpecialisation": "Overall Mental Wellbeing",
     "mainSupportArea": "Partnership Opportunities",
     "services": [
@@ -41,8 +41,8 @@
   },
   {
     "name": "Resilience Collective (RC)",
-    "ipcApproved": false,
-    "verified": true,
+    "ipcApproved": 0,
+    "verified": 2,
     "mainSpecialisation": "Anti-Stigmatism",
     "mainSupportArea": "Partnership Opportunities",
     "services": [
