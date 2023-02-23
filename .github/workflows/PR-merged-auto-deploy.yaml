@@ -16,5 +16,5 @@ jobs:
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MENDISPHERE }}' # refer to this https://github.com/FirebaseExtended/action-hosting-deploy/blob/main/docs/service-account.md
-          channelId: test
+          channelId: live
           projectId: mindbetter-bettersg
