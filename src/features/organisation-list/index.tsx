@@ -99,7 +99,11 @@ const OrganisationList: React.FC = () => {
               //   ...filter,
               //   specialisations: [e.target.value as MentalHealthIssue],
               // });
-              filter.specialisations = [e.target.value as MentalHealthIssue];
+              if (e.target.value === "") {
+                filter.specialisations = undefined;
+              } else {
+                filter.specialisations = [e.target.value as MentalHealthIssue];
+              }
               filterData();
             }}
           >
@@ -121,11 +125,11 @@ const OrganisationList: React.FC = () => {
             bg="#FFFFFF"
             color="#2D3748"
             onChange={(e) => {
-              // setFilterOptions({
-              //   ...filter,
-              //   services: [e.target.value as Service],
-              // });
-              filter.services = [e.target.value as Service];
+              if (e.target.value === "") {
+                filter.services = undefined;
+              } else {
+                filter.services = [e.target.value as Service];
+              }
               filterData();
             }}
           >
@@ -156,8 +160,11 @@ const OrganisationList: React.FC = () => {
               //   ...filter,
               //   ipcStatus: e.target.value as unknown as number as IPCStatus,
               // });
-
-              filter.ipcStatus = Number(e.target.value) as IPCStatus;
+              if (e.target.value === "") {
+                filter.ipcStatus = undefined;
+              } else {
+                filter.ipcStatus = Number(e.target.value) as IPCStatus;
+              }
               filterData();
             }}
           >
@@ -180,7 +187,11 @@ const OrganisationList: React.FC = () => {
               //   ...filter,
               //   supportAreas: [e.target.value as SupportArea],
               // });
-              filter.supportAreas = [e.target.value as SupportArea];
+              if (e.target.value === "") {
+                filter.supportAreas = undefined;
+              } else {
+                filter.supportAreas = [e.target.value as SupportArea];
+              }
               filterData();
             }}
           >
