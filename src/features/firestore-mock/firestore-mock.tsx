@@ -43,9 +43,9 @@ class FirestoreMockPage extends Component {
 
   getOrgsFiltered = async () => {
     const filters: OrganisationListingQueryFilters = {
-      specialisations: [MentalHealthIssue.OCD],
+      specialisations: undefined,
       services: undefined,
-      ipcStatus: undefined,
+      ipcStatus: IPCStatus.Approved,
       supportAreas: undefined,
     };
 
