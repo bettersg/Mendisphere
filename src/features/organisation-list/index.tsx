@@ -12,6 +12,10 @@ import {
   OrganisationListingQueryFilters,
 } from "../../data/model/organisation";
 import { Button } from "react-bootstrap";
+import { MentalHealthIssue } from "../../data/enums/mental-health-issue.enum";
+import { Service } from "../../data/enums/service.enum";
+import { SupportArea } from "../../data/enums/support-area.enum";
+import { IPCStatus, IPCStatusViewMap } from "../../data/enums/ipc-status.enum";
 
 interface IFilterOptions {
   focusesOn?: string;
@@ -53,23 +57,27 @@ const OrganisationList: React.FC = () => {
   }, []);
 
   //TODO: Need to add another lifecycle method to prevent double requests in react
-  const [filterOptions, setFilterOptions] = useState<IFilterOptions>({});
+  const [filter, setFilterOptions] = useState<OrganisationListingQueryFilters>(
+    {}
+  );
   const [viewOption, setViewOption] = useState<EViewOption>(EViewOption.Card);
 
-  // TODO: integrate filter with organization card
-
-  // TODO: replace mockCards with actual list of organization cards from database
-  // Object.entries(filterOptions).forEach(([key, value]) => {
-  //   if (Boolean(value)) {
-  //     validOrganizations = validOrganizations.filter((org) => {
-  //       return (org as any)[key] === value;
-  //     });
-  //   }
-  // });
+  const filterData = () => {
+    // fetch organisation data on page load
+    getOrganisationsForListingsPage(filter)
+      .then((orgs) => {
+        console.log(orgs);
+        setOrgList(orgs);
+      })
+      .then(() => setIsLoading(false))
+      .catch((err) => {
+        alert(`Organisation data fetch error!`);
+        console.log(err.message);
+      });
+  };
 
   return (
     <VStack spacing={0} align="stretch">
-      <Button onClick={() => console.log(orgList)}>Test</Button>
       <Box minH="11.11vh">
         <SimpleNavigationBar />
       </Box>
@@ -86,56 +94,101 @@ const OrganisationList: React.FC = () => {
             placeholder="Specialisations:"
             bg="#FFFFFF"
             color="#2D3748"
-            onChange={(e) =>
-              setFilterOptions({ ...filterOptions, focusesOn: e.target.value })
-            }
+            onChange={(e) => {
+              // setFilterOptions({
+              //   ...filter,
+              //   specialisations: [e.target.value as MentalHealthIssue],
+              // });
+              filter.specialisations = [e.target.value as MentalHealthIssue];
+              filterData();
+            }}
           >
-            <option value="antiStigma">Anti-Stigmatism</option>
-            <option value="eatingDisorder">Eating Disorder</option>
-            <option value="youthMentalWellness">Youth Mental Wellness</option>
-            <option value="ocd">Obsessive Compulsion Disorder (OCD)</option>
-            <option value="overallMentalWellbeing">
-              Overall Mental Wellbeing
+            <option value={MentalHealthIssue.AntiStigmatism}>
+              {MentalHealthIssue.AntiStigmatism}
+            </option>
+            <option value={MentalHealthIssue.YouthMentalWellness}>
+              {MentalHealthIssue.YouthMentalWellness}
+            </option>
+            <option value={MentalHealthIssue.OCD}>
+              {MentalHealthIssue.OCD}
+            </option>
+            <option value={MentalHealthIssue.OverallMentalWellbeing}>
+              {MentalHealthIssue.AntiStigmatism}
             </option>
           </Select>
           <Select
             placeholder="Services:"
             bg="#FFFFFF"
             color="#2D3748"
-            onChange={(e) =>
-              setFilterOptions({ ...filterOptions, services: e.target.value })
-            }
+            onChange={(e) => {
+              // setFilterOptions({
+              //   ...filter,
+              //   services: [e.target.value as Service],
+              // });
+              filter.services = [e.target.value as Service];
+              filterData();
+            }}
           >
-            <option value="counselling">Counselling</option>
-            <option value="supportGroup">Support Group</option>
-            <option value="trainingProvider">Training Provider</option>
-            <option value="workshops">Workshops</option>
+            <option value={Service.Youth}>{Service.Youth}</option>
+            <option value={Service.Workshops}>{Service.Workshops}</option>
+            <option value={Service.OCD}>{Service.OCD}</option>
+            <option value={Service.SupportGroup}>{Service.SupportGroup}</option>
+            <option value={Service.OverallMentalWellbeing}>
+              {Service.OverallMentalWellbeing}
+            </option>
+            <option value={Service.TrainingProvider}>
+              {Service.TrainingProvider}
+            </option>
+            <option value={Service.Counselling}>{Service.Counselling}</option>
+            <option value={Service.SpeakingEngagements}>
+              {Service.SpeakingEngagements}
+            </option>
+            <option value={Service.CorporateTraining}>
+              {Service.CorporateTraining}
+            </option>
           </Select>
           <Select
             placeholder="IPC Registered:"
             bg="#FFFFFF"
             color="#2D3748"
-            onChange={(e) =>
-              setFilterOptions({
-                ...filterOptions,
-                IPCRegistered: e.target.value,
-              })
-            }
+            onChange={(e) => {
+              // setFilterOptions({
+              //   ...filter,
+              //   ipcStatus: e.target.value as unknown as number as IPCStatus,
+              // });
+
+              filter.ipcStatus = Number(e.target.value) as IPCStatus;
+              filterData();
+            }}
           >
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
+            <option value={IPCStatus.Approved}>
+              {IPCStatusViewMap.get(IPCStatus.Approved)}
+            </option>
+            <option value={IPCStatus.NotApproved}>
+              {IPCStatusViewMap.get(IPCStatus.NotApproved)}
+            </option>
+            <option value={IPCStatus.Pending}>
+              {IPCStatusViewMap.get(IPCStatus.Pending)}
+            </option>
           </Select>
           <Select
             placeholder="Looking for:"
             bg="#FFFFFF"
             color="#2D3748"
-            onChange={(e) =>
-              setFilterOptions({ ...filterOptions, lookingFor: e.target.value })
-            }
+            onChange={(e) => {
+              // setFilterOptions({
+              //   ...filter,
+              //   supportAreas: [e.target.value as SupportArea],
+              // });
+              filter.supportAreas = [e.target.value as SupportArea];
+              filterData();
+            }}
           >
-            <option value="fundingSupport">Funding Support</option>
-            <option value="partnershipOpportunities">
-              Partnership Opportunities
+            <option value={SupportArea.FundingSupport}>
+              {SupportArea.FundingSupport}
+            </option>
+            <option value={SupportArea.PartnershipOpportunities}>
+              {SupportArea.PartnershipOpportunities}
             </option>
           </Select>
         </Grid>
