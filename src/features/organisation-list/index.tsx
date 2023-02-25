@@ -21,17 +21,19 @@ export enum EViewOption {
   Card = "card",
   List = "list",
 }
-const filters: OrganisationListingQueryFilters = {
-  specialisations: undefined,
-  services: undefined,
-  ipcStatus: undefined,
-  supportAreas: undefined,
-};
 
 const OrganisationList: React.FC = () => {
   // store organisation card data
   const [orgList, setOrgList] = useState<Organisation[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [viewOption, setViewOption] = useState<EViewOption>(EViewOption.Card);
+  const [filters, setFilters] = useState<OrganisationListingQueryFilters>({
+    specialisations: undefined,
+    services: undefined,
+    ipcStatus: undefined,
+    supportAreas: undefined,
+  });
+
   useEffect(() => {
     console.log("useeffect triggerred");
 
@@ -46,9 +48,6 @@ const OrganisationList: React.FC = () => {
         console.log(err.message);
       });
   }, [filters]);
-
-  //TODO: Need to add another lifecycle method to prevent double requests in react
-  const [viewOption, setViewOption] = useState<EViewOption>(EViewOption.Card);
 
   return (
     <VStack spacing={0} align="stretch">
@@ -69,15 +68,13 @@ const OrganisationList: React.FC = () => {
             bg="#FFFFFF"
             color="#2D3748"
             onChange={(e) => {
-              // setFilterOptions({
-              //   ...filter,
-              //   specialisations: [e.target.value as MentalHealthIssue],
-              // });
-              if (e.target.value === "") {
-                filters.specialisations = undefined;
-              } else {
-                filters.specialisations = [e.target.value as MentalHealthIssue];
-              }
+              setFilters((previous) => ({
+                ...previous,
+                specialisations:
+                  e.target.value === ""
+                    ? undefined
+                    : [e.target.value as MentalHealthIssue],
+              }));
             }}
           >
             <option value={MentalHealthIssue.AntiStigmatism}>
@@ -98,11 +95,13 @@ const OrganisationList: React.FC = () => {
             bg="#FFFFFF"
             color="#2D3748"
             onChange={(e) => {
-              if (e.target.value === "") {
-                filters.services = undefined;
-              } else {
-                filters.services = [e.target.value as Service];
-              }
+              setFilters((previous) => ({
+                ...previous,
+                services:
+                  e.target.value === ""
+                    ? undefined
+                    : [e.target.value as Service],
+              }));
             }}
           >
             <option value={Service.Youth}>{Service.Youth}</option>
@@ -128,15 +127,13 @@ const OrganisationList: React.FC = () => {
             bg="#FFFFFF"
             color="#2D3748"
             onChange={(e) => {
-              // setFilterOptions({
-              //   ...filter,
-              //   ipcStatus: e.target.value as unknown as number as IPCStatus,
-              // });
-              if (e.target.value === "") {
-                filters.ipcStatus = undefined;
-              } else {
-                filters.ipcStatus = Number(e.target.value) as IPCStatus;
-              }
+              setFilters((previous) => ({
+                ...previous,
+                ipcStatus:
+                  e.target.value === ""
+                    ? undefined
+                    : (Number(e.target.value) as IPCStatus),
+              }));
             }}
           >
             <option value={IPCStatus.Approved}>
@@ -154,15 +151,13 @@ const OrganisationList: React.FC = () => {
             bg="#FFFFFF"
             color="#2D3748"
             onChange={(e) => {
-              // setFilterOptions({
-              //   ...filter,
-              //   supportAreas: [e.target.value as SupportArea],
-              // });
-              if (e.target.value === "") {
-                filters.supportAreas = undefined;
-              } else {
-                filters.supportAreas = [e.target.value as SupportArea];
-              }
+              setFilters((previous) => ({
+                ...previous,
+                supportAreas:
+                  e.target.value === ""
+                    ? undefined
+                    : [e.target.value as SupportArea],
+              }));
             }}
           >
             <option value={SupportArea.FundingSupport}>
