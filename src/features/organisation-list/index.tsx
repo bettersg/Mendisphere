@@ -11,62 +11,33 @@ import {
   Organisation,
   OrganisationListingQueryFilters,
 } from "../../data/model/organisation";
-import { Button } from "react-bootstrap";
 import { MentalHealthIssue } from "../../data/enums/mental-health-issue.enum";
 import { Service } from "../../data/enums/service.enum";
 import { SupportArea } from "../../data/enums/support-area.enum";
 import { IPCStatus, IPCStatusViewMap } from "../../data/enums/ipc-status.enum";
-
-interface IFilterOptions {
-  focusesOn?: string;
-  services?: string;
-  IPCRegistered?: string;
-  lookingFor?: string;
-}
+import { Spinner } from "@chakra-ui/react";
 
 export enum EViewOption {
   Card = "card",
   List = "list",
 }
+const filters: OrganisationListingQueryFilters = {
+  specialisations: undefined,
+  services: undefined,
+  ipcStatus: undefined,
+  supportAreas: undefined,
+};
 
 const OrganisationList: React.FC = () => {
   // store organisation card data
   const [orgList, setOrgList] = useState<Organisation[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-
   useEffect(() => {
-    let filters: OrganisationListingQueryFilters = {
-      specialisations: undefined,
-      services: undefined,
-      ipcStatus: undefined,
-      supportAreas: undefined,
-    };
-
     console.log("useeffect triggerred");
 
     // fetch organisation data on page load
     getOrganisationsForListingsPage()
       .then((orgs) => {
-        setOrgList((old) => [...old, ...orgs]);
-      })
-      .then(() => setIsLoading(false))
-      .catch((err) => {
-        alert(`Organisation data fetch error!`);
-        console.log(err.message);
-      });
-  }, []);
-
-  //TODO: Need to add another lifecycle method to prevent double requests in react
-  const [filter, setFilterOptions] = useState<OrganisationListingQueryFilters>(
-    {}
-  );
-  const [viewOption, setViewOption] = useState<EViewOption>(EViewOption.Card);
-
-  const filterData = () => {
-    // fetch organisation data on page load
-    getOrganisationsForListingsPage(filter)
-      .then((orgs) => {
-        console.log(orgs);
         setOrgList(orgs);
       })
       .then(() => setIsLoading(false))
@@ -74,7 +45,10 @@ const OrganisationList: React.FC = () => {
         alert(`Organisation data fetch error!`);
         console.log(err.message);
       });
-  };
+  }, [filters]);
+
+  //TODO: Need to add another lifecycle method to prevent double requests in react
+  const [viewOption, setViewOption] = useState<EViewOption>(EViewOption.Card);
 
   return (
     <VStack spacing={0} align="stretch">
@@ -100,11 +74,10 @@ const OrganisationList: React.FC = () => {
               //   specialisations: [e.target.value as MentalHealthIssue],
               // });
               if (e.target.value === "") {
-                filter.specialisations = undefined;
+                filters.specialisations = undefined;
               } else {
-                filter.specialisations = [e.target.value as MentalHealthIssue];
+                filters.specialisations = [e.target.value as MentalHealthIssue];
               }
-              filterData();
             }}
           >
             <option value={MentalHealthIssue.AntiStigmatism}>
@@ -126,11 +99,10 @@ const OrganisationList: React.FC = () => {
             color="#2D3748"
             onChange={(e) => {
               if (e.target.value === "") {
-                filter.services = undefined;
+                filters.services = undefined;
               } else {
-                filter.services = [e.target.value as Service];
+                filters.services = [e.target.value as Service];
               }
-              filterData();
             }}
           >
             <option value={Service.Youth}>{Service.Youth}</option>
@@ -161,11 +133,10 @@ const OrganisationList: React.FC = () => {
               //   ipcStatus: e.target.value as unknown as number as IPCStatus,
               // });
               if (e.target.value === "") {
-                filter.ipcStatus = undefined;
+                filters.ipcStatus = undefined;
               } else {
-                filter.ipcStatus = Number(e.target.value) as IPCStatus;
+                filters.ipcStatus = Number(e.target.value) as IPCStatus;
               }
-              filterData();
             }}
           >
             <option value={IPCStatus.Approved}>
@@ -188,11 +159,10 @@ const OrganisationList: React.FC = () => {
               //   supportAreas: [e.target.value as SupportArea],
               // });
               if (e.target.value === "") {
-                filter.supportAreas = undefined;
+                filters.supportAreas = undefined;
               } else {
-                filter.supportAreas = [e.target.value as SupportArea];
+                filters.supportAreas = [e.target.value as SupportArea];
               }
-              filterData();
             }}
           >
             <option value={SupportArea.FundingSupport}>
@@ -204,8 +174,7 @@ const OrganisationList: React.FC = () => {
           </Select>
         </Grid>
       </Box>
-      <Flex
-        direction={"column"}
+      <VStack
         paddingLeft={128}
         paddingRight={128}
         paddingBottom={5}
@@ -215,12 +184,22 @@ const OrganisationList: React.FC = () => {
           onChange={(option) => setViewOption(option)}
           viewOption={viewOption}
         />
-        {viewOption === EViewOption.Card ? (
-          <CardView organisationList={orgList} />
-        ) : (
-          <ListView organisationList={orgList} />
-        )}
-      </Flex>
+        <Flex direction={"column"}>
+          {isLoading ? (
+            <Spinner
+              thickness="4px"
+              speed="0.65s"
+              emptyColor="gray.200"
+              color="blue.500"
+              size="xl"
+            />
+          ) : viewOption === EViewOption.Card ? (
+            <CardView organisationList={orgList} />
+          ) : (
+            <ListView organisationList={orgList} />
+          )}
+        </Flex>
+      </VStack>
       <Box minH="37.33vh">
         <Footer />
       </Box>
