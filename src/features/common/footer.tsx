@@ -50,7 +50,7 @@ class Footer extends Component {
                 lineHeight={"27px"}
                 letterSpacing={"-0.015em"}
               >
-                Providing you with the support to make your mark.
+                Unlock the potential for mental wellness through
               </Text>
               <Text
                 fontFamily={"Inter"}
@@ -60,7 +60,7 @@ class Footer extends Component {
                 lineHeight={"27px"}
                 letterSpacing={"-0.015em"}
               >
-                Together, let's make the world a better place.
+                nonprofit-corporate collaboration.
               </Text>
             </Box>
 
