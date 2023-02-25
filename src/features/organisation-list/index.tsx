@@ -36,9 +36,8 @@ const OrganisationList: React.FC = () => {
 
   useEffect(() => {
     console.log("useeffect triggerred");
-
     // fetch organisation data on page load
-    getOrganisationsForListingsPage()
+    getOrganisationsForListingsPage(filters)
       .then((orgs) => {
         setOrgList(orgs);
       })
