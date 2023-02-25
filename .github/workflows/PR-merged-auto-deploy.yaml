@@ -13,7 +13,7 @@ jobs:
       - run: npm install
       - run: npm run build
         env:
-          '${{ secrets.DOT_ENV }}'
+          env: '${{ secrets.DOT_ENV }}'
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
