@@ -11,6 +11,7 @@ import {
   Organisation,
   OrganisationListingQueryFilters,
 } from "../../data/model/organisation";
+import { Button } from "react-bootstrap";
 
 interface IFilterOptions {
   focusesOn?: string;
@@ -18,92 +19,11 @@ interface IFilterOptions {
   IPCRegistered?: string;
   lookingFor?: string;
 }
-export interface IOrganization extends IFilterOptions {
-  renderText: string;
-  verified?: string; // unique to <ListView/>
-  image?: JSX.Element; // unique to <CardView />
-  index: number;
-}
 
 export enum EViewOption {
   Card = "card",
   List = "list",
 }
-// TODO remove mock when the actual data is ready to be used
-const mockOrganizations: IOrganization[] = [
-  {
-    focusesOn: "antiStigma",
-    services: "counselling",
-    IPCRegistered: "yes",
-    lookingFor: "fundingSupport",
-    renderText: `focusesOn: 'antiStigma',\nservices: 'counselling',\nIPCRegistered: 'yes',\nlookingFor: 'fundingSupport',`,
-    verified: "yes",
-    index: 1,
-  },
-  {
-    focusesOn: "eatingDisorder",
-    services: "supportGroup",
-    IPCRegistered: "no",
-    lookingFor: "partnershipOpportunities",
-    renderText: `focusesOn: 'eatingDisorder',\nservices: 'supportGroup',\nIPCRegistered: 'no',\n\nlookingFor: 'partnershipOpportunities',`,
-    verified: "pending",
-    index: 2,
-  },
-  {
-    focusesOn: "youthMentalWellness",
-    services: "trainingProvider",
-    IPCRegistered: "yes",
-    lookingFor: "fundingSupport",
-    renderText: `focusesOn: 'youthMentalWellness',\nservices: 'trainingProvider',\nIPCRegistered: 'yes',\nlookingFor: 'fundingSupport',`,
-    verified: "no",
-    index: 3,
-  },
-  {
-    focusesOn: "ocd",
-    services: "workshops",
-    IPCRegistered: "no",
-    lookingFor: "fundingSupport",
-    renderText: `focusesOn: 'ocd',\nservices: 'workshops',\nIPCRegistered: 'no',\nlookingFor: 'fundingSupport',`,
-    verified: "pending",
-    index: 4,
-  },
-  {
-    focusesOn: "overallMentalWellbeing",
-    services: "counselling",
-    IPCRegistered: "yes",
-    lookingFor: "fundingSupport",
-    renderText: `focusesOn: 'overallMentalWellbeing',\nservices: 'counselling',\nIPCRegistered: 'yes',\nlookingFor: 'fundingSupport',`,
-    verified: "no",
-    index: 5,
-  },
-  {
-    focusesOn: "antiStigma",
-    services: "counselling",
-    IPCRegistered: "no",
-    lookingFor: "partnershipOpportunities",
-    renderText: `focusesOn: 'antiStigma',\nservices: 'counselling',\nIPCRegistered: 'no',\nlookingFor: 'partnershipOpportunities',`,
-    verified: "yes",
-    index: 6,
-  },
-  {
-    focusesOn: "eatingDisorder",
-    services: "counselling",
-    IPCRegistered: "yes",
-    lookingFor: "fundingSupport",
-    renderText: `focusesOn: 'eatingDisorder',\nservices: 'counselling',\nIPCRegistered: 'yes',\nlookingFor: 'fundingSupport',`,
-    verified: "no",
-    index: 7,
-  },
-  {
-    focusesOn: "antiStigma",
-    services: "counselling",
-    IPCRegistered: "no",
-    lookingFor: "fundingSupport",
-    renderText: `focusesOn: 'antiStigma',\nservices: 'counselling',\nIPCRegistered: 'no',\nlookingFor: 'fundingSupport',`,
-    verified: "pending",
-    index: 8,
-  },
-];
 
 const OrganisationList: React.FC = () => {
   // store organisation card data
@@ -118,13 +38,14 @@ const OrganisationList: React.FC = () => {
       supportAreas: undefined,
     };
 
+    console.log("useeffect triggerred");
+
     // fetch organisation data on page load
     getOrganisationsForListingsPage()
       .then((orgs) => {
         setOrgList((old) => [...old, ...orgs]);
       })
       .then(() => setIsLoading(false))
-      .then(() => console.log(orgList))
       .catch((err) => {
         alert(`Organisation data fetch error!`);
         console.log(err.message);
@@ -138,17 +59,17 @@ const OrganisationList: React.FC = () => {
   // TODO: integrate filter with organization card
 
   // TODO: replace mockCards with actual list of organization cards from database
-  let validOrganizations: IOrganization[] = mockOrganizations;
-  Object.entries(filterOptions).forEach(([key, value]) => {
-    if (Boolean(value)) {
-      validOrganizations = validOrganizations.filter((org) => {
-        return (org as any)[key] === value;
-      });
-    }
-  });
+  // Object.entries(filterOptions).forEach(([key, value]) => {
+  //   if (Boolean(value)) {
+  //     validOrganizations = validOrganizations.filter((org) => {
+  //       return (org as any)[key] === value;
+  //     });
+  //   }
+  // });
 
   return (
     <VStack spacing={0} align="stretch">
+      <Button onClick={() => console.log(orgList)}>Test</Button>
       <Box minH="11.11vh">
         <SimpleNavigationBar />
       </Box>
@@ -231,9 +152,9 @@ const OrganisationList: React.FC = () => {
           viewOption={viewOption}
         />
         {viewOption === EViewOption.Card ? (
-          <CardView organizationList={validOrganizations} />
+          <CardView organisationList={orgList} />
         ) : (
-          <ListView organizationList={validOrganizations} />
+          <ListView organisationList={orgList} />
         )}
       </Flex>
       <Box minH="37.33vh">

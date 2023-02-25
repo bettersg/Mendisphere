@@ -38,7 +38,6 @@ export interface IOrganisation {
   cardImageUrl: string;
 }
 
-
 export class Organisation implements IOrganisation {
   id: string;
   name: string;
@@ -49,7 +48,7 @@ export class Organisation implements IOrganisation {
   services: Service[];
   description: string;
   cardImageUrl: string;
-  
+
   constructor(
     _id: string,
     _name: string,
@@ -71,7 +70,7 @@ export class Organisation implements IOrganisation {
     this.description = _description;
     this.cardImageUrl = _cardImageUrl;
   }
-  
+
   toString() {
     return `Organisation {id: ${this.id}, name:${this.name}, ipcApproved:${this.ipcApproved}, verified:${this.verified}}`;
   }
@@ -88,17 +87,17 @@ export const organisationConverter: FirestoreDataConverter<Organisation> = {
   fromFirestore(
     snapshot: QueryDocumentSnapshot,
     options?: SnapshotOptions
-    ): Organisation {
-      const data: DocumentData = snapshot.data(options);
-      return new Organisation(
-        snapshot.id,
-        data.name,
-        data.ipcApproved,
-        data.verified,
-        data.mainSpecialisation,
-        data.mainSupportArea,
-        data.services,
-        data.description,
+  ): Organisation {
+    const data: DocumentData = snapshot.data(options);
+    return new Organisation(
+      snapshot.id,
+      data.name,
+      data.ipcApproved,
+      data.verified,
+      data.mainSpecialisation,
+      data.mainSupportArea,
+      data.services,
+      data.description,
       data.cardImageUrl
     );
   },
@@ -115,11 +114,13 @@ export type OrganisationListingQueryFilters = {
 // limitations in firestore
 export async function getOrganisationsForListingsPage(
   filters?: OrganisationListingQueryFilters
-  ): Promise<Organisation[]> {
-    const queryConstraints: QueryConstraint[] = [];
-    let onlyServicesFilter = false;
-    
-    if (filters !== undefined) {
+): Promise<Organisation[]> {
+  console.log(`Getting organisation with filters: ${filters}`);
+
+  const queryConstraints: QueryConstraint[] = [];
+  let onlyServicesFilter = false;
+
+  if (filters !== undefined) {
     if ((filters.specialisations?.length ?? 0) > 10) {
       return Promise.reject(
         new RangeError(
