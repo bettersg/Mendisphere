@@ -7,13 +7,10 @@ import {
   QueryDocumentSnapshot,
   SnapshotOptions,
   QuerySnapshot,
-  orderBy,
-  limit,
   where,
   Query,
   query,
   QueryConstraint,
-  QueryFieldFilterConstraint,
 } from "firebase/firestore";
 import { Collections } from "../../services/firebase/names";
 import { db } from "../../services/firebase/firebaseConfig";
@@ -72,7 +69,7 @@ export class Organisation implements IOrganisation {
   }
 
   toString() {
-    return `Organisation {id: ${this.id}, name:${this.name}, ipcApproved:${this.ipcApproved}, verified:${this.verified}}`;
+    return JSON.stringify(this, null, 2);
   }
 }
 
@@ -115,7 +112,9 @@ export type OrganisationListingQueryFilters = {
 export async function getOrganisationsForListingsPage(
   filters?: OrganisationListingQueryFilters
 ): Promise<Organisation[]> {
-  console.log(`Getting organisation with filters: ${filters}`);
+  console.log(
+    `Getting organisation with filters: ${JSON.stringify(filters, null, 2)}`
+  );
 
   const queryConstraints: QueryConstraint[] = [];
   let onlyServicesFilter = false;
