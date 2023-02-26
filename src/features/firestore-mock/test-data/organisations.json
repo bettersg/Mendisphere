@@ -1,0 +1,55 @@
+[
+  {
+    "name": "Over The Rainbow (OTR)",
+    "ipcApproved": 1,
+    "verified": 1,
+    "mainSpecialisation": "Youth Mental Wellness",
+    "mainSupportArea": "Funding Support",
+    "services": [
+      "Youth",
+      "Workshops",
+      "Counselling"
+    ],
+    "description": "Advocacy group that hopes to empower youth with practical, hands on and holistic self-care strategies.",
+    "cardImageUrl": "https://picsum.photos/278/425"
+  },
+  {
+    "name": "OCDNetwork",
+    "ipcApproved": 2,
+    "verified": 1,
+    "mainSpecialisation": "Obsessive Compulsive Disorder",
+    "mainSupportArea": "Funding Support",
+    "services": [
+      "Workshops",
+      "Counselling"
+    ],
+    "description": "Non-profit society providing support services, cohesion activities and community for those struggling with OCD.",
+    "cardImageUrl": "https://picsum.photos/278/425"
+  },
+  {
+    "name": "Rebound With Resilience",
+    "ipcApproved": 1,
+    "verified": 0,
+    "mainSpecialisation": "Overall Mental Wellbeing",
+    "mainSupportArea": "Partnership Opportunities",
+    "services": [
+      "Workshops",
+      "Speaking Engagements"
+    ],
+    "description": "Training provider and podcast commited to cultivating resilience and positive mental wellness.",
+    "cardImageUrl": "https://picsum.photos/278/425"
+  },
+  {
+    "name": "Resilience Collective (RC)",
+    "ipcApproved": 0,
+    "verified": 2,
+    "mainSpecialisation": "Anti-Stigmatism",
+    "mainSupportArea": "Partnership Opportunities",
+    "services": [
+      "Workshops",
+      "Speaking Engagements"
+    ],
+    "description": "By harnessing the voices of peers with first-hand perspectives of mental health recovery, RC aims to drive anti-stigmatism and promote help-seeking among those at risk.",
+    "cardImageUrl": "https://picsum.photos/278/425"
+  }
+]

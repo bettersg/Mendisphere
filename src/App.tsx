@@ -6,6 +6,7 @@ import OrgProfilePage from "./features/organisation-profile";
 import OrganisationList from "./features/organisation-list";
 import UserDashboardPage from "./features/user-dashboard/user-dashboard-page";
 import { AuthProvider } from "./services/firebase/authProvider";
+import FirestoreMock from "./features/firestore-mock/firestore-mock";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="dashboard" element={<UserDashboardPage />} />
           <Route path="organisations" element={<OrganisationList />} />
           <Route path="organisations/1" element={<OrgProfilePage />} />
+          {process.env.NODE_ENV === "development" && <Route path="firestore-mock" element={<FirestoreMock />}/>}
         </Routes>
       </AuthProvider>
     </ChakraProvider>
