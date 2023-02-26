@@ -3,6 +3,8 @@ import {
   DocumentReference,
   DocumentData,
   addDoc,
+  collection,
+  setDoc,
 } from "firebase/firestore";
 import { Collections } from "../../services/firebase/names";
 import { db } from "../../services/firebase/firebaseConfig";
@@ -31,7 +33,7 @@ export async function createUser(
   orgID: DocumentReference,
   userRole: UserRole
 ): Promise<void> {
-  await addDoc(doc(db, Collections.users, userID), {
+  await setDoc(doc(db, Collections.users, userID), {
     orgID: orgID,
     role: userRole,
   }).then(() => console.log("user Data added"));
