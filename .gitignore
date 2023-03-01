@@ -16,3 +16,5 @@ firebase-debug.log
 .firebase
 
 .env.development.local
+
+*.log
