@@ -1,7 +1,25 @@
 import { Organisation } from "../../../data/model/organisation";
-import { Box, Text, VStack, HStack } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  VStack,
+  HStack,
+  Tag,
+  TagLabel,
+  TagLeftIcon,
+} from "@chakra-ui/react";
 import { ReactComponent as Verified } from "../../../assets/icons/checkMarkVerified.svg";
 import { VerificationStatus } from "../../../data/enums/verification-status.enum";
+import { IPCStatus } from "../../../data/enums/ipc-status.enum";
+import { SearchIcon, CheckCircleIcon, createIcon } from "@chakra-ui/icons";
+import { GetIconForIssue } from "../../../utilities/icon-mappings";
+
+// person icon
+const PersonIcon = createIcon({
+  displayName: "PersonIcon",
+  viewBox: "0 0 12 12",
+  d: "M6 0a6 6 0 1 0 0 12A6 6 0 0 0 6 0ZM3.042 9.768C3.3 9.228 4.872 8.7 6 8.7c1.128 0 2.7.528 2.958 1.068A4.736 4.736 0 0 1 6 10.8a4.736 4.736 0 0 1-2.958-1.032Zm6.774-.87C8.958 7.854 6.876 7.5 6 7.5c-.876 0-2.958.354-3.816 1.398A4.757 4.757 0 0 1 1.2 6c0-2.646 2.154-4.8 4.8-4.8s4.8 2.154 4.8 4.8c0 1.092-.372 2.1-.984 2.898ZM6 2.4c-1.164 0-2.1.936-2.1 2.1 0 1.164.936 2.1 2.1 2.1 1.164 0 2.1-.936 2.1-2.1 0-1.164-.936-2.1-2.1-2.1Zm0 3a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8Z",
+});
 
 const Card: React.FC<{ org: Organisation }> = ({ org }) => {
   const imageUrl = `${org.cardImageUrl}/?random&t=${new Date().getTime()}`;
@@ -12,12 +30,42 @@ const Card: React.FC<{ org: Organisation }> = ({ org }) => {
       w="278px"
       pos="relative"
       borderRadius="12px"
+      fontSize="12px"
       bgImage={imageUrl}
     >
-      <Box pos="absolute" top="262px" mr="25px" ml="25px">
+      {/* tag info */}
+      <Box pos="absolute" w="full" top="28px" mr="23px" border="1px">
+        <VStack justify="right">
+          {/* support area tag */}
+          <Tag bg="white" borderRadius="15px">
+            <TagLeftIcon boxSize="10px" as={SearchIcon} />
+            <TagLabel fontWeight="700">{org.mainSupportArea}</TagLabel>
+          </Tag>
+
+          {/* ipc status tag */}
+          {org.ipcApproved === IPCStatus.Approved ? (
+            <HStack>
+              <Tag bg="white" borderRadius="15px">
+                <TagLeftIcon
+                  boxSize="10px"
+                  color="green.500"
+                  as={CheckCircleIcon}
+                />
+                <TagLabel fontWeight="700">IPC Approved</TagLabel>
+              </Tag>
+            </HStack>
+          ) : (
+            <></>
+          )}
+        </VStack>
+      </Box>
+
+      {/* descriptions and org data */}
+      <Box pos="absolute" top="262px" mr="25px" ml="25px" color="white">
         <VStack spacing="10px">
+          {/* org name and verification status */}
           <HStack w="full">
-            <Text fontSize="16px" fontWeight="700" color="white">
+            <Text fontSize="16px" fontWeight="700">
               {org.name}
             </Text>
             {org.verified === VerificationStatus.Verified ? (
@@ -26,14 +74,13 @@ const Card: React.FC<{ org: Organisation }> = ({ org }) => {
               <></>
             )}
           </HStack>
+
           <HStack w="full">
-            <Text fontSize="12px" fontWeight="400" color="white">
-              {org.mainSpecialisation}
-            </Text>
+            <PersonIcon />
+            <Text fontWeight="400">{org.mainSpecialisation}</Text>
           </HStack>
-          <Text fontSize="12px" fontWeight="200" color="white">
-            {org.description}
-          </Text>
+
+          <Text fontWeight="200">{org.description}</Text>
         </VStack>
       </Box>
     </Box>
