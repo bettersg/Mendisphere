@@ -23,6 +23,7 @@ const PersonIcon = createIcon({
 
 const Card: React.FC<{ org: Organisation }> = ({ org }) => {
   const imageUrl = `${org.cardImageUrl}/?random&t=${new Date().getTime()}`;
+  const bgImageProp = `linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 100%), url(${imageUrl})`;
 
   return (
     <Box
@@ -33,7 +34,7 @@ const Card: React.FC<{ org: Organisation }> = ({ org }) => {
       fontSize="12px"
       fontFamily="Inter"
       fontStyle="normal"
-      bgImage={imageUrl}
+      bgImage={bgImageProp}
     >
       {/* tag info */}
       <Box pos="absolute" w="full" top="28px">
@@ -71,7 +72,7 @@ const Card: React.FC<{ org: Organisation }> = ({ org }) => {
               {org.name}
             </Text>
             {org.verified === VerificationStatus.Verified ? (
-              <Verified />
+              <CheckCircleIcon boxSize="15px" />
             ) : (
               <></>
             )}

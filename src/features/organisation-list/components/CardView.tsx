@@ -1,5 +1,4 @@
 import { Grid, GridItem } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
 import { Organisation } from "../../../data/model/organisation";
 import Card from "./Card";
 
