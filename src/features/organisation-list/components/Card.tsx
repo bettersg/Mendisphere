@@ -14,22 +14,28 @@ const Card: React.FC<{ org: Organisation }> = ({ org }) => {
       borderRadius="12px"
       bgImage={imageUrl}
     >
-      <VStack pos="absolute" top="262px" mr="25px" ml="25px" spacing="10px">
-        <HStack>
-          <Text fontSize="16px" fontWeight="700" color="white">
-            {org.name}
+      <Box pos="absolute" top="262px" mr="25px" ml="25px">
+        <VStack spacing="10px">
+          <HStack w="full">
+            <Text fontSize="16px" fontWeight="700" color="white">
+              {org.name}
+            </Text>
+            {org.verified === VerificationStatus.Verified ? (
+              <Verified />
+            ) : (
+              <></>
+            )}
+          </HStack>
+          <HStack w="full">
+            <Text fontSize="12px" fontWeight="400" color="white">
+              {org.mainSpecialisation}
+            </Text>
+          </HStack>
+          <Text fontSize="12px" fontWeight="200" color="white">
+            {org.description}
           </Text>
-          {org.verified === VerificationStatus.Verified ? <Verified /> : <></>}
-        </HStack>
-        <HStack>
-          <Text fontSize="12px" fontWeight="400" color="white">
-            {org.mainSpecialisation}
-          </Text>
-        </HStack>
-        <Text fontSize="12px" fontWeight="200" color="white">
-          {org.description}
-        </Text>
-      </VStack>
+        </VStack>
+      </Box>
     </Box>
   );
 };
