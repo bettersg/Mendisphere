@@ -7,12 +7,12 @@ import {
   Tag,
   TagLabel,
   TagLeftIcon,
+  Flex,
 } from "@chakra-ui/react";
 import { ReactComponent as Verified } from "../../../assets/icons/checkMarkVerified.svg";
 import { VerificationStatus } from "../../../data/enums/verification-status.enum";
 import { IPCStatus } from "../../../data/enums/ipc-status.enum";
 import { SearchIcon, CheckCircleIcon, createIcon } from "@chakra-ui/icons";
-import { GetIconForIssue } from "../../../utilities/icon-mappings";
 
 // person icon
 const PersonIcon = createIcon({
@@ -31,11 +31,13 @@ const Card: React.FC<{ org: Organisation }> = ({ org }) => {
       pos="relative"
       borderRadius="12px"
       fontSize="12px"
+      fontFamily="Inter"
+      fontStyle="normal"
       bgImage={imageUrl}
     >
       {/* tag info */}
-      <Box pos="absolute" w="full" top="28px" mr="23px" border="1px">
-        <VStack justify="right">
+      <Box pos="absolute" w="full" top="28px">
+        <Flex align="end" columnGap="5px" direction="column" mr="23px">
           {/* support area tag */}
           <Tag bg="white" borderRadius="15px">
             <TagLeftIcon boxSize="10px" as={SearchIcon} />
@@ -44,7 +46,7 @@ const Card: React.FC<{ org: Organisation }> = ({ org }) => {
 
           {/* ipc status tag */}
           {org.ipcApproved === IPCStatus.Approved ? (
-            <HStack>
+            <HStack pt="5px">
               <Tag bg="white" borderRadius="15px">
                 <TagLeftIcon
                   boxSize="10px"
@@ -57,7 +59,7 @@ const Card: React.FC<{ org: Organisation }> = ({ org }) => {
           ) : (
             <></>
           )}
-        </VStack>
+        </Flex>
       </Box>
 
       {/* descriptions and org data */}
