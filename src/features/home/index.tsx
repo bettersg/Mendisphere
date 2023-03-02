@@ -1,4 +1,4 @@
-import { Box, Center, Flex, Button, VStack } from "@chakra-ui/react";
+import { Box, Text, Center, Flex, Button, VStack } from "@chakra-ui/react";
 import FrontPage from "./components/FrontPage";
 import NavigationBar from "./components/NavigationBar";
 import Footer from "../common/footer";
@@ -26,10 +26,10 @@ const Home: React.FC = () => {
           <Flex direction={"row"}>
             <HomeIcon3 />
             <Flex direction={"column"} style={{ paddingLeft: 52 }}>
-              <text style={{ fontSize: 80, color: "#F5F5F5", fontWeight: 700 }}>
+              <Text style={{ fontSize: 80, color: "#F5F5F5", fontWeight: 700 }}>
                 Together we can go further.
-              </text>
-              <text
+              </Text>
+              <Text
                 style={{
                   fontSize: 32,
                   color: "#F5F5F5",
@@ -40,7 +40,7 @@ const Home: React.FC = () => {
                 Mendisphere connects non-profits focusing on mental health with
                 the support they need to maximise their impact and reach more
                 people.
-              </text>
+              </Text>
               <Center style={styles.whiteButton1}>Our Story</Center>
             </Flex>
           </Flex>
