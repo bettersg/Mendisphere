@@ -1,4 +1,12 @@
-import { Box, Text, Center, Flex, Button, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Center,
+  Flex,
+  Button,
+  VStack,
+  Image,
+} from "@chakra-ui/react";
 import FrontPage from "./components/FrontPage";
 import NavigationBar from "./components/NavigationBar";
 import Footer from "../common/footer";
@@ -8,9 +16,6 @@ import { useNavigate } from "react-router-dom";
 import { styles } from "./styles";
 
 const Home: React.FC = () => {
-  //private app: FirebaseApp;
-  //private appList: FirebaseApp[];
-  //private db: Firestore;
   const navigate = useNavigate();
 
   return (
@@ -52,9 +57,9 @@ const Home: React.FC = () => {
             Driving Outcomes that Matter to You
           </Center>
           <Center style={{ alignItems: "start", marginBottom: 72 }}>
-            <img src={require("../../assets/icons/NPMHOTestimonial1.png")} />
-            <img src={require("../../assets/icons/NPMHOTestimonial2.png")} />
-            <img src={require("../../assets/icons/NPMHOTestimonial3.png")} />
+            <Image src={require("../../assets/icons/NPMHOTestimonial1.png")} />
+            <Image src={require("../../assets/icons/NPMHOTestimonial2.png")} />
+            <Image src={require("../../assets/icons/NPMHOTestimonial3.png")} />
           </Center>
           <div style={{ alignSelf: "center" }}>
             <Center>
@@ -68,11 +73,11 @@ const Home: React.FC = () => {
           <Center style={styles.headerSmall}>Organisation Partners</Center>
           <Center>
             <Flex direction={"row"} style={styles.imageContainer}>
-              <img src={require("../../assets/icons/Partner1.png")} />
-              <img src={require("../../assets/icons/Partner2.png")} />
-              <img src={require("../../assets/icons/Partner3.png")} />
-              <img src={require("../../assets/icons/Partner4.png")} />
-              <img src={require("../../assets/icons/Partner5.png")} />
+              <Image src={require("../../assets/icons/Partner1.png")} />
+              <Image src={require("../../assets/icons/Partner2.png")} />
+              <Image src={require("../../assets/icons/Partner3.png")} />
+              <Image src={require("../../assets/icons/Partner4.png")} />
+              <Image src={require("../../assets/icons/Partner5.png")} />
             </Flex>
           </Center>
         </Box>
@@ -84,15 +89,15 @@ const Home: React.FC = () => {
           </Center>
           <Center>
             <Flex direction={"row"} style={styles.imageContainer}>
-              <img
+              <Image
                 src={require("../../assets/icons/NPMHOStory1.png")}
                 style={{ borderRadius: 12 }}
               />
-              <img
+              <Image
                 src={require("../../assets/icons/NPMHOStory2.png")}
                 style={{ borderRadius: 12 }}
               />
-              <img
+              <Image
                 src={require("../../assets/icons/NPMHOStory3.png")}
                 style={{ borderRadius: 12 }}
               />
@@ -152,7 +157,7 @@ const Home: React.FC = () => {
                 </Button>
               </Center>
             </div>
-            <img src={require("../../assets/icons/homeIcon4.png")} />
+            <Image src={require("../../assets/icons/homeIcon4.png")} />
           </Flex>
         </Box>
       </Animate.FadeUp>
