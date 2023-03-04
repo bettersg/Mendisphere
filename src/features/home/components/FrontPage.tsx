@@ -44,7 +44,7 @@ export default function FrontPage(){
                         <Center w="19.3vw" h="25.4vh" ></Center>
                         
                         <Center w="19.3vw" h="35.9vh">
-                            <img src={require('../../../assets/icons/homeIcon1.png')}></img>
+                            <img src={require('../../../assets/images/homeIcon1.png')}></img>
                         </Center>
 
                         <Center w="19.3vw" h="28.4vh" ></Center>
@@ -63,13 +63,13 @@ export default function FrontPage(){
                         <Center w="19.3vw" h="5.2vh" />
 
                         <Center w="19.3vw" h="35.9vh">
-                            <img src={require('../../../assets/icons/homeIcon0.png')}></img>
+                            <img src={require('../../../assets/images/homeIcon0.png')}></img>
                         </Center>
                         
                         <Center w="19.3vw" h="2.4vh" />
                         
                         <Center w="19.3vw" h="35.9vh">
-                            <img src={require('../../../assets/icons/homeIcon2.png')}></img>
+                            <img src={require('../../../assets/images/homeIcon2.png')}></img>
                         </Center>
 
                         <Center w="19.3vw" h="10.3vh" />
