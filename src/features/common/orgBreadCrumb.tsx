@@ -15,7 +15,7 @@ const OrgBreadCrumb: React.FC<{ org?: Organisation }> = ({ org }) => {
   const isOrgProfilePage = org !== undefined;
 
   return (
-    <Flex h="8vh">
+    <Flex h="8vh" className="page-padding">
       <Box alignSelf="center">
         <Breadcrumb spacing="1vw" separator={<ChevronRightIcon />}>
           {/* Home link */}

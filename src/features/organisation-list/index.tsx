@@ -62,7 +62,7 @@ const OrganisationList: React.FC = () => {
   }, [filters]);
 
   return (
-    <VStack className="page-dim" justify="center" spacing={0} align="stretch">
+    <VStack className="page-width" justify="center" spacing={0} align="stretch">
       <SimpleNavigationBar />
       <OrgBreadCrumb />
       <Flex h="40vh">
@@ -82,125 +82,123 @@ const OrganisationList: React.FC = () => {
           </VStack>
         </HStack>
       </Flex>
-      <Box
-        className="maximise-width"
-        height={182}
-        bg="#E0E5FF"
-        paddingLeft={128}
-        paddingRight={128}
-      >
-        <Text paddingTop={37} paddingBottom={5}>
-          How can we help you today?
-        </Text>
-        <Text fontSize="xs" color={"#707070"} paddingBottom={1}>
-          Filter by
-        </Text>
-        <Grid templateColumns="repeat(4, 1fr)" gap={5}>
-          <Select
-            placeholder="Specialisations:"
-            bg="#FFFFFF"
-            color="#2D3748"
-            onChange={(e) => {
-              setFilters((previous) => ({
-                ...previous,
-                specialisations:
-                  e.target.value === ""
-                    ? undefined
-                    : [e.target.value as MentalHealthIssue],
-              }));
-            }}
-          >
-            <option value={MentalHealthIssue.AntiStigmatism}>
-              {MentalHealthIssue.AntiStigmatism}
-            </option>
-            <option value={MentalHealthIssue.YouthMentalWellness}>
-              {MentalHealthIssue.YouthMentalWellness}
-            </option>
-            <option value={MentalHealthIssue.OCD}>
-              {MentalHealthIssue.OCD}
-            </option>
-            <option value={MentalHealthIssue.OverallMentalWellbeing}>
-              {MentalHealthIssue.AntiStigmatism}
-            </option>
-          </Select>
-          <Select
-            placeholder="Services:"
-            bg="#FFFFFF"
-            color="#2D3748"
-            onChange={(e) => {
-              setFilters((previous) => ({
-                ...previous,
-                services:
-                  e.target.value === ""
-                    ? undefined
-                    : [e.target.value as Service],
-              }));
-            }}
-          >
-            <option value={Service.Youth}>{Service.Youth}</option>
-            <option value={Service.Workshops}>{Service.Workshops}</option>
-            <option value={Service.OCD}>{Service.OCD}</option>
-            <option value={Service.SupportGroup}>{Service.SupportGroup}</option>
-            <option value={Service.OverallMentalWellbeing}>
-              {Service.OverallMentalWellbeing}
-            </option>
-            <option value={Service.TrainingProvider}>
-              {Service.TrainingProvider}
-            </option>
-            <option value={Service.Counselling}>{Service.Counselling}</option>
-            <option value={Service.SpeakingEngagements}>
-              {Service.SpeakingEngagements}
-            </option>
-            <option value={Service.CorporateTraining}>
-              {Service.CorporateTraining}
-            </option>
-          </Select>
-          <Select
-            placeholder="IPC Registered:"
-            bg="#FFFFFF"
-            color="#2D3748"
-            onChange={(e) => {
-              setFilters((previous) => ({
-                ...previous,
-                ipcStatus:
-                  e.target.value === ""
-                    ? undefined
-                    : (Number(e.target.value) as IPCStatus),
-              }));
-            }}
-          >
-            <option value={IPCStatus.Approved}>
-              {IPCStatusViewMap.get(IPCStatus.Approved)}
-            </option>
-            <option value={IPCStatus.NotApproved}>
-              {IPCStatusViewMap.get(IPCStatus.NotApproved)}
-            </option>
-            <option value={IPCStatus.Pending}>
-              {IPCStatusViewMap.get(IPCStatus.Pending)}
-            </option>
-          </Select>
-          <Select
-            placeholder="Looking for:"
-            bg="#FFFFFF"
-            color="#2D3748"
-            onChange={(e) => {
-              setFilters((previous) => ({
-                ...previous,
-                supportAreas:
-                  e.target.value === ""
-                    ? undefined
-                    : [e.target.value as SupportArea],
-              }));
-            }}
-          >
-            <option value={SupportArea.FundingSupport}>
-              {SupportArea.FundingSupport}
-            </option>
-            <option value={SupportArea.PartnershipOpportunities}>
-              {SupportArea.PartnershipOpportunities}
-            </option>
-          </Select>
-        </Grid>
+      <Box className="maximise-width" height="15vh" bg="#E0E5FF">
+        <VStack h="full" className="page-width page-padding" align="left">
+          <Spacer />
+          <Text fontSize="xl">How can we help you today?</Text>
+          <Text fontSize="xs" color={"#707070"} paddingBottom={1}>
+            Filter by
+          </Text>
+          <Grid templateColumns="repeat(4, 1fr)" gap={5}>
+            <Select
+              placeholder="Specialisations:"
+              bg="#FFFFFF"
+              color="#2D3748"
+              onChange={(e) => {
+                setFilters((previous) => ({
+                  ...previous,
+                  specialisations:
+                    e.target.value === ""
+                      ? undefined
+                      : [e.target.value as MentalHealthIssue],
+                }));
+              }}
+            >
+              <option value={MentalHealthIssue.AntiStigmatism}>
+                {MentalHealthIssue.AntiStigmatism}
+              </option>
+              <option value={MentalHealthIssue.YouthMentalWellness}>
+                {MentalHealthIssue.YouthMentalWellness}
+              </option>
+              <option value={MentalHealthIssue.OCD}>
+                {MentalHealthIssue.OCD}
+              </option>
+              <option value={MentalHealthIssue.OverallMentalWellbeing}>
+                {MentalHealthIssue.AntiStigmatism}
+              </option>
+            </Select>
+            <Select
+              placeholder="Services:"
+              bg="#FFFFFF"
+              color="#2D3748"
+              onChange={(e) => {
+                setFilters((previous) => ({
+                  ...previous,
+                  services:
+                    e.target.value === ""
+                      ? undefined
+                      : [e.target.value as Service],
+                }));
+              }}
+            >
+              <option value={Service.Youth}>{Service.Youth}</option>
+              <option value={Service.Workshops}>{Service.Workshops}</option>
+              <option value={Service.OCD}>{Service.OCD}</option>
+              <option value={Service.SupportGroup}>
+                {Service.SupportGroup}
+              </option>
+              <option value={Service.OverallMentalWellbeing}>
+                {Service.OverallMentalWellbeing}
+              </option>
+              <option value={Service.TrainingProvider}>
+                {Service.TrainingProvider}
+              </option>
+              <option value={Service.Counselling}>{Service.Counselling}</option>
+              <option value={Service.SpeakingEngagements}>
+                {Service.SpeakingEngagements}
+              </option>
+              <option value={Service.CorporateTraining}>
+                {Service.CorporateTraining}
+              </option>
+            </Select>
+            <Select
+              placeholder="IPC Registered:"
+              bg="#FFFFFF"
+              color="#2D3748"
+              onChange={(e) => {
+                setFilters((previous) => ({
+                  ...previous,
+                  ipcStatus:
+                    e.target.value === ""
+                      ? undefined
+                      : (Number(e.target.value) as IPCStatus),
+                }));
+              }}
+            >
+              <option value={IPCStatus.Approved}>
+                {IPCStatusViewMap.get(IPCStatus.Approved)}
+              </option>
+              <option value={IPCStatus.NotApproved}>
+                {IPCStatusViewMap.get(IPCStatus.NotApproved)}
+              </option>
+              <option value={IPCStatus.Pending}>
+                {IPCStatusViewMap.get(IPCStatus.Pending)}
+              </option>
+            </Select>
+            <Select
+              placeholder="Looking for:"
+              bg="#FFFFFF"
+              color="#2D3748"
+              onChange={(e) => {
+                setFilters((previous) => ({
+                  ...previous,
+                  supportAreas:
+                    e.target.value === ""
+                      ? undefined
+                      : [e.target.value as SupportArea],
+                }));
+              }}
+            >
+              <option value={SupportArea.FundingSupport}>
+                {SupportArea.FundingSupport}
+              </option>
+              <option value={SupportArea.PartnershipOpportunities}>
+                {SupportArea.PartnershipOpportunities}
+              </option>
+            </Select>
+          </Grid>
+          <Spacer />
+        </VStack>
       </Box>
       <VStack
         paddingLeft={128}
