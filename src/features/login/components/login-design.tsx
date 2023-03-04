@@ -1,4 +1,4 @@
-import { Center, Spacer, VStack } from "@chakra-ui/react";
+import { Center, Spacer, VStack, Image } from "@chakra-ui/react";
 
 export default function LoginDesign() {
   return (
@@ -8,7 +8,7 @@ export default function LoginDesign() {
       <Center minH="10em"></Center>
 
       <Center minH="10em">
-        <img src={require("../../../assets/images/loginIcon.png")} />
+        <Image src={require("../../../assets/images/loginIcon.png")} />
       </Center>
     </VStack>
   );
