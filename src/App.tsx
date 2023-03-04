@@ -7,18 +7,27 @@ import OrganisationList from "./features/organisation-list";
 import UserDashboardPage from "./features/user-dashboard/user-dashboard-page";
 import { AuthProvider } from "./services/firebase/authProvider";
 import FirestoreMock from "./features/firestore-mock/firestore-mock";
+import { Paths } from "./paths";
 
 function App() {
   return (
     <ChakraProvider>
       <AuthProvider>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="login" element={<LoginPage />} />
-          <Route path="dashboard" element={<UserDashboardPage />} />
-          <Route path="organisations" element={<OrganisationList />} />
-          <Route path="organisations/:orgId" element={<OrgProfilePage />} />
-          {process.env.NODE_ENV === "development" && <Route path="firestore-mock" element={<FirestoreMock />}/>}
+          <Route path={Paths.home} element={<Home />} />
+          <Route path={Paths.login} element={<LoginPage />} />
+          <Route path={Paths.dashboard} element={<UserDashboardPage />} />
+          <Route
+            path={Paths.organisationListing}
+            element={<OrganisationList />}
+          />
+          <Route
+            path={Paths.organisationProfile}
+            element={<OrgProfilePage />}
+          />
+          {process.env.NODE_ENV === "development" && (
+            <Route path="firestore-mock" element={<FirestoreMock />} />
+          )}
         </Routes>
       </AuthProvider>
     </ChakraProvider>
