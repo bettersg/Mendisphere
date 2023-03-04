@@ -3,7 +3,7 @@ import Footer from "../common/footer";
 import Profile from "./components/profile";
 import Services from "./components/services";
 import SimilarOrgs from "./components/similar-orgs";
-import SimpleNavigationBar from "../common/simple-header/simple-navbar";
+import SimpleNavigationBar from "../common/simple-navbar";
 import Summary from "./components/summary";
 
 export default function OrgProfilePage() {

@@ -8,8 +8,8 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { HomeIcon } from "@primer/octicons-react";
-import { Organisation } from "../../../data/model/organisation";
-import { Paths } from "../../../paths";
+import { Organisation } from "../../data/model/organisation";
+import { Paths } from "../../paths";
 
 const OrgBreadCrumb: React.FC<{ org?: Organisation }> = ({ org }) => {
   const isOrgProfilePage = org !== undefined;

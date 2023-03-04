@@ -1,7 +1,7 @@
 import { Box, VStack, Text, Select, Grid, Flex } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import Footer from "../common/footer";
-import SimpleNavigationBar from "../common/simple-header/simple-navbar";
+import SimpleNavigationBar from "../common/simple-navbar";
 import CardView from "./components/CardView";
 import ListView from "./components/ListView";
 import ViewToggle from "./components/ViewToggle";
@@ -15,7 +15,7 @@ import { Service } from "../../data/enums/service.enum";
 import { SupportArea } from "../../data/enums/support-area.enum";
 import { IPCStatus, IPCStatusViewMap } from "../../data/enums/ipc-status.enum";
 import { Spinner } from "@chakra-ui/react";
-import OrgBreadCrumb from "../common/breadcrumbs/orgBreadCrumb";
+import OrgBreadCrumb from "../common/orgBreadCrumb";
 import "../page-style.scss";
 
 export enum EViewOption {
