@@ -91,7 +91,7 @@ const OrganisationList: React.FC = () => {
           </Text>
           <Grid templateColumns="repeat(4, 1fr)" gap={5}>
             <Select
-              placeholder="Specialisations:"
+              placeholder="Specialisations"
               bg="#FFFFFF"
               color="#2D3748"
               onChange={(e) => {
@@ -118,7 +118,7 @@ const OrganisationList: React.FC = () => {
               </option>
             </Select>
             <Select
-              placeholder="Services:"
+              placeholder="Services"
               bg="#FFFFFF"
               color="#2D3748"
               onChange={(e) => {
@@ -152,7 +152,7 @@ const OrganisationList: React.FC = () => {
               </option>
             </Select>
             <Select
-              placeholder="IPC Registered:"
+              placeholder="IPC Registered"
               bg="#FFFFFF"
               color="#2D3748"
               onChange={(e) => {
@@ -176,7 +176,7 @@ const OrganisationList: React.FC = () => {
               </option>
             </Select>
             <Select
-              placeholder="Looking for:"
+              placeholder="Looking for"
               bg="#FFFFFF"
               color="#2D3748"
               onChange={(e) => {
