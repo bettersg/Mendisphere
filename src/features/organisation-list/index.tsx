@@ -66,9 +66,10 @@ const OrganisationList: React.FC = () => {
       <SimpleNavigationBar />
       <OrgBreadCrumb />
       <Flex h="40vh">
-        <HStack margin="auto" maxW="40vw">
+        <HStack margin="auto" maxW="40vw" h="full">
           <Image src={require("../../assets/images/org-listing-image.png")} />
-          <VStack align="left">
+          <VStack align="left" h="full">
+            <Spacer />
             <Heading>Mendisphere</Heading>
             <Heading>Community</Heading>
             <Text>
@@ -77,6 +78,7 @@ const OrganisationList: React.FC = () => {
               Browse below for the full list of registered organisations under
               Mendisphere. There's always someone in need of your support.
             </Text>
+            <Spacer />
           </VStack>
         </HStack>
       </Flex>
