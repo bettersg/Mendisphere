@@ -8,7 +8,6 @@ import {
   Image,
   Heading,
   HStack,
-  Center,
   Spacer,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
@@ -29,7 +28,6 @@ import { IPCStatus, IPCStatusViewMap } from "../../data/enums/ipc-status.enum";
 import { Spinner } from "@chakra-ui/react";
 import OrgBreadCrumb from "../common/orgBreadCrumb";
 import "../page-style.scss";
-import { Container } from "react-bootstrap";
 
 export enum EViewOption {
   Card = "card",
@@ -47,12 +45,19 @@ const OrganisationList: React.FC = () => {
     ipcStatus: undefined,
     supportAreas: undefined,
   });
+  const [orgListingComponentHeight, setOrgListingComponentHeight] =
+    useState(500);
 
   useEffect(() => {
     // fetch organisation data on page load
     getOrganisationsForListingsPage(filters)
       .then((orgs) => {
         setOrgList(orgs);
+      })
+      .then(() => {
+        const height = orgList.length > 12 ? 1800 : (orgList.length % 4) * 600;
+        setOrgListingComponentHeight(height < 600 ? 600 : height);
+        console.log(orgListingComponentHeight);
       })
       .then(() => setIsLoading(false))
       .catch((err) => {
@@ -66,9 +71,13 @@ const OrganisationList: React.FC = () => {
       <SimpleNavigationBar />
       <OrgBreadCrumb />
       <Flex h="40vh">
-        <HStack margin="auto" maxW="40vw" h="full">
-          <Image src={require("../../assets/images/org-listing-image.png")} />
-          <VStack align="left" h="full">
+        <HStack margin="auto" maxW="50vw" h="full">
+          <Image
+            w="50%"
+            src={require("../../assets/images/org-listing-image.png")}
+          />
+          <Spacer />
+          <VStack w="45%" align="left" h="full">
             <Spacer />
             <Heading>Mendisphere</Heading>
             <Heading>Community</Heading>
@@ -201,8 +210,8 @@ const OrganisationList: React.FC = () => {
         </VStack>
       </Box>
       <VStack
-        paddingLeft={128}
-        paddingRight={128}
+        className="page-padding"
+        h={`${orgListingComponentHeight}px`}
         paddingBottom={5}
         paddingTop={5}
       >
