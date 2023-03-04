@@ -2,7 +2,6 @@ import { Box, VStack, Text, Select, Grid, Flex } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import Footer from "../common/footer";
 import SimpleNavigationBar from "../common/simple-header/simple-navbar";
-import HeaderBreadCrumbs from "../common/breadcrumbs/header-breadcrumbs";
 import CardView from "./components/CardView";
 import ListView from "./components/ListView";
 import ViewToggle from "./components/ViewToggle";
@@ -16,6 +15,8 @@ import { Service } from "../../data/enums/service.enum";
 import { SupportArea } from "../../data/enums/support-area.enum";
 import { IPCStatus, IPCStatusViewMap } from "../../data/enums/ipc-status.enum";
 import { Spinner } from "@chakra-ui/react";
+import OrgBreadCrumb from "../common/breadcrumbs/orgBreadCrumb";
+import "../page-style.scss";
 
 export enum EViewOption {
   Card = "card",
@@ -48,12 +49,16 @@ const OrganisationList: React.FC = () => {
   }, [filters]);
 
   return (
-    <VStack spacing={0} align="stretch">
-      <Box minH="11.11vh">
-        <SimpleNavigationBar />
-      </Box>
-      <HeaderBreadCrumbs />
-      <Box height={182} bg="#E0E5FF" paddingLeft={128} paddingRight={128}>
+    <VStack className="page-dim" justify="center" spacing={0} align="stretch">
+      <SimpleNavigationBar />
+      <OrgBreadCrumb />
+      <Box
+        className="maximise-width"
+        height={182}
+        bg="#E0E5FF"
+        paddingLeft={128}
+        paddingRight={128}
+      >
         <Text paddingTop={37} paddingBottom={5}>
           How can we help you today?
         </Text>
