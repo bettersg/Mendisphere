@@ -31,7 +31,6 @@ const OrgCard: React.FC<{ org: Organisation }> = ({ org }) => {
       pos="relative"
       borderRadius="12px"
       fontSize="12px"
-      fontFamily="Inter"
       fontStyle="normal"
       bgImage={bgImageProp}
     >
@@ -82,7 +81,9 @@ const OrgCard: React.FC<{ org: Organisation }> = ({ org }) => {
             <Text fontWeight="400">{org.mainSpecialisation}</Text>
           </HStack>
 
-          <Text fontWeight="200">{org.description}</Text>
+          <Text fontWeight="200" noOfLines={3}>
+            {org.description}
+          </Text>
         </VStack>
       </Box>
     </Box>
