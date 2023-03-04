@@ -1,4 +1,16 @@
-import { Box, VStack, Text, Select, Grid, Flex } from "@chakra-ui/react";
+import {
+  Box,
+  VStack,
+  Text,
+  Select,
+  Grid,
+  Flex,
+  Image,
+  Heading,
+  HStack,
+  Center,
+  Spacer,
+} from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import Footer from "../common/footer";
 import SimpleNavigationBar from "../common/simple-navbar";
@@ -17,6 +29,7 @@ import { IPCStatus, IPCStatusViewMap } from "../../data/enums/ipc-status.enum";
 import { Spinner } from "@chakra-ui/react";
 import OrgBreadCrumb from "../common/orgBreadCrumb";
 import "../page-style.scss";
+import { Container } from "react-bootstrap";
 
 export enum EViewOption {
   Card = "card",
@@ -52,6 +65,21 @@ const OrganisationList: React.FC = () => {
     <VStack className="page-dim" justify="center" spacing={0} align="stretch">
       <SimpleNavigationBar />
       <OrgBreadCrumb />
+      <Flex h="40vh">
+        <HStack margin="auto" maxW="40vw">
+          <Image src={require("../../assets/images/org-listing-image.png")} />
+          <VStack align="left">
+            <Heading>Mendisphere</Heading>
+            <Heading>Community</Heading>
+            <Text>
+              <br />
+              Looking to fund or partner with a mental health organisation?
+              Browse below for the full list of registered organisations under
+              Mendisphere. There's always someone in need of your support.
+            </Text>
+          </VStack>
+        </HStack>
+      </Flex>
       <Box
         className="maximise-width"
         height={182}
