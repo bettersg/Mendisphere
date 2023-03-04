@@ -72,14 +72,20 @@ const OrganisationList: React.FC = () => {
       <OrgBreadCrumb />
 
       {/* Description */}
-      <Flex h="40vh">
-        <HStack margin="auto" maxW="50vw" h="full">
+      <Flex h="40vh" w="full" border="1px">
+        <HStack
+          margin="auto"
+          className="page-width page-padding"
+          w="70%"
+          h="full"
+          border="1px"
+        >
           <Image
-            w="50%"
+            maxW="50%"
             src={require("../../assets/images/org-listing-image.png")}
           />
           <Spacer />
-          <VStack w="45%" align="left" h="full">
+          <VStack minW="45%" align="left" h="full">
             <Spacer />
             <Heading>Mendisphere</Heading>
             <Heading>Community</Heading>
