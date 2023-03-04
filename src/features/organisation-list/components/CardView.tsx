@@ -1,6 +1,6 @@
-import { Grid, GridItem } from "@chakra-ui/react";
+import { Grid, GridItem, LinkBox, LinkOverlay } from "@chakra-ui/react";
 import { Organisation } from "../../../data/model/organisation";
-import Card from "./Card";
+import OrgCard from "./OrgCard";
 
 const CardView: React.FC<{ organisationList: Organisation[] }> = ({
   organisationList,
@@ -13,8 +13,11 @@ const CardView: React.FC<{ organisationList: Organisation[] }> = ({
       <Grid templateColumns="repeat(4, 1fr)" gap={5} marginTop={5} key={i}>
         {cardsToRender.map((org) => (
           <GridItem borderRadius={5} bg={"#F5F5F5"} key={org.id}>
-            {/* <Link to={`/organisations/${card.id}`}>{card.toString()}</Link> */}
-            <Card org={org} />
+            <LinkBox>
+              <LinkOverlay isExternal={true} href={`/organisations/${org.id}`}>
+                <OrgCard org={org} />
+              </LinkOverlay>
+            </LinkBox>
           </GridItem>
         ))}
       </Grid>

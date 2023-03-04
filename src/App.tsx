@@ -17,7 +17,7 @@ function App() {
           <Route path="login" element={<LoginPage />} />
           <Route path="dashboard" element={<UserDashboardPage />} />
           <Route path="organisations" element={<OrganisationList />} />
-          <Route path="organisations/1" element={<OrgProfilePage />} />
+          <Route path="organisations/:orgId" element={<OrgProfilePage />} />
           {process.env.NODE_ENV === "development" && <Route path="firestore-mock" element={<FirestoreMock />}/>}
         </Routes>
       </AuthProvider>
