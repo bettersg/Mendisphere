@@ -70,6 +70,8 @@ const OrganisationList: React.FC = () => {
     <VStack className="page-width" justify="center" spacing={0} align="stretch">
       <SimpleNavigationBar />
       <OrgBreadCrumb />
+
+      {/* Description */}
       <Flex h="40vh">
         <HStack margin="auto" maxW="50vw" h="full">
           <Image
@@ -91,6 +93,8 @@ const OrganisationList: React.FC = () => {
           </VStack>
         </HStack>
       </Flex>
+
+      {/* Filters drop down */}
       <Box className="maximise-width" height="15vh" bg="#E0E5FF">
         <VStack h="full" className="page-width page-padding" align="left">
           <Spacer />
@@ -209,6 +213,8 @@ const OrganisationList: React.FC = () => {
           <Spacer />
         </VStack>
       </Box>
+
+      {/* Cards listing view */}
       <VStack
         className="page-padding"
         h={`${orgListingComponentHeight}px`}
@@ -235,7 +241,9 @@ const OrganisationList: React.FC = () => {
           )}
         </Flex>
       </VStack>
-      <Box minH="37.33vh">
+
+      {/* Footer */}
+      <Box className="maximise-width" minH="37.33vh">
         <Footer />
       </Box>
     </VStack>
