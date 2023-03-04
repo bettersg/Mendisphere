@@ -8,10 +8,11 @@ import UserDashboardPage from "./features/user-dashboard/user-dashboard-page";
 import { AuthProvider } from "./services/firebase/authProvider";
 import FirestoreMock from "./features/firestore-mock/firestore-mock";
 import { Paths } from "./paths";
+import { appTheme } from "./theme";
 
 function App() {
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={appTheme}>
       <AuthProvider>
         <Routes>
           <Route path={Paths.home} element={<Home />} />
