@@ -154,7 +154,7 @@ class Footer extends Component {
                 letterSpacing={"-0.015em"}
                 color={"#707070"}
               >
-                © 2022 Mindbetter. All Rights Reserved.
+                © 2023 Mendisphere. All Rights Reserved.
               </Text>
             </Box>
 
