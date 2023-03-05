@@ -72,13 +72,12 @@ const OrganisationList: React.FC = () => {
       <OrgBreadCrumb />
 
       {/* Description */}
-      <Flex h="40vh" w="full" border="1px">
+      <Flex h="40vh" w="full">
         <HStack
           margin="auto"
           className="page-width page-padding"
           w="70%"
           h="full"
-          border="1px"
         >
           <Image
             maxW="50%"
