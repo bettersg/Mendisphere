@@ -57,9 +57,9 @@ const Home: React.FC = () => {
             Driving Outcomes that Matter to You
           </Center>
           <Center style={{ alignItems: "start", marginBottom: 72 }}>
-            <Image src={require("../../assets/icons/NPMHOTestimonial1.png")} />
-            <Image src={require("../../assets/icons/NPMHOTestimonial2.png")} />
-            <Image src={require("../../assets/icons/NPMHOTestimonial3.png")} />
+            <Image src={require("../../assets/images/NPMHOTestimonial1.png")} />
+            <Image src={require("../../assets/images/NPMHOTestimonial2.png")} />
+            <Image src={require("../../assets/images/NPMHOTestimonial3.png")} />
           </Center>
           <div style={{ alignSelf: "center" }}>
             <Center>
@@ -73,11 +73,11 @@ const Home: React.FC = () => {
           <Center style={styles.headerSmall}>Organisation Partners</Center>
           <Center>
             <Flex direction={"row"} style={styles.imageContainer}>
-              <Image src={require("../../assets/icons/Partner1.png")} />
-              <Image src={require("../../assets/icons/Partner2.png")} />
-              <Image src={require("../../assets/icons/Partner3.png")} />
-              <Image src={require("../../assets/icons/Partner4.png")} />
-              <Image src={require("../../assets/icons/Partner5.png")} />
+              <Image src={require("../../assets/images/Partner1.png")} />
+              <Image src={require("../../assets/images/Partner2.png")} />
+              <Image src={require("../../assets/images/Partner3.png")} />
+              <Image src={require("../../assets/images/Partner4.png")} />
+              <Image src={require("../../assets/images/Partner5.png")} />
             </Flex>
           </Center>
         </Box>
@@ -90,15 +90,15 @@ const Home: React.FC = () => {
           <Center>
             <Flex direction={"row"} style={styles.imageContainer}>
               <Image
-                src={require("../../assets/icons/NPMHOStory1.png")}
+                src={require("../../assets/images/NPMHOStory1.png")}
                 style={{ borderRadius: 12 }}
               />
               <Image
-                src={require("../../assets/icons/NPMHOStory2.png")}
+                src={require("../../assets/images/NPMHOStory2.png")}
                 style={{ borderRadius: 12 }}
               />
               <Image
-                src={require("../../assets/icons/NPMHOStory3.png")}
+                src={require("../../assets/images/NPMHOStory3.png")}
                 style={{ borderRadius: 12 }}
               />
             </Flex>
@@ -157,7 +157,7 @@ const Home: React.FC = () => {
                 </Button>
               </Center>
             </div>
-            <Image src={require("../../assets/icons/homeIcon4.png")} />
+            <Image src={require("../../assets/images/homeIcon4.png")} />
           </Flex>
         </Box>
       </Animate.FadeUp>

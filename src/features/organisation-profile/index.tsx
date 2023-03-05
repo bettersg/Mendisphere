@@ -1,10 +1,9 @@
 import { Flex, VStack } from "@chakra-ui/react";
 import Footer from "../common/footer";
-import HeaderBreadCrumbs from "../common/breadcrumbs/header-breadcrumbs";
 import Profile from "./components/profile";
 import Services from "./components/services";
 import SimilarOrgs from "./components/similar-orgs";
-import SimpleNavigationBar from "../common/simple-header/simple-navbar";
+import SimpleNavigationBar from "../common/simple-navbar";
 import Summary from "./components/summary";
 
 export default function OrgProfilePage() {
@@ -15,7 +14,6 @@ export default function OrgProfilePage() {
     <Flex background="#ffffff">
       <VStack spacing="0px">
         <SimpleNavigationBar />
-        <HeaderBreadCrumbs pageName={orgName} />
         <Summary />
         <Services />
         <Profile />

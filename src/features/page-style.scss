@@ -1,0 +1,18 @@
+.page-width {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.page-padding {
+  padding-left: 9vw;
+  padding-right: 9vw;
+  width: 100%;
+}
+
+// override the standard max width for a page
+// and span total view port width
+.maximise-width {
+  width: 100vw;
+  position: relative;
+  left: calc(-50vw + 50%);
+}

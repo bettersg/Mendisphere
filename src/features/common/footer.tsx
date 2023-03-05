@@ -7,7 +7,7 @@ import {
   Box,
   Text,
 } from "@chakra-ui/react";
-
+import "../page-style.scss";
 import { Component } from "react";
 
 class Footer extends Component {
@@ -15,9 +15,8 @@ class Footer extends Component {
 
   render() {
     return (
-      <Flex bg={"#F5F5F5"}>
-        <Center minW="8.55vw" minH="37.33vh" />
-        <Box minW="82.2vw" minH="37.33vh">
+      <Flex align="left" bg={"#F5F5F5"}>
+        <Box className="page-width page-padding" minW="82.2vw" minH="37.33vh">
           <VStack
             divider={<StackDivider borderColor="whiteAlpha.200" />}
             spacing={0}
@@ -154,14 +153,13 @@ class Footer extends Component {
                 letterSpacing={"-0.015em"}
                 color={"#707070"}
               >
-                © 2022 Mindbetter. All Rights Reserved.
+                © 2023 Mendisphere. All Rights Reserved.
               </Text>
             </Box>
 
             <Box w="82.2vw" h="2vh" />
           </VStack>
         </Box>
-        <Center minW="8.55vw" minH="37.33vh" />
       </Flex>
     );
   }
