@@ -57,7 +57,7 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-Mindbetter is a platform that helps nonprofit mental health organisations who are struggling financially, specifically with securing grants.
+Mendisphere is a platform that helps nonprofit mental health organisations who are struggling financially, specifically with securing grants.
 
 <!-- Here's why:
 * Your time should be focused on creating something amazing. A project that solves a problem and helps others
@@ -91,7 +91,11 @@ Instructions on setting up your project locally.
 
 ### Prerequisites
 
-1. Docker, node and npm are installed in your machine
+1. Node, npm are installed in your machine
+2. Configure firebase emulators for the local development environment. Please refer to `src/services/firebase/emulator-readme.md`
+   a. If you are not using firebase emulator, please update the firebase config to bypass firebase emulator setup - refer to `src/services/firebase/firebaseConfig.ts`
+3. Firebase app secrets stored in the root level of the project in file named: `env.development.local`
+   
 
 ### Installation
 
@@ -101,8 +105,8 @@ _Below is an example of how you can instruct your audience on installing and set
    ```sh
    git clone https://github.com/your_username_/Project-Name.git
    ```
-
-
+2. Install and run firebase emulator (optional) 
+   a. Please refer to `src/services/firebase/emulator-readme.md` for further instructions.
 3. Install NPM packages
    ```sh
    npm install
@@ -111,6 +115,8 @@ _Below is an example of how you can instruct your audience on installing and set
    ```sh
    npm start
    ```
+5. If running firebase emulators, go to firestore emulator test page: `http://localhost:3000/firestore-mock`
+  a. Add mock data to firestore emulator.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -129,14 +135,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-- [ ] Feature 1
-- [ ] Feature 2
-- [ ] Feature 3
-    - [ ] Nested Feature
-
-See the [open issues](https://github.com/github_username/repo_name/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+WIP
 
 
 
