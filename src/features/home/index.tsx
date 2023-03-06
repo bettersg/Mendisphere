@@ -19,13 +19,10 @@ const Home: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <VStack spacing={0} align="stretch">
-      <Box>
-        <NavigationBar />
-      </Box>
-      <Box>
-        <FrontPage />
-      </Box>
+    <VStack spacing={10} align="stretch">
+      <Box><NavigationBar /></Box>
+
+      <Box minHeight="50vh"><FrontPage/></Box>
       <Animate.FadeUp>
         <Box style={styles.box1}>
           <Flex direction={"row"}>
