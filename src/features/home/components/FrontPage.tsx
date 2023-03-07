@@ -1,94 +1,71 @@
 import {
   Flex,
-  Center,
+  Stack,
   Box,
-  VStack,
-  StackDivider,
-  Text,
-  HStack,
   Image,
+  Heading,
 } from "@chakra-ui/react";
 import NavigationButton from "./NavigationButton";
 
 export default function FrontPage() {
   return (
-    <Flex minWidth="max-content">
-      <Center w="8vw" h="89.7vh" />
-
-      <Flex w="82.9vw" h="89.7vh">
-        <VStack
-          w="34.2vw"
-          h="89.7vh"
-          divider={<StackDivider borderColor="whiteAlpha.400" />}
-          spacing={4}
-          align="stretch"
+    <Flex
+      align="center"
+      justify={{ base: "center", md: "space-around", xl: "space-between" }}
+      direction={{ base: "column-reverse", md: "row" }}
+      wrap="nowrap"
+      minH="70vh"
+      px={8}
+      mb={16}
+       >
+      <Stack
+        spacing={4}
+        w={{ base: "80%", md: "40%" }}
+        align={["center", "center", "flex-start", "flex-start"]}
+      >
+        <Heading
+          as="h1"
+          size={['md', 'lg', 'xl', '3xl']}
+          fontWeight="bold"
+          color="primary.800"
+          textAlign={["center", "center", "left", "left"]}
         >
-          <Box>
-            <Text fontSize="7xl" as="b">
-              Expand your impact with Mindbetter
-            </Text>
-          </Box>
-          <Box>
-            <Text fontSize="3xl">
-              Connecting you to what you need most to help you go faster.
-            </Text>
-          </Box>
-
+          Mental Health Resources Should Reach Everyone.
+        </Heading>
+        <Heading
+          as="h2"
+          size="md"
+          color="primary.800"
+          opacity="0.8"
+          fontWeight="normal"
+          lineHeight={1.5}
+          textAlign={["center", "center", "left", "left"]}
+        >
+          Amplify the impact of your mental health initiatives through collaboration.
+        </Heading>
           <NavigationButton
-            backgroundColor="#192873"
-            navigationLink=""
-            buttonText="Learn more"
-            height="6vh"
-            width="34.2vw"
-          ></NavigationButton>
-        </VStack>
-
-        <Box w="7.7vw" h="89.7vh"></Box>
-
-        <HStack w="41vw" h="89.7vh">
-          <VStack
-            w="19.3vw"
-            h="89.7vh"
-            divider={<StackDivider borderColor="whiteAlpha.400" />}
-            spacing={4}
-            align="stretch"
-          >
-            <Center w="19.3vw" h="25.4vh"></Center>
-
-            <Center w="19.3vw" h="35.9vh">
-              <Image src={require("../../../assets/images/homeIcon1.png")} />
-            </Center>
-
-            <Center w="19.3vw" h="28.4vh"></Center>
-          </VStack>
-
-          <Center w="2.4vw" h="89.7vh"></Center>
-
-          <VStack
-            w="19.3vw"
-            h="89.7vh"
-            divider={<StackDivider borderColor="whiteAlpha.400" />}
-            spacing={4}
-            align="stretch"
-          >
-            <Center w="19.3vw" h="5.2vh" />
-
-            <Center w="19.3vw" h="35.9vh">
-              <Image src={require("../../../assets/images/homeIcon0.png")} />
-            </Center>
-
-            <Center w="19.3vw" h="2.4vh" />
-
-            <Center w="19.3vw" h="35.9vh">
-              <Image src={require("../../../assets/images/homeIcon2.png")} />
-            </Center>
-
-            <Center w="19.3vw" h="10.3vh" />
-          </VStack>
-        </HStack>
-      </Flex>
-
-      <Center w="8vw" h="89.7vh" />
-    </Flex>
-  );
+                size='md'
+                width='200px'
+                borderRadius='18px'
+                backgroundColor="#192873"
+                navigationLink=""
+                buttonText="View Organization"
+                height="6vh"
+                _hover={{ bg: '#ebedf0' }}
+                _active={{
+                  bg: '#dddfe2',
+                  transform: 'scale(0.98)',
+                  borderColor: '#bec3c9',
+                }}
+                _focus={{
+                  boxShadow:
+                    '0 0 1px 2px rgba(255, 255, 255, .5), 0 10px 10px rgba(0, 0, 0, .15)',
+                }}
+              />
+      </Stack>
+      <Box w={{ base: "80%", sm: "60%", md: "50%" }} mb={{ base: 12, md: 0 }}>
+        <Image src={require("../../../assets/images/3dcolleagues1.png")}/>
+      </Box>
+    </Flex >
+  )
 }
