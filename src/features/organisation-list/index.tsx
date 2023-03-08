@@ -230,7 +230,7 @@ const OrganisationList: React.FC = () => {
           onChange={(option) => setViewOption(option)}
           viewOption={viewOption}
         />
-        <Flex direction={"column"}>
+        <Flex w="full" direction={"column"}>
           {isLoading ? (
             <Spinner
               thickness="4px"
