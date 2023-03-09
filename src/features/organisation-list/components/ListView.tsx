@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Table,
   TableContainer,
@@ -37,8 +37,8 @@ const ListView: React.FC<{ organisationList: Organisation[] }> = ({
   const [bgColor, setBgColor] = useState<string>();
 
   return (
-    <TableContainer>
-      <Table variant="simple">
+    <TableContainer maxW="full" whiteSpace="normal">
+      <Table variant="orgListings">
         {/* <TableCaption>Imperial to metric conversion factors</TableCaption> */}
         <Thead>
           <Tr>
@@ -57,15 +57,17 @@ const ListView: React.FC<{ organisationList: Organisation[] }> = ({
                 onClick={() => navigate(`/organisations/${organisation.id}`)}
                 style={{ cursor: "pointer" }}
               >
-                <Td>{index} name</Td>
-                <Td>{organisation.description}</Td>
-                <Td>
+                <Td fontWeight="700" fontSize="16px" w="20%">
+                  {organisation.name}
+                </Td>
+                <Td w="25%">{organisation.description}</Td>
+                <Td w="10%">
                   {!!organisation.verified &&
                     verifiedUIMap[organisation.verified]}
                 </Td>
-                <Td>{organisation.mainSpecialisation}</Td>
-                <Td>{organisation.mainSupportArea}</Td>
-                <Td>
+                <Td w="15%">{organisation.mainSpecialisation}</Td>
+                <Td w="15%">{organisation.mainSupportArea}</Td>
+                <Td w="15%">
                   {!!organisation.ipcApproved &&
                     ipcUIMap[organisation.ipcApproved]}
                 </Td>
