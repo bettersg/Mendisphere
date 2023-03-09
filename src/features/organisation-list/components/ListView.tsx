@@ -62,16 +62,10 @@ const ListView: React.FC<{ organisationList: Organisation[] }> = ({
                   {organisation.name}
                 </Td>
                 <Td>{organisation.description}</Td>
-                <Td>
-                  {!!organisation.verified &&
-                    verifiedUIMap[organisation.verified]}
-                </Td>
+                <Td>{verifiedUIMap[organisation.verified]}</Td>
                 <Td>{organisation.mainSpecialisation}</Td>
                 <Td>{organisation.mainSupportArea}</Td>
-                <Td>
-                  {!!organisation.ipcApproved &&
-                    ipcUIMap[organisation.ipcApproved]}
-                </Td>
+                <Td>{ipcUIMap[organisation.ipcApproved]}</Td>
               </Tr>
             );
           })}
