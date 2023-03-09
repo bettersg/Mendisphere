@@ -39,7 +39,6 @@ const ListView: React.FC<{ organisationList: Organisation[] }> = ({
   return (
     <TableContainer maxW="full" whiteSpace="normal">
       <Table variant="orgListings">
-        {/* <TableCaption>Imperial to metric conversion factors</TableCaption> */}
         <Thead>
           <Tr>
             <Th w="18%">ORGANISATION</Th>
@@ -54,7 +53,9 @@ const ListView: React.FC<{ organisationList: Organisation[] }> = ({
           {organisationList.map((organisation, index) => {
             return (
               <Tr
-                onClick={() => navigate(`/organisations/${organisation.id}`)}
+                onClick={() =>
+                  window.open(`/organisations/${organisation.id}`, "_blank")
+                }
                 style={{ cursor: "pointer" }}
               >
                 <Td fontWeight="700" fontSize="16px">
