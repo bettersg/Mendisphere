@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import {
   Table,
   TableContainer,
@@ -42,12 +42,12 @@ const ListView: React.FC<{ organisationList: Organisation[] }> = ({
         {/* <TableCaption>Imperial to metric conversion factors</TableCaption> */}
         <Thead>
           <Tr>
-            <Th>ORGANISATION</Th>
-            <Th>DESCRIPTION</Th>
-            <Th>VERIFIED?</Th>
-            <Th>FOCUSES ON</Th>
-            <Th>LOOKING FOR</Th>
-            <Th>IPC STATUS</Th>
+            <Th w="18%">ORGANISATION</Th>
+            <Th w="28%">DESCRIPTION</Th>
+            <Th w="11%">VERIFIED?</Th>
+            <Th w="15%">FOCUSES ON</Th>
+            <Th w="16%">LOOKING FOR</Th>
+            <Th w="12%">IPC STATUS</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -57,17 +57,17 @@ const ListView: React.FC<{ organisationList: Organisation[] }> = ({
                 onClick={() => navigate(`/organisations/${organisation.id}`)}
                 style={{ cursor: "pointer" }}
               >
-                <Td fontWeight="700" fontSize="16px" w="20%">
+                <Td fontWeight="700" fontSize="16px">
                   {organisation.name}
                 </Td>
-                <Td w="25%">{organisation.description}</Td>
-                <Td w="10%">
+                <Td>{organisation.description}</Td>
+                <Td>
                   {!!organisation.verified &&
                     verifiedUIMap[organisation.verified]}
                 </Td>
-                <Td w="15%">{organisation.mainSpecialisation}</Td>
-                <Td w="15%">{organisation.mainSupportArea}</Td>
-                <Td w="15%">
+                <Td>{organisation.mainSpecialisation}</Td>
+                <Td>{organisation.mainSupportArea}</Td>
+                <Td>
                   {!!organisation.ipcApproved &&
                     ipcUIMap[organisation.ipcApproved]}
                 </Td>
