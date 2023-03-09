@@ -14,6 +14,7 @@ import { Animate } from "./components/ScrollAnimation";
 import { ReactComponent as HomeIcon3 } from "../../assets/icons/homeIcon3.svg";
 import { useNavigate } from "react-router-dom";
 import { styles } from "./styles";
+import FrontSupport from "./components/FrontSupport";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -23,6 +24,8 @@ const Home: React.FC = () => {
       <Box><NavigationBar /></Box>
 
       <Box minHeight="50vh"><FrontPage/></Box>
+
+      <Box><FrontSupport/></Box>
       <Animate.FadeUp>
         <Box style={styles.box1}>
           <Flex direction={"row"}>
