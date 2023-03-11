@@ -21,7 +21,7 @@ const Home: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <VStack className="page-width page-padding" spacing={10} align="stretch">
+    <VStack className="page-width page-padding" align="stretch">
       <Box paddingTop="30px">
         <NavigationBar />
       </Box>
@@ -30,32 +30,40 @@ const Home: React.FC = () => {
         <FrontPage />
       </Box>
 
-      <Box>
+      <Box
+        className="maximise-width"
+        bgGradient="linear-gradient(0deg, #E0E5FF 43.75%, rgba(224, 229, 255, 0) 100%);"
+      >
         <FrontSupport />
       </Box>
+
       <Animate.FadeUp>
-        <Box style={styles.box1}>
-          <Flex direction={"row"}>
-            <HomeIcon3 />
-            <Flex direction={"column"} style={{ paddingLeft: 52 }}>
-              <Text style={{ fontSize: 80, color: "#F5F5F5", fontWeight: 700 }}>
-                Together we can go further.
-              </Text>
-              <Text
-                style={{
-                  fontSize: 32,
-                  color: "#F5F5F5",
-                  fontWeight: 400,
-                  paddingTop: 16,
-                }}
-              >
-                Mendisphere connects non-profits focusing on mental health with
-                the support they need to maximise their impact and reach more
-                people.
-              </Text>
-              <Center style={styles.whiteButton1}>Our Story</Center>
+        <Box className="maximise-width" style={styles.box1}>
+          <Box className="page-width page-padding">
+            <Flex direction={"row"}>
+              <HomeIcon3 />
+              <Flex direction={"column"} style={{ paddingLeft: 52 }}>
+                <Text
+                  style={{ fontSize: 80, color: "#F5F5F5", fontWeight: 700 }}
+                >
+                  Together we can go further.
+                </Text>
+                <Text
+                  style={{
+                    fontSize: 32,
+                    color: "#F5F5F5",
+                    fontWeight: 400,
+                    paddingTop: 16,
+                  }}
+                >
+                  Mendisphere connects non-profits focusing on mental health
+                  with the support they need to maximise their impact and reach
+                  more people.
+                </Text>
+                <Center style={styles.whiteButton1}>Our Story</Center>
+              </Flex>
             </Flex>
-          </Flex>
+          </Box>
         </Box>
       </Animate.FadeUp>
       <Animate.FadeUp>

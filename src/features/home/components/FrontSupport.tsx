@@ -10,31 +10,45 @@ import {
   Image,
   AspectRatio,
   useMediaQuery,
+  Box,
 } from "@chakra-ui/react";
 
 export default function FrontSupport() {
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
 
+  const customHeadingProps = {
+    paddingTop: "10px",
+    fontWeight: 400,
+    fontSize: "xl",
+    textAlign: "center" as const,
+  };
+
+  const customButtonProps = {
+    width: "100%",
+    backgroundColor: "#192873",
+    color: "#ffffff",
+    "&:hover": {
+      bg: "rgba(224, 229, 255, 0)",
+      color: "black",
+    },
+  };
+
   return (
-    <Card
-      p="4"
-      m="4"
-      variant="unstyled"
-      bgGradient="linear(to-t, #E0E5FF, white)"
-    >
-      <CardHeader
+    <Box className="page-width page-padding" paddingBottom="100px">
+      <Heading
         m="4"
         fontSize={["lg", "2xl", "4xl", "6xl"]}
         textAlign="center"
         fontWeight="bold"
+        paddingBottom="100px"
       >
         Support Your Way
-      </CardHeader>
+      </Heading>
       <SimpleGrid
         templateColumns={isLargerThan768 ? "repeat(3, 1fr)" : "1fr"}
         gap={4}
       >
-        <Card>
+        <Card boxShadow="none">
           <CardHeader>
             <AspectRatio h="300px" ratio={3 / 3}>
               <Image
@@ -43,9 +57,7 @@ export default function FrontSupport() {
                 src={require("../../../assets/images/3dgirlwithcoins.png")}
               />
             </AspectRatio>
-            <Heading size="md" textAlign="center">
-              Contribute
-            </Heading>
+            <Heading style={customHeadingProps}>Contribute</Heading>
           </CardHeader>
           <CardBody>
             <Text>
@@ -55,10 +67,10 @@ export default function FrontSupport() {
             </Text>
           </CardBody>
           <CardFooter>
-            <Button>Learn More</Button>
+            <Button sx={customButtonProps}>Learn More</Button>
           </CardFooter>
         </Card>
-        <Card>
+        <Card boxShadow="none">
           <CardHeader>
             <AspectRatio maxH="300px" ratio={3 / 3}>
               <Image
@@ -66,10 +78,7 @@ export default function FrontSupport() {
                 src={require("../../../assets/images/3dgirlcollab.png")}
               />
             </AspectRatio>
-            <Heading size="md" textAlign="center">
-              {" "}
-              Collaborate
-            </Heading>
+            <Heading style={customHeadingProps}> Collaborate</Heading>
           </CardHeader>
           <CardBody>
             <Text>
@@ -79,10 +88,10 @@ export default function FrontSupport() {
             </Text>
           </CardBody>
           <CardFooter>
-            <Button>Learn More</Button>
+            <Button sx={customButtonProps}>Learn More</Button>
           </CardFooter>
         </Card>
-        <Card>
+        <Card boxShadow="none">
           <AspectRatio h="300px" ratio={3 / 3}>
             <Image
               boxSize="150px"
@@ -91,9 +100,7 @@ export default function FrontSupport() {
             />
           </AspectRatio>
           <CardHeader>
-            <Heading size="md" textAlign="center">
-              Volunteer
-            </Heading>
+            <Heading style={customHeadingProps}>Volunteer</Heading>
           </CardHeader>
           <CardBody>
             <Text>
@@ -102,10 +109,10 @@ export default function FrontSupport() {
             </Text>
           </CardBody>
           <CardFooter>
-            <Button>Learn More</Button>
+            <Button sx={customButtonProps}>Learn More</Button>
           </CardFooter>
         </Card>
       </SimpleGrid>
-    </Card>
+    </Box>
   );
 }
