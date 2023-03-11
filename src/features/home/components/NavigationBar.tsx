@@ -1,20 +1,10 @@
 import { useState } from "react";
-import {
-  Box,
-  Flex,
-  HStack,
-  IconButton,
-  useDisclosure,
-  useColorModeValue,
-  Stack,
-  Link
-} from "@chakra-ui/react";
+import { Box, Flex, HStack, IconButton, Stack, Link } from "@chakra-ui/react";
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { Link as ReactRouterLink } from "react-router-dom";
 import NavigationButton from "./NavigationButton";
 
 const Navigation = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [mobileNav, setMobileNav] = useState(false);
 
   const toggleMobileNav = () => {
@@ -22,17 +12,21 @@ const Navigation = () => {
   };
 
   return (
-    <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
+    <Box px={4}>
       <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
-        <Box>
-          Logo
-        </Box>
+        <Box>Logo</Box>
         <HStack spacing={8} alignItems={"center"}>
           <HStack
+            paddingRight="100px"
             as={"nav"}
-            spacing={4}
+            spacing="80px"
+            fontSize="sm"
+            fontWeight="700"
             display={{ base: "none", md: "flex" }}
           >
+            <Link as={ReactRouterLink} to={"/about"} fontFamily={"Inter"}>
+              About
+            </Link>
             <Link
               as={ReactRouterLink}
               to={"/organisations"}
@@ -40,18 +34,7 @@ const Navigation = () => {
             >
               Organisations
             </Link>
-            <Link
-              as={ReactRouterLink}
-              to={"/applyforservices"}
-              fontFamily={"Inter"}
-            >
-              Apply for Services
-            </Link>
-            <Link
-              as={ReactRouterLink}
-              to={"/contactus"}
-              fontFamily={"Inter"}
-            >
+            <Link as={ReactRouterLink} to={"/contactus"} fontFamily={"Inter"}>
               Contact Us
             </Link>
           </HStack>
@@ -62,28 +45,28 @@ const Navigation = () => {
               alignItems={"center"}
               display={{ base: "none", md: "flex" }}
             >
-            <NavigationButton
-              backgroundColor="#192873"
-              navigationLink="/login"
-              buttonText="Log in"
-              height="6vh"
-              width="9vw"
-            />
-            <NavigationButton
-              backgroundColor="#192873"
-              navigationLink=""
-              buttonText="Sign up"
-              height="6vh"
-              width="9vw"
-            />
-            </HStack>
-              <IconButton
-                size={"md"}
-                icon={mobileNav ? <CloseIcon /> : <HamburgerIcon />}
-                aria-label={"Open Menu"}
-                display={{ md: "none" }}
-                onClick={toggleMobileNav}
+              <NavigationButton
+                backgroundColor="#192873"
+                navigationLink="/login"
+                buttonText="Log in"
+                height="6vh"
+                width="9vw"
               />
+              <NavigationButton
+                backgroundColor="#192873"
+                navigationLink=""
+                buttonText="Sign up"
+                height="6vh"
+                width="9vw"
+              />
+            </HStack>
+            <IconButton
+              size={"md"}
+              icon={mobileNav ? <CloseIcon /> : <HamburgerIcon />}
+              aria-label={"Open Menu"}
+              display={{ md: "none" }}
+              onClick={toggleMobileNav}
+            />
           </Flex>
         </HStack>
       </Flex>
@@ -105,11 +88,7 @@ const Navigation = () => {
             >
               Apply for Services
             </Link>
-            <Link
-              as={ReactRouterLink}
-              to={"/contactus"}
-              fontFamily={"Inter"}
-            >
+            <Link as={ReactRouterLink} to={"/contactus"} fontFamily={"Inter"}>
               Contact Us
             </Link>
             <Stack direction={"row"} spacing={4} alignItems={"center"}>

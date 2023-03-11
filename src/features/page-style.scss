@@ -4,8 +4,8 @@
 }
 
 .page-padding {
-  padding-left: 9vw;
-  padding-right: 9vw;
+  padding-left: min(9vw, 120px);
+  padding-right: min(9vw, 120px);
   width: 100%;
 }
 
