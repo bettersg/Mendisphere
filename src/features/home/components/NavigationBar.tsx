@@ -17,9 +17,10 @@ const Navigation = () => {
         <Box>Logo</Box>
         <HStack spacing={8} alignItems={"center"}>
           <HStack
-            paddingRight="175px"
+            paddingRight="100px"
             as={"nav"}
-            spacing={20}
+            spacing="80px"
+            fontSize="sm"
             fontWeight="700"
             display={{ base: "none", md: "flex" }}
           >

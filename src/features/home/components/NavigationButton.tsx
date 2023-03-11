@@ -6,14 +6,11 @@ export default function NavigationButton(props: any) {
     <Link to={props.navigationLink}>
       <Box
         as="button"
-        fontFamily={"Inter"}
         height={props.height}
         width={props.width}
-        lineHeight="1.2"
         transition="all 0.2s cubic-bezier(.08,.52,.52,1)"
         border="1px"
-        px="8px"
-        borderRadius="4px"
+        borderRadius="8px"
         fontSize="12px"
         fontWeight="700"
         bg={props.backgroundColor}
