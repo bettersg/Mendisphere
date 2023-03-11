@@ -14,12 +14,12 @@ export default function FrontPage() {
       <Stack
         spacing={4}
         paddingTop="48px"
-        w={{ base: "80%", md: "40%" }}
+        w={{ base: "100%", md: "60%" }}
         align={["center", "center", "flex-start", "flex-start"]}
       >
         <Heading
           as="h1"
-          size={["md", "lg", "xl", "3xl"]}
+          fontSize={["md", "lg", "xl", "80px"]}
           fontWeight="bold"
           color="primary.800"
           textAlign={["center", "center", "left", "left"]}
@@ -59,7 +59,11 @@ export default function FrontPage() {
           }}
         />
       </Stack>
-      <Box w={{ base: "80%", sm: "60%", md: "50%" }} mb={{ base: 12, md: 0 }}>
+      <Box
+        paddingTop="300px"
+        w={{ base: "80%", sm: "60%", md: "50%" }}
+        mb={{ base: 12, md: 0 }}
+      >
         <Image src={require("../../../assets/images/3dcolleagues1.png")} />
       </Box>
     </Flex>
