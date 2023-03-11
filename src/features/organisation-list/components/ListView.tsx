@@ -37,38 +37,35 @@ const ListView: React.FC<{ organisationList: Organisation[] }> = ({
   const [bgColor, setBgColor] = useState<string>();
 
   return (
-    <TableContainer>
-      <Table variant="simple">
-        {/* <TableCaption>Imperial to metric conversion factors</TableCaption> */}
+    <TableContainer maxW="full" whiteSpace="normal">
+      <Table variant="orgListings">
         <Thead>
           <Tr>
-            <Th>ORGANISATION</Th>
-            <Th>DESCRIPTION</Th>
-            <Th>VERIFIED?</Th>
-            <Th>FOCUSES ON</Th>
-            <Th>LOOKING FOR</Th>
-            <Th>IPC STATUS</Th>
+            <Th w="18%">ORGANISATION</Th>
+            <Th w="28%">DESCRIPTION</Th>
+            <Th w="11%">VERIFIED?</Th>
+            <Th w="15%">FOCUSES ON</Th>
+            <Th w="16%">LOOKING FOR</Th>
+            <Th w="12%">IPC STATUS</Th>
           </Tr>
         </Thead>
         <Tbody>
           {organisationList.map((organisation, index) => {
             return (
               <Tr
-                onClick={() => navigate(`/organisations/${organisation.id}`)}
+                onClick={() =>
+                  window.open(`/organisations/${organisation.id}`, "_blank")
+                }
                 style={{ cursor: "pointer" }}
               >
-                <Td>{index} name</Td>
-                <Td>{organisation.description}</Td>
-                <Td>
-                  {!!organisation.verified &&
-                    verifiedUIMap[organisation.verified]}
+                <Td fontWeight="700" fontSize="16px">
+                  {organisation.name}
                 </Td>
+                <Td>{organisation.description}</Td>
+                <Td>{verifiedUIMap[organisation.verified]}</Td>
                 <Td>{organisation.mainSpecialisation}</Td>
                 <Td>{organisation.mainSupportArea}</Td>
-                <Td>
-                  {!!organisation.ipcApproved &&
-                    ipcUIMap[organisation.ipcApproved]}
-                </Td>
+                <Td>{ipcUIMap[organisation.ipcApproved]}</Td>
               </Tr>
             );
           })}
