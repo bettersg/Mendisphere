@@ -9,23 +9,33 @@ const box1 = {
 const whiteButton1 = {
   backgroundColor: "#FFFFFF",
   borderRadius: 4,
-  height: 48,
+  height: 12,
   width: 171,
-  marginTop: 44,
+  marginTop: 8,
   fontSize: 12,
   color: "#3959FF",
   fontWeight: 700,
+  "&:hover": {
+    bg: "rgba(224, 229, 255, 0)",
+    color: "#FFFFFF",
+    border: "1px solid #FFFFFF",
+  },
 };
 const whiteButton2 = {
   backgroundColor: "#FFFFFF",
   borderRadius: 4,
-  height: 48,
+  height: 12,
   width: 335,
   fontSize: 14,
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
   marginBottom: 96,
+  "&:hover": {
+    bg: "rgba(224, 229, 255, 0)",
+    color: "black",
+    border: "1px solid #192873",
+  },
 };
 
 const headerLarge = {
@@ -34,19 +44,25 @@ const headerLarge = {
   paddingTop: 96,
   paddingBottom: 72,
   alignSelf: "center",
+  textAlign: "center" as const,
 };
 
 const blueButton = {
   backgroundColor: "#192873",
   borderRadius: 4,
-  height: 48,
+  height: 12,
   width: 335,
   fontSize: 14,
   color: "#FFFFFF",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  marginBottom: 96,
+  marginBottom: 16,
+  "&:hover": {
+    bg: "rgba(224, 229, 255, 0)",
+    color: "black",
+    border: "1px solid #192873",
+  },
 };
 
 const headerSmall = {
@@ -57,7 +73,6 @@ const headerSmall = {
 const imageContainer = {
   width: "70%",
   justifyContent: "space-between",
-  marginBottom: 72,
 };
 
 export const styles = {

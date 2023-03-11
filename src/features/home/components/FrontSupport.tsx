@@ -30,6 +30,7 @@ export default function FrontSupport() {
     "&:hover": {
       bg: "rgba(224, 229, 255, 0)",
       color: "black",
+      border: "1px solid #192873",
     },
   };
 

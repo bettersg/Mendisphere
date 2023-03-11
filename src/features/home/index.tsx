@@ -7,6 +7,7 @@ import {
   VStack,
   Image,
   HStack,
+  Spacer,
 } from "@chakra-ui/react";
 import FrontPage from "./components/FrontPage";
 import NavigationBar from "./components/NavigationBar";
@@ -65,7 +66,9 @@ const Home: React.FC = () => {
                   with the support they need to maximise their impact and reach
                   more people.
                 </Text>
-                <Center style={styles.whiteButton1}>Our Story</Center>
+                <Center>
+                  <Button sx={styles.whiteButton1}>Our Story</Button>
+                </Center>
               </VStack>
             </HStack>
           </Box>
@@ -83,7 +86,7 @@ const Home: React.FC = () => {
           </Center>
           <div style={{ alignSelf: "center" }}>
             <Center>
-              <Box style={styles.blueButton}>Read Testimonials</Box>
+              <Box sx={styles.blueButton}>Read Testimonials</Box>
             </Center>
           </div>
         </Box>
@@ -92,13 +95,28 @@ const Home: React.FC = () => {
         <Box>
           <Center style={styles.headerSmall}>Organisation Partners</Center>
           <Center>
-            <Flex direction={"row"} style={styles.imageContainer}>
-              <Image src={require("../../assets/images/Partner1.png")} />
-              <Image src={require("../../assets/images/Partner2.png")} />
-              <Image src={require("../../assets/images/Partner3.png")} />
-              <Image src={require("../../assets/images/Partner4.png")} />
-              <Image src={require("../../assets/images/Partner5.png")} />
-            </Flex>
+            <HStack w="100%" style={styles.imageContainer}>
+              <Image
+                w="15%"
+                src={require("../../assets/images/Partner1.png")}
+              />
+              <Image
+                w="15%"
+                src={require("../../assets/images/Partner2.png")}
+              />
+              <Image
+                w="15%"
+                src={require("../../assets/images/Partner3.png")}
+              />
+              <Image
+                w="15%"
+                src={require("../../assets/images/Partner4.png")}
+              />
+              <Image
+                w="15%"
+                src={require("../../assets/images/Partner5.png")}
+              />
+            </HStack>
           </Center>
         </Box>
       </Animate.FadeUp>
@@ -107,25 +125,25 @@ const Home: React.FC = () => {
           <Center style={styles.headerLarge}>
             The Latest on Mental Health
           </Center>
-          <Center>
-            <Flex direction={"row"} style={styles.imageContainer}>
-              <Image
-                src={require("../../assets/images/NPMHOStory1.png")}
-                style={{ borderRadius: 12 }}
-              />
-              <Image
-                src={require("../../assets/images/NPMHOStory2.png")}
-                style={{ borderRadius: 12 }}
-              />
-              <Image
-                src={require("../../assets/images/NPMHOStory3.png")}
-                style={{ borderRadius: 12 }}
-              />
-            </Flex>
-          </Center>
+          <HStack style={styles.imageContainer}>
+            <Image
+              src={require("../../assets/images/NPMHOStory1.png")}
+              style={{ borderRadius: 12 }}
+            />
+            <Image
+              src={require("../../assets/images/NPMHOStory2.png")}
+              style={{ borderRadius: 12 }}
+            />
+            <Image
+              src={require("../../assets/images/NPMHOStory3.png")}
+              style={{ borderRadius: 12 }}
+            />
+          </HStack>
           <div style={{ alignSelf: "center" }}>
             <Center>
-              <Box style={styles.blueButton}>Explore our Blog</Box>
+              <Box marginTop="12" sx={styles.blueButton}>
+                Explore our Blog
+              </Box>
             </Center>
           </div>
         </Box>
@@ -160,7 +178,7 @@ const Home: React.FC = () => {
             <div style={{ alignSelf: "center", paddingRight: 24 }}>
               <Center>
                 <Button
-                  style={styles.blueButton}
+                  sx={styles.blueButton}
                   // TODO registerPage path onClick={this.navigate()}
                 >
                   Join Mendisphere
@@ -170,7 +188,7 @@ const Home: React.FC = () => {
             <div style={{ alignSelf: "center", paddingRight: 240 }}>
               <Center>
                 <Button
-                  style={styles.whiteButton2}
+                  sx={styles.whiteButton2}
                   onClick={() => navigate("/organisations")}
                 >
                   For Corporates
