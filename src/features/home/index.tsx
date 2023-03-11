@@ -8,6 +8,7 @@ import {
   Image,
   HStack,
   Spacer,
+  Heading,
 } from "@chakra-ui/react";
 import FrontPage from "./components/FrontPage";
 import NavigationBar from "./components/NavigationBar";
@@ -75,7 +76,7 @@ const Home: React.FC = () => {
         </Box>
       </Animate.FadeUp>
       <Animate.FadeUp>
-        <Box>
+        <Box pb="16">
           <Center style={styles.headerLarge}>
             Driving Outcomes that Matter to You
           </Center>
@@ -121,7 +122,7 @@ const Home: React.FC = () => {
         </Box>
       </Animate.FadeUp>
       <Animate.FadeUp>
-        <Box>
+        <Box pb="16">
           <Center style={styles.headerLarge}>
             The Latest on Mental Health
           </Center>
@@ -150,56 +151,57 @@ const Home: React.FC = () => {
       </Animate.FadeUp>
       <Animate.FadeUp>
         <Box
+          className="maximise-width"
           style={{ paddingTop: 96, paddingLeft: 120 }}
-          bgGradient="linear(to-r, #FFFFFF 0%, #3959FF 61.8%, #3959FF 100%, #3959FF 100%)"
+          bgGradient="linear-gradient(270deg, #3959FF 2.22%, #3959FF 2.23%, rgba(57, 89, 255, 0.618) 30.5%, rgba(255, 255, 255, 0) 99.17%);"
         >
-          <div
-            style={{
-              fontSize: 80,
-              fontWeight: 700,
-              paddingBottom: 24,
-              alignSelf: "center",
-            }}
-          >
-            Lead the Charge for Mental Wellness
-          </div>
-          <div
-            style={{
-              fontSize: 32,
-              fontWeight: 400,
-              paddingTop: 16,
-              paddingBottom: 48,
-            }}
-          >
-            Advance mental health support in Singapore by collaborating with
-            non-profits making a difference.
-          </div>
-          <Flex direction={"row"}>
-            <div style={{ alignSelf: "center", paddingRight: 24 }}>
-              <Center>
-                <Button
-                  sx={styles.blueButton}
-                  // TODO registerPage path onClick={this.navigate()}
+          <Box className="page-width page-padding" pb="16">
+            <HStack w="100%">
+              <VStack w="65%">
+                <Heading
+                  style={{
+                    fontSize: 80,
+                    fontWeight: 700,
+                    paddingBottom: 24,
+                    alignSelf: "center",
+                  }}
                 >
-                  Join Mendisphere
-                </Button>
-              </Center>
-            </div>
-            <div style={{ alignSelf: "center", paddingRight: 240 }}>
-              <Center>
-                <Button
-                  sx={styles.whiteButton2}
-                  onClick={() => navigate("/organisations")}
+                  Lead the Charge for Mental Wellness
+                </Heading>
+                <Text
+                  style={{
+                    fontSize: 32,
+                    fontWeight: 400,
+                    paddingTop: 16,
+                    paddingBottom: 48,
+                  }}
                 >
-                  For Corporates
-                </Button>
-              </Center>
-            </div>
-            <Image src={require("../../assets/images/homeIcon4.png")} />
-          </Flex>
+                  Advance mental health support in Singapore by collaborating
+                  with non-profits making a difference.
+                </Text>
+                <HStack>
+                  <Button
+                    sx={styles.blueButton}
+                    // TODO registerPage path onClick={this.navigate()}
+                  >
+                    Join Mendisphere
+                  </Button>
+                  <Button
+                    sx={styles.whiteButton2}
+                    onClick={() => navigate("/organisations")}
+                  >
+                    For Corporates
+                  </Button>
+                </HStack>
+              </VStack>
+              <Box>
+                <Image src={require("../../assets/images/homeIcon4.png")} />
+              </Box>
+            </HStack>
+          </Box>
         </Box>
       </Animate.FadeUp>
-      <Box minH="37.33vh">
+      <Box className="maximise-width" minH="37.33vh">
         <Footer />
       </Box>
     </VStack>

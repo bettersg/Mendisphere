@@ -33,8 +33,8 @@ const whiteButton2 = {
   marginBottom: 96,
   "&:hover": {
     bg: "rgba(224, 229, 255, 0)",
-    color: "black",
-    border: "1px solid #192873",
+    color: "white",
+    border: "1px solid #FFFFFF",
   },
 };
 
@@ -57,7 +57,6 @@ const blueButton = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  marginBottom: 16,
   "&:hover": {
     bg: "rgba(224, 229, 255, 0)",
     color: "black",
