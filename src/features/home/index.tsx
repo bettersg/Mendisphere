@@ -14,18 +14,25 @@ import { Animate } from "./components/ScrollAnimation";
 import { ReactComponent as HomeIcon3 } from "../../assets/icons/homeIcon3.svg";
 import { useNavigate } from "react-router-dom";
 import { styles } from "./styles";
+import "../page-style.scss";
 import FrontSupport from "./components/FrontSupport";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <VStack spacing={10} align="stretch">
-      <Box><NavigationBar /></Box>
+    <VStack className="page-width" spacing={10} align="stretch">
+      <Box paddingTop="30px">
+        <NavigationBar />
+      </Box>
 
-      <Box minHeight="50vh"><FrontPage/></Box>
+      <Box minHeight="50vh">
+        <FrontPage />
+      </Box>
 
-      <Box><FrontSupport/></Box>
+      <Box>
+        <FrontSupport />
+      </Box>
       <Animate.FadeUp>
         <Box style={styles.box1}>
           <Flex direction={"row"}>
