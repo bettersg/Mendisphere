@@ -42,7 +42,7 @@ export default function FrontSupport() {
         fontWeight="bold"
         paddingBottom="100px"
       >
-        Support Your Way
+        Support your way
       </Heading>
       <SimpleGrid
         templateColumns={isLargerThan768 ? "repeat(3, 1fr)" : "1fr"}

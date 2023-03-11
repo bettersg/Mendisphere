@@ -6,6 +6,7 @@ import {
   Button,
   VStack,
   Image,
+  HStack,
 } from "@chakra-ui/react";
 import FrontPage from "./components/FrontPage";
 import NavigationBar from "./components/NavigationBar";
@@ -40,13 +41,17 @@ const Home: React.FC = () => {
       <Animate.FadeUp>
         <Box className="maximise-width" style={styles.box1}>
           <Box className="page-width page-padding">
-            <Flex direction={"row"}>
+            <HStack spacing="52px">
               <HomeIcon3 />
-              <Flex direction={"column"} style={{ paddingLeft: 52 }}>
+              <VStack width="70%">
                 <Text
-                  style={{ fontSize: 80, color: "#F5F5F5", fontWeight: 700 }}
+                  style={{
+                    fontSize: 70,
+                    color: "#F5F5F5",
+                    fontWeight: 700,
+                  }}
                 >
-                  Together we can go further.
+                  Together, we can go further.
                 </Text>
                 <Text
                   style={{
@@ -61,8 +66,8 @@ const Home: React.FC = () => {
                   more people.
                 </Text>
                 <Center style={styles.whiteButton1}>Our Story</Center>
-              </Flex>
-            </Flex>
+              </VStack>
+            </HStack>
           </Box>
         </Box>
       </Animate.FadeUp>
