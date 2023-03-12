@@ -23,7 +23,12 @@ import { Spinner } from "@chakra-ui/react";
 import OrgBreadCrumb from "../common/orgBreadCrumb";
 import "../page-style.scss";
 import { MultiSelect } from "react-multi-select-component";
-import { ipcOptions, serviceOptions, specialisationsOptions, supportAreaOptions } from "./const";
+import {
+  ipcOptions,
+  serviceOptions,
+  specialisationsOptions,
+  supportAreaOptions,
+} from "./const";
 
 export enum EViewOption {
   Card = "card",
@@ -39,7 +44,7 @@ interface Option {
 
 const updateFilters = (arr: any[]) => {
   return arr.length > 0 ? arr.map((obj) => obj.value) : undefined;
-}
+};
 
 const OrganisationList: React.FC = () => {
   // store organisation card data
@@ -47,10 +52,10 @@ const OrganisationList: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [viewOption, setViewOption] = useState<EViewOption>(EViewOption.Card);
   // states of the 4 filters
-  const [specialisations, setSpecialisations] = useState<Option[]>([])
-  const [services, setServices] = useState<Option[]>([])
-  const [ipcStatus, setIpcStatus] = useState<Option[]>([])
-  const [supportAreas, setSupportAreas] = useState<Option[]>([])
+  const [specialisations, setSpecialisations] = useState<Option[]>([]);
+  const [services, setServices] = useState<Option[]>([]);
+  const [ipcStatus, setIpcStatus] = useState<Option[]>([]);
+  const [supportAreas, setSupportAreas] = useState<Option[]>([]);
   const [filters, setFilters] = useState<OrganisationListingQueryFilters>({
     specialisations: undefined,
     services: undefined,
@@ -64,7 +69,7 @@ const OrganisationList: React.FC = () => {
     // fetch organisation data on page load
     getOrganisationsForListingsPage(filters)
       .then((orgs) => {
-        console.log('orgs', orgs)
+        // console.log('orgs', orgs)
         setOrgList(orgs);
       })
       .then(() => {
@@ -85,8 +90,8 @@ const OrganisationList: React.FC = () => {
       services: updateFilters(services),
       ipcStatus: updateFilters(ipcStatus),
       supportAreas: updateFilters(supportAreas),
-    })
-  }, [specialisations, services, ipcStatus, supportAreas])
+    });
+  }, [specialisations, services, ipcStatus, supportAreas]);
 
   return (
     <VStack className="page-width" justify="center" spacing={0} align="stretch">
@@ -129,8 +134,20 @@ const OrganisationList: React.FC = () => {
           <Text fontSize="xs" color={"#707070"} paddingBottom={1}>
             Filter by
           </Text>
-          <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between'}}>
-            <div style={{flexBasis: 'calc(25% - 10px)', marginBottom: '20px', maxWidth: '25%'}}>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "space-between",
+            }}
+          >
+            <div
+              style={{
+                flexBasis: "calc(25% - 10px)",
+                marginBottom: "20px",
+                maxWidth: "25%",
+              }}
+            >
               Specialisation
               <MultiSelect
                 options={specialisationsOptions}
@@ -139,7 +156,13 @@ const OrganisationList: React.FC = () => {
                 labelledBy="Specialisations"
               />
             </div>
-            <div style={{flexBasis: 'calc(25% - 10px)', marginBottom: '20px', maxWidth: '25%'}}>
+            <div
+              style={{
+                flexBasis: "calc(25% - 10px)",
+                marginBottom: "20px",
+                maxWidth: "25%",
+              }}
+            >
               Services
               <MultiSelect
                 options={serviceOptions}
@@ -148,7 +171,13 @@ const OrganisationList: React.FC = () => {
                 labelledBy="Services"
               />
             </div>
-            <div style={{flexBasis: 'calc(25% - 10px)', marginBottom: '20px', maxWidth: '25%'}}>
+            <div
+              style={{
+                flexBasis: "calc(25% - 10px)",
+                marginBottom: "20px",
+                maxWidth: "25%",
+              }}
+            >
               IPC Registered
               <MultiSelect
                 options={ipcOptions}
@@ -157,7 +186,13 @@ const OrganisationList: React.FC = () => {
                 labelledBy="IPC Registered"
               />
             </div>
-            <div style={{flexBasis: 'calc(25% - 10px)', marginBottom: '20px', maxWidth: '25%'}}>
+            <div
+              style={{
+                flexBasis: "calc(25% - 10px)",
+                marginBottom: "20px",
+                maxWidth: "25%",
+              }}
+            >
               Looking for
               <MultiSelect
                 options={supportAreaOptions}

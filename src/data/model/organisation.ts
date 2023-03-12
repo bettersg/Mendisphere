@@ -11,6 +11,8 @@ import {
   Query,
   query,
   QueryConstraint,
+  getDoc,
+  doc,
 } from "firebase/firestore";
 import { Collections } from "../../services/firebase/names";
 import { db } from "../../services/firebase/firebaseConfig";
@@ -193,6 +195,20 @@ export async function getOrganisationsForListingsPage(
   }
 
   return orgs;
+}
+
+// get an organisation for profile page
+export async function getOrganisationForProfilePage(
+  orgId: string
+): Promise<Organisation | undefined> {
+  console.log(`Getting organisation data for: ${orgId}`);
+  const docRef = doc(
+    db,
+    Collections.organisations,
+    orgId
+  ).withConverter<Organisation>(organisationConverter);
+  const org = (await getDoc(docRef)).data();
+  return org;
 }
 
 // add organisation document to the collection and create Organisation object using the id.

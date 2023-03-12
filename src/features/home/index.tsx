@@ -2,12 +2,10 @@ import {
   Box,
   Text,
   Center,
-  Flex,
   Button,
   VStack,
   Image,
   HStack,
-  Spacer,
   Heading,
 } from "@chakra-ui/react";
 import FrontPage from "./components/FrontPage";
