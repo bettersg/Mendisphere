@@ -103,7 +103,7 @@ export const organisationConverter: FirestoreDataConverter<Organisation> = {
 export type OrganisationListingQueryFilters = {
   specialisations?: MentalHealthIssue[];
   services?: Service[];
-  ipcStatus?: IPCStatus;
+  ipcStatus?: IPCStatus[];
   supportAreas?: SupportArea[];
 };
 // get all organisations in the collection with pagination
@@ -151,7 +151,7 @@ export async function getOrganisationsForListingsPage(
     }
 
     if (filters.ipcStatus !== undefined) {
-      queryConstraints.push(where("ipcApproved", "==", filters.ipcStatus));
+      queryConstraints.push(where("ipcApproved", "in", filters.ipcStatus));
     }
 
     if (filters.supportAreas !== undefined) {

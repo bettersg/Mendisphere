@@ -2,8 +2,6 @@ import {
   Box,
   VStack,
   Text,
-  Select,
-  Grid,
   Flex,
   Image,
   Heading,
@@ -21,17 +19,26 @@ import {
   Organisation,
   OrganisationListingQueryFilters,
 } from "../../data/model/organisation";
-import { MentalHealthIssue } from "../../data/enums/mental-health-issue.enum";
-import { Service } from "../../data/enums/service.enum";
-import { SupportArea } from "../../data/enums/support-area.enum";
-import { IPCStatus, IPCStatusViewMap } from "../../data/enums/ipc-status.enum";
 import { Spinner } from "@chakra-ui/react";
 import OrgBreadCrumb from "../common/orgBreadCrumb";
 import "../page-style.scss";
+import { MultiSelect } from "react-multi-select-component";
+import { ipcOptions, serviceOptions, specialisationsOptions, supportAreaOptions } from "./const";
 
 export enum EViewOption {
   Card = "card",
   List = "list",
+}
+
+interface Option {
+  value: any;
+  label: string;
+  key?: string;
+  disabled?: boolean;
+}
+
+const updateFilters = (arr: any[]) => {
+  return arr.length > 0 ? arr.map((obj) => obj.value) : undefined;
 }
 
 const OrganisationList: React.FC = () => {
@@ -39,6 +46,11 @@ const OrganisationList: React.FC = () => {
   const [orgList, setOrgList] = useState<Organisation[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [viewOption, setViewOption] = useState<EViewOption>(EViewOption.Card);
+  // states of the 4 filters
+  const [specialisations, setSpecialisations] = useState<Option[]>([])
+  const [services, setServices] = useState<Option[]>([])
+  const [ipcStatus, setIpcStatus] = useState<Option[]>([])
+  const [supportAreas, setSupportAreas] = useState<Option[]>([])
   const [filters, setFilters] = useState<OrganisationListingQueryFilters>({
     specialisations: undefined,
     services: undefined,
@@ -52,6 +64,7 @@ const OrganisationList: React.FC = () => {
     // fetch organisation data on page load
     getOrganisationsForListingsPage(filters)
       .then((orgs) => {
+        console.log('orgs', orgs)
         setOrgList(orgs);
       })
       .then(() => {
@@ -65,6 +78,15 @@ const OrganisationList: React.FC = () => {
         console.log(err.message);
       });
   }, [filters]);
+
+  useEffect(() => {
+    setFilters({
+      specialisations: updateFilters(specialisations),
+      services: updateFilters(services),
+      ipcStatus: updateFilters(ipcStatus),
+      supportAreas: updateFilters(supportAreas),
+    })
+  }, [specialisations, services, ipcStatus, supportAreas])
 
   return (
     <VStack className="page-width" justify="center" spacing={0} align="stretch">
@@ -107,114 +129,44 @@ const OrganisationList: React.FC = () => {
           <Text fontSize="xs" color={"#707070"} paddingBottom={1}>
             Filter by
           </Text>
-          <Grid templateColumns="repeat(4, 1fr)" gap={5}>
-            <Select
-              placeholder="Specialisations"
-              bg="#FFFFFF"
-              color="#2D3748"
-              onChange={(e) => {
-                setFilters((previous) => ({
-                  ...previous,
-                  specialisations:
-                    e.target.value === ""
-                      ? undefined
-                      : [e.target.value as MentalHealthIssue],
-                }));
-              }}
-            >
-              <option value={MentalHealthIssue.AntiStigmatism}>
-                {MentalHealthIssue.AntiStigmatism}
-              </option>
-              <option value={MentalHealthIssue.YouthMentalWellness}>
-                {MentalHealthIssue.YouthMentalWellness}
-              </option>
-              <option value={MentalHealthIssue.OCD}>
-                {MentalHealthIssue.OCD}
-              </option>
-              <option value={MentalHealthIssue.OverallMentalWellbeing}>
-                {MentalHealthIssue.AntiStigmatism}
-              </option>
-            </Select>
-            <Select
-              placeholder="Services"
-              bg="#FFFFFF"
-              color="#2D3748"
-              onChange={(e) => {
-                setFilters((previous) => ({
-                  ...previous,
-                  services:
-                    e.target.value === ""
-                      ? undefined
-                      : [e.target.value as Service],
-                }));
-              }}
-            >
-              <option value={Service.Youth}>{Service.Youth}</option>
-              <option value={Service.Workshops}>{Service.Workshops}</option>
-              <option value={Service.OCD}>{Service.OCD}</option>
-              <option value={Service.SupportGroup}>
-                {Service.SupportGroup}
-              </option>
-              <option value={Service.OverallMentalWellbeing}>
-                {Service.OverallMentalWellbeing}
-              </option>
-              <option value={Service.TrainingProvider}>
-                {Service.TrainingProvider}
-              </option>
-              <option value={Service.Counselling}>{Service.Counselling}</option>
-              <option value={Service.SpeakingEngagements}>
-                {Service.SpeakingEngagements}
-              </option>
-              <option value={Service.CorporateTraining}>
-                {Service.CorporateTraining}
-              </option>
-            </Select>
-            <Select
-              placeholder="IPC Registered"
-              bg="#FFFFFF"
-              color="#2D3748"
-              onChange={(e) => {
-                setFilters((previous) => ({
-                  ...previous,
-                  ipcStatus:
-                    e.target.value === ""
-                      ? undefined
-                      : (Number(e.target.value) as IPCStatus),
-                }));
-              }}
-            >
-              <option value={IPCStatus.Approved}>
-                {IPCStatusViewMap.get(IPCStatus.Approved)}
-              </option>
-              <option value={IPCStatus.NotApproved}>
-                {IPCStatusViewMap.get(IPCStatus.NotApproved)}
-              </option>
-              <option value={IPCStatus.Pending}>
-                {IPCStatusViewMap.get(IPCStatus.Pending)}
-              </option>
-            </Select>
-            <Select
-              placeholder="Looking for"
-              bg="#FFFFFF"
-              color="#2D3748"
-              onChange={(e) => {
-                setFilters((previous) => ({
-                  ...previous,
-                  supportAreas:
-                    e.target.value === ""
-                      ? undefined
-                      : [e.target.value as SupportArea],
-                }));
-              }}
-            >
-              <option value={SupportArea.FundingSupport}>
-                {SupportArea.FundingSupport}
-              </option>
-              <option value={SupportArea.PartnershipOpportunities}>
-                {SupportArea.PartnershipOpportunities}
-              </option>
-            </Select>
-          </Grid>
+          <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'space-between'}}>
+            <div style={{flexBasis: 'calc(25% - 10px)', marginBottom: '20px', maxWidth: '25%'}}>
+              Specialisation
+              <MultiSelect
+                options={specialisationsOptions}
+                value={specialisations}
+                onChange={setSpecialisations}
+                labelledBy="Specialisations"
+              />
+            </div>
+            <div style={{flexBasis: 'calc(25% - 10px)', marginBottom: '20px', maxWidth: '25%'}}>
+              Services
+              <MultiSelect
+                options={serviceOptions}
+                value={services}
+                onChange={setServices}
+                labelledBy="Services"
+              />
+            </div>
+            <div style={{flexBasis: 'calc(25% - 10px)', marginBottom: '20px', maxWidth: '25%'}}>
+              IPC Registered
+              <MultiSelect
+                options={ipcOptions}
+                value={ipcStatus}
+                onChange={setIpcStatus}
+                labelledBy="IPC Registered"
+              />
+            </div>
+            <div style={{flexBasis: 'calc(25% - 10px)', marginBottom: '20px', maxWidth: '25%'}}>
+              Looking for
+              <MultiSelect
+                options={supportAreaOptions}
+                value={supportAreas}
+                onChange={setSupportAreas}
+                labelledBy="Looking for"
+              />
+            </div>
+          </div>
           <Spacer />
         </VStack>
       </Box>

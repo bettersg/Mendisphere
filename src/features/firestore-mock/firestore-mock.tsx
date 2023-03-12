@@ -45,7 +45,7 @@ class FirestoreMockPage extends Component {
     const filters: OrganisationListingQueryFilters = {
       specialisations: undefined,
       services: undefined,
-      ipcStatus: IPCStatus.Approved,
+      ipcStatus: [IPCStatus.Approved],
       supportAreas: undefined,
     };
 
