@@ -22,7 +22,7 @@ const Home: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <VStack className="page-width page-padding" align="stretch">
+    <VStack className="page-width page-padding" align="stretch" spacing="0px">
       <Box paddingTop="30px">
         <NavigationBar />
       </Box>
