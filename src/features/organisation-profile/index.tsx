@@ -12,6 +12,7 @@ import {
   getOrganisationForProfilePage,
   Organisation,
 } from "../../data/model/organisation";
+import "../page-style.scss";
 
 export default function OrgProfilePage() {
   // TODO call firestore db to retrieve org profile details
@@ -24,7 +25,7 @@ export default function OrgProfilePage() {
   }, []);
 
   return (
-    <VStack spacing="0px">
+    <VStack className="page-width page-padding" align="stretch" spacing="0px">
       <SimpleNavigationBar />
       <OrgBreadCrumb org={org} />
       <Summary />

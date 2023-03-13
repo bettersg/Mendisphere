@@ -94,7 +94,7 @@ const OrganisationList: React.FC = () => {
   }, [specialisations, services, ipcStatus, supportAreas]);
 
   return (
-    <VStack className="page-width" justify="center" spacing={0} align="stretch">
+    <VStack className="page-width page-padding" justify="center" spacing={0} align="stretch">
       <SimpleNavigationBar />
       <OrgBreadCrumb />
 
@@ -102,7 +102,7 @@ const OrganisationList: React.FC = () => {
       <Flex h="40vh" w="full">
         <HStack
           margin="auto"
-          className="page-width page-padding"
+          className="page-width"
           w="70%"
           h="full"
         >
@@ -208,7 +208,6 @@ const OrganisationList: React.FC = () => {
 
       {/* Cards listing view */}
       <VStack
-        className="page-padding"
         h={`${orgListingComponentHeight}px`}
         paddingBottom={5}
         paddingTop={5}
