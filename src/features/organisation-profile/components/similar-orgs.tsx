@@ -1,15 +1,13 @@
 import { Flex, Box } from "@chakra-ui/react";
-import { Component } from "react";
 import "../scss/similar-orgs.scss";
+import "../../page-style.scss";
 
-class SimilarOrgs extends Component {
-  render() {
-    return (
-      <Flex className="similarOrgsFlex">
-        <Box>This is the similar orgs component</Box>
-      </Flex>
-    );
-  }
-}
+const SimilarOrgs: React.FC = () => {
+  return (
+    <Flex className="maximise-width" height="625px" background="#192873">
+      <Box>This is the similar orgs component</Box>
+    </Flex>
+  );
+};
 
 export default SimilarOrgs;

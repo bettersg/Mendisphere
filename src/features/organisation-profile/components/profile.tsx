@@ -257,7 +257,7 @@ const Profile: React.FC = () => {
   }, []);
   console.log("rendering", profileData);
   return (
-    <Tabs isLazy isFitted align="center" style={{ width: 1200 }}>
+    <Tabs isLazy isFitted align="center" style={{ width: 1200, height: 1200 }}>
       <TabList>
         {profileData.map((tab, index) => (
           <Tab

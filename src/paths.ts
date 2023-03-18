@@ -1,5 +1,3 @@
-import { Organisation } from "./data/model/organisation";
-
 export class Paths {
   static readonly home = "/";
   static readonly organisationListing = "/organisations";

@@ -1,13 +1,12 @@
 import {
   Flex,
   Box,
-  AspectRatio,
   HStack,
   VStack,
   Text,
   Button,
+  Stack,
 } from "@chakra-ui/react";
-import { Component } from "react";
 import { ReactComponent as ShieldCheckIcon } from "../../../assets/icons/checked.svg";
 import { ReactComponent as LinkIcon } from "../../../assets/icons/link.svg";
 import { ReactComponent as MailIcon } from "../../../assets/icons/mail.svg";
@@ -35,9 +34,41 @@ type SummaryProps = {
   socials: Social[];
 };
 
+const iframeStyle = {
+  width: "100%",
+  height: "100%",
+  position: "relative",
+  borderRadius: "25px",
+  paddingBottom: "56.25%",
+  overflow: "hidden",
+};
+
+const emailButtonStyle = {
+  backgroundColor: "#FFFFFF",
+  borderRadius: 4,
+  height: 12,
+  fontSize: 14,
+  "&:hover": {
+    bg: "#dddfe2",
+    border: "1px solid #192873",
+  },
+};
+
+const websiteButtonStyle = {
+  backgroundColor: "#192873",
+  borderRadius: 4,
+  height: 12,
+  color: "#FFFFFF",
+  "&:hover": {
+    bg: "#dddfe2",
+    color: "black",
+    border: "1px solid #192873",
+  },
+};
+
 // TODO add input of type SummaryProps
-class Summary extends Component {
-  private testDetails: SummaryProps = {
+const Summary: React.FC = () => {
+  const testDetails: SummaryProps = {
     videoUrl: "https://www.youtube.com/embed/oznr-1-poSU",
     name: "Resilience Collective (RC)",
     mission:
@@ -69,79 +100,87 @@ class Summary extends Component {
       },
     ],
   };
-
-  render() {
-    // dynamically generate social icons based on organisation data
-    const socialIconsView = this.testDetails.socials.map((item, index) => {
-      return (
-        <Box key={index}>
-          <a href={item.url}>{GetIconForSocials(item.socialType)}</a>
-        </Box>
-      );
-    });
-
+  // dynamically generate social icons based on organisation data
+  const socialIconsView = testDetails.socials.map((item, index) => {
     return (
-      <Flex className="summaryFlex">
-        <HStack className="summaryBox" spacing="125px">
-          {/* Video Box */}
-          <Box className="videoStyle">
-            <AspectRatio ratio={16 / 9}>
-              <iframe
-                className="iframeStyle"
-                src={this.testDetails.videoUrl}
-                title={this.testDetails.name}
-                allow="web-share"
-              ></iframe>
-            </AspectRatio>
-          </Box>
-
-          {/* Organisation Summary Details Box */}
-          <Box className="detailsBox">
-            <VStack spacing="30px">
-              {/* Organisation Name */}
-              <HStack className="title">
-                <Text>{this.testDetails.name}</Text>
-                {this.testDetails.isApproved && <ShieldCheckIcon />}
-              </HStack>
-
-              {/* Mental Health Issue*/}
-              <HStack className="mentalHealthIssueView" spacing="10px">
-                {GetIconForIssue(this.testDetails.mentalHealthType)}
-                <Text className="mentalHealthIssueText">
-                  {this.testDetails.mentalHealthType}
-                </Text>
-              </HStack>
-
-              {/* Mission Statement */}
-              <Text className="missionText">{this.testDetails.mission}</Text>
-
-              {/* Links */}
-              <HStack className="linksStyle" spacing="10px">
-                <a href={this.testDetails.website}>
-                  <Button className="websiteButton" rightIcon={<LinkIcon />}>
-                    Visit our website
-                  </Button>
-                </a>
-
-                <a href={`mailto:${this.testDetails.email}`}>
-                  <Button
-                    rightIcon={<MailIcon />}
-                    className="emailButton"
-                    variant="outline"
-                  >
-                    Reach out to us
-                  </Button>
-                </a>
-              </HStack>
-
-              {/* Socials */}
-              <HStack>{socialIconsView}</HStack>
-            </VStack>
-          </Box>
-        </HStack>
-      </Flex>
+      <Box key={index}>
+        <a href={item.url}>{GetIconForSocials(item.socialType)}</a>
+      </Box>
     );
-  }
-}
+  });
+
+  return (
+    <Flex height="38vh">
+      <HStack w="100%" spacing="125px">
+        {/* Video Box */}
+        <Box w="50%">
+          <Box sx={iframeStyle}>
+            <iframe
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+              }}
+              src={testDetails.videoUrl}
+              title={testDetails.name}
+              allow="web-share"
+            ></iframe>
+          </Box>
+        </Box>
+
+        {/* Organisation Summary Details Box */}
+        <Box w="50%">
+          <VStack spacing="30px">
+            {/* Organisation Name */}
+            <HStack justifyContent="flex start" className="title">
+              <Text>{testDetails.name}</Text>
+              {testDetails.isApproved && <ShieldCheckIcon />}
+            </HStack>
+
+            {/* Mental Health Issue*/}
+            <HStack className="mentalHealthIssueView" spacing="10px">
+              {GetIconForIssue(testDetails.mentalHealthType)}
+              <Text className="mentalHealthIssueText">
+                {testDetails.mentalHealthType}
+              </Text>
+            </HStack>
+
+            {/* Mission Statement */}
+            <Text className="missionText">{testDetails.mission}</Text>
+
+            {/* Links */}
+            <Stack className="linksStyle" direction="row" spacing="10px">
+              <a href={testDetails.website}>
+                <Button
+                  sx={websiteButtonStyle}
+                  flex={1}
+                  rightIcon={<LinkIcon />}
+                >
+                  Visit our website
+                </Button>
+              </a>
+
+              <a href={`mailto:${testDetails.email}`}>
+                <Button
+                  rightIcon={<MailIcon />}
+                  sx={emailButtonStyle}
+                  flex={1}
+                  variant="outline"
+                >
+                  Reach out to us
+                </Button>
+              </a>
+            </Stack>
+
+            {/* Socials */}
+            <HStack>{socialIconsView}</HStack>
+          </VStack>
+        </Box>
+      </HStack>
+    </Flex>
+  );
+};
 
 export default Summary;
