@@ -1,4 +1,4 @@
-import { VStack } from "@chakra-ui/react";
+import { Box, VStack } from "@chakra-ui/react";
 import Footer from "../common/footer";
 import Profile from "./components/profile";
 import Services from "./components/services";
@@ -32,7 +32,9 @@ export default function OrgProfilePage() {
       <Services />
       <Profile />
       <SimilarOrgs />
-      <Footer />
+      <Box className="maximise-width" minH="37.33vh">
+        <Footer />
+      </Box>
     </VStack>
   );
 }
