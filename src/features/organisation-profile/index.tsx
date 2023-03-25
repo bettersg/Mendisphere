@@ -31,7 +31,7 @@ export default function OrgProfilePage() {
       <Summary />
       <Services />
       <Profile />
-      <SimilarOrgs />
+      {org !== undefined && <SimilarOrgs org={org} />}
       <Box className="maximise-width" minH="37.33vh">
         <Footer />
       </Box>

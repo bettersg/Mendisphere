@@ -13,6 +13,7 @@ import {
   QueryConstraint,
   getDoc,
   doc,
+  limit,
 } from "firebase/firestore";
 import { Collections } from "../../services/firebase/names";
 import { db } from "../../services/firebase/firebaseConfig";
@@ -112,7 +113,9 @@ export type OrganisationListingQueryFilters = {
 // list parameters must be limited to a size of 10 due to
 // limitations in firestore
 export async function getOrganisationsForListingsPage(
-  filters?: OrganisationListingQueryFilters
+  filters?: OrganisationListingQueryFilters,
+  skipOrgName?: string,
+  limitNum: number = 0
 ): Promise<Organisation[]> {
   console.log(
     `Getting organisation with filters: ${JSON.stringify(filters, null, 2)}`
@@ -174,6 +177,13 @@ export async function getOrganisationsForListingsPage(
     }
   }
 
+  if (limitNum > 0) {
+    queryConstraints.push(limit(limitNum));
+  }
+
+  if (skipOrgName !== undefined) {
+    queryConstraints.push(where("name", "!=", skipOrgName));
+  }
   // define the organisation collection reference
   const orgsRef: Query<Organisation> = collection(
     db,
