@@ -13,7 +13,7 @@ const CardView: React.FC<{ organisationList: Organisation[] }> = ({
     renderedRow.push(
       <Grid templateColumns="repeat(4, 1fr)" gap={5} marginTop={5} key={i}>
         {cardsToRender.map((org) => (
-          <GridItem borderRadius={5} bg={"#F5F5F5"} key={org.id}>
+          <GridItem borderRadius={5} key={org.id}>
             <LinkBox>
               <LinkOverlay isExternal={true} href={buildOrgProfilePath(org.id)}>
                 <OrgCard org={org} />

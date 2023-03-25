@@ -15,6 +15,7 @@ const SimilarOrgs: React.FC<{ org: Organisation }> = ({ org }) => {
   const [orgList, setOrgList] = useState<Organisation[]>([]);
   // states of the 4 filters
   const filter: OrganisationListingQueryFilters = {
+    // For testing only, replace with org.mainSpecialisation
     specialisations: [MentalHealthIssue.OverallMentalWellbeing],
   };
 
