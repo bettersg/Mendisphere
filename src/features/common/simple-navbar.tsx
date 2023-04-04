@@ -8,6 +8,11 @@ export default function SimpleNavigationBar() {
       className="maximise-width"
       borderBottom="1px"
       borderColor="#d3d3d3"
+      // below settings to sticky this NavBar to top
+      position="sticky"
+      top={0}
+      zIndex={200}
+      backgroundColor="#FFFFFF"
     >
       <Text alignSelf="center" fontWeight="700" paddingLeft={8} fontSize={24}>
         Mendisphere

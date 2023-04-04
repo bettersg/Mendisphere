@@ -25,16 +25,18 @@ export default function OrgProfilePage() {
   }, []);
 
   return (
-    <VStack className="page-width page-padding" align="stretch" spacing="0px">
+    <div>
       <SimpleNavigationBar />
-      <OrgBreadCrumb org={org} />
-      <Summary />
-      <Services />
-      <Profile />
-      {org !== undefined && <SimilarOrgs org={org} />}
-      <Box className="maximise-width" minH="37.33vh">
-        <Footer />
-      </Box>
-    </VStack>
+      <VStack className="page-width page-padding" align="stretch" spacing="0px">
+        <OrgBreadCrumb org={org} />
+        <Summary />
+        <Services />
+        <Profile />
+        {org !== undefined && <SimilarOrgs org={org} />}
+        <Box className="maximise-width" minH="37.33vh">
+          <Footer />
+        </Box>
+      </VStack>
+    </div>
   );
 }
