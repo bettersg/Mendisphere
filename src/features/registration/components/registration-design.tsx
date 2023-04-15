@@ -1,6 +1,6 @@
 import { Center, Spacer, VStack, Image } from "@chakra-ui/react";
 
-export default function LoginDesign() {
+export default function RegistrationDesign() {
   return (
     <VStack>
       <Spacer />
@@ -8,7 +8,7 @@ export default function LoginDesign() {
       <Center minH="10em"></Center>
 
       <Center minH="10em">
-        <Image src="/images/login.png"></Image>
+        <Image src="/images/registration.png"></Image>
       </Center>
     </VStack>
   );

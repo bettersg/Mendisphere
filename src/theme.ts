@@ -1,4 +1,5 @@
 import { extendTheme } from "@chakra-ui/react";
+import { StepsTheme as Steps } from "chakra-ui-steps";
 
 export const appTheme = extendTheme({
   textStyles: {
@@ -12,6 +13,7 @@ export const appTheme = extendTheme({
     tableHeader: {},
   },
   components: {
+    Steps,
     Table: {
       variants: {
         orgListings: {

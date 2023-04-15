@@ -3,6 +3,7 @@ import { Box, Flex, HStack, IconButton, Stack, Link } from "@chakra-ui/react";
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { Link as ReactRouterLink } from "react-router-dom";
 import NavigationButton from "./NavigationButton";
+import { Paths } from "../../../paths";
 
 const Navigation = () => {
   const [mobileNav, setMobileNav] = useState(false);
@@ -24,17 +25,21 @@ const Navigation = () => {
             fontWeight="700"
             display={{ base: "none", md: "flex" }}
           >
-            <Link as={ReactRouterLink} to={"/about"} fontFamily={"Inter"}>
+            <Link as={ReactRouterLink} to={Paths.about} fontFamily={"Inter"}>
               About
             </Link>
             <Link
               as={ReactRouterLink}
-              to={"/organisations"}
+              to={Paths.organisationListing}
               fontFamily={"Inter"}
             >
               Organisations
             </Link>
-            <Link as={ReactRouterLink} to={"/contactus"} fontFamily={"Inter"}>
+            <Link
+              as={ReactRouterLink}
+              to={Paths.contactUs}
+              fontFamily={"Inter"}
+            >
               Contact Us
             </Link>
           </HStack>
@@ -47,14 +52,14 @@ const Navigation = () => {
             >
               <NavigationButton
                 backgroundColor="#192873"
-                navigationLink="/login"
+                navigationLink={Paths.login}
                 buttonText="Log in"
                 height="6vh"
                 width="9vw"
               />
               <NavigationButton
                 backgroundColor="#192873"
-                navigationLink=""
+                navigationLink={Paths.signup}
                 buttonText="Sign up"
                 height="6vh"
                 width="9vw"
