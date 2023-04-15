@@ -2,8 +2,6 @@ import {
   doc,
   DocumentReference,
   DocumentData,
-  addDoc,
-  collection,
   setDoc,
 } from "firebase/firestore";
 import { Collections } from "../../services/firebase/names";

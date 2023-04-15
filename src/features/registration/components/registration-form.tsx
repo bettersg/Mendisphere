@@ -75,10 +75,14 @@ export default function RegistrationForm() {
           }
           break;
         case "givenName":
+          if (!IsValidName(value)) {
+            errorState.givenName = "Please enter a valid name.";
+            errorState.valid = false;
+          }
+          break;
         case "famName":
           if (!IsValidName(value)) {
             errorState.famName = "Please enter a valid name.";
-            errorState.givenName = "Please enter a valid name.";
             errorState.valid = false;
           }
           break;
