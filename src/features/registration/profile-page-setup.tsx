@@ -19,11 +19,11 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { Step, Steps, useSteps } from "chakra-ui-steps";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { instanceOfLoginCredentials } from "../../data/auth/loginCredentials";
-import OrgInfoForm from "./components/org-info-form";
-import GoalsForm from "./components/goals-form";
+import OrgInfoForm, { IOrgInfo } from "./components/org-info-form";
+import GoalsForm, { IGoalForm } from "./components/goals-form";
 import SignUpWaiting from "./components/sign-up-waiting";
 import "./scss/setup.scss";
 
@@ -33,6 +33,13 @@ const steps = [
   { label: "Get Started" },
 ];
 
+export interface IOnChange {
+  onChange: (payload: IOrgInfo | IGoalForm) => void;
+}
+export interface IOrgData extends IOrgInfo, IGoalForm {
+
+}
+
 export default function ProfileSetupPage() {
   const { nextStep, prevStep, activeStep, setStep } = useSteps({
     initialStep: 1,
@@ -41,6 +48,13 @@ export default function ProfileSetupPage() {
 
   const navigate = useNavigate();
 
+  const [orgData, setOrgData] = useState<IOrgData>({});
+  const updateOrgData = (payload: IOrgInfo | IGoalForm) => {
+    Object.entries(payload).forEach(([key, value]) => {
+      setOrgData({...orgData, [key]: value})
+    })
+  }
+  console.log('orgData', orgData)
   // retrieve the login credentials to be used by the auth provider
   // for sign up
   const { state } = useLocation();
@@ -145,9 +159,9 @@ export default function ProfileSetupPage() {
                   {stepTitle(activeStep)}
                 </Heading>
                 {activeStep === 1 ? (
-                  <OrgInfoForm />
+                  <OrgInfoForm onChange={updateOrgData} />
                 ) : activeStep === 2 ? (
-                  <GoalsForm />
+                  <GoalsForm onChange={updateOrgData} />
                 ) : (
                   ""
                 )}
@@ -159,6 +173,7 @@ export default function ProfileSetupPage() {
                 email={state.email}
                 password={state.password}
                 validated={state.validated}
+                submitData={orgData}
               />
             </VStack>
           )}

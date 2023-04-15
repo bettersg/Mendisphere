@@ -8,8 +8,29 @@ import {
   Text,
   Image,
 } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { IOnChange } from "../profile-page-setup";
 
-export default function OrgInfoForm() {
+export interface IOrgInfo {
+  orgName?: string;
+  address?: string;
+  focusArea?: string; // TODO multi-select?
+  helpArea?: string; // TODO multi-select?
+  website?: string;
+  startDate?: string;
+  role?: string;
+  uen?: string;
+  orgSize?: string;
+  ipcExpiryDate?: string;
+}
+
+export default function OrgInfoForm(props: IOnChange) {
+  const [orgInfo, setOrgInfo] = useState<IOrgInfo>({});
+
+  useEffect(() => {
+    props.onChange(orgInfo);
+  }, [orgInfo])
+
   return (
     <Grid
       templateRows="repeat(1, 1fr)"
@@ -38,6 +59,7 @@ export default function OrgInfoForm() {
             <Input
               className="formInput"
               placeholder="Enter your organisation name"
+              onChange={(e) => setOrgInfo({...orgInfo, orgName: e.target.value})}
             ></Input>
           </GridItem>
           <GridItem colSpan={2}>
@@ -45,13 +67,14 @@ export default function OrgInfoForm() {
             <Input
               className="formInput"
               placeholder="Enter your organisation address here"
+              onChange={(e) => setOrgInfo({...orgInfo, address: e.target.value})}
             ></Input>
           </GridItem>
           <GridItem colSpan={1} rowSpan={1}>
             <FormLabel className="formTitle">
               What Does Your Organisation Focus On?*
             </FormLabel>
-            <Select className="formSelect" placeholder="Focus Areas">
+            <Select className="formSelect" placeholder="Focus Areas" onChange={(e) => setOrgInfo({...orgInfo, focusArea: e.target.value})}>
               <option value="Area1">Area 1</option>
               <option value="Area2">Area 2</option>
               <option value="Area3">Area 3</option>
@@ -64,6 +87,7 @@ export default function OrgInfoForm() {
             <Select
               className="formSelect"
               placeholder="What Are You Looking For?"
+              onChange={(e) => setOrgInfo({...orgInfo, helpArea: e.target.value})}
             >
               <option value="Area1">Area 1</option>
               <option value="Area2">Area 2</option>
@@ -75,13 +99,14 @@ export default function OrgInfoForm() {
             <Input
               className="formInput"
               placeholder="Enter Your Website URL"
+              onChange={(e) => setOrgInfo({...orgInfo, website: e.target.value})}
             ></Input>
           </GridItem>
           <GridItem colSpan={1}>
             <FormLabel className="formTitle">
               Organisation start date*
             </FormLabel>
-            <Input className="formInput" placeholder="DD/MM/YYYY"></Input>
+            <Input className="formInput" placeholder="DD/MM/YYYY" onChange={(e) => setOrgInfo({...orgInfo, startDate: e.target.value})}></Input>
           </GridItem>
           <GridItem colSpan={2}>
             <FormLabel className="formTitle">
@@ -90,6 +115,7 @@ export default function OrgInfoForm() {
             <Select
               className="formSelect"
               placeholder="Select a role (e.g. Founder)"
+              onChange={(e) => setOrgInfo({...orgInfo, role: e.target.value})}
             >
               <option value="Founder">Founder</option>
               <option value="Executive">Executive</option>
@@ -118,13 +144,13 @@ export default function OrgInfoForm() {
         >
           <GridItem colSpan={1}>
             <FormLabel className="formTitle">UEN*</FormLabel>
-            <Input className="formInput" placeholder="T12345678E"></Input>
+            <Input className="formInput" placeholder="T12345678E" onChange={(e) => setOrgInfo({...orgInfo, uen: e.target.value})}></Input>
           </GridItem>
           <GridItem colSpan={2} rowSpan={1}>
             <FormLabel className="formTitle">
               How many people in your organisation*
             </FormLabel>
-            <Select className="formSelect">
+            <Select className="formSelect" onChange={(e) => setOrgInfo({...orgInfo, orgSize: e.target.value})}>
               <option value="1-10">1-10</option>
               <option value="100">100</option>
               <option value="1000">1000</option>
@@ -135,7 +161,7 @@ export default function OrgInfoForm() {
             <FormLabel className="formTitle">
               IPC registration expiry date (if applicable)
             </FormLabel>
-            <Input className="formInput" placeholder="DD/MM/YYYY"></Input>
+            <Input className="formInput" placeholder="DD/MM/YYYY" onChange={(e) => setOrgInfo({...orgInfo, ipcExpiryDate: e.target.value})}></Input>
           </GridItem>
         </Grid>
       </GridItem>

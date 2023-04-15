@@ -6,8 +6,22 @@ import {
   Select,
   Text,
 } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { IOnChange } from "../profile-page-setup";
 
-export default function GoalsForm() {
+export interface IGoalForm {
+  capitalNow?: string;
+  lastFundedOn?: string;
+  capitalGoal?: string;
+}
+
+export default function GoalsForm(props: IOnChange) {
+  const [goalForm, setGoalForm] = useState<IGoalForm>({});
+
+  useEffect(() => {
+    props.onChange(goalForm);
+  }, [goalForm])
+  
   return (
     <Grid
       templateRows="repeat(1, 1fr)"
@@ -31,11 +45,12 @@ export default function GoalsForm() {
             <Input
               className="formInput"
               placeholder="Enter how much capital your organisation has raised"
+              onChange={(e) => setGoalForm({...goalForm, capitalNow: e.target.value})}
             ></Input>
             <FormLabel className="formTitle">
               When was the last time you received funding?
             </FormLabel>
-            <Input className="formInput" placeholder="dd/mm/yyyy"></Input>
+            <Input className="formInput" placeholder="dd/mm/yyyy" onChange={(e) => setGoalForm({...goalForm, lastFundedOn: e.target.value})}></Input>
             <FormLabel className="formTitle">
               What is your capital amount goal?*
             </FormLabel>
@@ -43,6 +58,7 @@ export default function GoalsForm() {
               required
               className="formInput"
               placeholder="Enter your capital amount goal"
+              onChange={(e) => setGoalForm({...goalForm, capitalGoal: e.target.value})}
             ></Input>
           </GridItem>
         </Grid>

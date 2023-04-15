@@ -1,6 +1,6 @@
 import { Button, VStack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import { LoginCredentials } from "../../../data/auth/loginCredentials";
+import { LoginCredentials } from "./sign-up-waiting";
 
 export default function SignUpButton(LoginCredentials: LoginCredentials) {
   const disable: boolean = !LoginCredentials.validated;
@@ -10,7 +10,7 @@ export default function SignUpButton(LoginCredentials: LoginCredentials) {
   return (
     <VStack spacing={4} align="stretch">
       <Button
-        disabled={disable}
+        // disabled={disable}
         colorScheme="blue"
         onClick={() => {
           console.log(LoginCredentials);
