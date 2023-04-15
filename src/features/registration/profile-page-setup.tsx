@@ -26,6 +26,7 @@ import OrgInfoForm, { IOrgInfo } from "./components/org-info-form";
 import GoalsForm, { IGoalForm } from "./components/goals-form";
 import SignUpWaiting from "./components/sign-up-waiting";
 import "./scss/setup.scss";
+import { Paths } from "../../paths";
 
 const steps = [
   { label: "Organisation Information" },
@@ -36,9 +37,7 @@ const steps = [
 export interface IOnChange {
   onChange: (payload: IOrgInfo | IGoalForm) => void;
 }
-export interface IOrgData extends IOrgInfo, IGoalForm {
-
-}
+export interface IOrgData extends IOrgInfo, IGoalForm {}
 
 export default function ProfileSetupPage() {
   const { nextStep, prevStep, activeStep, setStep } = useSteps({
@@ -51,10 +50,10 @@ export default function ProfileSetupPage() {
   const [orgData, setOrgData] = useState<IOrgData>({});
   const updateOrgData = (payload: IOrgInfo | IGoalForm) => {
     Object.entries(payload).forEach(([key, value]) => {
-      setOrgData({...orgData, [key]: value})
-    })
-  }
-  console.log('orgData', orgData)
+      setOrgData({ ...orgData, [key]: value });
+    });
+  };
+  console.log("orgData", orgData);
   // retrieve the login credentials to be used by the auth provider
   // for sign up
   const { state } = useLocation();
@@ -62,12 +61,11 @@ export default function ProfileSetupPage() {
   useEffect(() => {
     if (state === null || !instanceOfLoginCredentials(state)) {
       console.log("No credentials passed. Redirecting to signup");
-      navigate("/registration");
+      navigate(Paths.signup);
     }
   });
 
   const stepTitle = (activeStep: number) => {
-    console.log(activeStep);
     switch (activeStep) {
       case 1:
         return "Let’s get started! \n Share with us 🙌";

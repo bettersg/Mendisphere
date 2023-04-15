@@ -21,16 +21,14 @@ export default function SignUpWaiting(loginCredentials: LoginCredentials) {
 
   const navigate = useNavigate();
   const handleSignIn = async () => {
-    console.log(
-      `sign up request sent ${email}, ${password}`
-    );
+    console.log(`sign up request sent ${email}`);
     try {
       setLoading(true);
       let userCred: UserCredential = await signUp(email, password);
       let user: User = userCred.user;
       let token: string = await user.getIdToken();
       // TODO user the token as uid to save the submitData
-      console.log('submitData', submitData)
+      console.log("submitData", submitData);
       await handleSubmit(user.uid, submitData);
       console.log(`Authentication success userid: ${user.uid}, ${token}`);
       setLoading(false);
@@ -77,9 +75,7 @@ export default function SignUpWaiting(loginCredentials: LoginCredentials) {
         ) : (
           <CheckCircleIcon w={8} h={8} color="green.500" />
         )}
-        <Text className="loadingTitle">
-          Welcome, {email.split("@", 1)}! 👋🏻
-        </Text>
+        <Text className="loadingTitle">Welcome, {email.split("@", 1)}! 👋🏻</Text>
         <Text className="loadingSubTitle">
           We’re setting up your profile right now. This will take just a second!
         </Text>
