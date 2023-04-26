@@ -11,7 +11,7 @@ import {
 import orgsJson from "./test-data/organisations.json";
 import { db } from "../../services/firebase/firebaseConfig";
 import { Collections } from "../../services/firebase/names";
-import { MentalHealthIssue } from "../../data/enums/mental-health-issue.enum";
+import { Specialisation } from "../../data/enums/specialisation.enum";
 import { Service } from "../../data/enums/service.enum";
 import { SupportArea } from "../../data/enums/support-area.enum";
 import { IPCStatus } from "../../data/enums/ipc-status.enum";

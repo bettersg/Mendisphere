@@ -22,7 +22,7 @@ import {
   IOrganisationAdminData,
 } from "./organisationAdmin";
 import { SupportArea } from "../enums/support-area.enum";
-import { MentalHealthIssue } from "../enums/mental-health-issue.enum";
+import { Specialisation } from "../enums/specialisation.enum";
 import { Service } from "../enums/service.enum";
 import { IPCStatus } from "../enums/ipc-status.enum";
 import { VerificationStatus } from "../enums/verification-status.enum";
@@ -31,7 +31,7 @@ export interface IOrganisation {
   name: string;
   ipcApproved: IPCStatus;
   verified: VerificationStatus;
-  mainSpecialisation: MentalHealthIssue;
+  mainSpecialisation: Specialisation;
   mainSupportArea: SupportArea;
   services: Service[];
   description: string;
@@ -43,7 +43,7 @@ export class Organisation implements IOrganisation {
   name: string;
   ipcApproved: IPCStatus;
   verified: VerificationStatus;
-  mainSpecialisation: MentalHealthIssue;
+  mainSpecialisation: Specialisation;
   mainSupportArea: SupportArea;
   services: Service[];
   description: string;
@@ -54,7 +54,7 @@ export class Organisation implements IOrganisation {
     _name: string,
     _ipcApproved: IPCStatus,
     _verified: VerificationStatus,
-    _mainSpecialisation: MentalHealthIssue,
+    _mainSpecialisation: Specialisation,
     _mainSupportArea: SupportArea,
     _services: Service[],
     _description: string,
@@ -104,7 +104,7 @@ export const organisationConverter: FirestoreDataConverter<Organisation> = {
 };
 
 export type OrganisationListingQueryFilters = {
-  specialisations?: MentalHealthIssue[];
+  specialisations?: Specialisation[];
   services?: Service[];
   ipcStatus?: IPCStatus[];
   supportAreas?: SupportArea[];
