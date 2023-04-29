@@ -28,14 +28,14 @@ import { IPCStatus } from "../enums/ipc-status.enum";
 import { VerificationStatus } from "../enums/verification-status.enum";
 
 export interface IOrganisation {
-  name: string;
-  ipcApproved: IPCStatus;
-  verified: VerificationStatus;
-  mainSpecialisation: Specialisation;
-  mainSupportArea: SupportArea;
-  services: Service[];
-  description: string;
-  cardImageUrl: string;
+  name?: string;
+  ipcApproved?: IPCStatus;
+  verified?: VerificationStatus;
+  mainSpecialisation?: Specialisation;
+  mainSupportArea?: SupportArea;
+  services?: Service[];
+  description?: string;
+  cardImageUrl?: string;
 }
 
 export class Organisation implements IOrganisation {
@@ -57,8 +57,8 @@ export class Organisation implements IOrganisation {
     _mainSpecialisation: Specialisation,
     _mainSupportArea: SupportArea,
     _services: Service[],
-    _description: string,
-    _cardImageUrl: string
+    _description?: string,
+    _cardImageUrl?: string
   ) {
     this.id = _id;
     this.name = _name;
@@ -67,8 +67,8 @@ export class Organisation implements IOrganisation {
     this.mainSpecialisation = _mainSpecialisation;
     this.mainSupportArea = _mainSupportArea;
     this.services = _services;
-    this.description = _description;
-    this.cardImageUrl = _cardImageUrl;
+    this.description = _description ?? "";
+    this.cardImageUrl = _cardImageUrl ?? "";
   }
 
   toString() {
@@ -226,6 +226,19 @@ export async function createOrganisation(
   orgData: IOrganisation
 ): Promise<Organisation> {
   const res = await addDoc(collection(db, Collections.organisations), orgData);
+  if (
+    orgData.name == null ||
+    orgData.ipcApproved == null ||
+    orgData.verified == null ||
+    orgData.mainSpecialisation == null ||
+    orgData.mainSupportArea == null ||
+    orgData.services == null ||
+    orgData.description == null ||
+    orgData.cardImageUrl == null
+  ) {
+    throw Error(`Unable to create org. Missing data: ${orgData}`);
+  }
+
   return new Organisation(
     res.id,
     orgData.name,

@@ -13,41 +13,45 @@ import { CapitalGoal } from "../enums/captial-goal.enum";
 import { OrgSize } from "../enums/org-size.enum";
 
 export interface IOrganisationAdminData {
-  orgId: string | null;
-  address: string;
-  size: OrgSize;
-  capital: string; //REVEW should this be a number?
-  capitalGoal: CapitalGoal;
-  ipcExpiry: Timestamp | undefined;
-  uen: string;
+  orgId?: string;
+  address?: string;
+  size?: OrgSize;
+  capitalCurrent?: string;
+  capitalGoal?: CapitalGoal;
+  lastFundingDate?: Timestamp;
+  ipcExpiry?: Timestamp;
+  uen?: string;
 }
 
 export class OrganisationAdminData implements IOrganisationAdminData {
-  orgId: string | null;
+  orgId: string;
   address: string;
   size: OrgSize;
-  capital: string; //REVEW should this be a number?
   capitalGoal: CapitalGoal;
-  ipcExpiry: Timestamp;
+  lastFundingDate: Timestamp | undefined;
+  ipcExpiry: Timestamp | undefined;
+  capitalCurrent: string;
   uen: string;
 
   // potentially create reference to parent organisation object, if queries require it
 
   constructor(
+    _orgId: string,
     _address: string,
     _size: OrgSize,
-    _capital: string,
     _capitalGoal: CapitalGoal,
-    _ipcExpiry: Timestamp,
     _uen: string,
-    _orgId?: string
+    _ipcExpiry?: Timestamp,
+    _lastFundingDate?: Timestamp,
+    _capitalCurrent?: string
   ) {
-    this.orgId = _orgId ?? null;
+    this.orgId = _orgId;
     this.address = _address;
     this.size = _size;
-    this.capital = _capital;
     this.capitalGoal = _capitalGoal;
     this.ipcExpiry = _ipcExpiry;
+    this.lastFundingDate = _lastFundingDate;
+    this.capitalCurrent = _capitalCurrent ?? "";
     this.uen = _uen;
   }
 
@@ -63,10 +67,11 @@ export const organisationAdminConverter: FirestoreDataConverter<OrganisationAdmi
         orgId: data.orgId ?? "",
         address: data.address,
         size: data.size,
-        capital: data.capital,
-        capitalGoal: data.capitalGoal,
         ipcExpiry: data.ipcExpiry,
         uen: data.uen,
+        capitalGoal: data.capitalGoal,
+        capitalCurrent: data.capitalCurrent,
+        lastFundingDate: data.lastFundingDate,
       };
     },
     fromFirestore(
@@ -78,10 +83,11 @@ export const organisationAdminConverter: FirestoreDataConverter<OrganisationAdmi
         data.orgId,
         data.address,
         data.size,
-        data.captial,
         data.capitalGoal,
         data.ipcExpiry,
-        data.uen
+        data.uen,
+        data.lastFundingDate,
+        data.capitalCurrent
       );
     },
   };

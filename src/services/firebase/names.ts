@@ -6,4 +6,5 @@ export class Collections {
   static readonly organisationPeopleSpotlight = "organisationPeopleSpotlight";
   static readonly organisationFAQ = "organisationFAQ";
   static readonly organisationOurStory = "organisationOurStory";
+  static readonly organisationSummary = "organisationSummary";
 }
