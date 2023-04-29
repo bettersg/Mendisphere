@@ -7,8 +7,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { IOnChange } from "../profile-page-setup";
-import { captureRejectionSymbol } from "events";
+import { IOnChange } from "../profile-setup-page";
 import { CapitalGoal } from "../../../data/enums/captial-goal.enum";
 
 export interface IGoalForm {
@@ -22,8 +21,8 @@ export default function GoalsForm(props: IOnChange) {
 
   useEffect(() => {
     props.onChange(goalForm);
-  }, [goalForm])
-  
+  }, [goalForm]);
+
   return (
     <Grid
       templateRows="repeat(1, 1fr)"
@@ -47,12 +46,20 @@ export default function GoalsForm(props: IOnChange) {
             <Input
               className="formInput"
               placeholder="Enter how much capital your organisation has raised"
-              onChange={(e) => setGoalForm({...goalForm, capitalNow: e.target.value})}
+              onChange={(e) =>
+                setGoalForm({ ...goalForm, capitalNow: e.target.value })
+              }
             ></Input>
             <FormLabel className="formTitle">
               When was the last time you received funding?
             </FormLabel>
-            <Input className="formInput" placeholder="dd/mm/yyyy" onChange={(e) => setGoalForm({...goalForm, lastFundedOn: e.target.value})}></Input>
+            <Input
+              className="formInput"
+              placeholder="dd/mm/yyyy"
+              onChange={(e) =>
+                setGoalForm({ ...goalForm, lastFundedOn: e.target.value })
+              }
+            ></Input>
             <FormLabel className="formTitle">
               What is your capital amount goal?*
             </FormLabel>
@@ -60,7 +67,9 @@ export default function GoalsForm(props: IOnChange) {
               required
               className="formInput"
               placeholder="Enter your capital amount goal"
-              onChange={(e) => setGoalForm({...goalForm, capitalGoal: e.target.value})}
+              onChange={(e) =>
+                setGoalForm({ ...goalForm, capitalGoal: e.target.value })
+              }
             >
               {Object.values(CapitalGoal).map((key) => (
                 <option key={key} value={key}>

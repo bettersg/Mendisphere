@@ -18,7 +18,7 @@ export interface IOrganisationAdminData {
   size: OrgSize;
   capital: string; //REVEW should this be a number?
   capitalGoal: CapitalGoal;
-  ipcExpiry: Timestamp;
+  ipcExpiry: Timestamp | undefined;
   uen: string;
 }
 

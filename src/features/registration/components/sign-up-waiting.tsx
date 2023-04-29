@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../services/firebase/authProvider";
 import { handleSubmit } from "../../../services/firebase/organizationInfo";
-import { IOrgData } from "../profile-page-setup";
+import { IOrgData } from "../profile-setup-page";
 export interface LoginCredentials {
   email: string;
   password: string;

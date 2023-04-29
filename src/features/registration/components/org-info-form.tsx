@@ -8,7 +8,7 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { IOnChange } from "../profile-page-setup";
+import { IOnChange } from "../profile-setup-page";
 import { Specialisation } from "../../../data/enums/specialisation.enum";
 import { SupportArea } from "../../../data/enums/support-area.enum";
 import { Service } from "../../../data/enums/service.enum";
