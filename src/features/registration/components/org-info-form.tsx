@@ -9,6 +9,10 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { IOnChange } from "../profile-page-setup";
+import { Specialisation } from "../../../data/enums/specialisation.enum";
+import { SupportArea } from "../../../data/enums/support-area.enum";
+import { Service } from "../../../data/enums/service.enum";
+import { OrgSize } from "../../../data/enums/org-size.enum";
 
 export interface IOrgInfo {
   orgName?: string;
@@ -79,33 +83,55 @@ export default function OrgInfoForm(props: IOnChange) {
             </FormLabel>
             <Select
               className="formSelect"
-              placeholder="Focus Areas"
+              placeholder="Choose a specialisation"
               onChange={(e) =>
                 setOrgInfo({ ...orgInfo, focusArea: e.target.value })
               }
             >
-              <option value="Area1">Area 1</option>
-              <option value="Area2">Area 2</option>
-              <option value="Area3">Area 3</option>
+              {Object.values(Specialisation).map((key) => (
+                <option key={key} value={key}>
+                  {key}
+                </option>
+              ))}
             </Select>
           </GridItem>
           <GridItem colSpan={2} rowSpan={1}>
             <FormLabel className="formTitle">
-              What Do You Need Help with most? (max 3)*
+              What Do You Need Help with most?*
             </FormLabel>
             <Select
               className="formSelect"
-              placeholder="What Are You Looking For?"
+              placeholder="Requests"
               onChange={(e) =>
                 setOrgInfo({ ...orgInfo, helpArea: e.target.value })
               }
             >
-              <option value="Area1">Area 1</option>
-              <option value="Area2">Area 2</option>
-              <option value="Area3">Area 3</option>
+              {Object.values(SupportArea).map((key) => (
+                <option key={key} value={key}>
+                  {key}
+                </option>
+              ))}
             </Select>
           </GridItem>
-          <GridItem colSpan={1}>
+          <GridItem colSpan={1} rowSpan={1}>
+            <FormLabel className="formTitle">
+              What services do you provide?*
+            </FormLabel>
+            <Select
+              className="formSelect"
+              placeholder="Services"
+              onChange={(e) =>
+                setOrgInfo({ ...orgInfo, helpArea: e.target.value })
+              }
+            >
+              {Object.values(Service).map((key) => (
+                <option key={key} value={key}>
+                  {key}
+                </option>
+              ))}
+            </Select>
+          </GridItem>
+          <GridItem colSpan={2} rowSpan={1}>
             <FormLabel className="formTitle">Website</FormLabel>
             <Input
               className="formInput"
@@ -114,32 +140,6 @@ export default function OrgInfoForm(props: IOnChange) {
                 setOrgInfo({ ...orgInfo, website: e.target.value })
               }
             ></Input>
-          </GridItem>
-          <GridItem colSpan={1}>
-            <FormLabel className="formTitle">
-              Organisation start date*
-            </FormLabel>
-            <Input
-              className="formInput"
-              placeholder="DD/MM/YYYY"
-              onChange={(e) =>
-                setOrgInfo({ ...orgInfo, startDate: e.target.value })
-              }
-            ></Input>
-          </GridItem>
-          <GridItem colSpan={2}>
-            <FormLabel className="formTitle">
-              Your role in your organsation*
-            </FormLabel>
-            <Select
-              className="formSelect"
-              placeholder="Select a role (e.g. Founder)"
-              onChange={(e) => setOrgInfo({ ...orgInfo, role: e.target.value })}
-            >
-              <option value="Founder">Founder</option>
-              <option value="Executive">Executive</option>
-              <option value="Staff">Staff</option>
-            </Select>
           </GridItem>
         </Grid>
       </GridItem>
@@ -171,7 +171,7 @@ export default function OrgInfoForm(props: IOnChange) {
           </GridItem>
           <GridItem colSpan={2} rowSpan={1}>
             <FormLabel className="formTitle">
-              How many people in your organisation*
+              How many people are in your organisation?*
             </FormLabel>
             <Select
               className="formSelect"
@@ -179,10 +179,11 @@ export default function OrgInfoForm(props: IOnChange) {
                 setOrgInfo({ ...orgInfo, orgSize: e.target.value })
               }
             >
-              <option value="1-10">1-10</option>
-              <option value="100">100</option>
-              <option value="1000">1000</option>
-              <option value="1000+">1000+</option>
+              {Object.values(OrgSize).map((key) => (
+                <option key={key} value={key}>
+                  {key}
+                </option>
+              ))}
             </Select>
           </GridItem>
           <GridItem colSpan={1}>

@@ -8,6 +8,8 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { IOnChange } from "../profile-page-setup";
+import { captureRejectionSymbol } from "events";
+import { CapitalGoal } from "../../../data/enums/captial-goal.enum";
 
 export interface IGoalForm {
   capitalNow?: string;
@@ -54,12 +56,18 @@ export default function GoalsForm(props: IOnChange) {
             <FormLabel className="formTitle">
               What is your capital amount goal?*
             </FormLabel>
-            <Input
+            <Select
               required
               className="formInput"
               placeholder="Enter your capital amount goal"
               onChange={(e) => setGoalForm({...goalForm, capitalGoal: e.target.value})}
-            ></Input>
+            >
+              {Object.values(CapitalGoal).map((key) => (
+                <option key={key} value={key}>
+                  {key}
+                </option>
+              ))}
+            </Select>
           </GridItem>
         </Grid>
       </GridItem>
