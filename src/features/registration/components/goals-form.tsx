@@ -6,23 +6,17 @@ import {
   Select,
   Text,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { IOnChange } from "../profile-setup-page";
-import { CapitalGoal } from "../../../data/enums/captial-goal.enum";
+import { OrgDataFormProps } from "../profile-setup-page";
+import {
+  CapitalGoal,
+  capitalGoalEnumOptions,
+} from "../../../data/enums/captial-goal.enum";
+import { Timestamp } from "firebase/firestore";
 
-export interface IGoalForm {
-  capitalNow?: string;
-  lastFundedOn?: string;
-  capitalGoal?: string;
-}
-
-export default function GoalsForm(props: IOnChange) {
-  const [goalForm, setGoalForm] = useState<IGoalForm>({});
-
-  useEffect(() => {
-    props.onChange(goalForm);
-  }, [goalForm]);
-
+export default function GoalsForm({
+  orgFormData,
+  updateOrgFormData,
+}: OrgDataFormProps) {
   return (
     <Grid
       templateRows="repeat(1, 1fr)"
@@ -47,7 +41,10 @@ export default function GoalsForm(props: IOnChange) {
               className="formInput"
               placeholder="Enter how much capital your organisation has raised"
               onChange={(e) =>
-                setGoalForm({ ...goalForm, capitalNow: e.target.value })
+                updateOrgFormData({
+                  ...orgFormData,
+                  capitalCurrent: e.target.value,
+                })
               }
             ></Input>
             <FormLabel className="formTitle">
@@ -55,9 +52,12 @@ export default function GoalsForm(props: IOnChange) {
             </FormLabel>
             <Input
               className="formInput"
-              placeholder="dd/mm/yyyy"
+              type="date"
               onChange={(e) =>
-                setGoalForm({ ...goalForm, lastFundedOn: e.target.value })
+                updateOrgFormData({
+                  ...orgFormData,
+                  lastFundingDate: Timestamp.fromDate(new Date(e.target.value)),
+                })
               }
             ></Input>
             <FormLabel className="formTitle">
@@ -68,12 +68,15 @@ export default function GoalsForm(props: IOnChange) {
               className="formInput"
               placeholder="Enter your capital amount goal"
               onChange={(e) =>
-                setGoalForm({ ...goalForm, capitalGoal: e.target.value })
+                updateOrgFormData({
+                  ...orgFormData,
+                  capitalGoal: e.target.value as CapitalGoal,
+                })
               }
             >
-              {Object.values(CapitalGoal).map((key) => (
-                <option key={key} value={key}>
-                  {key}
+              {capitalGoalEnumOptions.map((enumOption) => (
+                <option key={enumOption.value} value={enumOption.value}>
+                  {enumOption.label}
                 </option>
               ))}
             </Select>

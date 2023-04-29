@@ -22,11 +22,14 @@ import { Step, Steps, useSteps } from "chakra-ui-steps";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { instanceOfLoginCredentials } from "../../data/auth/loginCredentials";
-import OrgInfoForm, { IOrgInfo } from "./components/org-info-form";
-import GoalsForm, { IGoalForm } from "./components/goals-form";
+import OrgInfoForm from "./components/org-info-form";
+import GoalsForm from "./components/goals-form";
 import SignUpWaiting from "./components/sign-up-waiting";
 import "./scss/setup.scss";
 import { Paths } from "../../paths";
+import { IOrganisation } from "../../data/model/organisation";
+import { IOrganisationAdminData } from "../../data/model/organisationAdmin";
+import { IOrganisationSummary } from "../../data/model/organisationSummary";
 
 const steps = [
   { label: "Organisation Information" },
@@ -34,26 +37,31 @@ const steps = [
   { label: "Get Started" },
 ];
 
-export interface IOnChange {
-  onChange: (payload: IOrgInfo | IGoalForm) => void;
+export interface IOrgFormData
+  extends IOrganisation,
+    IOrganisationAdminData,
+    IOrganisationSummary {}
+
+export interface OrgDataFormProps {
+  orgFormData: IOrgFormData;
+  updateOrgFormData: (orgFormData: IOrgFormData) => void;
 }
-export interface IOrgData extends IOrgInfo, IGoalForm {}
 
 export default function ProfileSetupPage() {
   const { nextStep, prevStep, activeStep, setStep } = useSteps({
     initialStep: 1,
   });
-  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const { isOpen, onClose } = useDisclosure();
 
   const navigate = useNavigate();
 
-  const [orgData, setOrgData] = useState<IOrgData>({});
-  const updateOrgData = (payload: IOrgInfo | IGoalForm) => {
-    Object.entries(payload).forEach(([key, value]) => {
-      setOrgData({ ...orgData, [key]: value });
-    });
+  // update org data from form inputs
+  const [orgFormData, setOrgFormData] = useState<IOrgFormData>({});
+  const updateOrgFormData = (payload: IOrgFormData) => {
+    setOrgFormData(payload);
+    console.log(payload);
   };
-  console.log("orgData", orgData);
   // retrieve the login credentials to be used by the auth provider
   // for sign up
   const { state } = useLocation();
@@ -69,13 +77,10 @@ export default function ProfileSetupPage() {
     switch (activeStep) {
       case 1:
         return "Let’s get started! \n Share with us 🙌";
-        break;
       case 2:
         return "Almost there! \n Tell us your goals 😎";
-        break;
       default:
         return "Let’s get started! \n Share with us 🙌";
-        break;
     }
   };
 
@@ -157,9 +162,15 @@ export default function ProfileSetupPage() {
                   {stepTitle(activeStep)}
                 </Heading>
                 {activeStep === 1 ? (
-                  <OrgInfoForm onChange={updateOrgData} />
+                  <OrgInfoForm
+                    orgFormData={orgFormData}
+                    updateOrgFormData={updateOrgFormData}
+                  />
                 ) : activeStep === 2 ? (
-                  <GoalsForm onChange={updateOrgData} />
+                  <GoalsForm
+                    orgFormData={orgFormData}
+                    updateOrgFormData={updateOrgFormData}
+                  />
                 ) : (
                   ""
                 )}
@@ -171,7 +182,7 @@ export default function ProfileSetupPage() {
                 email={state.email}
                 password={state.password}
                 validated={state.validated}
-                submitData={orgData}
+                submitData={orgFormData}
               />
             </VStack>
           )}

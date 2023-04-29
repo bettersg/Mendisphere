@@ -5,12 +5,12 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../services/firebase/authProvider";
 import { handleSubmit } from "../../../services/firebase/organizationInfo";
-import { IOrgData } from "../profile-setup-page";
+import { IOrgFormData } from "../profile-setup-page";
 export interface LoginCredentials {
   email: string;
   password: string;
   validated: boolean;
-  submitData?: IOrgData;
+  submitData?: IOrgFormData;
 }
 
 export default function SignUpWaiting(loginCredentials: LoginCredentials) {

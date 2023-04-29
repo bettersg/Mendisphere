@@ -1,8 +1,8 @@
 import { db } from "./firebaseConfig";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { IOrgData } from "../../features/registration/profile-setup-page";
+import { IOrgFormData } from "../../features/registration/profile-setup-page";
 
-export const handleSubmit = async (uid: string, submitData?: IOrgData) => {
+export const handleSubmit = async (uid: string, submitData?: IOrgFormData) => {
   try {
     console.log("handleSubmit begin", uid, submitData);
     // TODO set default data if any fields of submitData is undefined
