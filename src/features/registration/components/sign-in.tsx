@@ -1,18 +1,18 @@
 import { Box, Flex, Link, Spacer, Text } from "@chakra-ui/react";
 
-export default function Signup() {
+export default function SignIn() {
   return (
     <Flex>
       <Spacer />
       <Box p="1">
         <Text color="grey" as="b">
-          Don't Have an account?{" "}
+          Already have an account?{" "}
         </Text>
       </Box>
       <Box p="1">
-        <Link href="/registration">
+        <Link href="/login">
           <Text color="blue" as="b">
-            Sign up
+            Sign In
           </Text>
         </Link>
       </Box>

@@ -3,27 +3,34 @@ service cloud.firestore {
   match /databases/{database}/documents {
     match /users/{uid} {
     	// To create (setDoc) new document for user registered data
-      allow read, write: if true; // TODO replace if request.auth != null;
+      allow read: if request.auth.uid !=null;
+      allow write: if true; // TODO replace if request.auth != null;
       // To update user's registered data
       // allow update: if request.auth.uid == uid; // TODO return
     }
     match /organisations/{org} {
-    	allow read: if true;
-      allow write: if true; //TODO remove
-      // allow write: if request.auth != null; //TODO replace
+    	allow read;
+      allow write: if request.auth.uid != null;
     }
     match /organisationAdminData/{org} {
-    	allow read, write: if true; // TODO replace rule if request.auth != null;
+    	allow read: if request.auth.uid != null;
+      allow write: if request.auth.uid != null;
     }
-    
+    match /organisationSummary/{org} {
+    	allow read;
+      allow write: if request.auth.uid != null;
+    }
     match /organisationFAQ/{org} {
-    	allow read, write: if true; // TODO replace rule if request.auth != null;
+    	allow read;
+      allow write: if request.auth.uid != null; 
     }
     match /organisationOurStory/{org} {
-    	allow read, write: if true; // TODO replace rule if request.auth != null;
+    	allow read;
+      allow write: if request.auth.uid != null; 
     }
     match /organisationPeopleSpotlight/{org} {
-    	allow read, write: if true; // TODO replace rule if request.auth != null;
+    	allow read;
+      allow write: if request.auth.uid != null; 
     }
   }
 }

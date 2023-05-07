@@ -1,9 +1,5 @@
 import {
   doc,
-  DocumentReference,
-  DocumentData,
-  addDoc,
-  collection,
   setDoc,
 } from "firebase/firestore";
 import { Collections } from "../../services/firebase/names";
@@ -19,18 +15,18 @@ export interface IUser {
 export class User {
   id: string;
   role: UserRole;
-  orgRef: DocumentReference<DocumentData>;
+  orgRef: string;
 
   constructor(_id: string, _role: UserRole, _orgRef: string) {
     this.id = _id;
     this.role = _role;
-    this.orgRef = doc(db, _orgRef);
+    this.orgRef = _orgRef;
   }
 }
 
 export async function createUser(
   userID: string,
-  orgID: DocumentReference,
+  orgID: string,
   userRole: UserRole
 ): Promise<void> {
   await setDoc(doc(db, Collections.users, userID), {

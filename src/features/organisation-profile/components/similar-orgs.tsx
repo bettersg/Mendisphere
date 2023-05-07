@@ -8,7 +8,7 @@ import {
   OrganisationListingQueryFilters,
 } from "../../../data/model/organisation";
 import CardView from "../../organisation-list/components/CardView";
-import { MentalHealthIssue } from "../../../data/enums/mental-health-issue.enum";
+import { Specialisation } from "../../../data/enums/specialisation.enum";
 
 const SimilarOrgs: React.FC<{ org: Organisation }> = ({ org }) => {
   // store organisation card data
@@ -16,7 +16,7 @@ const SimilarOrgs: React.FC<{ org: Organisation }> = ({ org }) => {
   // states of the 4 filters
   const filter: OrganisationListingQueryFilters = {
     // For testing only, replace with org.mainSpecialisation
-    specialisations: [MentalHealthIssue.OverallMentalWellbeing],
+    specialisations: [Specialisation.OverallMentalWellbeing],
   };
 
   useEffect(() => {
