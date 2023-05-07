@@ -11,7 +11,6 @@ import {
   CapitalGoal,
   capitalGoalEnumOptions,
 } from "../../../data/enums/captial-goal.enum";
-import { Timestamp } from "firebase/firestore";
 
 export default function GoalsForm({
   orgFormData,
@@ -56,7 +55,7 @@ export default function GoalsForm({
               onChange={(e) =>
                 updateOrgFormData({
                   ...orgFormData,
-                  lastFundingDate: Timestamp.fromDate(new Date(e.target.value)),
+                  lastFundingDate: new Date(e.target.value),
                 })
               }
             ></Input>
@@ -66,6 +65,7 @@ export default function GoalsForm({
             <Select
               required
               className="formInput"
+              isRequired={true}
               placeholder="Enter your capital amount goal"
               onChange={(e) =>
                 updateOrgFormData({
@@ -75,8 +75,8 @@ export default function GoalsForm({
               }
             >
               {capitalGoalEnumOptions.map((enumOption) => (
-                <option key={enumOption.value} value={enumOption.value}>
-                  {enumOption.label}
+                <option key={enumOption.key} value={enumOption.key}>
+                  {enumOption.value}
                 </option>
               ))}
             </Select>

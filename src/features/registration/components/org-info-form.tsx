@@ -22,7 +22,6 @@ import {
   serviceEnumOptions,
 } from "../../../data/enums/service.enum";
 import { OrgSize, orgSizeEnumOptions } from "../../../data/enums/org-size.enum";
-import { Timestamp } from "firebase/firestore";
 import { useState } from "react";
 
 export default function OrgInfoForm({
@@ -58,6 +57,7 @@ export default function OrgInfoForm({
             <FormLabel className="formTitle">Name of Organisation*</FormLabel>
             <Input
               className="formInput"
+              isRequired={true}
               placeholder="Enter your organisation name"
               onChange={(e) =>
                 updateOrgFormData({ ...orgFormData, name: e.target.value })
@@ -68,6 +68,7 @@ export default function OrgInfoForm({
             <FormLabel className="formTitle">Registered Address*</FormLabel>
             <Input
               className="formInput"
+              isRequired={true}
               placeholder="Enter your organisation address here"
               onChange={(e) =>
                 updateOrgFormData({ ...orgFormData, address: e.target.value })
@@ -80,6 +81,7 @@ export default function OrgInfoForm({
             </FormLabel>
             <Select
               className="formSelect"
+              isRequired={true}
               placeholder="Choose a specialisation"
               onChange={(e) =>
                 updateOrgFormData({
@@ -89,8 +91,8 @@ export default function OrgInfoForm({
               }
             >
               {specialisationEnumOptions.map((enumOption) => (
-                <option key={enumOption.value} value={enumOption.value}>
-                  {enumOption.label}
+                <option key={enumOption.key} value={enumOption.key}>
+                  {enumOption.value}
                 </option>
               ))}
             </Select>
@@ -101,6 +103,7 @@ export default function OrgInfoForm({
             </FormLabel>
             <Select
               className="formSelect"
+              isRequired={true}
               placeholder="Requests"
               onChange={(e) =>
                 updateOrgFormData({
@@ -110,8 +113,8 @@ export default function OrgInfoForm({
               }
             >
               {supportAreaEnumOptions.map((enumOption) => (
-                <option key={enumOption.value} value={enumOption.value}>
-                  {enumOption.label}
+                <option key={enumOption.key} value={enumOption.key}>
+                  {enumOption.value}
                 </option>
               ))}
             </Select>
@@ -183,6 +186,7 @@ export default function OrgInfoForm({
             </FormLabel>
             <Select
               className="formSelect"
+              isRequired={true}
               onChange={(e) =>
                 updateOrgFormData({
                   ...orgFormData,
@@ -191,8 +195,8 @@ export default function OrgInfoForm({
               }
             >
               {orgSizeEnumOptions.map((enumOption) => (
-                <option key={enumOption.value} value={enumOption.value}>
-                  {enumOption.label}
+                <option key={enumOption.key} value={enumOption.key}>
+                  {enumOption.value}
                 </option>
               ))}
             </Select>
@@ -207,7 +211,7 @@ export default function OrgInfoForm({
               onChange={(e) => {
                 updateOrgFormData({
                   ...orgFormData,
-                  ipcExpiry: Timestamp.fromDate(new Date(e.target.value)),
+                  ipcExpiry: new Date(e.target.value),
                 });
               }}
             ></Input>

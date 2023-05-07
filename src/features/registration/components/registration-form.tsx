@@ -43,7 +43,6 @@ export default function RegistrationForm() {
 
   const onInputChange = (event: any) => {
     const { name, value } = event.target;
-    // console.log(`change triggerred ${name} ${value}`)
     setInput((prev) => ({
       ...prev,
       [name]: value,
