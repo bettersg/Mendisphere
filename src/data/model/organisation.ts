@@ -260,16 +260,27 @@ export async function createOrganisationOnSignUp(
   org: IOrganisation,
   orgAdminData: IOrganisationAdminData,
   orgSummary: IOrganisationSummary
-): Promise<void> {
-  return createOrganisation(org)
-    .then((o) => {
+): Promise<string> {
+  const result = await createOrganisation(org);
+  if (result == null || result.id == null) {
+    throw new Error("Unable to add new organisation to database.");
+  }
+  const newOrgId = result.id;
+
+  return new Promise((resolve) => {
+    resolve(newOrgId);
+  })
+    .then(() => {
       console.log("org data added");
       // set the organisation id from firestore
-      orgAdminData.orgId = o.id;
-      orgSummary.orgId = o.id;
+      orgAdminData.orgId = newOrgId;
+      orgSummary.orgId = newOrgId;
     })
     .then(() => createOrganisationAdminData(orgAdminData))
     .then(() => console.log("org admin data added"))
     .then(() => createOrganisationSummaryData(orgSummary))
-    .then(() => console.log("org summary data added"));
+    .then(() => console.log("org summary data added"))
+    .then(() => {
+      return newOrgId;
+    });
 }
