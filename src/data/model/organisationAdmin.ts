@@ -1,6 +1,5 @@
 import {
   addDoc,
-  Timestamp,
   collection,
   DocumentData,
   FirestoreDataConverter,
@@ -18,8 +17,8 @@ export interface IOrganisationAdminData {
   size?: OrgSize;
   capitalCurrent?: string;
   capitalGoal?: CapitalGoal;
-  lastFundingDate?: Timestamp;
-  ipcExpiry?: Timestamp;
+  lastFundingDate?: Date;
+  ipcExpiry?: Date;
   uen?: string;
 }
 
@@ -28,8 +27,8 @@ export class OrganisationAdminData implements IOrganisationAdminData {
   address: string;
   size: OrgSize;
   capitalGoal: CapitalGoal;
-  lastFundingDate: Timestamp | undefined;
-  ipcExpiry: Timestamp | undefined;
+  lastFundingDate?: Date;
+  ipcExpiry?: Date;
   capitalCurrent: string;
   uen: string;
 
@@ -41,8 +40,8 @@ export class OrganisationAdminData implements IOrganisationAdminData {
     _size: OrgSize,
     _capitalGoal: CapitalGoal,
     _uen: string,
-    _ipcExpiry?: Timestamp,
-    _lastFundingDate?: Timestamp,
+    _ipcExpiry?: Date,
+    _lastFundingDate?: Date,
     _capitalCurrent?: string
   ) {
     this.orgId = _orgId;
@@ -67,11 +66,11 @@ export const organisationAdminConverter: FirestoreDataConverter<OrganisationAdmi
         orgId: data.orgId ?? "",
         address: data.address,
         size: data.size,
-        ipcExpiry: data.ipcExpiry,
+        ipcExpiry: data.ipcExpiry?.toISOString() ?? "",
         uen: data.uen,
         capitalGoal: data.capitalGoal,
         capitalCurrent: data.capitalCurrent,
-        lastFundingDate: data.lastFundingDate,
+        lastFundingDate: data.lastFundingDate?.toISOString() ?? "",
       };
     },
     fromFirestore(
@@ -84,9 +83,11 @@ export const organisationAdminConverter: FirestoreDataConverter<OrganisationAdmi
         data.address,
         data.size,
         data.capitalGoal,
-        data.ipcExpiry,
         data.uen,
-        data.lastFundingDate,
+        data.ipcExpiry !== "" ? new Date(data.ipcExpiry) : undefined,
+        data.lastFundingDate !== ""
+          ? new Date(data.lastFundingDate)
+          : undefined,
         data.capitalCurrent
       );
     },

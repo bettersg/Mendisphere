@@ -26,6 +26,10 @@ import { Specialisation } from "../enums/specialisation.enum";
 import { Service } from "../enums/service.enum";
 import { IPCStatus } from "../enums/ipc-status.enum";
 import { VerificationStatus } from "../enums/verification-status.enum";
+import {
+  IOrganisationSummary,
+  createOrganisationSummaryData,
+} from "./organisationSummary";
 
 export interface IOrganisation {
   name?: string;
@@ -252,16 +256,20 @@ export async function createOrganisation(
   );
 }
 
-export async function createOrganisationWithAdminData(
+export async function createOrganisationOnSignUp(
   org: IOrganisation,
-  orgAdminData: IOrganisationAdminData
+  orgAdminData: IOrganisationAdminData,
+  orgSummary: IOrganisationSummary
 ): Promise<void> {
   return createOrganisation(org)
     .then((o) => {
       console.log("org data added");
       // set the organisation id from firestore
       orgAdminData.orgId = o.id;
+      orgSummary.orgId = o.id;
     })
     .then(() => createOrganisationAdminData(orgAdminData))
-    .then(() => console.log("org admin data added"));
+    .then(() => console.log("org admin data added"))
+    .then(() => createOrganisationSummaryData(orgSummary))
+    .then(() => console.log("org summary data added"));
 }
