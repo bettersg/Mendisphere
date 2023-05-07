@@ -3,22 +3,21 @@ import { doc, setDoc } from "firebase/firestore";
 import { Component } from "react";
 import {
   getOrganisationsForListingsPage,
-  IOrganisation,
   Organisation,
   OrganisationListingQueryFilters,
 } from "../../data/model/organisation";
-import orgsJson from "./test-data/organisations.json";
 import { db } from "../../services/firebase/firebaseConfig";
 import { Collections } from "../../services/firebase/names";
 import { IPCStatus } from "../../data/enums/ipc-status.enum";
+import { testOrgs } from "./test-data/test-organisations";
 
 class FirestoreMockPage extends Component {
   orgs: Organisation[] = [];
 
   parseData = async () => {
     // parse json files into interfaces
-    for (let i = 0; i < orgsJson.length; i++) {
-      const orgData = orgsJson[i] as IOrganisation;
+    for (let i = 0; i < testOrgs.length; i++) {
+      const orgData = testOrgs[i];
       const orgName = orgData.name ?? "unknown";
       const id = `mock_${orgName.replace(/\s/g, "")}`;
       const docRef = doc(db, Collections.organisations, id);
