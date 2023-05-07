@@ -1,5 +1,6 @@
 import { Button, VStack } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
+import { Paths } from "../../../paths";
 import { LoginCredentials } from "./sign-up-waiting";
 
 export default function SignUpButton(LoginCredentials: LoginCredentials) {
@@ -14,7 +15,7 @@ export default function SignUpButton(LoginCredentials: LoginCredentials) {
         colorScheme="blue"
         onClick={() => {
           console.log(LoginCredentials);
-          navigate("/profile-setup", { state: LoginCredentials });
+          navigate(Paths.profileSetup, { state: LoginCredentials });
         }}
       >
         Sign Up

@@ -4,13 +4,23 @@ import { User, UserCredential } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../services/firebase/authProvider";
-import { handleSubmit } from "../../../services/firebase/organizationInfo";
-import { IOrgData } from "../profile-page-setup";
+import { IOrgFormData } from "../profile-setup-page";
+import {
+  IOrganisation,
+  createOrganisationOnSignUp,
+} from "../../../data/model/organisation";
+import { IPCStatus } from "../../../data/enums/ipc-status.enum";
+import { VerificationStatus } from "../../../data/enums/verification-status.enum";
+import { IOrganisationAdminData } from "../../../data/model/organisationAdmin";
+import { IOrganisationSummary } from "../../../data/model/organisationSummary";
+import { UserRole } from "../../../data/enums/user-role.enum";
+import { createUser } from "../../../data/model/user";
+
 export interface LoginCredentials {
   email: string;
   password: string;
   validated: boolean;
-  submitData?: IOrgData;
+  submitData?: IOrgFormData;
 }
 
 export default function SignUpWaiting(loginCredentials: LoginCredentials) {
@@ -21,17 +31,52 @@ export default function SignUpWaiting(loginCredentials: LoginCredentials) {
 
   const navigate = useNavigate();
   const handleSignIn = async () => {
-    console.log(
-      `sign up request sent ${email}, ${password}`
-    );
+    console.log(`Sign up request sent ${email}`);
     try {
       setLoading(true);
       let userCred: UserCredential = await signUp(email, password);
-      let user: User = userCred.user;
-      let token: string = await user.getIdToken();
-      // TODO user the token as uid to save the submitData
-      console.log('submitData', submitData)
-      await handleSubmit(user.uid, submitData);
+
+      if (userCred.user == null) {
+        throw Error("Unable to create user!");
+      }
+
+      const user: User = userCred.user;
+      const token: string = await user.getIdToken();
+      if (submitData != null) {
+        const orgData: IOrganisation = {
+          name: submitData.name,
+          ipcApproved: IPCStatus.Pending,
+          verified: VerificationStatus.Pending,
+          mainSpecialisation: submitData.mainSpecialisation,
+          mainSupportArea: submitData.mainSupportArea,
+          services: submitData.services,
+          description: "",
+          cardImageUrl: "",
+        };
+
+        const orgAdminData: IOrganisationAdminData = {
+          address: submitData.address,
+          size: submitData.size,
+          capitalCurrent: submitData.capitalCurrent,
+          capitalGoal: submitData.capitalGoal,
+          lastFundingDate: submitData.lastFundingDate,
+          ipcExpiry: submitData.ipcExpiry,
+          uen: submitData.uen ?? "",
+        };
+
+        const orgSummaryData: IOrganisationSummary = {
+          websiteUrl: submitData.websiteUrl,
+        };
+
+        const orgId = await createOrganisationOnSignUp(
+          orgData,
+          orgAdminData,
+          orgSummaryData
+        );
+        await createUser(token, orgId, UserRole.admin);
+      }
+
+      console.log("submitData", submitData);
       console.log(`Authentication success userid: ${user.uid}, ${token}`);
       setLoading(false);
       console.log("Routing to user dashboard page.");
@@ -56,11 +101,11 @@ export default function SignUpWaiting(loginCredentials: LoginCredentials) {
       console.log(
         "Login credentials are not validated. Redirecting to sign up."
       );
-      // TODO created alart and redirect to sign up page if login credentials are not valid
+      // TODO created alert and redirect to sign up page if login credentials are not valid
     }
 
     handleSignIn();
-  }, []);
+  });
 
   return (
     <Center>
@@ -77,9 +122,7 @@ export default function SignUpWaiting(loginCredentials: LoginCredentials) {
         ) : (
           <CheckCircleIcon w={8} h={8} color="green.500" />
         )}
-        <Text className="loadingTitle">
-          Welcome, {email.split("@", 1)}! 👋🏻
-        </Text>
+        <Text className="loadingTitle">Welcome, {email.split("@", 1)}! 👋🏻</Text>
         <Text className="loadingSubTitle">
           We’re setting up your profile right now. This will take just a second!
         </Text>

@@ -11,13 +11,13 @@ import { ReactComponent as FundingSupportIcon } from "../assets/icons/services/f
 import { ReactComponent as CounsellingIcon } from "../assets/icons/services/counselling.svg";
 import { ReactComponent as CorporateTrainingIcon } from "../assets/icons/services/corporate-training.svg";
 import { SocialType } from "../data/enums/social-type.enum";
-import { MentalHealthIssue } from "../data/enums/mental-health-issue.enum";
+import { Specialisation } from "../data/enums/specialisation.enum";
 import { Service } from "../data/enums/service.enum";
 import { SupportArea } from "../data/enums/support-area.enum";
 
-export function GetIconForIssue(issue: MentalHealthIssue) {
+export function GetIconForIssue(issue: Specialisation) {
   switch (issue) {
-    case MentalHealthIssue.AntiStigmatism:
+    case Specialisation.AntiStigmatism:
       return <AntiStigmatismIcon />;
     default:
       return null;

@@ -22,20 +22,24 @@ import {
   IOrganisationAdminData,
 } from "./organisationAdmin";
 import { SupportArea } from "../enums/support-area.enum";
-import { MentalHealthIssue } from "../enums/mental-health-issue.enum";
+import { Specialisation } from "../enums/specialisation.enum";
 import { Service } from "../enums/service.enum";
 import { IPCStatus } from "../enums/ipc-status.enum";
 import { VerificationStatus } from "../enums/verification-status.enum";
+import {
+  IOrganisationSummary,
+  createOrganisationSummaryData,
+} from "./organisationSummary";
 
 export interface IOrganisation {
-  name: string;
-  ipcApproved: IPCStatus;
-  verified: VerificationStatus;
-  mainSpecialisation: MentalHealthIssue;
-  mainSupportArea: SupportArea;
-  services: Service[];
-  description: string;
-  cardImageUrl: string;
+  name?: string;
+  ipcApproved?: IPCStatus;
+  verified?: VerificationStatus;
+  mainSpecialisation?: Specialisation;
+  mainSupportArea?: SupportArea;
+  services?: Service[];
+  description?: string;
+  cardImageUrl?: string;
 }
 
 export class Organisation implements IOrganisation {
@@ -43,7 +47,7 @@ export class Organisation implements IOrganisation {
   name: string;
   ipcApproved: IPCStatus;
   verified: VerificationStatus;
-  mainSpecialisation: MentalHealthIssue;
+  mainSpecialisation: Specialisation;
   mainSupportArea: SupportArea;
   services: Service[];
   description: string;
@@ -54,11 +58,11 @@ export class Organisation implements IOrganisation {
     _name: string,
     _ipcApproved: IPCStatus,
     _verified: VerificationStatus,
-    _mainSpecialisation: MentalHealthIssue,
+    _mainSpecialisation: Specialisation,
     _mainSupportArea: SupportArea,
     _services: Service[],
-    _description: string,
-    _cardImageUrl: string
+    _description?: string,
+    _cardImageUrl?: string
   ) {
     this.id = _id;
     this.name = _name;
@@ -67,8 +71,8 @@ export class Organisation implements IOrganisation {
     this.mainSpecialisation = _mainSpecialisation;
     this.mainSupportArea = _mainSupportArea;
     this.services = _services;
-    this.description = _description;
-    this.cardImageUrl = _cardImageUrl;
+    this.description = _description ?? "";
+    this.cardImageUrl = _cardImageUrl ?? "";
   }
 
   toString() {
@@ -104,7 +108,7 @@ export const organisationConverter: FirestoreDataConverter<Organisation> = {
 };
 
 export type OrganisationListingQueryFilters = {
-  specialisations?: MentalHealthIssue[];
+  specialisations?: Specialisation[];
   services?: Service[];
   ipcStatus?: IPCStatus[];
   supportAreas?: SupportArea[];
@@ -226,6 +230,19 @@ export async function createOrganisation(
   orgData: IOrganisation
 ): Promise<Organisation> {
   const res = await addDoc(collection(db, Collections.organisations), orgData);
+  if (
+    orgData.name == null ||
+    orgData.ipcApproved == null ||
+    orgData.verified == null ||
+    orgData.mainSpecialisation == null ||
+    orgData.mainSupportArea == null ||
+    orgData.services == null ||
+    orgData.description == null ||
+    orgData.cardImageUrl == null
+  ) {
+    throw Error(`Unable to create org. Missing data: ${orgData}`);
+  }
+
   return new Organisation(
     res.id,
     orgData.name,
@@ -239,16 +256,31 @@ export async function createOrganisation(
   );
 }
 
-export async function createOrganisationWithAdminData(
+export async function createOrganisationOnSignUp(
   org: IOrganisation,
-  orgAdminData: IOrganisationAdminData
-): Promise<void> {
-  return createOrganisation(org)
-    .then((o) => {
+  orgAdminData: IOrganisationAdminData,
+  orgSummary: IOrganisationSummary
+): Promise<string> {
+  const result = await createOrganisation(org);
+  if (result == null || result.id == null) {
+    throw new Error("Unable to add new organisation to database.");
+  }
+  const newOrgId = result.id;
+
+  return new Promise((resolve) => {
+    resolve(newOrgId);
+  })
+    .then(() => {
       console.log("org data added");
       // set the organisation id from firestore
-      orgAdminData.orgId = o.id;
+      orgAdminData.orgId = newOrgId;
+      orgSummary.orgId = newOrgId;
     })
     .then(() => createOrganisationAdminData(orgAdminData))
-    .then(() => console.log("org admin data added"));
+    .then(() => console.log("org admin data added"))
+    .then(() => createOrganisationSummaryData(orgSummary))
+    .then(() => console.log("org summary data added"))
+    .then(() => {
+      return newOrgId;
+    });
 }

@@ -6,22 +6,16 @@ import {
   Select,
   Text,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { IOnChange } from "../profile-page-setup";
+import { OrgDataFormProps } from "../profile-setup-page";
+import {
+  CapitalGoal,
+  capitalGoalEnumOptions,
+} from "../../../data/enums/captial-goal.enum";
 
-export interface IGoalForm {
-  capitalNow?: string;
-  lastFundedOn?: string;
-  capitalGoal?: string;
-}
-
-export default function GoalsForm(props: IOnChange) {
-  const [goalForm, setGoalForm] = useState<IGoalForm>({});
-
-  useEffect(() => {
-    props.onChange(goalForm);
-  }, [goalForm])
-  
+export default function GoalsForm({
+  orgFormData,
+  updateOrgFormData,
+}: OrgDataFormProps) {
   return (
     <Grid
       templateRows="repeat(1, 1fr)"
@@ -45,21 +39,47 @@ export default function GoalsForm(props: IOnChange) {
             <Input
               className="formInput"
               placeholder="Enter how much capital your organisation has raised"
-              onChange={(e) => setGoalForm({...goalForm, capitalNow: e.target.value})}
+              onChange={(e) =>
+                updateOrgFormData({
+                  ...orgFormData,
+                  capitalCurrent: e.target.value,
+                })
+              }
             ></Input>
             <FormLabel className="formTitle">
               When was the last time you received funding?
             </FormLabel>
-            <Input className="formInput" placeholder="dd/mm/yyyy" onChange={(e) => setGoalForm({...goalForm, lastFundedOn: e.target.value})}></Input>
+            <Input
+              className="formInput"
+              type="date"
+              onChange={(e) =>
+                updateOrgFormData({
+                  ...orgFormData,
+                  lastFundingDate: new Date(e.target.value),
+                })
+              }
+            ></Input>
             <FormLabel className="formTitle">
               What is your capital amount goal?*
             </FormLabel>
-            <Input
+            <Select
               required
               className="formInput"
+              isRequired={true}
               placeholder="Enter your capital amount goal"
-              onChange={(e) => setGoalForm({...goalForm, capitalGoal: e.target.value})}
-            ></Input>
+              onChange={(e) =>
+                updateOrgFormData({
+                  ...orgFormData,
+                  capitalGoal: e.target.value as CapitalGoal,
+                })
+              }
+            >
+              {capitalGoalEnumOptions.map((enumOption) => (
+                <option key={enumOption.key} value={enumOption.key}>
+                  {enumOption.value}
+                </option>
+              ))}
+            </Select>
           </GridItem>
         </Grid>
       </GridItem>

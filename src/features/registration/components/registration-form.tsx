@@ -43,7 +43,6 @@ export default function RegistrationForm() {
 
   const onInputChange = (event: any) => {
     const { name, value } = event.target;
-    // console.log(`change triggerred ${name} ${value}`)
     setInput((prev) => ({
       ...prev,
       [name]: value,
@@ -75,10 +74,14 @@ export default function RegistrationForm() {
           }
           break;
         case "givenName":
+          if (!IsValidName(value)) {
+            errorState.givenName = "Please enter a valid name.";
+            errorState.valid = false;
+          }
+          break;
         case "famName":
           if (!IsValidName(value)) {
             errorState.famName = "Please enter a valid name.";
-            errorState.givenName = "Please enter a valid name.";
             errorState.valid = false;
           }
           break;

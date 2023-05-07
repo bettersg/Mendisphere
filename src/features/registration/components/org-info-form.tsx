@@ -4,32 +4,31 @@ import {
   GridItem,
   Input,
   Select,
-  Spacer,
   Text,
   Image,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { IOnChange } from "../profile-page-setup";
+import { MultiSelect } from "react-multi-select-component";
+import { OrgDataFormProps } from "../profile-setup-page";
+import {
+  Specialisation,
+  specialisationEnumOptions,
+} from "../../../data/enums/specialisation.enum";
+import {
+  SupportArea,
+  supportAreaEnumOptions,
+} from "../../../data/enums/support-area.enum";
+import {
+  ServiceEnumOption,
+  serviceEnumOptions,
+} from "../../../data/enums/service.enum";
+import { OrgSize, orgSizeEnumOptions } from "../../../data/enums/org-size.enum";
+import { useState } from "react";
 
-export interface IOrgInfo {
-  orgName?: string;
-  address?: string;
-  focusArea?: string; // TODO multi-select?
-  helpArea?: string; // TODO multi-select?
-  website?: string;
-  startDate?: string;
-  role?: string;
-  uen?: string;
-  orgSize?: string;
-  ipcExpiryDate?: string;
-}
-
-export default function OrgInfoForm(props: IOnChange) {
-  const [orgInfo, setOrgInfo] = useState<IOrgInfo>({});
-
-  useEffect(() => {
-    props.onChange(orgInfo);
-  }, [orgInfo])
+export default function OrgInfoForm({
+  orgFormData,
+  updateOrgFormData,
+}: OrgDataFormProps) {
+  const [services, setServices] = useState<ServiceEnumOption[]>([]);
 
   return (
     <Grid
@@ -58,69 +57,98 @@ export default function OrgInfoForm(props: IOnChange) {
             <FormLabel className="formTitle">Name of Organisation*</FormLabel>
             <Input
               className="formInput"
+              isRequired={true}
               placeholder="Enter your organisation name"
-              onChange={(e) => setOrgInfo({...orgInfo, orgName: e.target.value})}
+              onChange={(e) =>
+                updateOrgFormData({ ...orgFormData, name: e.target.value })
+              }
             ></Input>
           </GridItem>
           <GridItem colSpan={2}>
             <FormLabel className="formTitle">Registered Address*</FormLabel>
             <Input
               className="formInput"
+              isRequired={true}
               placeholder="Enter your organisation address here"
-              onChange={(e) => setOrgInfo({...orgInfo, address: e.target.value})}
+              onChange={(e) =>
+                updateOrgFormData({ ...orgFormData, address: e.target.value })
+              }
             ></Input>
           </GridItem>
           <GridItem colSpan={1} rowSpan={1}>
             <FormLabel className="formTitle">
-              What Does Your Organisation Focus On?*
+              What does your organisation specialise in?*
             </FormLabel>
-            <Select className="formSelect" placeholder="Focus Areas" onChange={(e) => setOrgInfo({...orgInfo, focusArea: e.target.value})}>
-              <option value="Area1">Area 1</option>
-              <option value="Area2">Area 2</option>
-              <option value="Area3">Area 3</option>
+            <Select
+              className="formSelect"
+              isRequired={true}
+              placeholder="Choose a specialisation"
+              onChange={(e) =>
+                updateOrgFormData({
+                  ...orgFormData,
+                  mainSpecialisation: e.target.value as Specialisation,
+                })
+              }
+            >
+              {specialisationEnumOptions.map((enumOption) => (
+                <option key={enumOption.key} value={enumOption.key}>
+                  {enumOption.value}
+                </option>
+              ))}
             </Select>
           </GridItem>
           <GridItem colSpan={2} rowSpan={1}>
             <FormLabel className="formTitle">
-              What Do You Need Help with most? (max 3)*
+              What Do You Need Help with most?*
             </FormLabel>
             <Select
               className="formSelect"
-              placeholder="What Are You Looking For?"
-              onChange={(e) => setOrgInfo({...orgInfo, helpArea: e.target.value})}
+              isRequired={true}
+              placeholder="Requests"
+              onChange={(e) =>
+                updateOrgFormData({
+                  ...orgFormData,
+                  mainSupportArea: e.target.value as SupportArea,
+                })
+              }
             >
-              <option value="Area1">Area 1</option>
-              <option value="Area2">Area 2</option>
-              <option value="Area3">Area 3</option>
+              {supportAreaEnumOptions.map((enumOption) => (
+                <option key={enumOption.key} value={enumOption.key}>
+                  {enumOption.value}
+                </option>
+              ))}
             </Select>
           </GridItem>
-          <GridItem colSpan={1}>
+          <GridItem colSpan={1} rowSpan={1}>
+            <FormLabel className="formTitle">
+              What services do you provide?*
+            </FormLabel>
+            <MultiSelect
+              className="formSelect"
+              options={serviceEnumOptions}
+              labelledBy="Services"
+              onChange={(e: ServiceEnumOption[]) => {
+                updateOrgFormData({
+                  ...orgFormData,
+                  services: e.map((option) => option.value),
+                });
+                setServices(e);
+              }}
+              value={services}
+            />
+          </GridItem>
+          <GridItem colSpan={2} rowSpan={1}>
             <FormLabel className="formTitle">Website</FormLabel>
             <Input
               className="formInput"
               placeholder="Enter Your Website URL"
-              onChange={(e) => setOrgInfo({...orgInfo, website: e.target.value})}
+              onChange={(e) =>
+                updateOrgFormData({
+                  ...orgFormData,
+                  websiteUrl: e.target.value,
+                })
+              }
             ></Input>
-          </GridItem>
-          <GridItem colSpan={1}>
-            <FormLabel className="formTitle">
-              Organisation start date*
-            </FormLabel>
-            <Input className="formInput" placeholder="DD/MM/YYYY" onChange={(e) => setOrgInfo({...orgInfo, startDate: e.target.value})}></Input>
-          </GridItem>
-          <GridItem colSpan={2}>
-            <FormLabel className="formTitle">
-              Your role in your organsation*
-            </FormLabel>
-            <Select
-              className="formSelect"
-              placeholder="Select a role (e.g. Founder)"
-              onChange={(e) => setOrgInfo({...orgInfo, role: e.target.value})}
-            >
-              <option value="Founder">Founder</option>
-              <option value="Executive">Executive</option>
-              <option value="Staff">Staff</option>
-            </Select>
           </GridItem>
         </Grid>
       </GridItem>
@@ -144,24 +172,49 @@ export default function OrgInfoForm(props: IOnChange) {
         >
           <GridItem colSpan={1}>
             <FormLabel className="formTitle">UEN*</FormLabel>
-            <Input className="formInput" placeholder="T12345678E" onChange={(e) => setOrgInfo({...orgInfo, uen: e.target.value})}></Input>
+            <Input
+              className="formInput"
+              placeholder="T12345678E"
+              onChange={(e) =>
+                updateOrgFormData({ ...orgFormData, uen: e.target.value })
+              }
+            ></Input>
           </GridItem>
           <GridItem colSpan={2} rowSpan={1}>
             <FormLabel className="formTitle">
-              How many people in your organisation*
+              How many people are in your organisation?*
             </FormLabel>
-            <Select className="formSelect" onChange={(e) => setOrgInfo({...orgInfo, orgSize: e.target.value})}>
-              <option value="1-10">1-10</option>
-              <option value="100">100</option>
-              <option value="1000">1000</option>
-              <option value="1000+">1000+</option>
+            <Select
+              className="formSelect"
+              isRequired={true}
+              onChange={(e) =>
+                updateOrgFormData({
+                  ...orgFormData,
+                  size: e.target.value as OrgSize,
+                })
+              }
+            >
+              {orgSizeEnumOptions.map((enumOption) => (
+                <option key={enumOption.key} value={enumOption.key}>
+                  {enumOption.value}
+                </option>
+              ))}
             </Select>
           </GridItem>
           <GridItem colSpan={1}>
             <FormLabel className="formTitle">
               IPC registration expiry date (if applicable)
             </FormLabel>
-            <Input className="formInput" placeholder="DD/MM/YYYY" onChange={(e) => setOrgInfo({...orgInfo, ipcExpiryDate: e.target.value})}></Input>
+            <Input
+              className="formInput"
+              type="date"
+              onChange={(e) => {
+                updateOrgFormData({
+                  ...orgFormData,
+                  ipcExpiry: new Date(e.target.value),
+                });
+              }}
+            ></Input>
           </GridItem>
         </Grid>
       </GridItem>

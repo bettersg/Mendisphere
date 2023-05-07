@@ -1,29 +1,25 @@
 import { Button, Heading, VStack } from "@chakra-ui/react";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { Component } from "react";
 import {
-  createOrganisation,
   getOrganisationsForListingsPage,
-  IOrganisation,
   Organisation,
   OrganisationListingQueryFilters,
 } from "../../data/model/organisation";
-import orgsJson from "./test-data/organisations.json";
 import { db } from "../../services/firebase/firebaseConfig";
 import { Collections } from "../../services/firebase/names";
-import { MentalHealthIssue } from "../../data/enums/mental-health-issue.enum";
-import { Service } from "../../data/enums/service.enum";
-import { SupportArea } from "../../data/enums/support-area.enum";
 import { IPCStatus } from "../../data/enums/ipc-status.enum";
+import { testOrgs } from "./test-data/test-organisations";
 
 class FirestoreMockPage extends Component {
   orgs: Organisation[] = [];
 
   parseData = async () => {
     // parse json files into interfaces
-    for (let i = 0; i < orgsJson.length; i++) {
-      const orgData = orgsJson[i] as IOrganisation;
-      const id = `mock_${orgData.name.replace(/\s/g, "")}`;
+    for (let i = 0; i < testOrgs.length; i++) {
+      const orgData = testOrgs[i];
+      const orgName = orgData.name ?? "unknown";
+      const id = `mock_${orgName.replace(/\s/g, "")}`;
       const docRef = doc(db, Collections.organisations, id);
       console.log(JSON.stringify(orgData));
 

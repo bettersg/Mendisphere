@@ -16,7 +16,7 @@ import {
   GetIconForIssue,
   GetIconForSocials,
 } from "../../../utilities/icon-mappings";
-import { MentalHealthIssue } from "../../../data/enums/mental-health-issue.enum";
+import { Specialisation } from "../../../data/enums/specialisation.enum";
 
 export type Social = {
   socialType: SocialType;
@@ -27,7 +27,7 @@ type SummaryProps = {
   videoUrl: string;
   name: string;
   mission: string;
-  mentalHealthType: MentalHealthIssue; // maximum two focus areas
+  mentalHealthType: Specialisation; // maximum two focus areas
   website: string;
   email: string;
   isApproved: boolean;
@@ -73,7 +73,7 @@ const Summary: React.FC = () => {
     name: "Resilience Collective (RC)",
     mission:
       "We support the recovery journeys of persons with mental health challenges and encourage help seeking among those at risk.",
-    mentalHealthType: MentalHealthIssue.AntiStigmatism,
+    mentalHealthType: Specialisation.AntiStigmatism,
     website: "https://www.google.com",
     email: "mindbetter@better.sg",
     isApproved: true,

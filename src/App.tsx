@@ -2,7 +2,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 import { Route, Routes } from "react-router-dom";
 import Home from "./features/home";
 import LoginPage from "./features/login/login-page";
-import ProfileSetupPage from "./features/registration/profile-page-setup";
+import ProfileSetupPage from "./features/registration/profile-setup-page";
 import RegistrationPage from "./features/registration/registration-page";
 import OrgProfilePage from "./features/organisation-profile";
 import OrganisationList from "./features/organisation-list";
