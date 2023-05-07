@@ -60,7 +60,6 @@ export default function ProfileSetupPage() {
   const [orgFormData, setOrgFormData] = useState<IOrgFormData>({});
   const updateOrgFormData = (payload: IOrgFormData) => {
     setOrgFormData(payload);
-    console.log(payload);
   };
   // retrieve the login credentials to be used by the auth provider
   // for sign up
