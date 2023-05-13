@@ -67,9 +67,9 @@ export default function FrontSupport() {
               those that speak to you.
             </Text>
           </CardBody>
-          <CardFooter>
-            {/* <Button sx={customButtonProps}>Learn More</Button> */}
-          </CardFooter>
+          {/* <CardFooter>
+            <Button sx={customButtonProps}>Learn More</Button>
+          </CardFooter> */}
         </Card>
         <Card boxShadow="none">
           <CardHeader>
@@ -88,9 +88,9 @@ export default function FrontSupport() {
               space.
             </Text>
           </CardBody>
-          <CardFooter>
-            {/* <Button sx={customButtonProps}>Learn More</Button> */}
-          </CardFooter>
+          {/* <CardFooter>
+            <Button sx={customButtonProps}>Learn More</Button>
+          </CardFooter> */}
         </Card>
         <Card boxShadow="none">
           <Center>
@@ -109,9 +109,9 @@ export default function FrontSupport() {
               need support in achieving their goals.
             </Text>
           </CardBody>
-          <CardFooter>
-            {/* <Button sx={customButtonProps}>Learn More</Button> */}
-          </CardFooter>
+          {/* <CardFooter>
+            <Button sx={customButtonProps}>Learn More</Button>
+          </CardFooter> */}
         </Card>
       </SimpleGrid>
     </Box>

@@ -16,7 +16,7 @@ const Navigation = () => {
     <Box px={4}>
       <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
         <Box>Logo</Box>
-        <HStack spacing={8} alignItems={"center"}>
+        {/* <HStack spacing={8} alignItems={"center"}>
           <HStack
             paddingRight="100px"
             as={"nav"}
@@ -73,7 +73,7 @@ const Navigation = () => {
               onClick={toggleMobileNav}
             />
           </Flex>
-        </HStack>
+        </HStack> */}
       </Flex>
 
       {mobileNav ? (
