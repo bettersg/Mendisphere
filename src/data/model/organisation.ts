@@ -30,6 +30,8 @@ import {
   IOrganisationSummary,
   createOrganisationSummaryData,
 } from "./organisationSummary";
+import { listingsFolder } from "../../services/firebase/storage";
+import { getDownloadURL, ref } from "@firebase/storage";
 
 export interface IOrganisation {
   name?: string;

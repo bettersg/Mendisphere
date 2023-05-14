@@ -22,7 +22,7 @@ const PersonIcon = createIcon({
 
 const OrgCard: React.FC<{ org: Organisation }> = ({ org }) => {
   const imageUrl = `${org.cardImageUrl}/?random&t=${new Date().getTime()}`;
-  const bgImageProp = `linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 100%), url(${imageUrl})`;
+  const bgImageProp = `linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 100%), url(${org.cardImageUrl})`;
 
   return (
     <Box
