@@ -10,6 +10,9 @@ import { db } from "../../services/firebase/firebaseConfig";
 import { Collections } from "../../services/firebase/names";
 import { IPCStatus } from "../../data/enums/ipc-status.enum";
 import { testOrgs } from "./test-data/test-organisations";
+import { request } from "http";
+import { listingsFolder } from "../../services/firebase/storage";
+import { ref, uploadBytes } from "@firebase/storage";
 
 class FirestoreMockPage extends Component {
   orgs: Organisation[] = [];
@@ -20,12 +23,31 @@ class FirestoreMockPage extends Component {
       const orgData = testOrgs[i];
       const orgName = orgData.name ?? "unknown";
       const id = `mock_${orgName.replace(/\s|\(|\)/g, "")}`;
+      if (orgData.cardImageUrl) {
+        await this.downloadImage(orgData.cardImageUrl, id);
+      }
       const docRef = doc(db, Collections.organisations, id);
       console.log(JSON.stringify(orgData));
 
       setDoc(docRef, orgData)
         .then(() => console.log(`${id} successfully added.`))
         .catch((error) => console.log(error));
+    }
+  };
+
+  downloadImage = async (imageURL: string, id: string) => {
+    try {
+      // Fetch the image from Lorem Picsum
+      const response = await fetch(imageURL);
+      const blob = await response.blob();
+
+      // Upload the image to Firebase Storage
+      const imageRef = ref(listingsFolder, id + ".jpg");
+      await uploadBytes(imageRef, blob);
+
+      console.log("Image uploaded to Firebase Storage.");
+    } catch (error) {
+      console.error(error);
     }
   };
 
