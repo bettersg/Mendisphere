@@ -80,11 +80,6 @@ export class Organisation implements IOrganisation {
   toString() {
     return JSON.stringify(this, null, 2);
   }
-
-  async getOrganisationListingImage() : Promise<string> {
-    const imageRef =  ref(listingsFolder, this.id+".jpg");
-    return getDownloadURL(imageRef);
-  }
 }
 
 export const organisationConverter: FirestoreDataConverter<Organisation> = {

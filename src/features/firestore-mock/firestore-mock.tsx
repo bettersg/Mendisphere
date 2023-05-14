@@ -12,7 +12,7 @@ import { IPCStatus } from "../../data/enums/ipc-status.enum";
 import { testOrgs } from "./test-data/test-organisations";
 import { request } from "http";
 import { listingsFolder } from "../../services/firebase/storage";
-import { ref, uploadBytes } from "@firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
 
 class FirestoreMockPage extends Component {
   orgs: Organisation[] = [];
@@ -24,7 +24,7 @@ class FirestoreMockPage extends Component {
       const orgName = orgData.name ?? "unknown";
       const id = `mock_${orgName.replace(/\s|\(|\)/g, "")}`;
       if (orgData.cardImageUrl) {
-        await this.downloadImage(orgData.cardImageUrl, id);
+        orgData.cardImageUrl = await this.downloadImage(orgData.cardImageUrl, id);
       }
       const docRef = doc(db, Collections.organisations, id);
       console.log(JSON.stringify(orgData));
@@ -46,6 +46,8 @@ class FirestoreMockPage extends Component {
       await uploadBytes(imageRef, blob);
 
       console.log("Image uploaded to Firebase Storage.");
+
+      return getDownloadURL(imageRef);
     } catch (error) {
       console.error(error);
     }
