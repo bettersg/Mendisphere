@@ -19,7 +19,7 @@ class FirestoreMockPage extends Component {
     for (let i = 0; i < testOrgs.length; i++) {
       const orgData = testOrgs[i];
       const orgName = orgData.name ?? "unknown";
-      const id = `mock_${orgName.replace(/\s/g, "")}`;
+      const id = `mock_${orgName.replace(/\s|\(|\)/g, "")}`;
       const docRef = doc(db, Collections.organisations, id);
       console.log(JSON.stringify(orgData));
 

@@ -30,6 +30,8 @@ import {
   IOrganisationSummary,
   createOrganisationSummaryData,
 } from "./organisationSummary";
+import { listingsFolder } from "../../services/firebase/storage";
+import { getDownloadURL, ref } from "@firebase/storage";
 
 export interface IOrganisation {
   name?: string;
@@ -77,6 +79,11 @@ export class Organisation implements IOrganisation {
 
   toString() {
     return JSON.stringify(this, null, 2);
+  }
+
+  async getOrganisationListingImage() : Promise<string> {
+    const imageRef =  ref(listingsFolder, this.id+".jpg");
+    return getDownloadURL(imageRef);
   }
 }
 

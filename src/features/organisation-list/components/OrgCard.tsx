@@ -12,6 +12,7 @@ import {
 import { VerificationStatus } from "../../../data/enums/verification-status.enum";
 import { IPCStatus } from "../../../data/enums/ipc-status.enum";
 import { SearchIcon, CheckCircleIcon, createIcon } from "@chakra-ui/icons";
+import { useEffect, useState } from "react";
 
 // person icon
 const PersonIcon = createIcon({
@@ -21,8 +22,17 @@ const PersonIcon = createIcon({
 });
 
 const OrgCard: React.FC<{ org: Organisation }> = ({ org }) => {
-  const imageUrl = `${org.cardImageUrl}/?random&t=${new Date().getTime()}`;
-  const bgImageProp = `linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 100%), url(${imageUrl})`;
+  const [backgroundImage, setBackgroundImage] = useState<string>();
+
+  useEffect(() => {
+    // Get the download URL for the image
+    org.getOrganisationListingImage().then((url) => {
+      // Set the URL as the background image of the Box component
+      setBackgroundImage(`url(${url})`);
+    });
+  });
+
+  const bgImageProp = `linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 100%), ${backgroundImage}`;
 
   return (
     <Box

@@ -8,3 +8,8 @@ export class Collections {
   static readonly organisationOurStory = "organisationOurStory";
   static readonly organisationSummary = "organisationSummary";
 }
+
+export class StorageDirectory {
+  static readonly listingsDirectory = "/organisations/listing-data";
+  static readonly profilesDirectory = "/organisations/profile-data";
+}

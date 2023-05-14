@@ -10,7 +10,7 @@ service cloud.firestore {
     }
     match /organisations/{org} {
     	allow read;
-      allow write: if request.auth.uid != null;
+      allow write: if true; //request.auth.uid != null;
     }
     match /organisationAdminData/{org} {
     	allow read: if request.auth.uid != null;
