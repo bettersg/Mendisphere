@@ -17,9 +17,13 @@ import { useNavigate } from "react-router-dom";
 import { styles } from "./styles";
 import "../page-style.scss";
 import FrontSupport from "./components/FrontSupport";
+import { useRef } from "react";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
+
+  const footerRef: React.RefObject<HTMLDivElement> =
+    useRef<HTMLDivElement>(null);
 
   return (
     <VStack className="page-width page-padding" align="stretch" spacing="0px">
