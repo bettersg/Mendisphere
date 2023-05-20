@@ -13,7 +13,7 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
-import { getOrganisationProfileData } from "../../../data/model/organisationProfile";
+import { getOrganisationProfileData } from "../../../data/model/organisationProfile/organisationProfile";
 import { GetIconForSocials } from "../../../utilities/icon-mappings";
 import "../scss/profile.scss";
 import { Social } from "./summary";

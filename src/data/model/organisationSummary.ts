@@ -1,16 +1,16 @@
 import {
-  addDoc,
-  collection,
+  doc,
   DocumentData,
   FirestoreDataConverter,
+  getDoc,
   QueryDocumentSnapshot,
+  setDoc,
   SnapshotOptions,
 } from "firebase/firestore";
 import { db } from "../../services/firebase/firebaseConfig";
 import { Collections } from "../../services/firebase/names";
 
 export interface IOrganisationSummary {
-  orgId?: string;
   videoUrl?: string;
   websiteUrl?: string;
   donationUrl?: string;
@@ -41,11 +41,10 @@ export class OrganisationSummary implements IOrganisationSummary {
   }
 }
 
-export const organisationAdminConverter: FirestoreDataConverter<OrganisationSummary> =
+export const organisationSummaryConverter: FirestoreDataConverter<OrganisationSummary> =
   {
     toFirestore(data: OrganisationSummary): DocumentData {
       return {
-        orgId: data.orgId ?? "",
         videoUrl: data.videoUrl,
         websiteUrl: data.websiteUrl,
         donationUrl: data.donationUrl,
@@ -57,7 +56,7 @@ export const organisationAdminConverter: FirestoreDataConverter<OrganisationSumm
     ): OrganisationSummary {
       const data: DocumentData = snapshot.data(options);
       return new OrganisationSummary(
-        data.orgId,
+        snapshot.id,
         data.videoUrl,
         data.websiteUrl,
         data.donationUrl
@@ -65,12 +64,23 @@ export const organisationAdminConverter: FirestoreDataConverter<OrganisationSumm
     },
   };
 
-export async function createOrganisationSummaryData(
+export async function createOrganisationSummary(
+  orgId: string,
   orgSummaryData: IOrganisationSummary
-): Promise<string> {
-  const docRef = await addDoc(
-    collection(db, Collections.organisationSummary),
-    orgSummaryData
+): Promise<void> {
+  const docRef = doc(db, Collections.organisationSummary, orgId).withConverter(
+    organisationSummaryConverter
   );
-  return docRef.id;
+  await setDoc(docRef, orgSummaryData);
+}
+
+export async function getOrganisationSummary(
+  orgId: string
+): Promise<OrganisationSummary | undefined> {
+  const docRef = doc(
+    db,
+    Collections.organisationSummary,
+    orgId
+  ).withConverter<OrganisationSummary>(organisationSummaryConverter);
+  return (await getDoc(docRef)).data();
 }
