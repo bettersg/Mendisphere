@@ -17,9 +17,13 @@ import { useNavigate } from "react-router-dom";
 import { styles } from "./styles";
 import "../page-style.scss";
 import FrontSupport from "./components/FrontSupport";
+import { useRef } from "react";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
+
+  const footerRef: React.RefObject<HTMLDivElement> =
+    useRef<HTMLDivElement>(null);
 
   return (
     <VStack className="page-width page-padding" align="stretch" spacing="0px">
@@ -66,14 +70,15 @@ const Home: React.FC = () => {
                   more people.
                 </Text>
                 <Center>
-                  <Button sx={styles.whiteButton1}>Our Story</Button>
+                  {/* <Button sx={styles.whiteButton1}>Our Story</Button> */}
                 </Center>
               </VStack>
             </HStack>
           </Box>
         </Box>
       </Animate.FadeUp>
-      <Animate.FadeUp>
+      {/* Hidden elements for alpha version */}
+      {/* <Animate.FadeUp>
         <Box pb="16">
           <Center style={styles.headerLarge}>
             Driving Outcomes that Matter to You
@@ -89,8 +94,8 @@ const Home: React.FC = () => {
             </Center>
           </div>
         </Box>
-      </Animate.FadeUp>
-      <Animate.FadeUp>
+      </Animate.FadeUp> */}
+      {/* <Animate.FadeUp>
         <Box>
           <Center style={styles.headerSmall}>Organisation Partners</Center>
           <Center>
@@ -118,8 +123,8 @@ const Home: React.FC = () => {
             </HStack>
           </Center>
         </Box>
-      </Animate.FadeUp>
-      <Animate.FadeUp>
+      </Animate.FadeUp> */}
+      {/* <Animate.FadeUp>
         <Box pb="16">
           <Center style={styles.headerLarge}>
             The Latest on Mental Health
@@ -146,8 +151,8 @@ const Home: React.FC = () => {
             </Center>
           </div>
         </Box>
-      </Animate.FadeUp>
-      <Animate.FadeUp>
+      </Animate.FadeUp> */}
+      {/* <Animate.FadeUp>
         <Box
           className="maximise-width"
           style={{ paddingTop: 96, paddingLeft: 120 }}
@@ -198,7 +203,7 @@ const Home: React.FC = () => {
             </HStack>
           </Box>
         </Box>
-      </Animate.FadeUp>
+      </Animate.FadeUp> */}
       <Box className="maximise-width" minH="37.33vh">
         <Footer />
       </Box>

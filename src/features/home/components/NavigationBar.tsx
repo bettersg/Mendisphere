@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { Box, Flex, HStack, IconButton, Stack, Link } from "@chakra-ui/react";
+import { Box, Flex, HStack, Text, Stack, Link, Spacer } from "@chakra-ui/react";
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 import { Link as ReactRouterLink } from "react-router-dom";
 import NavigationButton from "./NavigationButton";
 import { Paths } from "../../../paths";
+import "../../page-style.scss";
 
 const Navigation = () => {
   const [mobileNav, setMobileNav] = useState(false);
@@ -12,38 +13,34 @@ const Navigation = () => {
     setMobileNav(!mobileNav);
   };
 
+  // alpha version only
+  const handleScrollToFooter = () => {
+    const footerElement = document.getElementById("footer");
+    if (footerElement) {
+      footerElement.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <Box px={4}>
-      <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
-        <Box>Logo</Box>
-        <HStack spacing={8} alignItems={"center"}>
-          <HStack
-            paddingRight="100px"
-            as={"nav"}
-            spacing="80px"
-            fontSize="sm"
-            fontWeight="700"
-            display={{ base: "none", md: "flex" }}
-          >
-            <Link as={ReactRouterLink} to={Paths.about} fontFamily={"Inter"}>
-              About
-            </Link>
-            <Link
-              as={ReactRouterLink}
-              to={Paths.organisationListing}
-              fontFamily={"Inter"}
-            >
-              Organisations
-            </Link>
-            <Link
-              as={ReactRouterLink}
-              to={Paths.contactUs}
-              fontFamily={"Inter"}
-            >
-              Contact Us
-            </Link>
-          </HStack>
-          <Flex flex={1} justify={"flex-end"}>
+    <HStack className="page-width" paddingLeft="4vw">
+      <Spacer></Spacer>
+      <HStack spacing={8} alignItems={"center"}>
+        <HStack
+          paddingRight="100px"
+          as={"nav"}
+          spacing="80px"
+          fontSize="15px"
+          fontWeight="700"
+          color="#333333"
+          display={{ base: "none", md: "flex" }}
+        >
+          <Link onClick={handleScrollToFooter}>About</Link>
+          <Link as={ReactRouterLink} to={Paths.organisationListing}>
+            Organisations
+          </Link>
+          <Link onClick={handleScrollToFooter}>Contact Us</Link>
+        </HStack>
+        {/* <Flex flex={1} justify={"flex-end"}>
             <HStack
               direction={"row"}
               spacing={4}
@@ -72,9 +69,8 @@ const Navigation = () => {
               display={{ md: "none" }}
               onClick={toggleMobileNav}
             />
-          </Flex>
-        </HStack>
-      </Flex>
+          </Flex> */}
+      </HStack>
 
       {mobileNav ? (
         <Box pb={4} display={{ md: "none" }}>
@@ -115,7 +111,7 @@ const Navigation = () => {
           </Stack>
         </Box>
       ) : null}
-    </Box>
+    </HStack>
   );
 };
 

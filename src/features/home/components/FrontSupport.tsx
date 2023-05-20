@@ -11,6 +11,7 @@ import {
   AspectRatio,
   useMediaQuery,
   Box,
+  Center,
 } from "@chakra-ui/react";
 
 export default function FrontSupport() {
@@ -51,13 +52,12 @@ export default function FrontSupport() {
       >
         <Card boxShadow="none">
           <CardHeader>
-            <AspectRatio h="300px" ratio={3 / 3}>
+            <Center>
               <Image
-                boxSize="150px"
-                objectFit="fill"
-                src={require("../../../assets/images/3dgirlwithcoins.png")}
+                height="185px"
+                src={require("../../../assets/images/contribute.png")}
               />
-            </AspectRatio>
+            </Center>
             <Heading style={customHeadingProps}>Contribute</Heading>
           </CardHeader>
           <CardBody>
@@ -67,18 +67,18 @@ export default function FrontSupport() {
               those that speak to you.
             </Text>
           </CardBody>
-          <CardFooter>
+          {/* <CardFooter>
             <Button sx={customButtonProps}>Learn More</Button>
-          </CardFooter>
+          </CardFooter> */}
         </Card>
         <Card boxShadow="none">
           <CardHeader>
-            <AspectRatio maxH="300px" ratio={3 / 3}>
+            <Center>
               <Image
-                objectFit="cover"
-                src={require("../../../assets/images/3dgirlcollab.png")}
+                height="185px"
+                src={require("../../../assets/images/collaborate.png")}
               />
-            </AspectRatio>
+            </Center>
             <Heading style={customHeadingProps}> Collaborate</Heading>
           </CardHeader>
           <CardBody>
@@ -88,18 +88,18 @@ export default function FrontSupport() {
               space.
             </Text>
           </CardBody>
-          <CardFooter>
+          {/* <CardFooter>
             <Button sx={customButtonProps}>Learn More</Button>
-          </CardFooter>
+          </CardFooter> */}
         </Card>
         <Card boxShadow="none">
-          <AspectRatio h="300px" ratio={3 / 3}>
+          <Center>
             <Image
-              boxSize="150px"
-              objectFit="fill"
-              src={require("../../../assets/images/3dgirlhand.png")}
+              height="185px"
+              width="auto"
+              src={require("../../../assets/images/volunteer.png")}
             />
-          </AspectRatio>
+          </Center>
           <CardHeader>
             <Heading style={customHeadingProps}>Volunteer</Heading>
           </CardHeader>
@@ -109,9 +109,9 @@ export default function FrontSupport() {
               need support in achieving their goals.
             </Text>
           </CardBody>
-          <CardFooter>
+          {/* <CardFooter>
             <Button sx={customButtonProps}>Learn More</Button>
-          </CardFooter>
+          </CardFooter> */}
         </Card>
       </SimpleGrid>
     </Box>
