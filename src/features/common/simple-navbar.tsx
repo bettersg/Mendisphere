@@ -9,7 +9,6 @@ export default function SimpleNavigationBar() {
       borderBottom="1px"
       borderColor="#d3d3d3"
       // below settings to sticky this NavBar to top
-      position="sticky"
       top={0}
       zIndex={200}
       backgroundColor="#FFFFFF"
