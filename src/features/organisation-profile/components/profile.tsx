@@ -17,15 +17,16 @@ import { getOrganisationProfileData } from "../../../data/model/organisationProf
 import { GetIconForSocials } from "../../../utilities/icon-mappings";
 import "../scss/profile.scss";
 import { Social } from "./summary";
+import { Organisation } from "../../../data/model/organisation";
 
 export type tabData = {
   label: ETabLabel;
   content?:
-  | IOurStory[]
-  | IImpact[]
-  | IFAQ[]
-  | IFeaturedProjects
-  | IPeopleSpotlight[];
+    | IOurStory[]
+    | IImpact[]
+    | IFAQ[]
+    | IFeaturedProjects
+    | IPeopleSpotlight[];
 };
 
 interface ISection {
@@ -39,7 +40,7 @@ export interface IOurStory {
   imageUrl: string;
 }
 
-export interface IImpact extends IOurStory { }
+export interface IImpact extends IOurStory {}
 
 export interface IFAQ {
   question: string;
@@ -67,37 +68,96 @@ export enum ETabLabel {
   FAQ = "FAQ",
 }
 
-const renderTabContent = (label: ETabLabel, content: any, tabsHeight: number, isScrollDown: boolean) => {
+const renderTabContent = (
+  label: ETabLabel,
+  content: any,
+  tabsHeight: number,
+  isScrollDown: boolean
+) => {
   switch (label) {
     case ETabLabel.OUR_STORY:
     case ETabLabel.IMPACT: {
-      const contentMenu = content.map(({ header, section }: { header: string, section: ISection[] }) => ({ header, section }))
+      const contentMenu = content.map(
+        ({ header, section }: { header: string; section: ISection[] }) => ({
+          header,
+          section,
+        })
+      );
       return (
-        <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <div style={{ display: "flex", flexDirection: "row" }}>
           {/* left nav bar */}
-          <div style={{ textAlign: "left", width: '25%', display: 'flex', flexDirection: 'column', paddingTop: 60, marginRight: 125 }}>
-            <div style={(isScrollDown && tabsHeight <= 0) || tabsHeight < 0 ? { position: "sticky", top: 0.2 * window.innerHeight, zIndex: 200 } : {}}>
-              {!!contentMenu && contentMenu.map(({ header, section }: { header: string, section: ISection[] }) => (
-                <div>
-                  <div>
-                    <a href={`#${header}`} style={{ fontWeight: 700, fontSize: 18, color: "#333333" }}>{header}</a>
-                  </div>
-                  {section?.map(({ subHeader }) => (
+          <div
+            style={{
+              textAlign: "left",
+              width: "25%",
+              display: "flex",
+              flexDirection: "column",
+              paddingTop: 60,
+              marginRight: 125,
+            }}
+          >
+            <div
+              style={
+                (isScrollDown && tabsHeight <= 0) || tabsHeight < 0
+                  ? {
+                      position: "sticky",
+                      top: 0.2 * window.innerHeight,
+                      zIndex: 200,
+                    }
+                  : {}
+              }
+            >
+              {!!contentMenu &&
+                contentMenu.map(
+                  ({
+                    header,
+                    section,
+                  }: {
+                    header: string;
+                    section: ISection[];
+                  }) => (
                     <div>
-                      <a href={`#${subHeader}`} style={{ fontSize: 14, color: "#333333" }}>{subHeader}</a>
+                      <div>
+                        <a
+                          href={`#${header}`}
+                          style={{
+                            fontWeight: 700,
+                            fontSize: 18,
+                            color: "#333333",
+                          }}
+                        >
+                          {header}
+                        </a>
+                      </div>
+                      {section?.map(({ subHeader }) => (
+                        <div>
+                          <a
+                            href={`#${subHeader}`}
+                            style={{ fontSize: 14, color: "#333333" }}
+                          >
+                            {subHeader}
+                          </a>
+                        </div>
+                      ))}
+                      <div
+                        style={{
+                          borderBottomWidth: 1,
+                          borderBottomColor: "#707070",
+                          marginTop: 20,
+                          marginBottom: 20,
+                        }}
+                      ></div>
                     </div>
-                  ))}
-                  <div style={{ borderBottomWidth: 1, borderBottomColor: "#707070", marginTop: 20, marginBottom: 20 }}></div>
-                </div>
-              ))}
+                  )
+                )}
             </div>
           </div>
           {/* content section */}
-          <div style={{ width: '75%', display: 'flex', flexDirection: 'column' }}>
-            {
-              !!content &&
-              content.map((item: any, i: any) =>
-              (
+          <div
+            style={{ width: "75%", display: "flex", flexDirection: "column" }}
+          >
+            {!!content &&
+              content.map((item: any, i: any) => (
                 <div key={i} style={{ textAlign: "left" }}>
                   <div
                     style={{
@@ -110,22 +170,26 @@ const renderTabContent = (label: ETabLabel, content: any, tabsHeight: number, is
                   >
                     {item.header}
                   </div>
-                  {item.section?.map(({ subHeader, text }: { subHeader: any, text: any }) => (
-                    <div>
-                      <div style={{
-                        fontSize: 18,
-                        color: "#707070",
-                        fontWeight: 700,
-                        paddingBottom: 20,
-                      }}
-                        id={subHeader}>
-                        {subHeader}
+                  {item.section?.map(
+                    ({ subHeader, text }: { subHeader: any; text: any }) => (
+                      <div>
+                        <div
+                          style={{
+                            fontSize: 18,
+                            color: "#707070",
+                            fontWeight: 700,
+                            paddingBottom: 20,
+                          }}
+                          id={subHeader}
+                        >
+                          {subHeader}
+                        </div>
+                        <div style={{ fontSize: 18, paddingBottom: 30 }}>
+                          {text}
+                        </div>
                       </div>
-                      <div style={{ fontSize: 18, paddingBottom: 30 }}>
-                        {text}
-                      </div>
-                    </div>
-                  ))}
+                    )
+                  )}
                   <Image
                     style={{ paddingBottom: 75 }}
                     src={item.imageUrl}
@@ -139,11 +203,9 @@ const renderTabContent = (label: ETabLabel, content: any, tabsHeight: number, is
                     }
                   ></div>
                 </div>
-              )
-              )
-            }
+              ))}
           </div>
-        </div >
+        </div>
       );
     }
     case ETabLabel.PEOPLE_SPOTLIGHT:
@@ -285,9 +347,9 @@ const renderTabContent = (label: ETabLabel, content: any, tabsHeight: number, is
   }
 };
 
-const Profile: React.FC = () => {
+const Profile: React.FC<{ org?: Organisation }> = ({ org }) => {
   // TODO retrieve organisation ID based on selected option
-  const mockOrganisationId = "5EwkmPe7M9fRtcRa6PnJ";
+  const orgId = org?.id ?? "";
   const [profileData, setProfileData] = useState<tabData[]>([]);
   const tabsHeightRef = useRef<HTMLDivElement>(null);
   const [tabsHeight, setTabsHeight] = useState<number>(1200);
@@ -296,17 +358,21 @@ const Profile: React.FC = () => {
 
   const handleScroll = () => {
     if (tabsHeightRef.current) {
-      const height = tabsHeightRef.current.getBoundingClientRect().top - 0.08 * window.innerHeight; // 0.08 vh correspond to nav bar height
+      const height =
+        tabsHeightRef.current.getBoundingClientRect().top -
+        0.08 * window.innerHeight; // 0.08 vh correspond to nav bar height
       setTabsHeight(height);
 
       const currentScrollPosition = window.pageYOffset;
-      prevScrollPosition > currentScrollPosition ? setIsScrollDown(false) : setIsScrollDown(true);
+      prevScrollPosition > currentScrollPosition
+        ? setIsScrollDown(false)
+        : setIsScrollDown(true);
       prevScrollPosition = currentScrollPosition;
     }
   };
 
   const getData = async () => {
-    await getOrganisationProfileData(mockOrganisationId).then((data) =>
+    await getOrganisationProfileData(orgId).then((data) =>
       setProfileData(data)
     );
   };
@@ -318,19 +384,36 @@ const Profile: React.FC = () => {
   }, []);
 
   return (
-    <Tabs ref={tabsHeightRef} onScroll={handleScroll} isLazy isFitted align="center" style={{ width: 1200 }}>
-      <TabList style={(isScrollDown && tabsHeight <= 0) || tabsHeight < 0 ? { position: "sticky", top: 0.08 * window.innerHeight, zIndex: 200 } : undefined}>
+    <Tabs
+      ref={tabsHeightRef}
+      onScroll={handleScroll}
+      isLazy
+      isFitted
+      align="center"
+      style={{ width: 1200 }}
+    >
+      <TabList
+        style={
+          (isScrollDown && tabsHeight <= 0) || tabsHeight < 0
+            ? {
+                position: "sticky",
+                top: 0.08 * window.innerHeight,
+                zIndex: 200,
+              }
+            : undefined
+        }
+      >
         {profileData.map((tab, index) => (
           <Tab
             className="tabStyle"
-            bg='#FFFFFF'
+            bg="#FFFFFF"
             _selected={{
               color: "#3959FF",
               borderColor: "#3959FF",
             }}
             key={index}
             borderBottomWidth={2}
-            borderColor={'#CBCBCB'}
+            borderColor={"#CBCBCB"}
           >
             {tab.label}
           </Tab>
@@ -343,7 +426,7 @@ const Profile: React.FC = () => {
           </TabPanel>
         ))}
       </TabPanels>
-    </Tabs >
+    </Tabs>
   );
 };
 

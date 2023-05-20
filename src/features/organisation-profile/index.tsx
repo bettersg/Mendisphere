@@ -31,7 +31,7 @@ export default function OrgProfilePage() {
         <OrgBreadCrumb org={org} />
         <Summary />
         <Services />
-        <Profile />
+        <Profile org={org} />
         {org !== undefined && <SimilarOrgs org={org} />}
         <Box className="maximise-width" minH="37.33vh">
           <Footer />
