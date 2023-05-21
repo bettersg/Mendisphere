@@ -22,8 +22,8 @@ import { useRef } from "react";
 const Home: React.FC = () => {
   const navigate = useNavigate();
 
-  const footerRef: React.RefObject<HTMLDivElement> =
-    useRef<HTMLDivElement>(null);
+  // const footerRef: React.RefObject<HTMLDivElement> =
+  //   useRef<HTMLDivElement>(null);
 
   return (
     <VStack className="page-width page-padding" align="stretch" spacing="0px">

@@ -12,46 +12,33 @@ import {
   AccordionPanel,
   Image,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
-import { getOrganisationProfileData } from "../../../data/model/organisationProfile";
+import { useEffect, useRef, useState } from "react";
 import { GetIconForSocials } from "../../../utilities/icon-mappings";
 import "../scss/profile.scss";
-import { Social } from "./summary";
+import { Organisation } from "../../../data/model/organisation";
+import {
+  IFAQ,
+  getOrganisationProfileFAQ,
+} from "../../../data/model/organisationProfile/organisationProfileFAQ";
+import { getOrganisationProfileOurStory } from "../../../data/model/organisationProfile/organisationProfileOurStory";
+import {
+  IPeopleSpotlight,
+  getOrganisationProfilePeopleSpotlight,
+} from "../../../data/model/organisationProfile/organisationProfilePeopleSpotlight";
+import {
+  IProfileContent,
+  ISection,
+} from "../../../data/model/organisationProfile/profileContent";
 
-export type tabData = {
-  label: ETabLabel;
-  content?:
-    | IOurStory[]
-    | IImpact[]
-    | IFAQ[]
-    | IFeaturedProjects
-    | IPeopleSpotlight[];
-};
-export interface IOurStory {
-  header: string;
-  text: string;
-  imageUrl: string;
-}
-
-export interface IImpact extends IOurStory {}
-
-export interface IFAQ {
-  question: string;
-  answer: string;
-}
-
+// TODO move this to model when class is defined
 export interface IFeaturedProjects {
   content: string;
 }
 
-export interface IPeopleSpotlight {
-  name: string;
-  jobTitle: string;
-  description: string;
-  photoUrl: string;
-  socials: Social[];
-  learnMore: { question: string; answer: string };
-}
+export type tabData = {
+  label: ETabLabel;
+  content?: IProfileContent[] | IFAQ[] | IFeaturedProjects | IPeopleSpotlight[];
+};
 
 export enum ETabLabel {
   OUR_STORY = "Our story",
@@ -61,16 +48,96 @@ export enum ETabLabel {
   FAQ = "FAQ",
 }
 
-const renderTabContent = (label: ETabLabel, content: any) => {
+const renderTabContent = (
+  label: ETabLabel,
+  content: any,
+  tabsHeight: number,
+  isScrollDown: boolean
+) => {
   switch (label) {
     case ETabLabel.OUR_STORY:
     case ETabLabel.IMPACT: {
+      const contentMenu = content.map(
+        ({ header, section }: { header: string; section: ISection[] }) => ({
+          header,
+          section,
+        })
+      );
       return (
-        <div>
-          {!!content &&
-            content.map((item: any, i: any) => {
-              // TODO sidebar? or pushback
-              return (
+        <div style={{ display: "flex", flexDirection: "row" }}>
+          {/* left nav bar */}
+          <div
+            style={{
+              textAlign: "left",
+              width: "25%",
+              display: "flex",
+              flexDirection: "column",
+              paddingTop: 60,
+              marginRight: 125,
+            }}
+          >
+            <div
+              style={
+                (isScrollDown && tabsHeight <= 0) || tabsHeight < 0
+                  ? {
+                      position: "sticky",
+                      top: 0.2 * window.innerHeight,
+                      zIndex: 200,
+                    }
+                  : {}
+              }
+            >
+              {!!contentMenu &&
+                contentMenu.map(
+                  ({
+                    header,
+                    section,
+                  }: {
+                    header: string;
+                    section: ISection[];
+                  }) => (
+                    <div>
+                      <div>
+                        <a
+                          href={`#${header}`}
+                          style={{
+                            fontWeight: 700,
+                            fontSize: 18,
+                            color: "#333333",
+                          }}
+                        >
+                          {header}
+                        </a>
+                      </div>
+                      {section?.map(({ subHeader }) => (
+                        <div>
+                          <a
+                            href={`#${subHeader}`}
+                            style={{ fontSize: 14, color: "#333333" }}
+                          >
+                            {subHeader}
+                          </a>
+                        </div>
+                      ))}
+                      <div
+                        style={{
+                          borderBottomWidth: 1,
+                          borderBottomColor: "#707070",
+                          marginTop: 20,
+                          marginBottom: 20,
+                        }}
+                      ></div>
+                    </div>
+                  )
+                )}
+            </div>
+          </div>
+          {/* content section */}
+          <div
+            style={{ width: "75%", display: "flex", flexDirection: "column" }}
+          >
+            {!!content &&
+              content.map((item: any, i: any) => (
                 <div key={i} style={{ textAlign: "left" }}>
                   <div
                     style={{
@@ -79,12 +146,30 @@ const renderTabContent = (label: ETabLabel, content: any) => {
                       paddingBottom: 30,
                       paddingTop: 60,
                     }}
+                    id={item.header}
                   >
                     {item.header}
                   </div>
-                  <div style={{ fontSize: 18, paddingBottom: 30 }}>
-                    {item.text}
-                  </div>
+                  {item.section?.map(
+                    ({ subHeader, text }: { subHeader: any; text: any }) => (
+                      <div>
+                        <div
+                          style={{
+                            fontSize: 18,
+                            color: "#707070",
+                            fontWeight: 700,
+                            paddingBottom: 20,
+                          }}
+                          id={subHeader}
+                        >
+                          {subHeader}
+                        </div>
+                        <div style={{ fontSize: 18, paddingBottom: 30 }}>
+                          {text}
+                        </div>
+                      </div>
+                    )
+                  )}
                   <Image
                     style={{ paddingBottom: 75 }}
                     src={item.imageUrl}
@@ -98,8 +183,8 @@ const renderTabContent = (label: ETabLabel, content: any) => {
                     }
                   ></div>
                 </div>
-              );
-            })}
+              ))}
+          </div>
         </div>
       );
     }
@@ -242,31 +327,112 @@ const renderTabContent = (label: ETabLabel, content: any) => {
   }
 };
 
-const Profile: React.FC = () => {
+const getOrganisationProfileData = async (orgId: string) => {
+  const orgFAQSnapshot = await getOrganisationProfileFAQ(orgId);
+  const orgFAQ = orgFAQSnapshot?.FAQ;
+
+  const ourStorySnapshot = await getOrganisationProfileOurStory(orgId);
+  const ourStory = ourStorySnapshot?.content;
+
+  const peopleSpotlightSnapshot = await getOrganisationProfilePeopleSpotlight(
+    orgId
+  );
+  const peopleSpotlight = peopleSpotlightSnapshot?.content;
+
+  const orgProfileData: tabData[] = [
+    {
+      label: ETabLabel.OUR_STORY,
+      content: ourStory,
+    },
+    {
+      label: ETabLabel.PEOPLE_SPOTLIGHT,
+      content: peopleSpotlight,
+    },
+    {
+      label: ETabLabel.FEATURED_PROJECTS,
+      content: { content: "TODO fill this" }, // TODO fill this
+    },
+    // hide for alpha version
+    // {
+    //   label: ETabLabel.IMPACT,
+    //   content: ourStory, // TODO fill this
+    // },
+    // {
+    //   label: ETabLabel.FAQ,
+    //   content: orgFAQ,
+    // },
+  ];
+
+  return orgProfileData;
+};
+
+const Profile: React.FC<{ org?: Organisation }> = ({ org }) => {
   // TODO retrieve organisation ID based on selected option
-  const mockOrganisationId = "5EwkmPe7M9fRtcRa6PnJ";
+  const orgId = org?.id ?? "";
   const [profileData, setProfileData] = useState<tabData[]>([]);
+  const tabsHeightRef = useRef<HTMLDivElement>(null);
+  const [tabsHeight, setTabsHeight] = useState<number>(1200);
+  const [isScrollDown, setIsScrollDown] = useState<boolean>(true);
+  let prevScrollPosition = window.pageYOffset; // this uses concept of JS closures -- while handleScroll() runs, it will use stale value of prevScrollPosition
+
+  const handleScroll = () => {
+    if (tabsHeightRef.current) {
+      const height =
+        tabsHeightRef.current.getBoundingClientRect().top -
+        0.08 * window.innerHeight; // 0.08 vh correspond to nav bar height
+      setTabsHeight(height);
+
+      const currentScrollPosition = window.pageYOffset;
+      prevScrollPosition > currentScrollPosition
+        ? setIsScrollDown(false)
+        : setIsScrollDown(true);
+      prevScrollPosition = currentScrollPosition;
+    }
+  };
 
   const getData = async () => {
-    await getOrganisationProfileData(mockOrganisationId).then((data) =>
+    await getOrganisationProfileData(orgId).then((data) =>
       setProfileData(data)
     );
   };
+
   useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
     getData();
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-  console.log("rendering", profileData);
+
   return (
-    <Tabs isLazy isFitted align="center" style={{ width: 1200, height: 1200 }}>
-      <TabList>
+    <Tabs
+      ref={tabsHeightRef}
+      onScroll={handleScroll}
+      isLazy
+      isFitted
+      align="center"
+      style={{ width: 1200 }}
+    >
+      <TabList
+        style={
+          (isScrollDown && tabsHeight <= 0) || tabsHeight < 0
+            ? {
+                position: "sticky",
+                top: 0.08 * window.innerHeight,
+                zIndex: 200,
+              }
+            : undefined
+        }
+      >
         {profileData.map((tab, index) => (
           <Tab
             className="tabStyle"
+            bg="#FFFFFF"
             _selected={{
               color: "#3959FF",
               borderColor: "#3959FF",
             }}
             key={index}
+            borderBottomWidth={2}
+            borderColor={"#CBCBCB"}
           >
             {tab.label}
           </Tab>
@@ -275,7 +441,7 @@ const Profile: React.FC = () => {
       <TabPanels>
         {profileData.map((tab, index) => (
           <TabPanel p={4} key={index}>
-            {renderTabContent(tab.label, tab.content)}
+            {renderTabContent(tab.label, tab.content, tabsHeight, isScrollDown)}
           </TabPanel>
         ))}
       </TabPanels>

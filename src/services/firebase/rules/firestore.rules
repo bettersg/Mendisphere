@@ -18,19 +18,23 @@ service cloud.firestore {
     }
     match /organisationSummary/{org} {
     	allow read;
-      allow write: if request.auth.uid != null;
+      allow write: if true; //request.auth.uid != null;
     }
     match /organisationFAQ/{org} {
     	allow read;
-      allow write: if request.auth.uid != null; 
+      allow write: if true; //request.auth.uid != null; 
     }
     match /organisationOurStory/{org} {
     	allow read;
-      allow write: if request.auth.uid != null; 
+      allow write: if true; //request.auth.uid != null; 
     }
     match /organisationPeopleSpotlight/{org} {
     	allow read;
-      allow write: if request.auth.uid != null; 
+      allow write: if true; //request.auth.uid != null; 
+    } 
+    match /organisationImpact/{org} {
+    	allow read;
+      allow write: if true; //request.auth.uid != null; 
     }
   }
 }

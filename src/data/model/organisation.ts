@@ -28,10 +28,8 @@ import { IPCStatus } from "../enums/ipc-status.enum";
 import { VerificationStatus } from "../enums/verification-status.enum";
 import {
   IOrganisationSummary,
-  createOrganisationSummaryData,
+  createOrganisationSummary,
 } from "./organisationSummary";
-import { listingsFolder } from "../../services/firebase/storage";
-import { getDownloadURL, ref } from "@firebase/storage";
 
 export interface IOrganisation {
   name?: string;
@@ -276,11 +274,10 @@ export async function createOrganisationOnSignUp(
       console.log("org data added");
       // set the organisation id from firestore
       orgAdminData.orgId = newOrgId;
-      orgSummary.orgId = newOrgId;
     })
     .then(() => createOrganisationAdminData(orgAdminData))
     .then(() => console.log("org admin data added"))
-    .then(() => createOrganisationSummaryData(orgSummary))
+    .then(() => createOrganisationSummary(newOrgId, orgSummary))
     .then(() => console.log("org summary data added"))
     .then(() => {
       return newOrgId;
