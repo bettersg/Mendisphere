@@ -352,14 +352,15 @@ const getOrganisationProfileData = async (orgId: string) => {
       label: ETabLabel.FEATURED_PROJECTS,
       content: { content: "TODO fill this" }, // TODO fill this
     },
-    {
-      label: ETabLabel.IMPACT,
-      content: ourStory, // TODO fill this
-    },
-    {
-      label: ETabLabel.FAQ,
-      content: orgFAQ,
-    },
+    // hide for alpha version
+    // {
+    //   label: ETabLabel.IMPACT,
+    //   content: ourStory, // TODO fill this
+    // },
+    // {
+    //   label: ETabLabel.FAQ,
+    //   content: orgFAQ,
+    // },
   ];
 
   return orgProfileData;
