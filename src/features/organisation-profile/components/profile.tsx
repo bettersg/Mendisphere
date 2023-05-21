@@ -13,52 +13,32 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
-import { getOrganisationProfileData } from "../../../data/model/organisationProfile/organisationProfile";
 import { GetIconForSocials } from "../../../utilities/icon-mappings";
 import "../scss/profile.scss";
-import { Social } from "./summary";
 import { Organisation } from "../../../data/model/organisation";
+import {
+  IFAQ,
+  getOrganisationProfileFAQ,
+} from "../../../data/model/organisationProfile/organisationProfileFAQ";
+import { getOrganisationProfileOurStory } from "../../../data/model/organisationProfile/organisationProfileOurStory";
+import {
+  IPeopleSpotlight,
+  getOrganisationProfilePeopleSpotlight,
+} from "../../../data/model/organisationProfile/organisationProfilePeopleSpotlight";
+import {
+  IProfileContent,
+  ISection,
+} from "../../../data/model/organisationProfile/profileContent";
 
-export type tabData = {
-  label: ETabLabel;
-  content?:
-    | IOurStory[]
-    | IImpact[]
-    | IFAQ[]
-    | IFeaturedProjects
-    | IPeopleSpotlight[];
-};
-
-interface ISection {
-  subHeader: string;
-  text: string;
-}
-
-export interface IOurStory {
-  header: string;
-  section: ISection[];
-  imageUrl: string;
-}
-
-export interface IImpact extends IOurStory {}
-
-export interface IFAQ {
-  question: string;
-  answer: string;
-}
-
+// TODO move this to model when class is defined
 export interface IFeaturedProjects {
   content: string;
 }
 
-export interface IPeopleSpotlight {
-  name: string;
-  jobTitle: string;
-  description: string;
-  photoUrl: string;
-  socials: Social[];
-  learnMore: { question: string; answer: string };
-}
+export type tabData = {
+  label: ETabLabel;
+  content?: IProfileContent[] | IFAQ[] | IFeaturedProjects | IPeopleSpotlight[];
+};
 
 export enum ETabLabel {
   OUR_STORY = "Our story",
@@ -345,6 +325,44 @@ const renderTabContent = (
     default:
       return <></>;
   }
+};
+
+const getOrganisationProfileData = async (orgId: string) => {
+  const orgFAQSnapshot = await getOrganisationProfileFAQ(orgId);
+  const orgFAQ = orgFAQSnapshot?.FAQ;
+
+  const ourStorySnapshot = await getOrganisationProfileOurStory(orgId);
+  const ourStory = ourStorySnapshot?.content;
+
+  const peopleSpotlightSnapshot = await getOrganisationProfilePeopleSpotlight(
+    orgId
+  );
+  const peopleSpotlight = peopleSpotlightSnapshot?.content;
+
+  const orgProfileData: tabData[] = [
+    {
+      label: ETabLabel.OUR_STORY,
+      content: ourStory,
+    },
+    {
+      label: ETabLabel.PEOPLE_SPOTLIGHT,
+      content: peopleSpotlight,
+    },
+    {
+      label: ETabLabel.FEATURED_PROJECTS,
+      content: { content: "TODO fill this" }, // TODO fill this
+    },
+    {
+      label: ETabLabel.IMPACT,
+      content: ourStory, // TODO fill this
+    },
+    {
+      label: ETabLabel.FAQ,
+      content: orgFAQ,
+    },
+  ];
+
+  return orgProfileData;
 };
 
 const Profile: React.FC<{ org?: Organisation }> = ({ org }) => {

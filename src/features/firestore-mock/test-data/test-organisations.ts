@@ -7,8 +7,8 @@ import { IOrganisation } from "../../../data/model/organisation";
 import { IProfileContent } from "../../../data/model/organisationProfile/profileContent";
 import { IOrganisationSummary } from "../../../data/model/organisationSummary";
 import { faker } from "@faker-js/faker";
-import { IPeopleSpotlight } from "../../organisation-profile/components/profile";
 import { SocialType } from "../../../data/enums/social-type.enum";
+import { IPeopleSpotlight } from "../../../data/model/organisationProfile/organisationProfilePeopleSpotlight";
 
 export const testOrg1: IOrganisation = {
   name: "Over The Rainbow (OTR)",
