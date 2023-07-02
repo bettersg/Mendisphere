@@ -2,8 +2,6 @@ import { Box, VStack } from "@chakra-ui/react";
 import Footer from "../common/footer";
 import Profile from "./components/profile";
 import Services from "./components/services";
-import SimilarOrgs from "./components/similar-orgs";
-import SimpleNavigationBar from "../common/simple-navbar";
 import Summary from "./components/summary";
 import OrgBreadCrumb from "../common/orgBreadCrumb";
 import { useParams } from "react-router-dom";
@@ -13,6 +11,7 @@ import {
   Organisation,
 } from "../../data/model/organisation";
 import "../page-style.scss";
+import NavigationBar from "../common/NavigationBar";
 
 export default function OrgProfilePage() {
   // TODO call firestore db to retrieve org profile details
@@ -26,7 +25,7 @@ export default function OrgProfilePage() {
 
   return (
     <div>
-      <SimpleNavigationBar />
+      <NavigationBar />
       <VStack className="page-width page-padding" align="stretch" spacing="0px">
         <OrgBreadCrumb org={org} />
         <Summary />

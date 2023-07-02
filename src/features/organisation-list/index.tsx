@@ -29,6 +29,7 @@ import {
   specialisationsOptions,
   supportAreaOptions,
 } from "./const";
+import NavigationBar from "../common/NavigationBar";
 
 export enum EViewOption {
   Card = "card",
@@ -100,7 +101,7 @@ const OrganisationList: React.FC = () => {
       spacing={0}
       align="stretch"
     >
-      <SimpleNavigationBar />
+      <NavigationBar />
       <OrgBreadCrumb />
 
       {/* Description */}
