@@ -9,7 +9,7 @@ import {
   Heading,
 } from "@chakra-ui/react";
 import FrontPage from "./components/FrontPage";
-import NavigationBar from "./components/NavigationBar";
+import NavigationBar from "../common/NavigationBar";
 import Footer from "../common/footer";
 import { Animate } from "./components/ScrollAnimation";
 import { ReactComponent as HomeIcon3 } from "../../assets/icons/homeIcon3.svg";
@@ -27,7 +27,7 @@ const Home: React.FC = () => {
 
   return (
     <VStack className="page-width page-padding" align="stretch" spacing="0px">
-      <Box paddingTop="30px">
+      <Box>
         <NavigationBar />
       </Box>
 

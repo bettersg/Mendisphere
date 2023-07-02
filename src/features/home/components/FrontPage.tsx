@@ -8,7 +8,6 @@ export default function FrontPage() {
       justify={{ base: "center", md: "space-around", xl: "space-between" }}
       direction={{ base: "column-reverse", md: "row" }}
       wrap="nowrap"
-      px={8}
       mb={16}
     >
       <Stack

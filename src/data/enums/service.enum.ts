@@ -8,6 +8,8 @@ export enum Service {
   Counselling = "Counselling",
   SpeakingEngagements = "Speaking Engagements",
   CorporateTraining = "Corporate Training",
+  TextBasedChatPlatform = "Text-based Chat Platform",
+  PeerSupportCircles= "Peer Support Circles"
 }
 
 export interface ServiceEnumOption {
