@@ -10,7 +10,6 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import Footer from "../common/footer";
-import SimpleNavigationBar from "../common/simple-navbar";
 import CardView from "./components/CardView";
 import ListView from "./components/ListView";
 import ViewToggle from "./components/ViewToggle";

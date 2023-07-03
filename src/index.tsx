@@ -5,6 +5,7 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import * as serviceWorker from "./serviceWorker";
+import 'typeface-inter'
 
 const container = document.getElementById("root");
 if (!container) throw new Error("Failed to find the root element");

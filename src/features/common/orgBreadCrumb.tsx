@@ -7,16 +7,23 @@ import {
   Box,
   Text,
 } from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router-dom";
 import { HomeIcon } from "@primer/octicons-react";
 import { Organisation } from "../../data/model/organisation";
 import { Paths } from "../../paths";
+
+const currentPageStyle = {
+  color: "#3959FF",
+  textDecoration: "underline",
+  fontWeight: "700",
+};
 
 const OrgBreadCrumb: React.FC<{ org?: Organisation }> = ({ org }) => {
   const isOrgProfilePage = org !== undefined;
 
   return (
-    <Flex h="8vh">
-      <Box alignSelf="center">
+    <Flex h="6vh">
+      <Box alignSelf="center" fontSize="14px">
         <Breadcrumb spacing="1vw" separator={<ChevronRightIcon />}>
           {/* Home link */}
           <BreadcrumbItem>
@@ -29,17 +36,21 @@ const OrgBreadCrumb: React.FC<{ org?: Organisation }> = ({ org }) => {
           <BreadcrumbItem>
             <BreadcrumbLink
               href={isOrgProfilePage ? Paths.organisationListing : undefined}
+              style={isOrgProfilePage ? undefined : currentPageStyle}
             >
-              <Text textStyle={isOrgProfilePage ? undefined : "breadCrumbLink"}>
-                Organisations
-              </Text>
+              Organisations
             </BreadcrumbLink>
           </BreadcrumbItem>
 
           {/* organisation profile page */}
           {isOrgProfilePage && (
             <BreadcrumbItem>
-              <Text textStyle="breadCrumbLink">{org.name}</Text>
+              <BreadcrumbLink
+                as={Text}
+                style={isOrgProfilePage ? currentPageStyle : undefined}
+              >
+                {org.name}
+              </BreadcrumbLink>
             </BreadcrumbItem>
           )}
         </Breadcrumb>

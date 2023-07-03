@@ -13,7 +13,7 @@ import NavigationButton from "../home/components/NavigationButton";
 import { Paths } from "../../paths";
 import "../page-style.scss";
 
-import logo from "../../assets/images/logo/Mendisphere Logo Square colour.png";
+import logo from "../../assets/images/logo/Mendisphere Logo colour.png";
 
 const Navigation = () => {
   const [mobileNav, setMobileNav] = useState(false);
@@ -41,25 +41,23 @@ const Navigation = () => {
       backgroundColor="#FFFFFF"
     >
       <HStack className="page-width page-padding">
-        <Image src={logo} width="auto" height="150%"></Image>
+        <Image src={logo} width="180px" height="auto"></Image>
         <Spacer></Spacer>
-        <HStack spacing={8} alignItems={"center"}>
-          <HStack
-            paddingRight="100px"
-            as={"nav"}
-            spacing="80px"
-            fontSize="15px"
-            fontWeight="700"
-            color="#333333"
-            display={{ base: "none", md: "flex" }}
-          >
-            <Link onClick={handleScrollToFooter}>About</Link>
-            <Link as={ReactRouterLink} to={Paths.organisationListing}>
-              Organisations
-            </Link>
-            <Link onClick={handleScrollToFooter}>Contact Us</Link>
-          </HStack>
-          {/* <Flex flex={1} justify={"flex-end"}>
+        <HStack
+          as={"nav"}
+          spacing="80px"
+          fontSize="15px"
+          fontWeight="700"
+          color="#333333"
+          display={{ base: "none", md: "flex" }}
+        >
+          <Link onClick={handleScrollToFooter}>About</Link>
+          <Link as={ReactRouterLink} to={Paths.organisationListing}>
+            Organisations
+          </Link>
+          <Link onClick={handleScrollToFooter}>Contact Us</Link>
+        </HStack>
+        {/* <Flex flex={1} justify={"flex-end"}>
             <HStack
               direction={"row"}
               spacing={4}
@@ -89,7 +87,6 @@ const Navigation = () => {
               onClick={toggleMobileNav}
             />
           </Flex> */}
-        </HStack>
 
         {mobileNav ? (
           <Box pb={4} display={{ md: "none" }}>
