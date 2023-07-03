@@ -21,6 +21,7 @@ export class OrganisationSummary implements IOrganisationSummary {
   videoUrl?: string;
   websiteUrl: string;
   donationUrl?: string;
+  
 
   // potentially create reference to parent organisation object, if queries require it
 
