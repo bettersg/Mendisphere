@@ -28,7 +28,7 @@ export default function OrgProfilePage() {
       <NavigationBar />
       <VStack className="page-width page-padding" align="stretch" spacing="0px">
         <OrgBreadCrumb org={org} />
-        <Summary />
+        {org !== undefined && <Summary org={org} />}
         <Services />
         {org !== undefined && <Profile org={org} />}
         {/* {org !== undefined && <SimilarOrgs org={org} />} */}

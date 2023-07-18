@@ -11,8 +11,8 @@ import {
 } from "@chakra-ui/react";
 import "../page-style.scss";
 import { SocialType } from "../../data/enums/social-type.enum";
-import { Social } from "../organisation-profile/components/summary";
 import { GetIconForSocials } from "../../utilities/icon-mappings";
+import { Social } from "../../data/model/organisationSummary";
 
 const Footer: React.FC = () => {
   const socials: Social[] = [

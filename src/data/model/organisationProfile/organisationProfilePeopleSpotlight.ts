@@ -9,7 +9,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../../../services/firebase/firebaseConfig";
 import { Collections } from "../../../services/firebase/names";
-import { Social } from "../../../features/organisation-profile/components/summary";
+import { Social } from "../organisationSummary";
 
 export interface IPeopleSpotlight {
   name: string;
