@@ -11,28 +11,13 @@ import { ReactComponent as ShieldCheckIcon } from "../../../assets/icons/checked
 import { ReactComponent as LinkIcon } from "../../../assets/icons/link.svg";
 import { ReactComponent as MailIcon } from "../../../assets/icons/mail.svg";
 import "../scss/summary.scss";
-import { SocialType } from "../../../data/enums/social-type.enum";
 import {
   GetIconForIssue,
   GetIconForSocials,
 } from "../../../utilities/icon-mappings";
-import { Specialisation } from "../../../data/enums/specialisation.enum";
-
-export type Social = {
-  socialType: SocialType;
-  url: string;
-};
-
-type SummaryProps = {
-  videoUrl: string;
-  name: string;
-  mission: string;
-  mentalHealthType: Specialisation; // maximum two focus areas
-  website: string;
-  email: string;
-  isApproved: boolean;
-  socials: Social[];
-};
+import { useEffect, useState } from "react";
+import { Organisation } from "../../../data/model/organisation";
+import { OrganisationSummary, getOrganisationSummary } from "../../../data/model/organisationSummary";
 
 const iframeStyle = {
   width: "100%",
@@ -67,41 +52,17 @@ const websiteButtonStyle = {
 };
 
 // TODO add input of type SummaryProps
-const Summary: React.FC = () => {
-  const testDetails: SummaryProps = {
-    videoUrl: "https://www.youtube.com/embed/oznr-1-poSU",
-    name: "Resilience Collective (RC)",
-    mission:
-      "We support the recovery journeys of persons with mental health challenges and encourage help seeking among those at risk.",
-    mentalHealthType: Specialisation.AntiStigmatism,
-    website: "https://www.google.com",
-    email: "mindbetter@better.sg",
-    isApproved: true,
-    socials: [
-      {
-        socialType: SocialType.Youtube,
-        url: "https://www.youtube.com/",
-      },
-      {
-        socialType: SocialType.Facebook,
-        url: "https://www.facebook.com/",
-      },
-      {
-        socialType: SocialType.LinkedIn,
-        url: "https://www.linkedin.com/",
-      },
-      {
-        socialType: SocialType.Instagram,
-        url: "https://www.instagram.com/",
-      },
-      {
-        socialType: SocialType.TikTok,
-        url: "https://www.tiktok.com/",
-      },
-    ],
-  };
+const Summary: React.FC<{ org : Organisation }> = ({ org }) => {
+
+  const [orgSummary, setOrgSummary] = useState<OrganisationSummary>();
+
+  // Load organisation summary details.
+  useEffect(() => {
+    getOrganisationSummary(org.id).then((orgSummary) => setOrgSummary(orgSummary));
+  }, []);
+
   // dynamically generate social icons based on organisation data
-  const socialIconsView = testDetails.socials.map((item, index) => {
+  const getSocialIconsView = (summary : OrganisationSummary) => summary.socials.map((item, index) => {
     return (
       <Box key={index}>
         <a href={item.url}>{GetIconForSocials(item.socialType)}</a>
@@ -123,8 +84,8 @@ const Summary: React.FC = () => {
                 width: "100%",
                 height: "100%",
               }}
-              src={testDetails.videoUrl}
-              title={testDetails.name}
+              src={orgSummary?.videoUrl}
+              title={org.name}
               allow="web-share"
             ></iframe>
           </Box>
@@ -135,24 +96,24 @@ const Summary: React.FC = () => {
           <VStack spacing="30px">
             {/* Organisation Name */}
             <HStack justifyContent="flex start" className="title">
-              <Text>{testDetails.name}</Text>
-              {testDetails.isApproved && <ShieldCheckIcon />}
+              <Text>{org.name}</Text>
+              {org.verified && <ShieldCheckIcon />}
             </HStack>
 
             {/* Mental Health Issue*/}
             <HStack className="mentalHealthIssueView" spacing="10px">
-              {GetIconForIssue(testDetails.mentalHealthType)}
+              {GetIconForIssue(org.mainSpecialisation)}
               <Text className="mentalHealthIssueText">
-                {testDetails.mentalHealthType}
+                {org.mainSpecialisation}
               </Text>
             </HStack>
 
             {/* Mission Statement */}
-            <Text className="missionText">{testDetails.mission}</Text>
+            <Text className="missionText">{orgSummary?.mission}</Text> { /* TODO: Add mission statement to OrganisationSummary model. */ }
 
             {/* Links */}
             <Stack className="linksStyle" direction="row" spacing="10px">
-              <a href={testDetails.website}>
+              <a href={orgSummary?.websiteUrl}>
                 <Button
                   sx={websiteButtonStyle}
                   flex={1}
@@ -162,7 +123,7 @@ const Summary: React.FC = () => {
                 </Button>
               </a>
 
-              <a href={`mailto:${testDetails.email}`}>
+              <a href={`mailto:${orgSummary?.websiteUrl}`}> { /* TODO: Add email to OrganisationSummary model. */ }
                 <Button
                   rightIcon={<MailIcon />}
                   sx={emailButtonStyle}
@@ -175,7 +136,7 @@ const Summary: React.FC = () => {
             </Stack>
 
             {/* Socials */}
-            <HStack>{socialIconsView}</HStack>
+            <HStack>{orgSummary !== undefined ? getSocialIconsView(orgSummary) : ""}</HStack>
           </VStack>
         </Box>
       </HStack>

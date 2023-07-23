@@ -26,6 +26,14 @@ export const testOrg1Summary: IOrganisationSummary = {
   videoUrl: "https://youtu.be/oznr-1-poSU",
   websiteUrl: faker.internet.url(),
   donationUrl: faker.internet.url(),
+  mission: "Advocacy group that hopes to empower youth with practical, hands on and holistic self-care strategies.",
+  email: faker.internet.email(),
+  socials: [
+    {
+      socialType: SocialType.Youtube,
+      url: "https://www.youtube.com/",
+    }
+  ]
 };
 
 export const testOrg1OurStory: IProfileContent[] = [
@@ -142,6 +150,31 @@ export const testOrg2Summary: IOrganisationSummary = {
   videoUrl: "https://youtu.be/oznr-1-poSU",
   websiteUrl: faker.internet.url(),
   donationUrl: faker.internet.url(),
+  mission:
+    "Non-profit society providing support services, cohesion activities and community for those struggling with OCD.",
+  email: faker.internet.email(),
+  socials: [
+    {
+      socialType: SocialType.Youtube,
+      url: "https://www.youtube.com/",
+    },
+    {
+      socialType: SocialType.Facebook,
+      url: "https://www.facebook.com/",
+    },
+    {
+      socialType: SocialType.LinkedIn,
+      url: "https://www.linkedin.com/",
+    },
+    {
+      socialType: SocialType.Instagram,
+      url: "https://www.instagram.com/",
+    },
+    {
+      socialType: SocialType.TikTok,
+      url: "https://www.tiktok.com/",
+    },
+  ]
 };
 
 export const testOrg2OurStory: IProfileContent[] = [
@@ -258,6 +291,30 @@ export const testOrg3Summary: IOrganisationSummary = {
   videoUrl: "https://youtu.be/oznr-1-poSU",
   websiteUrl: faker.internet.url(),
   donationUrl: faker.internet.url(),
+  mission: "Training provider and podcast commited to cultivating resilience and positive mental wellness.",
+  email: faker.internet.email(),
+  socials: [
+    {
+      socialType: SocialType.Youtube,
+      url: "https://www.youtube.com/",
+    },
+    {
+      socialType: SocialType.Facebook,
+      url: "https://www.facebook.com/",
+    },
+    {
+      socialType: SocialType.LinkedIn,
+      url: "https://www.linkedin.com/",
+    },
+    {
+      socialType: SocialType.Instagram,
+      url: "https://www.instagram.com/",
+    },
+    {
+      socialType: SocialType.TikTok,
+      url: "https://www.tiktok.com/",
+    },
+  ]
 };
 
 export const testOrg3OurStory: IProfileContent[] = [
@@ -371,9 +428,34 @@ export const testOrg4: IOrganisation = {
 };
 
 export const testOrg4Summary: IOrganisationSummary = {
-  videoUrl: "https://youtu.be/oznr-1-poSU",
+  videoUrl: "https://www.youtube.com/embed/oznr-1-poSU",
   websiteUrl: faker.internet.url(),
   donationUrl: faker.internet.url(),
+  mission:
+    "We support the recovery journeys of persons with mental health challenges and encourage help seeking among those at risk.",
+  email: faker.internet.email(),
+  socials: [
+    {
+      socialType: SocialType.Youtube,
+      url: "https://www.youtube.com/",
+    },
+    {
+      socialType: SocialType.Facebook,
+      url: "https://www.facebook.com/",
+    },
+    {
+      socialType: SocialType.LinkedIn,
+      url: "https://www.linkedin.com/",
+    },
+    {
+      socialType: SocialType.Instagram,
+      url: "https://www.instagram.com/",
+    },
+    {
+      socialType: SocialType.TikTok,
+      url: "https://www.tiktok.com/",
+    },
+  ]
 };
 
 export const testOrg4OurStory: IProfileContent[] = [
