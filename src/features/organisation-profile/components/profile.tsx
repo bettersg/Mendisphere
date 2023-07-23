@@ -12,7 +12,7 @@ import {
   AccordionPanel,
   Image,
 } from "@chakra-ui/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { GetIconForSocials } from "../../../utilities/icon-mappings";
 import "../scss/profile.scss";
 import { Organisation } from "../../../data/model/organisation";
@@ -52,8 +52,6 @@ export enum ETabLabel {
 const renderTabContent = (
   label: ETabLabel,
   content: any,
-  tabsHeight: number,
-  isScrollDown: boolean
 ) => {
   switch (label) {
     case ETabLabel.OUR_STORY:
@@ -78,15 +76,11 @@ const renderTabContent = (
             }}
           >
             <div
-              style={
-                (isScrollDown && tabsHeight <= 0) || tabsHeight < 0
-                  ? {
-                      position: "sticky",
-                      top: 0.2 * window.innerHeight,
-                      zIndex: 200,
-                    }
-                  : {}
-              }
+              style={{
+                position: "sticky",
+                top: 120 + 60,
+                zIndex: 100,
+              }}
             >
               {!!contentMenu &&
                 contentMenu.map(
@@ -371,57 +365,26 @@ const Profile: React.FC<{ org?: Organisation }> = ({ org }) => {
   // TODO retrieve organisation ID based on selected option
   const orgId = org?.id ?? "";
   const [profileData, setProfileData] = useState<tabData[]>([]);
-  const tabsHeightRef = useRef<HTMLDivElement>(null);
-  const [tabsHeight, setTabsHeight] = useState<number>(1200);
-  const [isScrollDown, setIsScrollDown] = useState<boolean>(true);
-  let prevScrollPosition = window.pageYOffset; // this uses concept of JS closures -- while handleScroll() runs, it will use stale value of prevScrollPosition
 
-  const handleScroll = () => {
-    if (tabsHeightRef.current) {
-      const height =
-        tabsHeightRef.current.getBoundingClientRect().top -
-        0.08 * window.innerHeight; // 0.08 vh correspond to nav bar height
-      setTabsHeight(height);
-
-      const currentScrollPosition = window.pageYOffset;
-      prevScrollPosition > currentScrollPosition
-        ? setIsScrollDown(false)
-        : setIsScrollDown(true);
-      prevScrollPosition = currentScrollPosition;
-    }
-  };
-
-  const getData = async () => {
-    await getOrganisationProfileData(orgId).then((data) =>
+  useEffect(() => { 
+    getOrganisationProfileData(orgId).then((data) =>
       setProfileData(data)
     );
-  };
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    getData();
-    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <Tabs
-      ref={tabsHeightRef}
-      onScroll={handleScroll}
       isLazy
       isFitted
       align="center"
       style={{ width: 1200 }}
     >
       <TabList
-        style={
-          (isScrollDown && tabsHeight <= 0) || tabsHeight < 0
-            ? {
-                position: "sticky",
-                top: 0.08 * window.innerHeight,
-                zIndex: 200,
-              }
-            : undefined
-        }
+        style={{
+          position: "sticky",
+          top: 0,
+          zIndex: 200,
+        }}
       >
         {profileData.map((tab, index) => (
           <Tab
@@ -442,7 +405,7 @@ const Profile: React.FC<{ org?: Organisation }> = ({ org }) => {
       <TabPanels>
         {profileData.map((tab, index) => (
           <TabPanel p={4} key={index}>
-            {renderTabContent(tab.label, tab.content, tabsHeight, isScrollDown)}
+            {renderTabContent(tab.label, tab.content)}
           </TabPanel>
         ))}
       </TabPanels>
