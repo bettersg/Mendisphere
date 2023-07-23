@@ -29,6 +29,7 @@ import {
   IProfileContent,
   ISection,
 } from "../../../data/model/organisationProfile/profileContent";
+import { ProfileContent } from "./profile-content";
 
 // TODO move this to model when class is defined
 export interface IFeaturedProjects {
@@ -289,7 +290,7 @@ const renderTabContent = (
         </div>
       );
     case ETabLabel.FEATURED_PROJECTS:
-      return <>{content.content}</>; // TODO pending designers
+      return <ProfileContent />; // TODO pending designers
     case ETabLabel.FAQ:
       return (
         <Accordion allowMultiple>

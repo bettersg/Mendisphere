@@ -1,4 +1,4 @@
-import { Button, Heading, VStack } from "@chakra-ui/react";
+import { Box, Button, Heading, Spacer, VStack } from "@chakra-ui/react";
 import { doc, setDoc } from "firebase/firestore";
 import { Component } from "react";
 import {
@@ -20,6 +20,8 @@ import { IProfileContent } from "../../data/model/organisationProfile/profileCon
 import { faker } from "@faker-js/faker";
 import { createOrganisationProfileOurStory } from "../../data/model/organisationProfile/organisationProfileOurStory";
 import { createOrganisationProfilePeopleSpotlight } from "../../data/model/organisationProfile/organisationProfilePeopleSpotlight";
+
+import { QuillEditor } from "./quill-editor";
 
 class FirestoreMockPage extends Component {
   orgs: Organisation[] = [];
@@ -143,6 +145,8 @@ class FirestoreMockPage extends Component {
         <Button onClick={this.parseData}>Upload mock data to firestore</Button>
         <Button onClick={this.getOrgs}>Get All Organisations</Button>
         <Button onClick={this.getOrgsFiltered}>Test filters</Button>
+        <Spacer />
+        <QuillEditor />
       </VStack>
     );
   }
