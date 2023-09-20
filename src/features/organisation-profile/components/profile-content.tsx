@@ -1,4 +1,4 @@
-import { Box, Heading, Spacer } from "@chakra-ui/layout";
+import { Box, Heading } from "@chakra-ui/layout";
 import parse, { domToReact, HTMLReactParserOptions } from "html-react-parser";
 import { Header, ProfileSidebar } from "./profile-sidebar";
 import { Flex } from "@chakra-ui/react";
@@ -53,7 +53,7 @@ export const ProfileContent: React.FC = () => {
       <Box flexDirection="column" width="20vw" textAlign="left" pt={20}>
         <ProfileSidebar headers={headers} />
       </Box>
-      <Spacer />
+      <Box w="8vw" />
       <Box width="40vw" textAlign="left" pt={20}>
         {parse(htmlContent, options)}
       </Box>

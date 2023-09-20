@@ -366,7 +366,7 @@ const Profile: React.FC<{ org?: Organisation }> = ({ org }) => {
   const orgId = org?.id ?? "";
   const [profileData, setProfileData] = useState<tabData[]>([]);
 
-  useEffect(() => { 
+  useEffect(() => {
     getOrganisationProfileData(orgId).then((data) =>
       setProfileData(data)
     );
@@ -377,7 +377,7 @@ const Profile: React.FC<{ org?: Organisation }> = ({ org }) => {
       isLazy
       isFitted
       align="center"
-      style={{ width: 1200 }}
+      style={{ width: "100%" }}
     >
       <TabList
         style={{
