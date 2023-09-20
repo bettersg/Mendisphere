@@ -1,4 +1,4 @@
-import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Collapse, Flex, Heading, List, ListItem, Text } from "@chakra-ui/react";
+import { Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel, Box, Flex, Text } from "@chakra-ui/react";
 
 export interface Header {
   id: string;
@@ -9,8 +9,6 @@ export interface Header {
 export const ProfileSidebar: React.FC<{ headers: Header[] }> = ({
   headers,
 }) => {
-  // TODO: Make sidebar sticky
-
   // Note: Use this mock data to test nested headers
   // const testHeaders = [
   //   {
@@ -27,14 +25,15 @@ export const ProfileSidebar: React.FC<{ headers: Header[] }> = ({
   //   { id: 'header-2', text: 'Human Library Education', subHeaders: [] },
   // ];
 
+
   return (
-    <Accordion allowMultiple>
+    <Accordion allowMultiple position='sticky' top={120} zIndex={100}>
       {headers.map((header) =>
         header.subHeaders.length > 0 ?
           // Allow nesting of up to 3 layers of headers
           <AccordionItem key={header.id}>
             <AccordionButton py={4} px={0}>
-              <Box as="span" flex='1' textAlign='left' fontSize={18} fontWeight={700}>
+              <Box as='span' flex='1' textAlign='left' fontSize={18} fontWeight={700}>
                 {header.text}
               </Box>
               <AccordionIcon boxSize={8} />
@@ -75,6 +74,6 @@ export const ProfileSidebar: React.FC<{ headers: Header[] }> = ({
             </a>
           </AccordionItem>
       )}
-    </Accordion >
+    </Accordion>
   );
 };
