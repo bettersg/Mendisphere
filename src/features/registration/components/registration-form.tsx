@@ -6,6 +6,9 @@ import {
   Text,
   VStack,
   Input,
+  Center,
+  Icon,
+  HStack,
 } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { useState } from "react";
@@ -15,8 +18,13 @@ import {
   //   DoPasswordsMatch,
   IsValidEmail,
   IsValidName,
+  PasswordContainsLowercase,
+  PasswordContainsNumber,
+  PasswordContainsSymbol,
+  PasswordContainsUppercase,
 } from "../../../utilities/validators";
 import SignIn from "./sign-in";
+import { ImCheckboxChecked, ImCross } from 'react-icons/im'
 
 export default function RegistrationForm() {
   const [input, setInput] = useState({
@@ -31,7 +39,7 @@ export default function RegistrationForm() {
     givenName: "",
     famName: "",
     email: "",
-    password: "",
+    password: { text: "", numChecked: 0, color: "", checks: { "Minimum length": false, "Number": false, "Symbol": false, "Uppercase": false, "Lowercase": false } },
     confirmPassword: "",
     valid: false,
   });
@@ -63,7 +71,12 @@ export default function RegistrationForm() {
   const validateInput = (event: any) => {
     let { name, value } = event.target;
     setError((prev) => {
-      const errorState = { ...prev, [name]: "" };
+      let errorState;
+      if (name == "password") {
+        errorState = { ...prev }
+      } else {
+        errorState = { ...prev, [name]: "" };
+      }
       errorState.valid = canEnableSignUpButton();
 
       switch (name) {
@@ -90,12 +103,65 @@ export default function RegistrationForm() {
           // case "confirmPassword":
           setNoText(typeof value != "undefined" && value.length < 1);
 
-          if (input.password && !IsPasswordMinLength(value)) {
-            errorState.password =
-              "Password must have a minimum of 8 characters, contain numbers, symbols, uppercase and lowercase characters.";
+          errorState.password.text = "Strong, your password is secure 💪";
+          errorState.password.checks = { "Minimum length": true, "Number": true, "Symbol": true, "Uppercase": true, "Lowercase": true };
+
+          let numChecked = 5;
+
+          if (!PasswordContainsSymbol(value)) {
+            errorState.password.text = "Almost there, add a special symbol 😉"
+            errorState.password.checks["Symbol"] = false
             errorState.valid = false;
-          } else {
-            errorState.password = "";
+            numChecked -= 1;
+          }
+
+          if (!PasswordContainsNumber(value)) {
+            errorState.password.text = "So-so, should be alphanumeric 😕"
+            errorState.password.checks["Number"] = false
+            errorState.valid = false;
+            numChecked -= 1;
+          }
+
+          if (!PasswordContainsUppercase(value)) {
+            errorState.password.text =
+              "Weak, must have at one uppercase and lowercase letter 😖";
+            errorState.password.checks["Uppercase"] = false
+            errorState.valid = false;
+            numChecked -= 1;
+          }
+
+          if (!PasswordContainsLowercase(value)) {
+            errorState.password.text =
+              "Weak, must have at one uppercase and lowercase letter 😖";
+            errorState.password.checks["Lowercase"] = false
+            errorState.valid = false;
+            numChecked -= 1;
+          }
+
+          if (!IsPasswordMinLength(value)) {
+            errorState.password.text =
+              "Must have at least 8 characters.";
+            errorState.password.checks["Minimum length"] = false
+            errorState.valid = false;
+            numChecked -= 1;
+          }
+
+          errorState.password.numChecked = numChecked;
+          switch (numChecked) {
+            case 1:
+              errorState.password.color = "red";
+              break;
+            case 2:
+            case 3:
+              errorState.password.color = "yellow.300";
+              break;
+            case 4:
+              errorState.password.color = "blue";
+              break;
+            case 5:
+            default:
+              errorState.password.color = "green.400";
+              break;
           }
 
           //   if (!DoPasswordsMatch(input.password, value)) {
@@ -167,7 +233,21 @@ export default function RegistrationForm() {
             </Button>
           </InputRightElement>
         </InputGroup>
-        {error.password && <Box className="errorMsg">{error.password}</Box>}
+      </Box>
+      <Box>
+        <Center><Box w={0} h={0} filter="drop-shadow(0 -2px 2px #AAA)" borderLeft="20px solid transparent" borderRight="20px solid transparent" borderBottom="20px solid white" /></Center>
+        <Box boxShadow="0px 0px 8px #AAA" rounded="lg" p={3}>
+          <Text>{error.password.text}</Text>
+          <HStack spacing={2} py={4}>
+            {[...Array(error.password.numChecked)].map(() => <Box h={1} bg={error.password.color} flexGrow={1} />)}
+            {[...Array(5 - error.password.numChecked)].map(() => <Box h={1} bg="gray.300" flexGrow={1} />)}
+          </HStack>
+          <VStack alignItems="flex-start" spacing={1}>
+            {Object.entries(error.password.checks).map(([item, checked]) => (
+              <HStack spacing={2}><Icon as={checked ? ImCheckboxChecked : ImCross} color={checked ? "green.400" : "red"} /><Text>{item}</Text></HStack>
+            ))}
+          </VStack>
+        </Box>
       </Box>
       {/* <Box>
         <Text>Confirm Password</Text>
