@@ -1,0 +1,1 @@
+export { useGetWindowDimensionsHook } from "./useGetDimensionsHook";
