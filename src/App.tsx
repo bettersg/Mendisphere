@@ -1,39 +1,26 @@
-import { ChakraProvider } from "@chakra-ui/react";
-import { Route, Routes } from "react-router-dom";
-import Home from "./features/home";
-import LoginPage from "./features/login/login-page";
-import ProfileSetupPage from "./features/registration/profile-setup-page";
-import RegistrationPage from "./features/registration/registration-page";
-import OrgProfilePage from "./features/organisation-profile";
-import OrganisationList from "./features/organisation-list";
-import UserDashboardPage from "./features/user-dashboard/user-dashboard-page";
-import { AuthProvider } from "./services/firebase/authProvider";
-import FirestoreMock from "./features/firestore-mock/firestore-mock";
-import { Paths } from "./paths";
+import { ChakraProvider, Container } from "@chakra-ui/react";
+import { AuthProvider } from "./services/Firebase/AuthProvider";
 import { appTheme } from "./theme";
+import Routing from "./routing";
+import { Paths } from "./routing/Paths";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
 
 function App() {
+  // Get current page
+  const currentPage = window.location.pathname;
+
+  // Check the current page is not login and registration page
+  const isShowHeaderAndFooter = ![Paths.login, Paths.signup, Paths.profileSetup].includes(
+    currentPage
+  );
+
   return (
     <ChakraProvider theme={appTheme}>
       <AuthProvider>
-        <Routes>
-          <Route path={Paths.home} element={<Home />} />
-          <Route path={Paths.login} element={<LoginPage />} />
-          <Route path={Paths.dashboard} element={<UserDashboardPage />} />
-          <Route path={Paths.signup} element={<RegistrationPage />} />
-          <Route path={Paths.profileSetup} element={<ProfileSetupPage />} />
-          <Route
-            path={Paths.organisationListing}
-            element={<OrganisationList />}
-          />
-          <Route
-            path={Paths.organisationProfile}
-            element={<OrgProfilePage />}
-          />
-          {process.env.NODE_ENV === "development" && (
-            <Route path="firestore-mock" element={<FirestoreMock />} />
-          )}
-        </Routes>
+        {isShowHeaderAndFooter && <Header />}
+        <Routing />
+        {isShowHeaderAndFooter && <Footer />}
       </AuthProvider>
     </ChakraProvider>
   );

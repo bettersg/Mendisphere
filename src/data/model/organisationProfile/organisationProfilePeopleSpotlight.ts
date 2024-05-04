@@ -7,9 +7,9 @@ import {
   getDoc,
   setDoc,
 } from "firebase/firestore";
-import { db } from "../../../services/firebase/firebaseConfig";
-import { Collections } from "../../../services/firebase/names";
-import { Social } from "../organisationSummary";
+import { db } from "../../../services/Firebase/FirebaseConfig";
+import { Collections } from "../../../services/Firebase/Names";
+import { Social } from "../OrganisationSummary";
 
 export interface IPeopleSpotlight {
   name: string;

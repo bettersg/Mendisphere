@@ -1,10 +1,10 @@
 import { useEffect,useState,useContext} from 'react'
-import { auth } from './firebaseConfig'
+import { auth } from './FirebaseConfig'
 import { UserCredential,User,createUserWithEmailAndPassword,signInWithEmailAndPassword,sendPasswordResetEmail,} from 'firebase/auth'
-import { AuthProviderProps } from './authProviderProps'
-import { UserContextState, UserStateContext } from '../../data/auth/userContext'
-import { AuthContextModel } from '../../data/auth/authContextModel'
-import { AuthContext } from '../../data/auth/authContext'
+import { AuthProviderProps } from './AuthProviderProps'
+import { UserContextState, UserStateContext } from '../../data/Auth/UserContext'
+import { AuthContextModel } from '../../data/Auth/AuthContextModel'
+import { AuthContext } from '../../data/Auth/AuthContext'
 
   export function useAuth(): AuthContextModel {
     return useContext(AuthContext)
