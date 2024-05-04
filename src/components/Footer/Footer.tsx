@@ -10,9 +10,9 @@ import {
   Spacer,
 } from "@chakra-ui/react";
 import "../../pages/style.scss";
-import { SocialType } from "../../data/enums/social-type.enum";
+import { SocialType } from "../../data/Enums/social-type.enum";
 import { GetIconForSocials } from "../../utilities/iconMappings/iconMapping";
-import { Social } from "../../data/model/organisationSummary";
+import { Social } from "../../data/Model/OrganisationSummary";
 
 const Footer: React.FC = () => {
   const socials: Social[] = [

@@ -10,9 +10,12 @@ import { OrgDataFormProps } from "./ProfileSetup";
 import {
   CapitalGoal,
   capitalGoalEnumOptions,
-} from "../../data/enums/captial-goal.enum";
+} from "../../data/Enums/captial-goal.enum";
 
-const GoalsForm = ({ orgFormData, updateOrgFormData }: OrgDataFormProps) => {
+const GoalsForm = ({
+  orgFormData,
+  updateOrgFormData,
+}: OrgDataFormProps) => {
   return (
     <Grid
       templateRows="repeat(1, 1fr)"

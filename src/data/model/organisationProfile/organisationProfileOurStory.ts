@@ -7,13 +7,13 @@ import {
   getDoc,
   setDoc,
 } from "firebase/firestore";
-import { Collections } from "../../../services/firebase/names";
-import { db } from "../../../services/firebase/firebaseConfig";
+import { Collections } from "../../../services/Firebase/Names";
+import { db } from "../../../services/Firebase/FirebaseConfig";
 import {
   IProfileContent,
   convertContentToFireStore,
   convertFirestoreToContent,
-} from "./profileContent";
+} from "./ProfileContent";
 
 export class OrganisationProfileOurStory {
   orgId: string;

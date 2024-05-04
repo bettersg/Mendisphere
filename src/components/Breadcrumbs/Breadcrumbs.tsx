@@ -8,7 +8,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { HomeIcon } from "@primer/octicons-react";
-import { Organisation } from "../../data/model/organisation";
+import { Organisation } from "../../data/Model/Organisation";
 import { Paths } from "../../routing/Paths";
 
 const currentPageStyle = {

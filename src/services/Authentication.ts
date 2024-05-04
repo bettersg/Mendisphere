@@ -1,5 +1,6 @@
-import { AuthenticationRequestData } from "../data/auth/authRequestData";
+import { AuthenticationRequestData } from "../data/Auth/AuthRequestData";
 import http from "./HttpCommon";
+
 
 const authenticate = (data: AuthenticationRequestData) => {
   return http.post<string>("/authentication/authenticate", data);

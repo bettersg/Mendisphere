@@ -1,5 +1,5 @@
 import { Grid, GridItem, LinkBox, LinkOverlay } from "@chakra-ui/react";
-import { Organisation } from "../../data/model/organisation";
+import { Organisation } from "../../data/Model/Organisation";
 import { buildOrgProfilePath } from "../../routing/Paths";
 import OrgCard from "./OrganisationCard";
 

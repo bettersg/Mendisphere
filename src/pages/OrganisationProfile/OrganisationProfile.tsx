@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import {
   getOrganisationForProfilePage,
   Organisation,
-} from "../../data/model/organisation";
+} from "../../data/Model/Organisation";
 import "../style.scss";
 
 const OrganisationProfile = () => {

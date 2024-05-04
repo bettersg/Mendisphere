@@ -1,14 +1,14 @@
-import { IPCStatus } from "../data/enums/ipc-status.enum";
-import { Service } from "../data/enums/service.enum";
-import { Specialisation } from "../data/enums/specialisation.enum";
-import { SupportArea } from "../data/enums/support-area.enum";
-import { VerificationStatus } from "../data/enums/verification-status.enum";
-import { IOrganisation } from "../data/model/organisation";
-import { IProfileContent } from "../data/model/organisationProfile/profileContent";
-import { IOrganisationSummary } from "../data/model/organisationSummary";
+import { IPCStatus } from "../data/Enums/ipc-status.enum";
+import { Service } from "../data/Enums/service.enum";
+import { Specialisation } from "../data/Enums/specialisation.enum";
+import { SupportArea } from "../data/Enums/support-area.enum";
+import { VerificationStatus } from "../data/Enums/verification-status.enum";
+import { IOrganisation } from "../data/Model/Organisation";
+import { IProfileContent } from "../data/Model/OrganisationProfile/ProfileContent";
+import { IOrganisationSummary } from "../data/Model/OrganisationSummary";
 import { faker } from "@faker-js/faker";
-import { SocialType } from "../data/enums/social-type.enum";
-import { IPeopleSpotlight } from "../data/model/organisationProfile/organisationProfilePeopleSpotlight";
+import { SocialType } from "../data/Enums/social-type.enum";
+import { IPeopleSpotlight } from "../data/Model/OrganisationProfile/OrganisationProfilePeopleSpotlight";
 
 export const testOrg1: IOrganisation = {
   name: "Over The Rainbow (OTR)",

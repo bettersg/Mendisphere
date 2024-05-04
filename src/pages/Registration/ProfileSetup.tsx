@@ -21,15 +21,15 @@ import {
 import { Step, Steps, useSteps } from "chakra-ui-steps";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { instanceOfLoginCredentials } from "../../data/auth/loginCredentials";
+import { instanceOfLoginCredentials } from "../../data/Auth/LoginCredentials";
 import OrgInfoForm from "./OrganisationInfoForm";
 import GoalsForm from "./GoalsForm";
 import SignUpWaiting from "./SignUpWaiting";
 import "./setup.scss";
 import { Paths } from "../../routing/Paths";
-import { IOrganisation } from "../../data/model/organisation";
-import { IOrganisationAdminData } from "../../data/model/organisationAdmin";
-import { IOrganisationSummary } from "../../data/model/organisationSummary";
+import { IOrganisation } from "../../data/Model/Organisation";
+import { IOrganisationAdminData } from "../../data/Model/OrganisationAdmin";
+import { IOrganisationSummary } from "../../data/Model/OrganisationSummary";
 
 const steps = [
   { label: "Organisation Information" },

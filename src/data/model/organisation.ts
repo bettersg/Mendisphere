@@ -15,21 +15,21 @@ import {
   doc,
   limit,
 } from "firebase/firestore";
-import { Collections } from "../../services/firebase/names";
-import { db } from "../../services/firebase/firebaseConfig";
+import { Collections } from "../../services/Firebase/Names";
+import { db } from "../../services/Firebase/FirebaseConfig";
 import {
   createOrganisationAdminData,
   IOrganisationAdminData,
-} from "./organisationAdmin";
-import { SupportArea } from "../enums/support-area.enum";
-import { Specialisation } from "../enums/specialisation.enum";
-import { Service } from "../enums/service.enum";
-import { IPCStatus } from "../enums/ipc-status.enum";
-import { VerificationStatus } from "../enums/verification-status.enum";
+} from "./OrganisationAdmin";
+import { SupportArea } from "../Enums/support-area.enum";
+import { Specialisation } from "../Enums/specialisation.enum";
+import { Service } from "../Enums/service.enum";
+import { IPCStatus } from "../Enums/ipc-status.enum";
+import { VerificationStatus } from "../Enums/verification-status.enum";
 import {
   IOrganisationSummary,
   createOrganisationSummary,
-} from "./organisationSummary";
+} from "./OrganisationSummary";
 
 export interface IOrganisation {
   name?: string;

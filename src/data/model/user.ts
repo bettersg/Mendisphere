@@ -1,7 +1,10 @@
-import { doc, setDoc } from "firebase/firestore";
-import { Collections } from "../../services/firebase/names";
-import { db } from "../../services/firebase/firebaseConfig";
-import { UserRole } from "../enums/user-role.enum";
+import {
+  doc,
+  setDoc,
+} from "firebase/firestore";
+import { Collections } from "../../services/Firebase/Names";
+import { db } from "../../services/Firebase/FirebaseConfig";
+import { UserRole } from "../Enums/user-role.enum";
 
 export interface IUser {
   id: string;

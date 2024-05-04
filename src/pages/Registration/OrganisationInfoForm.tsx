@@ -12,16 +12,16 @@ import { OrgDataFormProps } from "./ProfileSetup";
 import {
   Specialisation,
   specialisationEnumOptions,
-} from "../../data/enums/specialisation.enum";
+} from "../../data/Enums/specialisation.enum";
 import {
   SupportArea,
   supportAreaEnumOptions,
-} from "../../data/enums/support-area.enum";
+} from "../../data/Enums/support-area.enum";
 import {
   ServiceEnumOption,
   serviceEnumOptions,
-} from "../../data/enums/service.enum";
-import { OrgSize, orgSizeEnumOptions } from "../../data/enums/org-size.enum";
+} from "../../data/Enums/service.enum";
+import { OrgSize, orgSizeEnumOptions } from "../../data/Enums/org-size.enum";
 import { useState } from "react";
 
 const OrganisationInfoForm = ({
@@ -220,6 +220,6 @@ const OrganisationInfoForm = ({
       </GridItem>
     </Grid>
   );
-};
+}
 
 export default OrganisationInfoForm;

@@ -3,18 +3,18 @@ import { Center, Image, Spinner, Text, VStack } from "@chakra-ui/react";
 import { User, UserCredential } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../services/firebase/authProvider";
+import { useAuth } from "../../services/Firebase/AuthProvider";
 import { IOrgFormData } from "./ProfileSetup";
 import {
   IOrganisation,
   createOrganisationOnSignUp,
-} from "../../data/model/organisation";
-import { IPCStatus } from "../../data/enums/ipc-status.enum";
-import { VerificationStatus } from "../../data/enums/verification-status.enum";
-import { IOrganisationAdminData } from "../../data/model/organisationAdmin";
-import { IOrganisationSummary } from "../../data/model/organisationSummary";
-import { UserRole } from "../../data/enums/user-role.enum";
-import { createUser } from "../../data/model/user";
+} from "../../data/Model/Organisation";
+import { IPCStatus } from "../../data/Enums/ipc-status.enum";
+import { VerificationStatus } from "../../data/Enums/verification-status.enum";
+import { IOrganisationAdminData } from "../../data/Model/OrganisationAdmin";
+import { IOrganisationSummary } from "../../data/Model/OrganisationSummary";
+import { UserRole } from "../../data/Enums/user-role.enum";
+import { createUser } from "../../data/Model/User";
 
 export interface LoginCredentials {
   email: string;

@@ -1,34 +1,36 @@
 import {
-  ChakraProvider,
   Box,
-  Text,
   Center,
-  VStack,
-  Image,
+  ChakraProvider,
   Flex,
   HStack,
+  Image,
+  Text,
+  VStack,
 } from "@chakra-ui/react";
+import { AuthProvider } from "./services/Firebase/AuthProvider";
 import { useGetWindowDimensionsHook } from "./utilities/useGetDdimensionsHook";
 import logo from "./assets/images/logo/Mendisphere Logo colour.png";
+import mendisphereTheme from "./theme";
+import Routing from "./routing";
+import { Paths } from "./routing/Paths";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import { AuthProvider } from "./services/firebase/authProvider";
-import mendisphereTheme from "./theme/index";
-import { Route, Routes } from "react-router-dom";
-import { Paths } from "./routing/Paths";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import UserDashboard from "./pages/UserDashboard";
-import Registration from "./pages/Registration";
-import ProfileSetup from "./pages/Registration/ProfileSetup";
-import OrganisationList from "./pages/OrganisationList";
-import OrganisationProfile from "./pages/OrganisationProfile";
-import FirestoreMockPage from "./mocks/FirestoreMock";
 
 function App() {
   const { width } = useGetWindowDimensionsHook();
-
   const isNotDesktopWidth = width <= 720;
+
+  // Get current page
+  const currentPage = window.location.pathname;
+
+  // Check the current page is not login and registration page
+  const isShowHeaderAndFooter = ![
+    Paths.login,
+    Paths.signup,
+    Paths.profileSetup,
+  ].includes(currentPage);
+
   if (isNotDesktopWidth) {
     return (
       <ChakraProvider theme={mendisphereTheme}>
@@ -93,27 +95,13 @@ function App() {
       </ChakraProvider>
     );
   }
+
   return (
     <ChakraProvider theme={mendisphereTheme}>
       <AuthProvider>
-        <Routes>
-          <Route path={Paths.home} element={<Home />} />
-          <Route path={Paths.login} element={<Login />} />
-          <Route path={Paths.dashboard} element={<UserDashboard />} />
-          <Route path={Paths.signup} element={<Registration />} />
-          <Route path={Paths.profileSetup} element={<ProfileSetup />} />
-          <Route
-            path={Paths.organisationListing}
-            element={<OrganisationList />}
-          />
-          <Route
-            path={Paths.organisationProfile}
-            element={<OrganisationProfile />}
-          />
-          {process.env.NODE_ENV === "development" && (
-            <Route path="firestore-mock" element={<FirestoreMockPage />} />
-          )}
-        </Routes>
+        {isShowHeaderAndFooter && <Header />}
+        <Routing />
+        {isShowHeaderAndFooter && <Footer />}
       </AuthProvider>
     </ChakraProvider>
   );

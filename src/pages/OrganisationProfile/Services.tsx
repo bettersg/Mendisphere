@@ -7,8 +7,8 @@ import {
   StackDivider,
 } from "@chakra-ui/react";
 import { Component } from "react";
-import { Service } from "../../data/enums/service.enum";
-import { SupportArea } from "../../data/enums/support-area.enum";
+import { Service } from "../../data/Enums/service.enum";
+import { SupportArea } from "../../data/Enums/support-area.enum";
 import { GetIcon } from "../../utilities/iconMappings/iconMapping";
 import "./services.scss";
 import "../style.scss";

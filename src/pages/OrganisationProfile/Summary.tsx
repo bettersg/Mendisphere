@@ -16,11 +16,11 @@ import {
   GetIconForSocials,
 } from "../../utilities/iconMappings/iconMapping";
 import { useEffect, useState } from "react";
-import { Organisation } from "../../data/model/organisation";
+import { Organisation } from "../../data/Model/Organisation";
 import {
   OrganisationSummary,
   getOrganisationSummary,
-} from "../../data/model/organisationSummary";
+} from "../../data/Model/OrganisationSummary";
 import "./summary.scss";
 
 const emailButtonStyle = {

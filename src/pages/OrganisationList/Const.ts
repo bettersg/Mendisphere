@@ -1,7 +1,7 @@
-import { IPCStatus, IPCStatusViewMap } from "../../data/enums/ipc-status.enum";
-import { Specialisation } from "../../data/enums/specialisation.enum";
-import { Service } from "../../data/enums/service.enum";
-import { SupportArea } from "../../data/enums/support-area.enum";
+import { IPCStatus, IPCStatusViewMap } from "../../data/Enums/ipc-status.enum";
+import { Specialisation } from "../../data/Enums/specialisation.enum";
+import { Service } from "../../data/Enums/service.enum";
+import { SupportArea } from "../../data/Enums/support-area.enum";
 
 export const serviceOptions = [
   {

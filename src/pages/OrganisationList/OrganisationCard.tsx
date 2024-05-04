@@ -1,4 +1,4 @@
-import { Organisation } from "../../data/model/organisation";
+import { Organisation } from "../../data/Model/Organisation";
 import {
   Box,
   Text,
@@ -9,8 +9,8 @@ import {
   TagLeftIcon,
   Flex,
 } from "@chakra-ui/react";
-import { VerificationStatus } from "../../data/enums/verification-status.enum";
-import { IPCStatus } from "../../data/enums/ipc-status.enum";
+import { VerificationStatus } from "../../data/Enums/verification-status.enum";
+import { IPCStatus } from "../../data/Enums/ipc-status.enum";
 import { SearchIcon, CheckCircleIcon, createIcon } from "@chakra-ui/icons";
 
 // person icon
