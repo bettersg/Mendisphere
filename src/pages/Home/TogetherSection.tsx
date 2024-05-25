@@ -5,14 +5,12 @@ import {
     VStack,
     HStack,
   } from "@chakra-ui/react";
-  import { Animate } from "../../components/ScrollAnimation";
   import { ReactComponent as HomeIcon3 } from "../../assets/icons/homeIcon3.svg";
   import { styles } from "./styles";
   import "../style.scss";
 
 const TogetherSection = () => {
   return (
-    <Animate.FadeUp>
       <Box style={styles.box1}>
         <Box className="page-width page-padding">
           <HStack spacing="52px">
@@ -46,7 +44,6 @@ const TogetherSection = () => {
           </HStack>
         </Box>
       </Box>
-    </Animate.FadeUp>
   );
 };
 

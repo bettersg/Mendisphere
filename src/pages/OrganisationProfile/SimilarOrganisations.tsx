@@ -21,10 +21,10 @@ const SimilarOrganisations: React.FC<{ org: Organisation }> = ({ org }) => {
 
   useEffect(() => {
     // fetch organisation data on page load
-    getOrganisationsForListingsPage(filter, org.name, 4)
-      .then((orgs) => {
+    getOrganisationsForListingsPage(filter, org.name, 4, undefined)
+      .then((res) => {
         // console.log('orgs', orgs)
-        setOrgList(orgs);
+        setOrgList(res.organisations);
       })
       .catch((err) => {
         alert(`Organisation data fetch error!`);
