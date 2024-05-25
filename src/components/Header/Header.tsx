@@ -33,7 +33,8 @@ const Header = () => {
   return (
     <Box>
       <Flex
-        h="8vh"
+        h="fit-content"
+        minH="70px"
         borderBottom="1px"
         borderColor="#d3d3d3"
         top={0}

@@ -111,8 +111,8 @@ class FirestoreMockPage extends Component {
   };
 
   getOrgs = async () => {
-    getOrganisationsForListingsPage().then((orgs) =>
-      orgs.forEach((o) => console.log(o))
+    getOrganisationsForListingsPage().then((res) =>
+      res.organisations.forEach((o) => console.log(o))
     );
   };
 

@@ -3,7 +3,7 @@ export const colors = {
     primary: "#333333",
     secondary: "#707070",
     inactive: "#CBCBCB",
-    white: "#333333",
+    white: "#FFFFFF",
     surface: "F5F5F5",
   },
 

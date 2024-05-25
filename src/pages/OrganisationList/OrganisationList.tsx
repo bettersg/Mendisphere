@@ -7,6 +7,8 @@ import {
   Heading,
   HStack,
   Spacer,
+  Spinner,
+  Button,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import CardView from "./CardView";
@@ -17,7 +19,6 @@ import {
   Organisation,
   OrganisationListingQueryFilters,
 } from "../../data/Model/Organisation";
-import { Spinner } from "@chakra-ui/react";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import "../style.scss";
 import { MultiSelect } from "react-multi-select-component";
@@ -27,6 +28,8 @@ import {
   specialisationsOptions,
   supportAreaOptions,
 } from "./Const";
+import { DocumentData, DocumentSnapshot } from "firebase/firestore";
+import { colors } from "../../theme/colours";
 
 export enum EViewOption {
   Card = "card",
@@ -47,8 +50,14 @@ const updateFilters = (arr: any[]) => {
 const OrganisationList: React.FC = () => {
   // store organisation card data
   const [orgList, setOrgList] = useState<Organisation[]>([]);
+
+  const [totalCount, setTotalCount] = useState<number>(0);
+  const [lastVisible, setLastVisible] =
+    useState<DocumentSnapshot<DocumentData> | null>(null);
+  const [isLoadMoreLoading, setIsLoadMoreLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [viewOption, setViewOption] = useState<EViewOption>(EViewOption.Card);
+
   // states of the 4 filters
   const [specialisations, setSpecialisations] = useState<Option[]>([]);
   const [services, setServices] = useState<Option[]>([]);
@@ -60,15 +69,19 @@ const OrganisationList: React.FC = () => {
     ipcStatus: undefined,
     supportAreas: undefined,
   });
+  
+  const limit = 8;
 
   useEffect(() => {
+    setIsLoading(true);
     // fetch organisation data on page load
-    getOrganisationsForListingsPage(filters)
-      .then((orgs) => {
-        // console.log('orgs', orgs)
-        setOrgList(orgs);
+    getOrganisationsForListingsPage(filters, "", limit, undefined)
+      .then((res) => {
+        setOrgList(res.organisations);
+        setLastVisible(res.lastVisible);
+        setTotalCount(res.totalCount);
       })
-      .then(() => setIsLoading(false))
+      .finally(() => setIsLoading(false))
       .catch((err) => {
         alert(`Organisation data fetch error!`);
         console.log(err.message);
@@ -83,6 +96,23 @@ const OrganisationList: React.FC = () => {
       supportAreas: updateFilters(supportAreas),
     });
   }, [specialisations, services, ipcStatus, supportAreas]);
+
+  const loadMore = () => {
+    if (isLoadMoreLoading || lastVisible === null) return;
+
+    setIsLoadMoreLoading(true);
+    getOrganisationsForListingsPage(filters, "", limit, lastVisible)
+      .then((res) => {
+        setOrgList((prevState) => [...prevState, ...res.organisations]);
+        setLastVisible(res.lastVisible);
+      })
+      .finally(() => setIsLoadMoreLoading(false))
+      .catch((err) => {
+        alert(`Organisation data fetch error!`);
+        console.log(err.message);
+        setIsLoadMoreLoading(false);
+      });
+  };
 
   return (
     <VStack justify="center" spacing={0} align="stretch">
@@ -133,7 +163,7 @@ const OrganisationList: React.FC = () => {
                 maxWidth: "25%",
               }}
             >
-              Specialisation
+              <Text marginBottom={2}>Specialisation</Text>
               <MultiSelect
                 options={specialisationsOptions}
                 value={specialisations}
@@ -148,7 +178,7 @@ const OrganisationList: React.FC = () => {
                 maxWidth: "25%",
               }}
             >
-              Services
+              <Text marginBottom={2}>Services</Text>
               <MultiSelect
                 options={serviceOptions}
                 value={services}
@@ -163,7 +193,7 @@ const OrganisationList: React.FC = () => {
                 maxWidth: "25%",
               }}
             >
-              IPC Registered
+              <Text marginBottom={2}>IPC Registered</Text>
               <MultiSelect
                 options={ipcOptions}
                 value={ipcStatus}
@@ -178,7 +208,7 @@ const OrganisationList: React.FC = () => {
                 maxWidth: "25%",
               }}
             >
-              Looking for
+              <Text marginBottom={2}>Looking for</Text>
               <MultiSelect
                 options={supportAreaOptions}
                 value={supportAreas}
@@ -192,7 +222,6 @@ const OrganisationList: React.FC = () => {
       </Box>
 
       {/* Cards listing view */}
-
       <VStack paddingBottom={5} paddingTop={5}>
         {isLoading ? (
           <Box
@@ -211,29 +240,81 @@ const OrganisationList: React.FC = () => {
           </Box>
         ) : (
           <>
-            <ViewToggle
-              onChange={(option) => setViewOption(option)}
-              viewOption={viewOption}
-            />
-            <Box
-              className="page-width page-padding"
-              display="flex"
-              justifyContent="flex-end"
-              marginBottom={5}
-            >
-              <Flex
-                w="full"
-                direction={"column"}
-                alignItems="center"
-                paddingBottom="60px"
-              >
-                {viewOption === EViewOption.Card ? (
-                  <CardView organisationList={orgList} />
-                ) : (
-                  <ListView organisationList={orgList} />
-                )}
-              </Flex>
-            </Box>
+            {orgList.length > 0 && totalCount > 0 ? (
+              <>
+                <ViewToggle
+                  length={orgList.length}
+                  totalCount={totalCount}
+                  onChange={(option) => setViewOption(option)}
+                  viewOption={viewOption}
+                />
+                <Box
+                  className="page-width page-padding"
+                  display="flex"
+                  justifyContent="flex-end"
+                  marginBottom={5}
+                >
+                  <Flex
+                    w="full"
+                    direction={"column"}
+                    alignItems="center"
+                    paddingBottom="60px"
+                  >
+                    {viewOption === EViewOption.Card ? (
+                      <CardView organisationList={orgList} />
+                    ) : (
+                      <ListView organisationList={orgList} />
+                    )}
+
+                    <Text marginTop="60px" marginBottom="20px">
+                      Displaying <strong>{orgList.length}</strong> out of{" "}
+                      <strong>{totalCount}</strong> results
+                    </Text>
+                    {orgList.length === totalCount ? (
+                      <Text>
+                        — You have reached the end of the page. More
+                        organisations to come soon! —
+                      </Text>
+                    ) : (
+                      <Button
+                        onClick={loadMore}
+                        disabled={
+                          isLoadMoreLoading ||
+                          lastVisible === null ||
+                          orgList.length === totalCount
+                        }
+                        height="48px"
+                        width="250px"
+                        border="1px"
+                        borderRadius="4px"
+                        padding="16px 0"
+                        borderColor={colors.brand.secondary}
+                        color={colors.neutral.primary}
+                        backgroundColor={colors.neutral.white}
+                      >
+                        {isLoadMoreLoading ? (
+                          <>
+                            <Spinner
+                              thickness="3px"
+                              speed="0.65s"
+                              emptyColor="gray.200"
+                              color="blue.500"
+                              size="md"
+                              marginRight="10px"
+                            />
+                            Loading...
+                          </>
+                        ) : (
+                          "Load More"
+                        )}
+                      </Button>
+                    )}
+                  </Flex>
+                </Box>
+              </>
+            ) : (
+              "No organisations found!"
+            )}
           </>
         )}
       </VStack>
