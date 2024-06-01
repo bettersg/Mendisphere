@@ -4,7 +4,7 @@ export const colors = {
     secondary: "#707070",
     inactive: "#CBCBCB",
     white: "#FFFFFF",
-    surface: "F5F5F5",
+    surface: "#F5F5F5",
   },
 
   brand: {
@@ -23,5 +23,10 @@ export const colors = {
     errorHighlight: "#FFEFEF",
     success: "#79BD92",
     successHighlight: "#9FF8BF",
+  },
+
+  skeleton: {
+    startColor: "#CBCBCB",
+    endColor: "#A9A9A9",
   },
 };

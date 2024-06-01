@@ -29,6 +29,7 @@ import {
   supportAreaOptions,
 } from "./Const";
 import { DocumentData, DocumentSnapshot } from "firebase/firestore";
+import LoadingScreen from "./LoadingScreen";
 import { colors } from "../../theme/colours";
 
 export enum EViewOption {
@@ -69,7 +70,7 @@ const OrganisationList: React.FC = () => {
     ipcStatus: undefined,
     supportAreas: undefined,
   });
-  
+
   const limit = 8;
 
   useEffect(() => {
@@ -224,20 +225,7 @@ const OrganisationList: React.FC = () => {
       {/* Cards listing view */}
       <VStack paddingBottom={5} paddingTop={5}>
         {isLoading ? (
-          <Box
-            height="300px"
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Spinner
-              thickness="4px"
-              speed="0.65s"
-              emptyColor="gray.200"
-              color="blue.500"
-              size="xl"
-            />
-          </Box>
+          <LoadingScreen />
         ) : (
           <>
             {orgList.length > 0 && totalCount > 0 ? (
