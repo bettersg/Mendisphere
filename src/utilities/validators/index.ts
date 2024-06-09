@@ -1,1 +1,9 @@
-export { IsValidEmail, IsValidName, IsPasswordMinLength } from "./validators";
+export {
+  IsValidEmail,
+  IsValidName,
+  IsPasswordMinLength,
+  PasswordContainsLowercase,
+  PasswordContainsNumber,
+  PasswordContainsSymbol,
+  PasswordContainsUppercase,
+} from "./validators";
