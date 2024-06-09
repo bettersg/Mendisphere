@@ -17,7 +17,7 @@ const CardSkeletonLoader = (props: ICardSkeletonLoader) => {
   const { loopCount = 4 } = props;
   const startColor = colors.skeleton.startColor;
   const endColor = colors.skeleton.endColor;
-  const skeletonTextHeight = "20px";
+  const skeletonTextHeight = "16px";
 
   return (
     <>

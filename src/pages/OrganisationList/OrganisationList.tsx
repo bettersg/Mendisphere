@@ -29,7 +29,8 @@ import {
   supportAreaOptions,
 } from "./Const";
 import { DocumentData, DocumentSnapshot } from "firebase/firestore";
-import LoadingScreen from "./LoadingScreen";
+import CardViewLoadingScreen from "./CardViewLoadingScreen";
+import ListViewLoadingScreen from "./ListViewLoadingScreen";
 import { colors } from "../../theme/colours";
 
 export enum EViewOption {
@@ -225,7 +226,11 @@ const OrganisationList: React.FC = () => {
       {/* Cards listing view */}
       <VStack paddingBottom={5} paddingTop={5}>
         {isLoading ? (
-          <LoadingScreen />
+          viewOption === EViewOption.Card ? (
+            <CardViewLoadingScreen />
+          ) : (
+            <ListViewLoadingScreen />
+          )
         ) : (
           <>
             {orgList.length > 0 && totalCount > 0 ? (

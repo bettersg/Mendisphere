@@ -1,8 +1,8 @@
 import { Box, Flex, Skeleton } from "@chakra-ui/react";
-import CardSkeletonLoader from "../../components/CardSkeletonLoader";
 import { colors } from "../../theme/colours";
+import TableSkeletonLoader from "../../components/TableSkeletonLoader";
 
-const LoadingScreen = () => {
+const ListViewLoadingScreen = () => {
   const startColor = colors.skeleton.startColor;
   const endColor = colors.skeleton.endColor;
   const skeletonTextHeight = "20px";
@@ -87,10 +87,9 @@ const LoadingScreen = () => {
             direction={"row"}
             alignItems="center"
             paddingBottom="60px"
-            paddingTop="60px"
             gap={5}
           >
-            <CardSkeletonLoader loopCount={4} />
+            <TableSkeletonLoader loopCount={4} />
           </Flex>
           <Skeleton
             height={skeletonTextHeight}
@@ -104,4 +103,4 @@ const LoadingScreen = () => {
   );
 };
 
-export default LoadingScreen;
+export default ListViewLoadingScreen;
