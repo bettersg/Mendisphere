@@ -5,17 +5,17 @@ import {
   getOrganisationsForListingsPage,
   OrganisationListingQueryFilters,
 } from "../data/Model/Organisation";
-import { db, storage } from "../services/firebase/FirebaseConfig";
-import { Collections, StorageDirectory } from "../services/firebase/Names";
+import { db, storage } from "../services/firebase/firebaseConfig";
+import { Collections, StorageDirectory } from "../services/firebase/names";
 import { IPCStatus } from "../data/Enums/ipc-status.enum";
 import { testOrgs } from "./TestOrganisationsMock";
-import { listingsFolder } from "../services/firebase/Storage";
 import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
 import { createOrganisationSummary } from "../data/Model/OrganisationSummary";
 import { createOrganisationProfileOurStory } from "../data/Model/OrganisationProfile/OrganisationProfileOurStory";
 import { createOrganisationProfilePeopleSpotlight } from "../data/Model/OrganisationProfile/OrganisationProfilePeopleSpotlight";
 import { faker } from "@faker-js/faker";
 import { QuillEditor } from "./QuillEditor";
+import { listingsFolder } from "../services/firebase/storage";
 
 class FirestoreMockPage extends Component {
   parseData = async () => {

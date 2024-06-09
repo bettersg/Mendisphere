@@ -1,5 +1,5 @@
 import { ChakraProvider } from "@chakra-ui/react";
-import { AuthProvider } from "./services/firebase/AuthProvider";
+import { AuthProvider } from "./services/firebase/authProvider";
 import Routing from "./routing";
 import { Paths } from "./routing/Paths";
 import Header from "./components/Header";

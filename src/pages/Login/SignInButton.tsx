@@ -3,7 +3,7 @@ import { User, UserCredential } from "firebase/auth";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthenticationRequestData } from "../../data/Auth/AuthRequestData";
-import { useAuth } from "../../services/firebase/AuthProvider";
+import { useAuth } from "../../services/firebase/authProvider";
 
 interface LoginCredentials {
   email: string;

@@ -3,7 +3,7 @@ import { Center, Image, Spinner, Text, VStack } from "@chakra-ui/react";
 import { User, UserCredential } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../services/firebase/AuthProvider";
+import { useAuth } from "../../services/firebase/authProvider";
 import { IOrgFormData } from "./ProfileSetup";
 import {
   IOrganisation,
