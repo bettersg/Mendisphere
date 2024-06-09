@@ -7,8 +7,8 @@ import {
   getDoc,
   setDoc,
 } from "firebase/firestore";
-import { Collections } from "../../../services/Firebase/Names";
-import { db } from "../../../services/Firebase/FirebaseConfig";
+import { Collections } from "../../../services/firebase/Names";
+import { db } from "../../../services/firebase/FirebaseConfig";
 import {
   IProfileContent,
   convertContentToFireStore,
@@ -52,11 +52,10 @@ export async function createOrganisationProfileOurStory(
   orgId: string,
   orgOurStoryData: IProfileContent[]
 ): Promise<void> {
-  const docRef = doc(db, Collections.organisationOurStory, orgId).withConverter(organisationOurStoryConverter);
-  await setDoc(
-    docRef,
-    new OrganisationProfileOurStory(orgId, orgOurStoryData)
+  const docRef = doc(db, Collections.organisationOurStory, orgId).withConverter(
+    organisationOurStoryConverter
   );
+  await setDoc(docRef, new OrganisationProfileOurStory(orgId, orgOurStoryData));
 }
 
 export async function getOrganisationProfileOurStory(

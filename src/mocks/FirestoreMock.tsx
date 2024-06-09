@@ -5,11 +5,11 @@ import {
   getOrganisationsForListingsPage,
   OrganisationListingQueryFilters,
 } from "../data/Model/Organisation";
-import { db, storage } from "../services/Firebase/FirebaseConfig";
-import { Collections, StorageDirectory } from "../services/Firebase/Names";
+import { db, storage } from "../services/firebase/FirebaseConfig";
+import { Collections, StorageDirectory } from "../services/firebase/Names";
 import { IPCStatus } from "../data/Enums/ipc-status.enum";
 import { testOrgs } from "./TestOrganisationsMock";
-import { listingsFolder } from "../services/Firebase/Storage";
+import { listingsFolder } from "../services/firebase/Storage";
 import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
 import { createOrganisationSummary } from "../data/Model/OrganisationSummary";
 import { createOrganisationProfileOurStory } from "../data/Model/OrganisationProfile/OrganisationProfileOurStory";

@@ -7,8 +7,8 @@ import {
   setDoc,
   SnapshotOptions,
 } from "firebase/firestore";
-import { db } from "../../services/Firebase/FirebaseConfig";
-import { Collections } from "../../services/Firebase/Names";
+import { db } from "../../services/firebase/FirebaseConfig";
+import { Collections } from "../../services/firebase/Names";
 import { SocialType } from "../Enums/social-type.enum";
 
 export type Social = {
@@ -68,7 +68,7 @@ export const organisationSummaryConverter: FirestoreDataConverter<OrganisationSu
         donationUrl: data.donationUrl,
         mission: data.mission,
         email: data.email,
-        socials: data.socials
+        socials: data.socials,
       };
     },
     fromFirestore(

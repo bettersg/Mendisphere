@@ -6,8 +6,8 @@ import {
   QueryDocumentSnapshot,
   SnapshotOptions,
 } from "firebase/firestore";
-import { db } from "../../services/Firebase/FirebaseConfig";
-import { Collections } from "../../services/Firebase/Names";
+import { db } from "../../services/firebase/FirebaseConfig";
+import { Collections } from "../../services/firebase/Names";
 import { CapitalGoal } from "../Enums/captial-goal.enum";
 import { OrgSize } from "../Enums/org-size.enum";
 

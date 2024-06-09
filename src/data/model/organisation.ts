@@ -15,8 +15,8 @@ import {
   doc,
   limit,
 } from "firebase/firestore";
-import { Collections } from "../../services/Firebase/Names";
-import { db } from "../../services/Firebase/FirebaseConfig";
+import { Collections } from "../../services/firebase/Names";
+import { db } from "../../services/firebase/FirebaseConfig";
 import {
   createOrganisationAdminData,
   IOrganisationAdminData,
