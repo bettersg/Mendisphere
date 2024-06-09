@@ -1,48 +1,57 @@
-import { useEffect,useState,useContext} from 'react'
-import { auth } from './firebaseConfig'
-import { UserCredential,User,createUserWithEmailAndPassword,signInWithEmailAndPassword,sendPasswordResetEmail,} from 'firebase/auth'
-import { AuthProviderProps } from './authProviderProps'
-import { UserContextState, UserStateContext } from '../../data/auth/userContext'
-import { AuthContextModel } from '../../data/auth/authContextModel'
-import { AuthContext } from '../../data/auth/authContext'
+import { useEffect, useState, useContext } from "react";
+import { auth } from "./firebaseConfig";
+import {
+  UserCredential,
+  User,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail,
+} from "firebase/auth";
+import { AuthProviderProps } from "./authProviderProps";
+import {
+  UserContextState,
+  UserStateContext,
+} from "../../data/auth/userContext";
+import { AuthContextModel } from "../../data/auth/authContextModel";
+import { AuthContext } from "../../data/auth/authContext";
 
-  export function useAuth(): AuthContextModel {
-    return useContext(AuthContext)
-  }
-  
-  export const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
-    const [user, setUser] = useState<User | null>(null)
-  
-    function signUp(email: string, password: string): Promise<UserCredential> {
-      return createUserWithEmailAndPassword(auth, email, password)
-    }
-  
-    function signIn(email: string, password: string): Promise<UserCredential> {
-      return signInWithEmailAndPassword(auth, email, password)
-    }
+export function useAuth(): AuthContextModel {
+  return useContext(AuthContext);
+}
 
-    function resetPassword(email: string): Promise<void> {
-      return sendPasswordResetEmail(auth, email)
-    }
+export const AuthProvider = ({ children }: AuthProviderProps): JSX.Element => {
+  const [user, setUser] = useState<User | null>(null);
 
-    useEffect(() => {
-      //function that firebase notifies you if a user is set
-      const unsubscribe = auth.onAuthStateChanged((user) => {
-        setUser(user)
-      })
-      return unsubscribe
-    }, [])
-  
-    const values = {
-      signUp,
-      user,
-      signIn,
-      resetPassword,
-      auth,
-    }
-    return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>
+  function signUp(email: string, password: string): Promise<UserCredential> {
+    return createUserWithEmailAndPassword(auth, email, password);
   }
-  
-  export const useUserContext = (): UserContextState => {
-    return useContext(UserStateContext)
+
+  function signIn(email: string, password: string): Promise<UserCredential> {
+    return signInWithEmailAndPassword(auth, email, password);
   }
+
+  function resetPassword(email: string): Promise<void> {
+    return sendPasswordResetEmail(auth, email);
+  }
+
+  useEffect(() => {
+    //function that firebase notifies you if a user is set
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      setUser(user);
+    });
+    return unsubscribe;
+  }, []);
+
+  const values = {
+    signUp,
+    user,
+    signIn,
+    resetPassword,
+    auth,
+  };
+  return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>;
+};
+
+export const useUserContext = (): UserContextState => {
+  return useContext(UserStateContext);
+};
