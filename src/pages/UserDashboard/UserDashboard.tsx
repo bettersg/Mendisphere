@@ -1,5 +1,5 @@
 import { Box, Flex } from "@chakra-ui/react";
-import { AuthContext } from "../../data/Auth/AuthContext";
+import { AuthContext } from "../../data/auth/authContext";
 import { useContext } from "react";
 import { Navigate } from "react-router-dom";
 

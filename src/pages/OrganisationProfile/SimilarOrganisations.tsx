@@ -6,9 +6,9 @@ import {
   getOrganisationsForListingsPage,
   Organisation,
   OrganisationListingQueryFilters,
-} from "../../data/Model/Organisation";
+} from "../../data/model/organisation";
 import CardView from "../OrganisationList/CardView";
-import { Specialisation } from "../../data/Enums/specialisation.enum";
+import { Specialisation } from "../../data/enums/specialisation.enum";
 
 const SimilarOrganisations: React.FC<{ org: Organisation }> = ({ org }) => {
   // store organisation card data

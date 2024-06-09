@@ -16,7 +16,7 @@ import {
   getOrganisationsForListingsPage,
   Organisation,
   OrganisationListingQueryFilters,
-} from "../../data/Model/Organisation";
+} from "../../data/model/organisation";
 import { Spinner } from "@chakra-ui/react";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import "../style.scss";

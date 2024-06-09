@@ -8,7 +8,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { HomeIcon } from "@primer/octicons-react";
-import { Organisation } from "../../data/Model/Organisation";
+import { Organisation } from "../../data/model/organisation";
 import { Paths } from "../../routing/Paths";
 
 const currentPageStyle = {
@@ -22,7 +22,11 @@ const Breadcrumbs: React.FC<{ org?: Organisation }> = ({ org }) => {
 
   return (
     <Flex h="6vh" marginBottom={25}>
-      <Box alignSelf="center" fontSize="14px" className="page-width page-padding">
+      <Box
+        alignSelf="center"
+        fontSize="14px"
+        className="page-width page-padding"
+      >
         <Breadcrumb spacing="1vw" separator={<ChevronRightIcon />}>
           {/* Home link */}
           <BreadcrumbItem>

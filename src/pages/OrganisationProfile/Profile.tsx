@@ -15,20 +15,20 @@ import {
 import { useEffect, useState } from "react";
 import { GetIconForSocials } from "../../utilities/iconMappings/iconMapping";
 import "./profile.scss";
-import { Organisation } from "../../data/Model/Organisation";
+import { Organisation } from "../../data/model/organisation";
 import {
   IFAQ,
   getOrganisationProfileFAQ,
-} from "../../data/Model/OrganisationProfile/OrganisationProfileFAQ";
-import { getOrganisationProfileOurStory } from "../../data/Model/OrganisationProfile/OrganisationProfileOurStory";
+} from "../../data/model/organisationProfile/organisationProfileFAQ";
+import { getOrganisationProfileOurStory } from "../../data/model/organisationProfile/organisationProfileOurStory";
 import {
   IPeopleSpotlight,
   getOrganisationProfilePeopleSpotlight,
-} from "../../data/Model/OrganisationProfile/OrganisationProfilePeopleSpotlight";
+} from "../../data/model/organisationProfile/organisationProfilePeopleSpotlight";
 import {
   IProfileContent,
   ISection,
-} from "../../data/Model/OrganisationProfile/ProfileContent";
+} from "../../data/model/organisationProfile/profileContent";
 import { ProfileContent } from "./ProfileContent";
 
 // TODO move this to model when class is defined

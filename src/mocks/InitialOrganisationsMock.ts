@@ -1,14 +1,14 @@
-import { IPCStatus } from "../data/Enums/ipc-status.enum";
-import { Service } from "../data/Enums/service.enum";
-import { Specialisation } from "../data/Enums/specialisation.enum";
-import { SupportArea } from "../data/Enums/support-area.enum";
-import { VerificationStatus } from "../data/Enums/verification-status.enum";
-import { IOrganisation } from "../data/Model/Organisation";
-import { IProfileContent } from "../data/Model/OrganisationProfile/ProfileContent";
-import { IOrganisationSummary } from "../data/Model/OrganisationSummary";
+import { IPCStatus } from "../data/enums/ipc-status.enum";
+import { Service } from "../data/enums/service.enum";
+import { Specialisation } from "../data/enums/specialisation.enum";
+import { SupportArea } from "../data/enums/support-area.enum";
+import { VerificationStatus } from "../data/enums/verification-status.enum";
+import { IOrganisation } from "../data/model/organisation";
+import { IProfileContent } from "../data/model/organisationProfile/profileContent";
+import { IOrganisationSummary } from "../data/model/organisationSummary";
 import { faker } from "@faker-js/faker";
-import { SocialType } from "../data/Enums/social-type.enum";
-import { IPeopleSpotlight } from "../data/Model/OrganisationProfile/OrganisationProfilePeopleSpotlight";
+import { SocialType } from "../data/enums/social-type.enum";
+import { IPeopleSpotlight } from "../data/model/organisationProfile/organisationProfilePeopleSpotlight";
 
 export const testOrg1: IOrganisation = {
   name: "Over The Rainbow (OTR)",
@@ -18,11 +18,11 @@ export const testOrg1: IOrganisation = {
   mainSupportArea: SupportArea.FundingSupport,
   services: [Service.Youth, Service.Workshops, Service.Counselling],
   description:
-  "Over-The-Rainbow (OTR) is the mental wellness initiative of the WholeTree Foundation, the not-for-profit family foundation of Yen-Lu & Yee Ling Chow, founded in loving memory of their son and only child Lawrance H. Chow who ended his own life at the age of 26 after suffering for many years from manic depression. OTR is a one-stop hub for youth mental wellness.",
-//   Our mission is to transform mental wellness for the 21st century:
-//   Propel mental wellness to the top of life’s priorities;
-//   Create a community based on the timeless wisdoms of love, compassion, truth, beauty, harmony, generosity, joy and service;
-//   Empower every young person on his/her mental wellness journey via holistic self care and a supportive community - to overcome life challenges, live life with purpose and passion, and fulfil their life potential as human beings.",
+    "Over-The-Rainbow (OTR) is the mental wellness initiative of the WholeTree Foundation, the not-for-profit family foundation of Yen-Lu & Yee Ling Chow, founded in loving memory of their son and only child Lawrance H. Chow who ended his own life at the age of 26 after suffering for many years from manic depression. OTR is a one-stop hub for youth mental wellness.",
+  //   Our mission is to transform mental wellness for the 21st century:
+  //   Propel mental wellness to the top of life’s priorities;
+  //   Create a community based on the timeless wisdoms of love, compassion, truth, beauty, harmony, generosity, joy and service;
+  //   Empower every young person on his/her mental wellness journey via holistic self care and a supportive community - to overcome life challenges, live life with purpose and passion, and fulfil their life potential as human beings.",
   cardImageUrl: "https://picsum.photos/278/425",
 };
 

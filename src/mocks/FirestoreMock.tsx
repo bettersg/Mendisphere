@@ -4,15 +4,15 @@ import { Component } from "react";
 import {
   getOrganisationsForListingsPage,
   OrganisationListingQueryFilters,
-} from "../data/Model/Organisation";
+} from "../data/model/organisation";
 import { db, storage } from "../services/firebase/firebaseConfig";
 import { Collections, StorageDirectory } from "../services/firebase/names";
-import { IPCStatus } from "../data/Enums/ipc-status.enum";
+import { IPCStatus } from "../data/enums/ipc-status.enum";
 import { testOrgs } from "./TestOrganisationsMock";
 import { getDownloadURL, ref, uploadBytes } from "@firebase/storage";
-import { createOrganisationSummary } from "../data/Model/OrganisationSummary";
-import { createOrganisationProfileOurStory } from "../data/Model/OrganisationProfile/OrganisationProfileOurStory";
-import { createOrganisationProfilePeopleSpotlight } from "../data/Model/OrganisationProfile/OrganisationProfilePeopleSpotlight";
+import { createOrganisationSummary } from "../data/model/organisationSummary";
+import { createOrganisationProfileOurStory } from "../data/model/organisationProfile/organisationProfileOurStory";
+import { createOrganisationProfilePeopleSpotlight } from "../data/model/organisationProfile/organisationProfilePeopleSpotlight";
 import { faker } from "@faker-js/faker";
 import { QuillEditor } from "./QuillEditor";
 import { listingsFolder } from "../services/firebase/storage";

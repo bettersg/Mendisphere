@@ -11,9 +11,9 @@ import { AuthProviderProps } from "./authProviderProps";
 import {
   UserContextState,
   UserStateContext,
-} from "../../data/Auth/UserContext";
-import { AuthContextModel } from "../../data/Auth/AuthContextModel";
-import { AuthContext } from "../../data/Auth/AuthContext";
+} from "../../data/auth/userContext";
+import { AuthContextModel } from "../../data/auth/authContextModel";
+import { AuthContext } from "../../data/auth/authContext";
 
 export function useAuth(): AuthContextModel {
   return useContext(AuthContext);

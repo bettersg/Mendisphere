@@ -14,9 +14,9 @@ import { ReactComponent as NotApproved } from "../../assets/icons/statusNotAppro
 import { ReactComponent as Pending } from "../../assets/icons/statusPending.svg";
 import { ReactComponent as Verified } from "../../assets/icons/statusVerified.svg";
 import { ReactComponent as NotVerified } from "../../assets/icons/statusNotVerified.svg";
-import { Organisation } from "../../data/Model/Organisation";
-import { VerificationStatus } from "../../data/Enums/verification-status.enum";
-import { IPCStatus } from "../../data/Enums/ipc-status.enum";
+import { Organisation } from "../../data/model/organisation";
+import { VerificationStatus } from "../../data/enums/verification-status.enum";
+import { IPCStatus } from "../../data/enums/ipc-status.enum";
 
 const ipcUIMap = {
   [IPCStatus.Approved]: <Approved />,

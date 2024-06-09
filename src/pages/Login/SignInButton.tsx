@@ -2,7 +2,7 @@ import { Button, VStack } from "@chakra-ui/react";
 import { User, UserCredential } from "firebase/auth";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AuthenticationRequestData } from "../../data/Auth/AuthRequestData";
+import { AuthenticationRequestData } from "../../data/auth/authRequestData";
 import { useAuth } from "../../services/firebase/authProvider";
 
 interface LoginCredentials {

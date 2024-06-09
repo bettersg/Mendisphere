@@ -8,8 +8,8 @@ import {
 } from "firebase/firestore";
 import { db } from "../../services/firebase/firebaseConfig";
 import { Collections } from "../../services/firebase/names";
-import { CapitalGoal } from "../Enums/captial-goal.enum";
-import { OrgSize } from "../Enums/org-size.enum";
+import { CapitalGoal } from "../enums/captial-goal.enum";
+import { OrgSize } from "../enums/org-size.enum";
 
 export interface IOrganisationAdminData {
   orgId?: string;

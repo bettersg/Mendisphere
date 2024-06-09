@@ -8,13 +8,13 @@ import { IOrgFormData } from "./ProfileSetup";
 import {
   IOrganisation,
   createOrganisationOnSignUp,
-} from "../../data/Model/Organisation";
-import { IPCStatus } from "../../data/Enums/ipc-status.enum";
-import { VerificationStatus } from "../../data/Enums/verification-status.enum";
-import { IOrganisationAdminData } from "../../data/Model/OrganisationAdmin";
-import { IOrganisationSummary } from "../../data/Model/OrganisationSummary";
-import { UserRole } from "../../data/Enums/user-role.enum";
-import { createUser } from "../../data/Model/User";
+} from "../../data/model/organisation";
+import { IPCStatus } from "../../data/enums/ipc-status.enum";
+import { VerificationStatus } from "../../data/enums/verification-status.enum";
+import { IOrganisationAdminData } from "../../data/model/organisationAdmin";
+import { IOrganisationSummary } from "../../data/model/organisationSummary";
+import { UserRole } from "../../data/enums/user-role.enum";
+import { createUser } from "../../data/model/user";
 
 export interface LoginCredentials {
   email: string;

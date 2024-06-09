@@ -13,7 +13,7 @@ import {
   IProfileContent,
   convertContentToFireStore,
   convertFirestoreToContent,
-} from "./ProfileContent";
+} from "./profileContent";
 
 export class OrganisationProfileOurStory {
   orgId: string;

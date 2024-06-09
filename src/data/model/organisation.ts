@@ -20,16 +20,16 @@ import { db } from "../../services/firebase/firebaseConfig";
 import {
   createOrganisationAdminData,
   IOrganisationAdminData,
-} from "./OrganisationAdmin";
-import { SupportArea } from "../Enums/support-area.enum";
-import { Specialisation } from "../Enums/specialisation.enum";
-import { Service } from "../Enums/service.enum";
-import { IPCStatus } from "../Enums/ipc-status.enum";
-import { VerificationStatus } from "../Enums/verification-status.enum";
+} from "./organisationAdmin";
+import { SupportArea } from "../enums/support-area.enum";
+import { Specialisation } from "../enums/specialisation.enum";
+import { Service } from "../enums/service.enum";
+import { IPCStatus } from "../enums/ipc-status.enum";
+import { VerificationStatus } from "../enums/verification-status.enum";
 import {
   IOrganisationSummary,
   createOrganisationSummary,
-} from "./OrganisationSummary";
+} from "./organisationSummary";
 
 export interface IOrganisation {
   name?: string;

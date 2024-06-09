@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import {
   getOrganisationForProfilePage,
   Organisation,
-} from "../../data/Model/Organisation";
+} from "../../data/model/organisation";
 import "../style.scss";
 
 const OrganisationProfile = () => {
@@ -32,6 +32,6 @@ const OrganisationProfile = () => {
       </VStack>
     </div>
   );
-}
+};
 
 export default OrganisationProfile;
