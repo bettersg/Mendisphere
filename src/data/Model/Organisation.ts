@@ -8,12 +8,14 @@ import {
   SnapshotOptions,
   QuerySnapshot,
   where,
-  Query,
   query,
   QueryConstraint,
   getDoc,
   doc,
   limit,
+  startAfter,
+  DocumentSnapshot,
+  getCountFromServer,
 } from "firebase/firestore";
 import { Collections } from "../../services/Firebase/Names";
 import { db } from "../../services/Firebase/FirebaseConfig";
@@ -119,16 +121,17 @@ export type OrganisationListingQueryFilters = {
 export async function getOrganisationsForListingsPage(
   filters?: OrganisationListingQueryFilters,
   skipOrgName?: string,
-  limitNum: number = 0
-): Promise<Organisation[]> {
-  console.log(
-    `Getting organisation with filters: ${JSON.stringify(filters, null, 2)}`
-  );
-
+  limitNum: number = 0,
+  lastVisible?: DocumentSnapshot<DocumentData>
+): Promise<{
+  organisations: Organisation[];
+  lastVisible: DocumentSnapshot<DocumentData> | null;
+  totalCount: number;
+}> {
   const queryConstraints: QueryConstraint[] = [];
   let onlyServicesFilter = false;
 
-  if (filters !== undefined) {
+  if (filters) {
     if ((filters.specialisations?.length ?? 0) > 10) {
       return Promise.reject(
         new RangeError(
@@ -170,10 +173,6 @@ export async function getOrganisationsForListingsPage(
     }
 
     if (filters.services !== undefined && !queryConstraints.length) {
-      // must perform this condition at the end
-      // current limitation in firestore does not allow the use of
-      // 'array-contains-any' and 'in' clause in the same query
-
       onlyServicesFilter = true;
       queryConstraints.push(
         where("services", "array-contains-any", filters.services)
@@ -181,34 +180,46 @@ export async function getOrganisationsForListingsPage(
     }
   }
 
+  if (skipOrgName) {
+    queryConstraints.push(where("name", "!=", skipOrgName));
+  }
+
+  if (lastVisible) {
+    queryConstraints.push(startAfter(lastVisible));
+  }
+
+  const orgsRef = collection(db, Collections.organisations).withConverter(
+    organisationConverter
+  );
+
+  // Get total count
+  const totalCountSnapshot = await getCountFromServer(
+    query(orgsRef, ...queryConstraints)
+  );
+  const totalCount = totalCountSnapshot.data().count;
+
   if (limitNum > 0) {
     queryConstraints.push(limit(limitNum));
   }
 
-  if (skipOrgName !== undefined) {
-    queryConstraints.push(where("name", "!=", skipOrgName));
-  }
-  // define the organisation collection reference
-  const orgsRef: Query<Organisation> = collection(
-    db,
-    Collections.organisations
-  ).withConverter<Organisation>(organisationConverter);
-
-  // get organisations with the supplied filters
+  // Get paginated organisations
   const querySnapshot: QuerySnapshot<Organisation> = await getDocs(
     query(orgsRef, ...queryConstraints)
   );
 
   const orgs: Organisation[] = [];
-  querySnapshot.forEach((doc) => orgs.push(doc.data()));
+  querySnapshot.forEach((doc) => {
+    orgs.push(doc.data());
+  });
 
-  if (filters?.services !== undefined && !onlyServicesFilter) {
-    return orgs.filter((org) =>
-      org.services.some((s) => filters?.services?.includes(s))
-    );
-  }
-
-  return orgs;
+  return {
+    organisations: orgs,
+    lastVisible:
+      querySnapshot.docs.length > 0
+        ? querySnapshot.docs[querySnapshot.docs.length - 1]
+        : null,
+    totalCount: totalCount,
+  };
 }
 
 // get an organisation for profile page
