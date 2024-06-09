@@ -52,11 +52,10 @@ export async function createOrganisationProfileOurStory(
   orgId: string,
   orgOurStoryData: IProfileContent[]
 ): Promise<void> {
-  const docRef = doc(db, Collections.organisationOurStory, orgId).withConverter(organisationOurStoryConverter);
-  await setDoc(
-    docRef,
-    new OrganisationProfileOurStory(orgId, orgOurStoryData)
+  const docRef = doc(db, Collections.organisationOurStory, orgId).withConverter(
+    organisationOurStoryConverter
   );
+  await setDoc(docRef, new OrganisationProfileOurStory(orgId, orgOurStoryData));
 }
 
 export async function getOrganisationProfileOurStory(

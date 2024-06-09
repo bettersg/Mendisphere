@@ -68,7 +68,7 @@ export const organisationSummaryConverter: FirestoreDataConverter<OrganisationSu
         donationUrl: data.donationUrl,
         mission: data.mission,
         email: data.email,
-        socials: data.socials
+        socials: data.socials,
       };
     },
     fromFirestore(

@@ -1,0 +1,15 @@
+.page-width {
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+.page-padding {
+  padding-left: min(9vw, 120px);
+  padding-right: min(9vw, 120px);
+  width: 100%;
+}
+
+// TODO: Remove before deploying to PROD
+.firebase-emulator-warning {
+  display: none;
+}
