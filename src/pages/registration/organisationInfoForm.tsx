@@ -220,6 +220,6 @@ const OrganisationInfoForm = ({
       </GridItem>
     </Grid>
   );
-}
+};
 
 export default OrganisationInfoForm;
