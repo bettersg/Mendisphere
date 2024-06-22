@@ -7,9 +7,9 @@ import {
   setDoc,
   SnapshotOptions,
 } from "firebase/firestore";
-import { db } from "../../services/Firebase/FirebaseConfig";
-import { Collections } from "../../services/Firebase/Names";
-import { SocialType } from "../Enums/social-type.enum";
+import { db } from "../../services/firebase/firebaseConfig";
+import { Collections } from "../../services/firebase/names";
+import { SocialType } from "../enums/social-type.enum";
 
 export type Social = {
   socialType: SocialType;

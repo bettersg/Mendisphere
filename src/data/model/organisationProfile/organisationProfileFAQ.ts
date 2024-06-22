@@ -7,8 +7,8 @@ import {
   getDoc,
   setDoc,
 } from "firebase/firestore";
-import { db } from "../../../services/Firebase/FirebaseConfig";
-import { Collections } from "../../../services/Firebase/Names";
+import { db } from "../../../services/firebase/firebaseConfig";
+import { Collections } from "../../../services/firebase/names";
 
 export interface IFAQ {
   question: string;

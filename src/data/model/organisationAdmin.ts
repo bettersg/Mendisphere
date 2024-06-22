@@ -6,10 +6,10 @@ import {
   QueryDocumentSnapshot,
   SnapshotOptions,
 } from "firebase/firestore";
-import { db } from "../../services/Firebase/FirebaseConfig";
-import { Collections } from "../../services/Firebase/Names";
-import { CapitalGoal } from "../Enums/captial-goal.enum";
-import { OrgSize } from "../Enums/org-size.enum";
+import { db } from "../../services/firebase/firebaseConfig";
+import { Collections } from "../../services/firebase/names";
+import { CapitalGoal } from "../enums/captial-goal.enum";
+import { OrgSize } from "../enums/org-size.enum";
 
 export interface IOrganisationAdminData {
   orgId?: string;
