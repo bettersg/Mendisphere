@@ -1,1 +1,2 @@
-export { default } from "./Routing";
+export { default } from "./routing";
+export { Paths, buildOrgProfilePath } from "./paths";
