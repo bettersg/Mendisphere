@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { HomeIcon } from "@primer/octicons-react";
 import { Organisation } from "../../data/model/organisation";
-import { Paths } from "../../routing/paths";
+import { Paths } from "../../routing";
 
 const currentPageStyle = {
   color: "#3959FF",

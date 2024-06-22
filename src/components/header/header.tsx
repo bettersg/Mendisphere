@@ -10,10 +10,10 @@ import {
 } from "@chakra-ui/react";
 import { Link as ReactRouterLink } from "react-router-dom";
 import NavigationButton from "../navigationButton";
-import { Paths } from "../../routing/paths";
 import "../../pages/style.scss";
 
 import logo from "../../assets/images/logo/Mendisphere Logo colour.png";
+import { Paths } from "../../routing";
 
 const Header = () => {
   const [mobileNav, setMobileNav] = useState(false);

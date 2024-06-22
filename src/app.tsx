@@ -12,8 +12,7 @@ import { AuthProvider } from "./services/firebase/authProvider";
 import { useGetWindowDimensionsHook } from "./utilities/useGetDdimensionsHook";
 import logo from "./assets/images/logo/Mendisphere Logo colour.png";
 import mendisphereTheme from "./theme";
-import Routing from "./routing";
-import { Paths } from "./routing/paths";
+import Routing, { Paths } from "./routing";
 import Header from "./components/header";
 import Footer from "./components/footer";
 

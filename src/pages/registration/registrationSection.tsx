@@ -2,7 +2,7 @@ import { ArrowBackIcon } from "@chakra-ui/icons";
 import { Container, Link, StackDivider, VStack } from "@chakra-ui/react";
 import RegistrationMenuMessage from "./registrationMenuMessage";
 import RegistrationForm from "./registrationForm";
-import { Paths } from "../../routing/paths";
+import { Paths } from "../../routing";
 
 const RegistrationSection = () => {
   return (

@@ -1,13 +1,12 @@
 import { Route, Routes } from "react-router-dom";
-import { Paths } from "./paths";
 import OrganisationList from "../pages/organisationList";
 import LoginPage from "../pages/login";
 import UserDashboardPage from "../pages/userDashboard";
-import Registration from "../pages/registration";
-import ProfileSetupPage from "../pages/registration/profileSetup";
 import OrgProfilePage from "../pages/organisationProfile";
 import FirestoreMock from "../mocks/firestoreMock";
 import Home from "../pages/home";
+import Registration from "../pages/registration";
+import { Paths } from ".";
 
 const Routing = () => {
   return (
@@ -16,7 +15,7 @@ const Routing = () => {
       <Route path={Paths.login} element={<LoginPage />} />
       <Route path={Paths.dashboard} element={<UserDashboardPage />} />
       <Route path={Paths.signup} element={<Registration />} />
-      <Route path={Paths.profileSetup} element={<ProfileSetupPage />} />
+      {/* <Route path={Paths.profileSetup} element={<ProfileSetup />} /> */}
       <Route path={Paths.organisationListing} element={<OrganisationList />} />
       <Route path={Paths.organisationProfile} element={<OrgProfilePage />} />
       {process.env.NODE_ENV === "development" && (

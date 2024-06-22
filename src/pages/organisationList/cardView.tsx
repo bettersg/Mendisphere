@@ -1,7 +1,7 @@
 import { Grid, GridItem, LinkBox, LinkOverlay } from "@chakra-ui/react";
 import { Organisation } from "../../data/model/organisation";
-import { buildOrgProfilePath } from "../../routing/paths";
 import OrgCard from "./organisationCard";
+import { buildOrgProfilePath } from "../../routing";
 
 const CardView: React.FC<{ organisationList: Organisation[] }> = ({
   organisationList,

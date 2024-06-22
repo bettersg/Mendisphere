@@ -24,12 +24,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { instanceOfLoginCredentials } from "../../data/auth/loginCredentials";
 import OrgInfoForm from "./organisationInfoForm";
 import GoalsForm from "./goalsForm";
-import SignUpWaiting from "./signUpWaiting";
 import "./setup.scss";
-import { Paths } from "../../routing/paths";
 import { IOrganisation } from "../../data/model/organisation";
 import { IOrganisationAdminData } from "../../data/model/organisationAdmin";
 import { IOrganisationSummary } from "../../data/model/organisationSummary";
+import SignUpWaiting from "./signUpWaiting";
+import { Paths } from "../../routing";
 
 const steps = [
   { label: "Organisation Information" },
@@ -47,7 +47,7 @@ export interface OrgDataFormProps {
   updateOrgFormData: (orgFormData: IOrgFormData) => void;
 }
 
-const ProfileSetup = () => {
+export const ProfileSetup = () => {
   const { nextStep, prevStep, activeStep, setStep } = useSteps({
     initialStep: 1,
   });
@@ -213,5 +213,3 @@ const ProfileSetup = () => {
     </VStack>
   );
 };
-
-export default ProfileSetup;
