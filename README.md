@@ -84,8 +84,8 @@ Instructions on setting up your project locally.
 ### Prerequisites
 
 1. Node, npm are installed in your machine
-2. Configure firebase emulators for the local development environment. Please refer to `src/services/firebase/emulator-readme.md`
-3. If you are not using firebase emulator, please update the firebase config to bypass firebase emulator setup - refer to `src/services/firebase/firebaseConfig.ts`
+2. Configure firebase emulators for the local development environment. Please refer to `src/services/Firebase/emulator-readme.md`
+3. If you are not using firebase emulator, please update the firebase config to bypass firebase emulator setup - refer to `src/services/Firebase/firebaseConfig.ts`
 4. Firebase app secrets stored in the root level of the project in file named: `env.development.local`
 
 ### Installation
@@ -97,7 +97,7 @@ _Below is an example of how you can instruct your audience on installing and set
    git clone https://github.com/your_username_/Project-Name.git
    ```
 2. Install and run firebase emulator (optional)
-   a. Please refer to `src/services/firebase/emulator-readme.md` for further instructions.
+   a. Please refer to `src/services/Firebase/emulator-readme.md` for further instructions.
 3. Install NPM packages
    ```sh
    npm install

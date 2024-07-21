@@ -1,6 +1,6 @@
 export class Paths {
   static readonly home = "/";
-  static readonly organisationListing = "/organisations";
+  static readonly OrganisationListing = "/organisations";
   static readonly organisationProfile = "/organisations/:orgId";
   static readonly login = "/login";
   static readonly signup = "/registration";
@@ -11,4 +11,4 @@ export class Paths {
 }
 
 export const buildOrgProfilePath = (orgId: string) =>
-  `${Paths.organisationListing}/${orgId}`;
+  `${Paths.OrganisationListing}/${orgId}`;
