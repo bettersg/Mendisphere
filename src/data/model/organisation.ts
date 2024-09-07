@@ -16,6 +16,7 @@ import {
   startAfter,
   DocumentSnapshot,
   getCountFromServer,
+  orderBy,
 } from "firebase/firestore";
 import { Collections } from "../../services/firebase/names";
 import { db } from "../../services/firebase/firebaseConfig";
@@ -122,7 +123,9 @@ export async function getOrganisationsForListingsPage(
   filters?: OrganisationListingQueryFilters,
   skipOrgName?: string,
   limitNum: number = 0,
-  lastVisible?: DocumentSnapshot<DocumentData>
+  lastVisible?: DocumentSnapshot<DocumentData>,
+  sortField?: string,
+  sortDirection?: "asc" | "desc"
 ): Promise<{
   organisations: Organisation[];
   lastVisible: DocumentSnapshot<DocumentData> | null;
@@ -186,6 +189,10 @@ export async function getOrganisationsForListingsPage(
 
   if (lastVisible) {
     queryConstraints.push(startAfter(lastVisible));
+  }
+
+  if (sortField && sortDirection) {
+    queryConstraints.push(orderBy(sortField, sortDirection));
   }
 
   const orgsRef = collection(db, Collections.organisations).withConverter(
