@@ -10,10 +10,10 @@ import { ReactComponent as PartnershipOpportunitiesIcon } from "../../assets/ico
 import { ReactComponent as FundingSupportIcon } from "../../assets/icons/services/funding-support.svg";
 import { ReactComponent as CounsellingIcon } from "../../assets/icons/services/counselling.svg";
 import { ReactComponent as CorporateTrainingIcon } from "../../assets/icons/services/corporate-training.svg";
-import { SocialType } from "../../data/enums/social-type.enum";
-import { Specialisation } from "../../data/enums/specialisation.enum";
-import { Service } from "../../data/enums/service.enum";
-import { SupportArea } from "../../data/enums/support-area.enum";
+import { SocialType } from "../../data/Enums/social-type.enum";
+import { Specialisation } from "../../data/Enums/specialisation.enum";
+import { Service } from "../../data/Enums/service.enum";
+import { SupportArea } from "../../data/Enums/support-area.enum";
 
 export function GetIconForIssue(issue: Readonly<Specialisation>) {
   switch (issue) {

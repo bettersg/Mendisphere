@@ -1,9 +1,9 @@
 {
   "storage": {
-    "rules": "src/services/firebase/rules/storage.rules"
+    "rules": "src/services/Firebase/rules/storage.rules"
   },
   "firestore": {
-    "rules": "src/services/firebase/rules/firestore.rules"
+    "rules": "src/services/Firebase/rules/firestore.rules"
   },
   "emulators": {
     "auth": {
