@@ -116,6 +116,30 @@ const OrganisationList: React.FC = () => {
       });
   };
 
+  const sortOrganisation = (
+    sortField: string,
+    sortDirection: "asc" | "desc"
+  ) => {
+    getOrganisationsForListingsPage(
+      filters,
+      "",
+      limit,
+      undefined,
+      sortField,
+      sortDirection
+    )
+      .then((res) => {
+        setOrgList(res.organisations);
+        setLastVisible(res.lastVisible);
+        setTotalCount(res.totalCount);
+      })
+      .finally(() => setIsLoading(false))
+      .catch((err) => {
+        alert(`Organisation data fetch error!`);
+        console.log(err.message);
+      });
+  };
+
   return (
     <VStack justify="center" spacing={0} align="stretch">
       <Breadcrumbs />
@@ -256,7 +280,10 @@ const OrganisationList: React.FC = () => {
                     {viewOption === EViewOption.Card ? (
                       <CardView OrganisationList={orgList} />
                     ) : (
-                      <ListView OrganisationList={orgList} />
+                      <ListView
+                        OrganisationList={orgList}
+                        sortOrganisation={sortOrganisation}
+                      />
                     )}
 
                     <Text marginTop="60px" marginBottom="20px">
