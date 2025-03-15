@@ -1,16 +1,11 @@
+import React, { useEffect, useState } from "react";
 import {
   Box,
-  VStack,
-  Text,
-  Flex,
-  Image,
-  Heading,
-  HStack,
-  Spacer,
-  Spinner,
+  Container,
+  Typography,
   Button,
-} from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+  CircularProgress,
+} from "@mui/material";
 import CardView from "./CardView";
 import ListView from "./ListView";
 import ViewToggle from "./ViewToggle";
@@ -141,114 +136,75 @@ const OrganisationList: React.FC = () => {
   };
 
   return (
-    <VStack justify="center" spacing={0} align="stretch">
+    <Box display="flex" flexDirection="column" alignItems="stretch">
       <Breadcrumbs />
 
       {/* Description */}
-      <Flex w="full" paddingBottom="25px">
-        <HStack margin="auto" className="page-width" w="50%" h="full">
-          <Image
-            maxW="50%"
-            src={require("../../assets/images/org-listing-image.png")}
-          />
-          <Spacer />
-          <VStack minW="45%" align="left" h="full">
-            <Spacer />
-            <Heading>Mendisphere</Heading>
-            <Heading>Community</Heading>
-            <Text>
-              <br />
+      <Box width="100%" paddingBottom="25px">
+        <Container className="page-width" sx={{ display: 'flex', alignItems: 'center', width: "782px" }}>
+          <Box component="img" src={require("../../assets/images/org-listing-image.png")} sx={{ maxWidth: '50%' }} />
+          <Box sx={{ minWidth: '45%', marginLeft: '24px' }}>
+            <Typography variant="h4" fontSize={40} component="h1">Mendisphere</Typography>
+            <Typography variant="h4" fontSize={40} component="h2">Community</Typography>
+            <Typography variant="body1" sx={{ marginTop: 2 }}>
               Looking to fund or partner with a mental health organisation?
               Browse below for the full list of registered organisations under
               Mendisphere. There's always someone in need of your support.
-            </Text>
-            <Spacer />
-          </VStack>
-        </HStack>
-      </Flex>
+            </Typography>
+          </Box>
+        </Container>
+      </Box>
 
       {/* Filters drop down */}
-      <Box bg="#E0E5FF" paddingBottom="20px" paddingTop="20px">
-        <VStack h="full" className="page-width page-padding" align="left">
-          <Spacer />
-          <Text fontSize="xl">How can we help you today?</Text>
-          <Text fontSize="xs" color={"#707070"} paddingBottom={1}>
+      <Box bgcolor="#E0E5FF" paddingY="32px">
+        <Container className="page-width page-padding">
+          <Typography fontWeight={400} variant="h6" marginBottom={1.5}>How can we help you today?</Typography>
+          <Typography variant="body2" color="#707070" paddingBottom={1}>
             Filter by
-          </Text>
-          <div
-            style={{
-              display: "flex",
-              flexWrap: "wrap",
-              justifyContent: "space-between",
-            }}
-          >
-            <div
-              style={{
-                flexBasis: "calc(25% - 10px)",
-                marginBottom: "20px",
-                maxWidth: "25%",
-              }}
-            >
-              <Text marginBottom={2}>Specialisation</Text>
+          </Typography>
+          <Box display="flex" flexWrap="wrap" justifyContent="space-between">
+            <Box flexBasis="calc(25% - 10px)" marginBottom="20px" maxWidth="25%">
+              <Typography marginBottom={2}>Specialisation</Typography>
               <MultiSelect
                 options={specialisationsOptions}
                 value={specialisations}
                 onChange={setSpecialisations}
                 labelledBy="Specialisations"
               />
-            </div>
-            <div
-              style={{
-                flexBasis: "calc(25% - 10px)",
-                marginBottom: "20px",
-                maxWidth: "25%",
-              }}
-            >
-              <Text marginBottom={2}>Services</Text>
+            </Box>
+            <Box flexBasis="calc(25% - 10px)" marginBottom="20px" maxWidth="25%">
+              <Typography marginBottom={2}>Services</Typography>
               <MultiSelect
                 options={serviceOptions}
                 value={services}
                 onChange={setServices}
                 labelledBy="Services"
               />
-            </div>
-            <div
-              style={{
-                flexBasis: "calc(25% - 10px)",
-                marginBottom: "20px",
-                maxWidth: "25%",
-              }}
-            >
-              <Text marginBottom={2}>IPC Registered</Text>
+            </Box>
+            <Box flexBasis="calc(25% - 10px)" marginBottom="20px" maxWidth="25%">
+              <Typography marginBottom={2}>IPC Registered</Typography>
               <MultiSelect
                 options={ipcOptions}
                 value={ipcStatus}
                 onChange={setIpcStatus}
                 labelledBy="IPC Registered"
               />
-            </div>
-            <div
-              style={{
-                flexBasis: "calc(25% - 10px)",
-                marginBottom: "20px",
-                maxWidth: "25%",
-              }}
-            >
-              <Text marginBottom={2}>Looking for</Text>
+            </Box>
+            <Box flexBasis="calc(25% - 10px)" marginBottom="20px" maxWidth="25%">
+              <Typography marginBottom={2}>Looking for</Typography>
               <MultiSelect
                 options={supportAreaOptions}
                 value={supportAreas}
                 onChange={setSupportAreas}
                 labelledBy="Looking for"
               />
-            </div>
-          </div>
-          <Spacer />
-        </VStack>
+            </Box>
+          </Box>
+        </Container>
       </Box>
 
       {/* Cards listing view */}
-      <VStack paddingBottom={5} paddingTop={5}>
+      <Box paddingBottom={5} paddingTop={5}>
         {isLoading ? (
           viewOption === EViewOption.Card ? (
             <CardViewLoadingScreen />
@@ -265,17 +221,13 @@ const OrganisationList: React.FC = () => {
                   onChange={(option) => setViewOption(option)}
                   viewOption={viewOption}
                 />
-                <Box
-                  className="page-width page-padding"
-                  display="flex"
-                  justifyContent="flex-end"
-                  marginBottom={5}
-                >
-                  <Flex
-                    w="full"
-                    direction={"column"}
+                <Container className="page-width page-padding" sx={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 5, padding: "0 !important" }}>
+                  <Box
+                    display="flex"
+                    flexDirection="column"
                     alignItems="center"
                     paddingBottom="60px"
+                    width="100%"
                   >
                     {viewOption === EViewOption.Card ? (
                       <CardView OrganisationList={orgList} />
@@ -286,15 +238,15 @@ const OrganisationList: React.FC = () => {
                       />
                     )}
 
-                    <Text marginTop="60px" marginBottom="20px">
+                    <Typography marginTop="60px" marginBottom="20px">
                       Displaying <strong>{orgList.length}</strong> out of{" "}
                       <strong>{totalCount}</strong> results
-                    </Text>
+                    </Typography>
                     {orgList.length === totalCount ? (
-                      <Text>
+                      <Typography>
                         — You have reached the end of the page. More
                         organisations to come soon! —
-                      </Text>
+                      </Typography>
                     ) : (
                       <Button
                         onClick={loadMore}
@@ -303,24 +255,23 @@ const OrganisationList: React.FC = () => {
                           lastVisible === null ||
                           orgList.length === totalCount
                         }
-                        height="48px"
-                        width="250px"
-                        border="1px"
-                        borderRadius="4px"
-                        padding="16px 0"
-                        borderColor={colors.brand.secondary}
-                        color={colors.neutral.primary}
-                        backgroundColor={colors.neutral.white}
+                        sx={{
+                          height: "48px",
+                          width: "250px",
+                          border: "1px solid",
+                          borderRadius: "4px",
+                          padding: "16px 0",
+                          borderColor: colors.brand.secondary,
+                          color: colors.neutral.primary,
+                          backgroundColor: colors.neutral.white,
+                        }}
                       >
                         {isLoadMoreLoading ? (
                           <>
-                            <Spinner
-                              thickness="3px"
-                              speed="0.65s"
-                              emptyColor="gray.200"
-                              color="blue.500"
-                              size="md"
-                              marginRight="10px"
+                            <CircularProgress
+                              thickness={3}
+                              size={24}
+                              sx={{ marginRight: "10px" }}
                             />
                             Loading...
                           </>
@@ -329,16 +280,16 @@ const OrganisationList: React.FC = () => {
                         )}
                       </Button>
                     )}
-                  </Flex>
-                </Box>
+                  </Box>
+                </Container>
               </>
             ) : (
-              "No organisations found!"
+              <Typography align="center">No organisations found!</Typography>
             )}
           </>
         )}
-      </VStack>
-    </VStack>
+      </Box>
+    </Box>
   );
 };
 
