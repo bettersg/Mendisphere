@@ -1,142 +1,65 @@
-import { useState } from "react";
-import {
-  Box,
-  Image,
-  Flex,
-  HStack,
-  Stack,
-  Link,
-  Spacer,
-} from "@chakra-ui/react";
-import { Link as ReactRouterLink } from "react-router-dom";
-import NavigationButton from "../NavigationButton";
-import "../../pages/style.scss";
-
-import logo from "../../assets/images/logo/Mendisphere Logo colour.png";
-import { Paths } from "../../routing";
+import React from 'react';
+import { AppBar, Toolbar, IconButton, Button, Box, Container } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
+import logo from "../../assets/images/logo/Logo.svg";
 
 const Header = () => {
-  const [mobileNav, setMobileNav] = useState(false);
+  const menuItems = [
+    { text: 'About', link: 'footer' },
+    { text: 'Organisations', link: '/organisations' },
+    { text: 'Contact Us', link: 'footer' },
+  ];
 
-  const toggleMobileNav = () => {
-    setMobileNav(!mobileNav);
-  };
-
-  // alpha version only
-  const handleScrollToFooter = () => {
-    const footerElement = document.getElementById("footer");
-    if (footerElement) {
-      footerElement.scrollIntoView({ behavior: "smooth" });
+  const handleScroll = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, link: string) => {
+    event.preventDefault();
+    const element = document.getElementById(link);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   return (
-    <Box>
-      <Flex
-        h="fit-content"
-        minH="70px"
-        borderBottom="1px"
-        borderColor="#d3d3d3"
-        top={0}
-        zIndex={200}
-        backgroundColor="#FFFFFF"
-      >
-        <HStack className="page-width page-padding">
-          <Link as={ReactRouterLink} to={Paths.home}>
-            <Image src={logo} width="180px" height="auto" />
-          </Link>
-          <Spacer></Spacer>
-          <HStack
-            as={"nav"}
-            spacing="80px"
-            fontSize="15px"
-            fontWeight="700"
-            color="#333333"
-            display={{ base: "none", md: "flex" }}
+    <AppBar position="static" sx={{ backgroundColor: 'white', color: 'black', borderBottom: '1px solid #D3D3D3', boxShadow: 'none' }}>
+      <Container maxWidth={false} disableGutters sx={{ maxWidth: '1440px', paddingLeft: '120px', paddingRight: '120px' }}>
+        <Toolbar disableGutters>
+          <IconButton
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{
+              '&:hover': {
+                backgroundColor: 'transparent',
+              },
+            }}
           >
-            <Link onClick={handleScrollToFooter}>About</Link>
-            <Link as={ReactRouterLink} to={Paths.OrganisationListing}>
-              Organisations
-            </Link>
-            <Link onClick={handleScrollToFooter}>Contact Us</Link>
-          </HStack>
-          {/* <Flex flex={1} justify={"flex-end"}>
-            <HStack
-              direction={"row"}
-              spacing={4}
-              alignItems={"center"}
-              display={{ base: "none", md: "flex" }}
-            >
-              <NavigationButton
-                backgroundColor="#192873"
-                navigationLink={Paths.login}
-                buttonText="Log in"
-                height="6vh"
-                width="9vw"
-              />
-              <NavigationButton
-                backgroundColor="#192873"
-                navigationLink={Paths.signup}
-                buttonText="Sign up"
-                height="6vh"
-                width="9vw"
-              />
-            </HStack>
-            <IconButton
-              size={"md"}
-              icon={mobileNav ? <CloseIcon /> : <HamburgerIcon />}
-              aria-label={"Open Menu"}
-              display={{ md: "none" }}
-              onClick={toggleMobileNav}
-            />
-          </Flex> */}
-
-          {mobileNav ? (
-            <Box pb={4} display={{ md: "none" }}>
-              <Stack as={"nav"} spacing={4}>
-                <Link
-                  as={ReactRouterLink}
-                  to={"/organisations"}
-                  fontFamily={"Inter"}
-                >
-                  Organisations
-                </Link>
-                <Link
-                  as={ReactRouterLink}
-                  to={"/applyforservices"}
-                  fontFamily={"Inter"}
-                >
-                  Apply for Services
-                </Link>
-                <Link
-                  as={ReactRouterLink}
-                  to={"/contactus"}
-                  fontFamily={"Inter"}
-                >
-                  Contact Us
-                </Link>
-                <Stack direction={"row"} spacing={4} alignItems={"center"}>
-                  <NavigationButton
-                    backgroundColor="#192873"
-                    navigationLink="/login"
-                    buttonText="Log in"
-                    height="6vh"
-                    width="9vw"
-                  />
-                  <NavigationButton
-                    backgroundColor="#192873"
-                    navigationLink=""
-                    buttonText="Sign up"
-                    height="6vh"
-                    width="9vw"
-                  />
-                </Stack>
-              </Stack>
-            </Box>
-          ) : null}
-        </HStack>
-      </Flex>
-    </Box>
+            <img src={logo} alt="Logo" />
+          </IconButton>
+          <Box sx={{ flexGrow: 1 }} />
+          {menuItems.map((item, index) => (
+            item.link === 'footer' ? (
+              <Button
+                key={index}
+                color="inherit"
+                onClick={(event) => handleScroll(event, item.link)}
+                sx={{ marginLeft: '10px', textTransform: 'capitalize' }}
+              >
+                {item.text}
+              </Button>
+            ) : (
+              <Button
+                key={index}
+                color="inherit"
+                component={RouterLink}
+                to={item.link}
+                sx={{ marginLeft: '10px', textTransform: 'capitalize' }}
+              >
+                {item.text}
+              </Button>
+            )
+          ))}
+        </Toolbar>
+      </Container>
+    </AppBar>
   );
 };
 
