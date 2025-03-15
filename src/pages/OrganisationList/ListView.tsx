@@ -1,13 +1,13 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Table,
   TableContainer,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
-} from "@chakra-ui/react";
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as Approved } from "../../assets/icons/statusApproved.svg";
 import { ReactComponent as NotApproved } from "../../assets/icons/statusNotApproved.svg";
@@ -39,7 +39,6 @@ const ListView: React.FC<{
   sortOrganisation: (sortField: string, sortDirection: "asc" | "desc") => void;
 }> = ({ OrganisationList, sortOrganisation }) => {
   const navigate = useNavigate();
-  const [bgColor, setBgColor] = useState<string>();
   const [currentSortField, setCurrentSortField] = useState<string>("");
   const [currentSortDirection, setCurrentSortDirection] = useState<
     "asc" | "desc"
@@ -57,16 +56,21 @@ const ListView: React.FC<{
   };
 
   return (
-    <TableContainer maxW="full" whiteSpace="normal">
-      <Table variant="orgListings">
-        <Thead>
-          <Tr>
-            <Th
-              w="18%"
+    <TableContainer
+      component={Paper}
+      sx={{
+        boxShadow: "none",
+        border: "none",
+      }}
+    >
+      <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell
               onClick={() => handleSort("name")}
               style={{ cursor: "pointer" }}
             >
-              <div className="table-header">
+              <div className="table-header" style={{ fontWeight: 400, letterSpacing: '0.2em' }}>
                 ORGANISATION
                 {currentSortField === "name" ? (
                   currentSortDirection === "asc" ? (
@@ -78,13 +82,12 @@ const ListView: React.FC<{
                   <Sort />
                 )}
               </div>
-            </Th>
-            <Th
-              w="28%"
+            </TableCell>
+            <TableCell
               onClick={() => handleSort("description")}
               style={{ cursor: "pointer" }}
             >
-              <div className="table-header">
+              <div className="table-header" style={{ fontWeight: 400, letterSpacing: '0.2em' }}>
                 DESCRIPTION
                 {currentSortField === "description" ? (
                   currentSortDirection === "asc" ? (
@@ -96,14 +99,12 @@ const ListView: React.FC<{
                   <Sort />
                 )}
               </div>
-            </Th>
-            {/* <Th w="11%">VERIFIED?</Th> */}
-            <Th
-              w="15%"
+            </TableCell>
+            <TableCell
               onClick={() => handleSort("mainSpecialisation")}
               style={{ cursor: "pointer" }}
             >
-              <div className="table-header">
+              <div className="table-header" style={{ fontWeight: 400, letterSpacing: '0.2em' }}>
                 FOCUSES ON
                 {currentSortField === "mainSpecialisation" ? (
                   currentSortDirection === "asc" ? (
@@ -115,13 +116,12 @@ const ListView: React.FC<{
                   <Sort />
                 )}
               </div>
-            </Th>
-            <Th
-              w="16%"
+            </TableCell>
+            <TableCell
               onClick={() => handleSort("mainSupportArea")}
               style={{ cursor: "pointer" }}
             >
-              <div className="table-header">
+              <div className="table-header" style={{ fontWeight: 400, letterSpacing: '0.2em' }}>
                 LOOKING FOR
                 {currentSortField === "mainSupportArea" ? (
                   currentSortDirection === "asc" ? (
@@ -133,32 +133,36 @@ const ListView: React.FC<{
                   <Sort />
                 )}
               </div>
-            </Th>
-            {/* <Th w="12%">IPC STATUS</Th> */}
-          </Tr>
-        </Thead>
-        <Tbody>
-          {OrganisationList.map((organisation, index) => {
-            return (
-              <Tr
-                onClick={() =>
-                  window.open(`/organisations/${organisation.id}`, "_blank")
-                }
-                style={{ cursor: "pointer" }}
-                key={index}
-              >
-                <Td fontWeight="700" fontSize="16px">
-                  {organisation.name}
-                </Td>
-                <Td>{organisation.description}</Td>
-                {/* <Td>{verifiedUIMap[organisation.verified]}</Td> */}
-                <Td>{organisation.mainSpecialisation}</Td>
-                <Td>{organisation.mainSupportArea}</Td>
-                {/* <Td>{ipcUIMap[organisation.ipcApproved]}</Td> */}
-              </Tr>
-            );
-          })}
-        </Tbody>
+            </TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {OrganisationList.map((organisation, index) => (
+            <TableRow
+              key={index}
+              onClick={() =>
+                window.open(`/organisations/${organisation.id}`, "_blank")
+              }
+              sx={{
+                cursor: "pointer",
+                "&:hover": {
+                  backgroundColor: "#3959FF",
+                  color: "white",
+                  "& .MuiTableCell-root": {
+                    color: "white",
+                  },
+                },
+              }}
+            >
+              <TableCell style={{ fontWeight: 700, fontSize: "16px" }}>
+                {organisation.name}
+              </TableCell>
+              <TableCell>{organisation.description}</TableCell>
+              <TableCell>{organisation.mainSpecialisation}</TableCell>
+              <TableCell>{organisation.mainSupportArea}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
       </Table>
     </TableContainer>
   );
