@@ -1,125 +1,90 @@
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Text,
-  SimpleGrid,
-  Button,
-  Heading,
-  Image,
-  AspectRatio,
-  useMediaQuery,
-  Box,
-  Center,
-  Flex,
-} from "@chakra-ui/react";
+import React from 'react';
+import { Box, Container, Typography, Grid, Card, CardContent, CardMedia, CardHeader } from '@mui/material';
+import { useTheme, useMediaQuery } from '@mui/material';
+import logoContribute from "../../assets/images/contribute.png";
+import logoCollaborate from "../../assets/images/collaborate.png";
+import logoVolunteer from "../../assets/images/volunteer.png";
 
 const SupportSection = () => {
-  const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
-
-  const customHeadingProps = {
-    paddingTop: "10px",
-    fontWeight: 400,
-    fontSize: "xl",
-    textAlign: "center" as const,
-  };
-
-  const customButtonProps = {
-    width: "100%",
-    backgroundColor: "#192873",
-    color: "#ffffff",
-    "&:hover": {
-      bg: "rgba(224, 229, 255, 0)",
-      color: "black",
-      border: "1px solid #192873",
-    },
-  };
+  const theme = useTheme();
+  const isLargerThan768 = useMediaQuery(theme.breakpoints.up('md'));
 
   return (
-    <Flex
-      bgGradient="linear-gradient(0deg, #E0E5FF 43.75%, rgba(224, 229, 255, 0) 100%);"
-    >
-      <Box className="page-width page-padding" paddingBottom="100px">
-        <Heading
-          m="4"
-          fontSize={["lg", "2xl", "4xl", "6xl"]}
-          textAlign="center"
-          fontWeight="bold"
-          paddingBottom="100px"
-        >
+    <Box sx={{ background: 'linear-gradient(0deg, #E0E5FF 43.75%, rgba(224, 229, 255, 0) 100%)', py: 6 }}>
+      <Container maxWidth="lg">
+        <Typography variant="h2" align="center" fontWeight="bold" gutterBottom sx={{ mb: '96px' }}>
           Support your way
-        </Heading>
-        <SimpleGrid
-          templateColumns={isLargerThan768 ? "repeat(3, 1fr)" : "1fr"}
-          gap={4}
-        >
-          <Card boxShadow="none">
-            <CardHeader>
-              <Center>
-                <Image
-                  height="185px"
-                  src={require("../../assets/images/contribute.png")}
-                />
-              </Center>
-              <Heading style={customHeadingProps}>Contribute</Heading>
-            </CardHeader>
-            <CardBody>
-              <Text>
-                Browse the wide array of non-profits furthering mental health
-                outcomes, understand their story and impact, and contribute to
-                those that speak to you.
-              </Text>
-            </CardBody>
-            {/* <CardFooter>
-              <Button sx={customButtonProps}>Learn More</Button>
-            </CardFooter> */}
-          </Card>
-          <Card boxShadow="none">
-            <CardHeader>
-              <Center>
-                <Image
-                  height="185px"
-                  src={require("../../assets/images/collaborate.png")}
-                />
-              </Center>
-              <Heading style={customHeadingProps}> Collaborate</Heading>
-            </CardHeader>
-            <CardBody>
-              <Text>
-                Workshops? Trainings? Talks? Explore opportunities to partner
-                with non-profits and leverage their vast expertise in the mental
-                health space.
-              </Text>
-            </CardBody>
-            {/* <CardFooter>
-              <Button sx={customButtonProps}>Learn More</Button>
-            </CardFooter> */}
-          </Card>
-          <Card boxShadow="none">
-            <Center>
-              <Image
-                height="185px"
-                width="auto"
-                src={require("../../assets/images/volunteer.png")}
+        </Typography>
+        <Grid container spacing={3} justifyContent="center" margin={"0 !important"}>
+          <Grid item xs={12} md={4} padding={"0 24px 0 0 !important"}>
+            <Card elevation={0} sx={{ backgroundColor: 'transparent' }}>
+              <CardMedia
+                component="img"
+                image={logoContribute}
+                alt="Contribute"
+                sx={{ objectFit: 'contain', margin: '0 auto !important', height: 'auto !important', width: 'fit-content'}}
               />
-            </Center>
-            <CardHeader>
-              <Heading style={customHeadingProps}>Volunteer</Heading>
-            </CardHeader>
-            <CardBody>
-              <Text>
-                Make your CSR efforts count by volunteering with non-profits who
-                need support in achieving their goals.
-              </Text>
-            </CardBody>
-            {/* <CardFooter>
-              <Button sx={customButtonProps}>Learn More</Button>
-            </CardFooter> */}
-          </Card>
-        </SimpleGrid>
-      </Box>
-    </Flex>
+              <CardHeader
+                title={
+                  <Typography variant="h5" fontSize={40} align="center" fontWeight="400" paddingTop="24px">
+                    Contribute
+                  </Typography>
+                }
+              />
+              <CardContent>
+                <Typography variant="body1" align="center">
+                  Browse the wide array of non-profits furthering mental health outcomes, understand their story and impact, and contribute to those that speak to you.
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={12} md={4} padding={"0 24px 0 24px !important"}>
+            <Card elevation={0} sx={{ backgroundColor: 'transparent'}}>
+              <CardMedia
+                component="img"
+                image={logoCollaborate}
+                alt="Collaborate"
+                sx={{ objectFit: 'contain', margin: '0 auto !important', height: 'auto !important', width: 'fit-content' }}
+              />
+              <CardHeader
+                title={
+                  <Typography variant="h5" fontSize={40} align="center" fontWeight="400" paddingTop="24px">
+                    Collaborate
+                  </Typography>
+                }
+              />
+              <CardContent>
+                <Typography variant="body1" align="center">
+                  Workshops? Trainings? Talks? Explore opportunities to partner with non-profits and leverage their vast expertise in the mental health space.
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item xs={12} md={4} padding={"0 0 0 24px !important"}>
+            <Card elevation={0} sx={{ backgroundColor: 'transparent' }}>
+              <CardMedia
+                component="img"
+                image={logoVolunteer}
+                alt="Volunteer"
+                sx={{ objectFit: 'contain', margin: '0 auto !important', height: 'auto !important', width: 'fit-content' }}
+              />
+              <CardHeader
+                title={
+                  <Typography variant="h5" fontSize={40} align="center" fontWeight="400" paddingTop="24px">
+                    Volunteer
+                  </Typography>
+                }
+              />
+              <CardContent>
+                <Typography variant="body1" align="center">
+                  Make your CSR efforts count by volunteering with non-profits who need support in achieving their goals.
+                </Typography>
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
+      </Container>
+    </Box>
   );
 };
 
