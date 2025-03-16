@@ -12,8 +12,10 @@ export class Collections {
 }
 
 export class StorageDirectory {
-  static readonly listingsDirectory = "/organisations/listing-data";
-  static readonly profilesDirectory = "/organisations/profile-data";
-  static readonly profilesOurStoryDirectory = `${StorageDirectory.profilesDirectory}/:orgId/our-story`;
-  static readonly profilesPeopleSpotlightDirectory = `${StorageDirectory.profilesDirectory}/:orgId/people-spotlight`;
+  static readonly orgListingsDirectory = "/organisations/listing-data";
+  static readonly orgProfilesDirectory = "/organisations/profile-data";
+  static readonly consultantProfilesDirectory = `/consultants/profile-data`;
+  static readonly profilesOurStoryDirectory = `${StorageDirectory.orgProfilesDirectory}/:orgId/our-story`;
+  static readonly profilesPeopleSpotlightDirectory = `${StorageDirectory.orgProfilesDirectory}/:orgId/people-spotlight`;
+  static readonly consultantProfileImagesDirectory = `${StorageDirectory.consultantProfilesDirectory}/:consultantId/profile`;
 }
