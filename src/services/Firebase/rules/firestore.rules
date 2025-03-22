@@ -8,6 +8,10 @@ service cloud.firestore {
       // To update user's registered data
       // allow update: if request.auth.uid == uid; // TODO return
     }
+    match /consultants/{consultant} {
+      allow read;
+      allow write: if true; //request.auth.uid != null;
+    }
     match /organisations/{org} {
     	allow read;
       allow write: if true; //request.auth.uid != null;
