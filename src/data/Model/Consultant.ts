@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, DocumentData, FirestoreDataConverter, FirestoreError, getDoc, QueryDocumentSnapshot, SnapshotOptions } from "firebase/firestore";
+import { addDoc, collection, doc, DocumentData, FirestoreDataConverter, FirestoreError, getDoc, getDocs, QueryDocumentSnapshot, SnapshotOptions } from "firebase/firestore";
 import { ConsultantService } from "../Enums/consultant-service.enum";
 import { db } from "../../services/Firebase/firebaseConfig";
 import { Collections } from "../../services/Firebase/names";
@@ -104,6 +104,12 @@ export async function createConsultant(
             throw new Error(`Failed to create consultant: ${error}`);
         }
     }
+}
+
+export async function getConsultants(): Promise<Consultant[]> {
+    console.log("Fetching all consultants");
+    const snapshot = await getDocs(collectionRef.withConverter(consultantConverter));
+    return snapshot.docs.map((doc) => doc.data());
 }
 
 export async function getConsultant(

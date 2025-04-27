@@ -10,6 +10,7 @@ import {
   Organisation,
 } from "../../data/Model/Organisation";
 import "../style.scss";
+import { Paths } from "../../routing";
 
 const OrganisationProfile = () => {
   // TODO call firestore db to retrieve org profile details
@@ -24,7 +25,12 @@ const OrganisationProfile = () => {
   return (
     <div>
       <VStack align="stretch" spacing="0px">
-        <Breadcrumbs org={org} />
+        <Breadcrumbs
+          breadcrumbs={[
+            { name: 'Organisations', link: Paths.OrganisationListing },
+            { name: org?.name || 'Organisation Profile' }
+          ]}
+        />
         {org !== undefined && <Summary org={org} />}
         <Services />
         {org !== undefined && <Profile org={org} />}

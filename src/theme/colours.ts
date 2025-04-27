@@ -5,11 +5,13 @@ export const colors = {
     inactive: "#CBCBCB",
     white: "#FFFFFF",
     surface: "#F5F5F5",
+    grey: "#F3EDF7"
   },
 
   brand: {
     primary: "#3959FF",
     secondary: "#192873",
+    tertiary: "#65558F",
   },
 
   interaction: {

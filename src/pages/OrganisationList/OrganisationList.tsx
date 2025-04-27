@@ -137,7 +137,11 @@ const OrganisationList: React.FC = () => {
 
   return (
     <Box display="flex" flexDirection="column" alignItems="stretch">
-      <Breadcrumbs />
+      <Breadcrumbs
+        breadcrumbs={[
+          { name: 'Organisations' }
+        ]}
+      />
 
       {/* Description */}
       <Box width="100%" paddingBottom="25px">
