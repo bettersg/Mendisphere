@@ -40,6 +40,10 @@ export class User {
   get displayName(): string | null {
     return this.firebaseUser.displayName;
   }
+
+  get emailVerified(): boolean {
+    return this.firebaseUser.emailVerified;
+  }
 }
 
 export async function createUser(

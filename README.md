@@ -83,7 +83,7 @@ Instructions on setting up your project locally.
 
 1. Node and npm are installed on your machine
 2. Firebase CLI installed globally: `npm install -g firebase-tools`
-3. Firebase app secrets stored in the root level of the project in file named: `env.development.local`
+3. Firebase app secrets stored in the root level of the project in file named: `.env.development.local`
 
 ### Firebase Emulator Setup
 
