@@ -10,6 +10,7 @@ import {
   connectStorageEmulator,
   FirebaseStorage,
 } from "firebase/storage";
+import { getEmulatorConfig } from "./emulatorConfig";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_MINDBETTER_APIKEY,
@@ -28,9 +29,10 @@ export const auth: Auth = getAuth(app);
 export const storage: FirebaseStorage = getStorage(app);
 
 if (process.env.NODE_ENV === "development") {
-  // ensure that firebase emulator suite is up
-  // refer to emulator-readme
-  connectFirestoreEmulator(db, "localhost", 9999);
-  connectAuthEmulator(auth, "http://localhost:9099");
-  connectStorageEmulator(storage, "localhost", 9199);
+  // Get emulator configuration from firebase.json
+  const config = getEmulatorConfig();
+  
+  connectFirestoreEmulator(db, config.firestore.host, config.firestore.port);
+  connectAuthEmulator(auth, `http://${config.auth.host}:${config.auth.port}`);
+  connectStorageEmulator(storage, config.storage.host, config.storage.port);
 }
