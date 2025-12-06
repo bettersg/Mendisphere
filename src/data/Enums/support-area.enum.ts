@@ -2,6 +2,7 @@ export enum SupportArea {
   PartnershipOpportunities = "Partnership Opportunities",
   FundingSupport = "Funding Support",
   Volunteers = "Volunteers",
+  NotSet = "",
 }
 
 export interface SupportAreaEnumOption {
