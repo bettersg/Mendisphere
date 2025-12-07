@@ -5,6 +5,7 @@ import UserDashboardPage from "../pages/UserDashboard";
 import OrgProfilePage from "../pages/OrganisationProfile";
 import Home from "../pages/Home";
 import Registration from "../pages/Registration";
+import VerifyEmail from "../pages/VerifyEmail";
 import { Paths } from ".";
 
 const Routing = () => {
@@ -17,6 +18,7 @@ const Routing = () => {
       {/* <Route path={Paths.profileSetup} element={<ProfileSetup />} /> */}
       <Route path={Paths.OrganisationListing} element={<OrganisationList />} />
       <Route path={Paths.organisationProfile} element={<OrgProfilePage />} />
+      <Route path={Paths.verifyEmail} element={<VerifyEmail />} />
     </Routes>
   );
 };

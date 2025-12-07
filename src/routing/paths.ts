@@ -7,7 +7,8 @@ export class Paths {
   static readonly profileSetup = "/profile-setup";
   static readonly dashboard = "/dashboard";
   static readonly about = "/about-us";
-  static readonly contactUs = "/contact-us"
+  static readonly contactUs = "/contact-us";
+  static readonly verifyEmail = "/auth/action";
 }
 
 export const buildOrgProfilePath = (orgId: string) =>

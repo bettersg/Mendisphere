@@ -1,0 +1,24 @@
+{
+  "emulators": {
+    "auth": {
+      "port": 9099
+    },
+    "firestore": {
+      "port": 9999
+    },
+    "storage": {
+      "port": 9199
+    },
+    "ui": {
+      "enabled": true,
+      "port": 4000
+    },
+    "singleProjectMode": true
+  },
+  "firestore": {
+    "rules": "src/services/Firebase/rules/firestore.emulator.rules"
+  },
+  "storage": {
+    "rules": "src/services/Firebase/rules/storage.rules"
+  }
+}

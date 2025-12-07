@@ -37,8 +37,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test --forceExit --runInBand",
     "eject": "react-scripts eject",
-    "emulators": "firebase emulators:start --import=./src/mocks/data --export-on-exit=./src/mocks/data",
-    "emulators:fresh": "firebase emulators:start --export-on-exit=./src/mocks/data",
+    "emulators": "firebase emulators:start --project demo-mendisphere --config firebase.emulators.json --import=./src/mocks/data --export-on-exit=./src/mocks/data",
+    "emulators:fresh": "firebase emulators:start --project demo-mendisphere --config firebase.emulators.json --export-on-exit=./src/mocks/data",
     "seed": "ts-node --project scripts/tsconfig.json src/mocks/SeedMockData.ts",
     "seed:force": "ts-node --project scripts/tsconfig.json src/mocks/SeedMockData.ts -- --force"
   },

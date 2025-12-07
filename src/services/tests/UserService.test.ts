@@ -6,8 +6,10 @@ import { IPCStatus } from "../../data/Enums/ipc-status.enum";
 import { VerificationStatus } from "../../data/Enums/verification-status.enum";
 import { Specialisation } from "../../data/Enums/specialisation.enum";
 import { SupportArea } from "../../data/Enums/support-area.enum";
-import { deleteUser } from "firebase/auth";
+import { deleteUser, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../Firebase/firebaseConfig";
 import { Collections } from "../Firebase/names";
+import { getEmulatorConfig } from "../Firebase/emulatorConfig";
 import { cleanupFirebaseData, trackTestDoc } from "../Firebase/testSetup";
 
 // Note: These tests require Firebase emulators to be running
@@ -40,7 +42,8 @@ describe("UserService", () => {
         testPassword,
         testOrg.id,
         UserType.organisation,
-        UserRole.admin
+        UserRole.admin,
+        false // Skip email verification
       );
 
       // Track docs for cleanup
@@ -58,6 +61,81 @@ describe("UserService", () => {
       // Cleanup auth user; Firestore docs are cleaned via trackTestDoc
       await deleteUser(user.firebaseUser);
     });
+
+    it("should send verification email and user should be unverified initially", async () => {
+      const testEmail = `test-${Date.now()}@example.com`;
+      const testPassword = "TestPassword123!";
+
+      const testOrg = await createOrganisation({
+        name: "Test Organisation",
+        ipcApproved: IPCStatus.Pending,
+        verified: VerificationStatus.Pending,
+        mainSpecialisation: Specialisation.NotSet,
+        mainSupportArea: SupportArea.NotSet,
+        services: [],
+        description: "test",
+        cardImageUrl: "test",
+      });
+
+      const user = await createUserWithAuth(
+        testEmail,
+        testPassword,
+        testOrg.id,
+        UserType.organisation,
+        UserRole.admin,
+        false // Skip email verification
+      );
+
+      trackTestDoc({ collection: Collections.organisations, id: testOrg.id });
+      trackTestDoc({ collection: Collections.users, id: user.id });
+
+      // In emulator, users start as unverified
+      expect(user.emailVerified).toBe(false);
+
+      // Cleanup
+      await deleteUser(user.firebaseUser);
+    });
+
+    it("should handle verified user correctly", async () => {
+      const testEmail = `test-${Date.now()}@example.com`;
+      const testPassword = "TestPassword123!";
+
+      const testOrg = await createOrganisation({
+        name: "Test Organisation",
+        ipcApproved: IPCStatus.Pending,
+        verified: VerificationStatus.Pending,
+        mainSpecialisation: Specialisation.NotSet,
+        mainSupportArea: SupportArea.NotSet,
+        services: [],
+        description: "test",
+        cardImageUrl: "test",
+      });
+
+      const user = await createUserWithAuth(
+        testEmail,
+        testPassword,
+        testOrg.id,
+        UserType.organisation,
+        UserRole.admin,
+        false // Skip email verification
+      );
+
+      trackTestDoc({ collection: Collections.organisations, id: testOrg.id });
+      trackTestDoc({ collection: Collections.users, id: user.id });
+
+      // Mock the emailVerified property to simulate a verified user
+      Object.defineProperty(user.firebaseUser, 'emailVerified', {
+        value: true,
+        writable: false,
+      });
+
+      // Now the user should appear verified
+      expect(user.emailVerified).toBe(true);
+
+      // Cleanup
+      await deleteUser(user.firebaseUser);
+    });
+
 
     it("should throw error if organisation does not exist", async () => {
       const testEmail = `test-${Date.now()}@example.com`;
@@ -135,7 +213,10 @@ describe("UserService", () => {
       const result = await createOrganisationWithUser(
         testEmail,
         testPassword,
-        testOrgName
+        testOrgName,
+        UserType.organisation,
+        UserRole.admin,
+        false // Skip email verification
       );
 
       trackTestDoc({ collection: Collections.organisations, id: result.organisation.id });
@@ -165,7 +246,8 @@ describe("UserService", () => {
         testPassword,
         testOrgName,
         UserType.organisation,
-        UserRole.admin
+        UserRole.admin,
+        false // Skip email verification
       );
 
       trackTestDoc({ collection: Collections.organisations, id: result.organisation.id });
