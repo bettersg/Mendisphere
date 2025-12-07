@@ -4,8 +4,11 @@ import LoginPage from "../pages/Login";
 import UserDashboardPage from "../pages/UserDashboard";
 import OrgProfilePage from "../pages/OrganisationProfile";
 import Home from "../pages/Home";
-import Registration from "../pages/Registration";
+import Registration from "../pages/RegistrationV2";
 import { Paths } from ".";
+import RegistrationVerificaion from "../pages/RegistrationV2/RegistrationVerification";
+import NotFound from "../pages/NotFound";
+import RegistrationVerified from "../pages/RegistrationV2/RegistrationVerified";
 
 const Routing = () => {
   return (
@@ -14,9 +17,13 @@ const Routing = () => {
       <Route path={Paths.login} element={<LoginPage />} />
       <Route path={Paths.dashboard} element={<UserDashboardPage />} />
       <Route path={Paths.signup} element={<Registration />} />
+      <Route path={Paths.emailVerification} element={<RegistrationVerificaion />} />
+      <Route path={Paths.emailVerified} element={<RegistrationVerified />} />
       {/* <Route path={Paths.profileSetup} element={<ProfileSetup />} /> */}
       <Route path={Paths.OrganisationListing} element={<OrganisationList />} />
       <Route path={Paths.organisationProfile} element={<OrgProfilePage />} />
+
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

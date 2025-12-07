@@ -31,6 +31,8 @@ function App() {
   const isShowHeaderAndFooter = ![
     Paths.login,
     Paths.signup,
+    Paths.emailVerification,
+    Paths.emailVerified,
     Paths.profileSetup,
   ].includes(currentPage);
 
