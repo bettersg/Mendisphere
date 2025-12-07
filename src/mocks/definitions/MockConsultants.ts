@@ -1,9 +1,8 @@
 import { faker } from "@faker-js/faker";
-import { IConsultant } from "../data/Model/Consultant";
-import { ConsultantService } from "../data/Enums/consultant-service.enum";
+import { IConsultant } from "../../data/Model/Consultant";
+import { ConsultantService } from "../../data/Enums/consultant-service.enum";
 
-
-const testConsultant1: IConsultant = {
+const mockConsultant1: IConsultant = {
   name: faker.person.fullName(),
   email: faker.internet.email(),
   phone: faker.phone.number(),
@@ -13,7 +12,7 @@ const testConsultant1: IConsultant = {
   profileImageUrl: "https://picsum.photos/100/100",
 }
 
-const testConsultant2: IConsultant = {
+const mockConsultant2: IConsultant = {
     name: faker.person.fullName(),
     email: faker.internet.email(),
     phone: faker.phone.number(),
@@ -23,4 +22,4 @@ const testConsultant2: IConsultant = {
     profileImageUrl: "https://picsum.photos/100/100",
   }
 
-export const testConsultants : IConsultant[] = [testConsultant1, testConsultant2];
+export const mockConsultants : IConsultant[] = [mockConsultant1, mockConsultant2];
