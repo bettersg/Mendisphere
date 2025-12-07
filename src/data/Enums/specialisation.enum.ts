@@ -7,6 +7,7 @@ export enum Specialisation {
   Anxiety = "Anxiety",
   PostPartum = "Post-Partum",
   Corporate = "Corporate",
+  NotSet = "",
 }
 
 export interface SpecialisationEnumOption {

@@ -4,6 +4,7 @@
  */
 
 export interface EmulatorConfig {
+  projectId: string;
   auth: { host: string; port: number };
   firestore: { host: string; port: number };
   storage: { host: string; port: number };
@@ -24,6 +25,7 @@ export function getEmulatorConfig(): EmulatorConfig {
 
   // Default configuration
   const defaults: EmulatorConfig = {
+    projectId: process.env.REACT_APP_MINDBETTER_PROJECT_ID || "demo-mendisphere",
     auth: { host: "localhost", port: 9099 },
     firestore: { host: "localhost", port: 9999 },
     storage: { host: "localhost", port: 9199 },
@@ -36,6 +38,7 @@ export function getEmulatorConfig(): EmulatorConfig {
       const firebaseJson = JSON.parse(fs.readFileSync(firebaseJsonPath, "utf-8"));
       
       emulatorConfig = {
+        projectId: defaults.projectId,
         auth: {
           host: "localhost",
           port: firebaseJson.emulators?.auth?.port || defaults.auth.port,
