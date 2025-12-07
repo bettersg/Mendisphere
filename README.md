@@ -30,6 +30,7 @@
       <a href="#about-the-project">About The Project</a>
       <ul>
         <li><a href="#built-with">Built With</a></li>
+        <li><a href="#data-model">Data Model</a></li>
       </ul>
     </li>
     <li>
@@ -63,6 +64,12 @@ Mendisphere is a platform that helps nonprofit mental health organisations who a
 - [![React][react.js]][react-url]
   <!-- Google Firebase -->
   <!-- Chakra UI -->
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Data Model
+
+See the [Data Model documentation](src/data/Model/data-model.md) for a detailed ER diagram and description of the Firestore structure.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
