@@ -1,5 +1,6 @@
-import { createUserWithEmailAndPassword, sendEmailVerification, applyActionCode } from "firebase/auth";
-import { auth } from "./Firebase/firebaseConfig";
+import { createUserWithEmailAndPassword, sendEmailVerification, applyActionCode, signInWithEmailAndPassword } from "firebase/auth";
+import { doc, getDoc, getDoc as getFirestoreDoc } from "firebase/firestore";
+import { auth, db } from "./Firebase/firebaseConfig";
 import { createUser, User } from "../data/Model/User";
 import { UserRole } from "../data/Enums/user-role.enum";
 import { UserType } from "../data/Enums/user-type.enum";
@@ -10,6 +11,7 @@ import { Specialisation } from "../data/Enums/specialisation.enum";
 import { SupportArea } from "../data/Enums/support-area.enum";
 import { getOrganisationById } from "./OrganisationService";
 import { Create } from "@mui/icons-material";
+import { Collections } from "./Firebase/names";
 
 /**
  * Service for user-related operations that combine authentication and data management
@@ -148,12 +150,63 @@ export async function resendVerificationEmail(): Promise<void> {
   }
 }
 
+/**
+ * Logs in a user with email and password
+ * @param email - User's email address
+ * @param password - User's password
+ * @returns User instance with the Firebase Auth user and metadata from Firestore
+ */
+export async function loginUser(
+  email: string,
+  password: string
+): Promise<User> {
+  try {
+    // Step 1: Sign in with Firebase Auth
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    const firebaseUser = userCredential.user;
+
+    // Step 2: Fetch user document from Firestore
+    const userDoc = await getDoc(doc(db, Collections.users, firebaseUser.uid));
+    
+    if (!userDoc.exists()) {
+      throw new Error(`User document not found for ID ${firebaseUser.uid}`);
+    }
+
+    const userData = userDoc.data();
+    
+    // Step 3: If user has an organisation, fetch it
+    let organisation: Organisation | undefined;
+    if (userData.type === UserType.organisation && userData.orgID) {
+      organisation = await getOrganisationById(userData.orgID);
+    }
+
+    // Step 4: Create and return User instance
+    const user = new User(
+      firebaseUser,
+      userData.role as UserRole,
+      userData.type as UserType,
+      organisation
+    );
+    
+    console.log(`User logged in successfully: ${user.id}`);
+    return user;
+  } catch (error: any) {
+    if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
+      throw new Error('Invalid email or password');
+    } else if (error.code === 'auth/too-many-requests') {
+      throw new Error('Too many failed login attempts. Please try again later.');
+    }
+    console.error("Error logging in user:", error);
+    throw error;
+  }
+}
 
 const UserService = {
   createUserWithAuth,
   createOrganisationWithUser,
   verifyEmail,
   resendVerificationEmail,
+  loginUser,
 };
 
 export default UserService;
