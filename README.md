@@ -30,6 +30,7 @@
       <a href="#about-the-project">About The Project</a>
       <ul>
         <li><a href="#built-with">Built With</a></li>
+        <li><a href="#data-model">Data Model</a></li>
       </ul>
     </li>
     <li>
@@ -56,15 +57,6 @@
 
 Mendisphere is a platform that helps nonprofit mental health organisations who are struggling financially, specifically with securing grants.
 
-<!-- Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
-
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
-
-Use the `BLANK_README.md` to get started. -->
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ### Built With
@@ -72,6 +64,12 @@ Use the `BLANK_README.md` to get started. -->
 - [![React][react.js]][react-url]
   <!-- Google Firebase -->
   <!-- Chakra UI -->
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+### Data Model
+
+See the [Data Model documentation](src/data/Model/data-model.md) for a detailed ER diagram and description of the Firestore structure.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -83,54 +81,121 @@ Instructions on setting up your project locally.
 
 ### Prerequisites
 
-1. Node, npm are installed in your machine
-2. Configure firebase emulators for the local development environment. Please refer to `src/services/Firebase/emulator-readme.md`
-3. If you are not using firebase emulator, please update the firebase config to bypass firebase emulator setup - refer to `src/services/Firebase/firebaseConfig.ts`
-4. Firebase app secrets stored in the root level of the project in file named: `env.development.local`
+1. Node and npm are installed on your machine
+2. Firebase CLI installed globally: `npm install -g firebase-tools`
+3. Firebase app secrets stored in the root level of the project in file named: `env.development.local`
+
+### Firebase Emulator Setup
+
+This project uses Firebase Emulator Suite for local development. The emulator provides local instances of Firestore, Authentication, Storage, and other Firebase services.
+
+**Configuration**
+- Emulator settings are configured in `firebase.json` in the root directory
+- The app connects to emulators by default in `src/services/Firebase/firebaseConfig.ts`
+- If you need to bypass the emulator setup, update the configuration in `firebaseConfig.ts`
+
+**Emulator UI**
+- Access the Firebase Emulator UI at `http://localhost:4000` when running
+- View and manage Firestore data, Authentication users, and Storage files
+
+For more details, see the [Firebase Emulator Suite documentation](https://firebase.google.com/docs/emulator-suite).
 
 ### Installation
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
-
 1. Clone the repo
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   git clone https://github.com/bettersg/MindBetter-Frontend.git
    ```
-2. Install and run firebase emulator (optional)
-   a. Please refer to `src/services/Firebase/emulator-readme.md` for further instructions.
-3. Install NPM packages
+
+2. Install NPM packages
    ```sh
    npm install
    ```
-4. Run the project locally
+
+3. Authenticate with Firebase (required for emulators)
+   ```sh
+   firebase login
+   ```
+
+4. Run the project locally with Firebase Emulators
+
+   **First time setup (after fresh clone):**
+   
+   Terminal 1 - Start the emulator:
+   ```sh
+   npm run emulators:fresh
+   ```
+   
+   Terminal 2 - Seed the data:
+   ```sh
+   npm run seed
+   ```
+   
+   Terminal 3 - Start the app:
    ```sh
    npm start
    ```
-5. If running firebase emulators, go to firestore emulator test page: `http://localhost:3000/firestore-mock`
-6. Click on the "Upload mock data to firestore" button to add mock data to firestore emulator.
+   
+   This generates mock data on first run. The data will be exported to `src/mocks/data/` and persisted locally for future runs.
+
+   **Subsequent runs:**
+   
+   Terminal 1 - Start the emulator:
+   ```sh
+   npm run emulators
+   ```
+   
+   Terminal 2 - Start the app:
+   ```sh
+   npm start
+   ```
+   
+   This imports your locally saved mock data from previous sessions.
+
+   **Regenerate mock data:**
+   
+   With the emulator running, in a new terminal:
+   ```sh
+   npm run seed:force
+   ```
+   
+   This clears all existing data and generates fresh mock data. Use this when you've updated test data definitions.
+
+5. Access the application at `http://localhost:3000`
+
+### Working with Mock Data
+
+- **Local data location**: `src/mocks/data/` (gitignored - not committed)
+- **Mock data definitions**: `src/mocks/definitions/`
+- **Seed script**: `src/mocks/SeedMockData.ts`
+
+To update mock data:
+1. Modify the test data in `src/mocks/definitions/`
+2. With the emulator running, run `npm run seed:force` to clear and regenerate the data
+3. The updated data will be saved locally in `src/mocks/data/` for your use
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- USAGE EXAMPLES -->
-
+<!-- 
 ## Usage
 
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
 
 _For more examples, please refer to the [Documentation](https://example.com)_
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
 <!-- ROADMAP -->
 
-## Roadmap
+<!-- ## Roadmap
 
-WIP
+WIP -->
 
 <!-- CONTRIBUTING -->
 
 ## Contributing
-
+<!-- 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
 
 If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
@@ -141,7 +206,7 @@ Don't forget to give the project a star! Thanks again!
 3. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
 4. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 5. Push to the Branch (`git push origin feature/AmazingFeature`)
-6. Open a Pull Request
+6. Open a Pull Request -->
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -155,23 +220,23 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <!-- CONTACT -->
 
-## Contact
+<!-- ## Contact
 
 Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email@email_client.com
 
-Project Link: [https://github.com/bettersg/MindBetter-Frontend](https://github.com/bettersg/MindBetter-Frontend)
+Project Link: [https://github.com/bettersg/MindBetter-Frontend](https://github.com/bettersg/MindBetter-Frontend) -->
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- ACKNOWLEDGMENTS -->
 
-## Acknowledgments
+<!-- ## Acknowledgments
 
 - []()
 - []()
 - []()
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p align="right">(<a href="#readme-top">back to top</a>)</p> -->
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->

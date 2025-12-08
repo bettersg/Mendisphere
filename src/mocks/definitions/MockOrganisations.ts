@@ -1,48 +1,40 @@
-import { IPCStatus } from "../data/Enums/ipc-status.enum";
-import { Service } from "../data/Enums/service.enum";
-import { Specialisation } from "../data/Enums/specialisation.enum";
-import { SupportArea } from "../data/Enums/support-area.enum";
-import { VerificationStatus } from "../data/Enums/verification-status.enum";
-import { IOrganisation } from "../data/Model/Organisation";
-import { IProfileContent } from "../data/Model/OrganisationProfile/ProfileContent";
-import { IOrganisationSummary } from "../data/Model/OrganisationSummary";
+import { IPCStatus } from "../../data/Enums/ipc-status.enum";
+import { Service } from "../../data/Enums/service.enum";
+import { Specialisation } from "../../data/Enums/specialisation.enum";
+import { SupportArea } from "../../data/Enums/support-area.enum";
+import { VerificationStatus } from "../../data/Enums/verification-status.enum";
+import { IOrganisation } from "../../data/Model/Organisation";
+import { IProfileContent } from "../../data/Model/OrganisationProfile/ProfileContent";
+import { IOrganisationSummary } from "../../data/Model/OrganisationSummary";
 import { faker } from "@faker-js/faker";
-import { SocialType } from "../data/Enums/social-type.enum";
-import { IPeopleSpotlight } from "../data/Model/OrganisationProfile/OrganisationProfilePeopleSpotlight";
+import { SocialType } from "../../data/Enums/social-type.enum";
+import { IPeopleSpotlight } from "../../data/Model/OrganisationProfile/OrganisationProfilePeopleSpotlight";
 
 export const testOrg1: IOrganisation = {
   name: "Over The Rainbow (OTR)",
-  ipcApproved: IPCStatus.Approved,
-  verified: VerificationStatus.Verified,
-  mainSpecialisation: Specialisation.YouthMentalWellness,
-  mainSupportArea: SupportArea.FundingSupport,
+  ipcApproved: IPCStatus.NotApproved,
+  verified: VerificationStatus.NotVerified,
+  mainSpecialisation: Specialisation.AntiStigmatism,
+  mainSupportArea: SupportArea.PartnershipOpportunities,
   services: [Service.Youth, Service.Workshops, Service.Counselling],
   description:
-    "Over-The-Rainbow (OTR) is the mental wellness initiative of the WholeTree Foundation, the not-for-profit family foundation of Yen-Lu & Yee Ling Chow, founded in loving memory of their son and only child Lawrance H. Chow who ended his own life at the age of 26 after suffering for many years from manic depression. OTR is a one-stop hub for youth mental wellness.",
-  //   Our mission is to transform mental wellness for the 21st century:
-  //   Propel mental wellness to the top of life’s priorities;
-  //   Create a community based on the timeless wisdoms of love, compassion, truth, beauty, harmony, generosity, joy and service;
-  //   Empower every young person on his/her mental wellness journey via holistic self care and a supportive community - to overcome life challenges, live life with purpose and passion, and fulfil their life potential as human beings.",
+    "Advocacy group that hopes to empower youth with practical, hands on and holistic self-care strategies.",
   cardImageUrl: "https://picsum.photos/278/425",
 };
 
-//     {
-//     socialType: SocialType.Instagram,
-//     url: "https://www.instagram.com/otrsg/?hl=en",
-//   },
-//   {
-//     socialType: SocialType.LinkedIn,
-//     url: "https://www.linkedin.com/company/over-the-rainbow-sg/",
-//   },
-//   {
-//     socialType: SocialType.Facebook,
-//     url: "https://www.facebook.com/OverTheRainbow.sg/",
-//   },
-
 export const testOrg1Summary: IOrganisationSummary = {
   videoUrl: "https://www.youtube.com/embed/oznr-1-poSU?si=ejpWQEbFXUFHD4xD",
-  websiteUrl: "https://overtherainbow.sg/",
-  donationUrl: "https://give.asia/campaign/you_are_not_alone",
+  websiteUrl: faker.internet.url(),
+  donationUrl: faker.internet.url(),
+  mission:
+    "Advocacy group that hopes to empower youth with practical, hands on and holistic self-care strategies.",
+  email: faker.internet.email(),
+  socials: [
+    {
+      socialType: SocialType.Youtube,
+      url: "https://www.youtube.com/",
+    },
+  ],
 };
 
 export const testOrg1OurStory: IProfileContent[] = [
@@ -98,16 +90,16 @@ export const testOrg1PeopleSpotlight: IPeopleSpotlight[] = [
     photoUrl: "https://picsum.photos/100/100",
     socials: [
       {
-        socialType: SocialType.Instagram,
-        url: "https://www.instagram.com/otrsg/?hl=en",
+        socialType: SocialType.Facebook,
+        url: faker.internet.url(),
       },
       {
         socialType: SocialType.LinkedIn,
-        url: "https://www.linkedin.com/company/over-the-rainbow-sg/",
+        url: faker.internet.url(),
       },
       {
-        socialType: SocialType.Facebook,
-        url: "https://www.facebook.com/OverTheRainbow.sg/",
+        socialType: SocialType.Youtube,
+        url: faker.internet.url(),
       },
     ],
     learnMore: {
@@ -159,6 +151,31 @@ export const testOrg2Summary: IOrganisationSummary = {
   videoUrl: "https://www.youtube.com/embed/oznr-1-poSU?si=ejpWQEbFXUFHD4xD",
   websiteUrl: faker.internet.url(),
   donationUrl: faker.internet.url(),
+  mission:
+    "Non-profit society providing support services, cohesion activities and community for those struggling with OCD.",
+  email: faker.internet.email(),
+  socials: [
+    {
+      socialType: SocialType.Youtube,
+      url: "https://www.youtube.com/",
+    },
+    {
+      socialType: SocialType.Facebook,
+      url: "https://www.facebook.com/",
+    },
+    {
+      socialType: SocialType.LinkedIn,
+      url: "https://www.linkedin.com/",
+    },
+    {
+      socialType: SocialType.Instagram,
+      url: "https://www.instagram.com/",
+    },
+    {
+      socialType: SocialType.TikTok,
+      url: "https://www.tiktok.com/",
+    },
+  ],
 };
 
 export const testOrg2OurStory: IProfileContent[] = [
@@ -275,6 +292,31 @@ export const testOrg3Summary: IOrganisationSummary = {
   videoUrl: "https://www.youtube.com/embed/oznr-1-poSU?si=ejpWQEbFXUFHD4xD",
   websiteUrl: faker.internet.url(),
   donationUrl: faker.internet.url(),
+  mission:
+    "Training provider and podcast commited to cultivating resilience and positive mental wellness.",
+  email: faker.internet.email(),
+  socials: [
+    {
+      socialType: SocialType.Youtube,
+      url: "https://www.youtube.com/",
+    },
+    {
+      socialType: SocialType.Facebook,
+      url: "https://www.facebook.com/",
+    },
+    {
+      socialType: SocialType.LinkedIn,
+      url: "https://www.linkedin.com/",
+    },
+    {
+      socialType: SocialType.Instagram,
+      url: "https://www.instagram.com/",
+    },
+    {
+      socialType: SocialType.TikTok,
+      url: "https://www.tiktok.com/",
+    },
+  ],
 };
 
 export const testOrg3OurStory: IProfileContent[] = [
@@ -388,9 +430,34 @@ export const testOrg4: IOrganisation = {
 };
 
 export const testOrg4Summary: IOrganisationSummary = {
-  videoUrl: "https://www.youtube.com/embed/oznr-1-poSU?si=ejpWQEbFXUFHD4xD",
+  videoUrl: "https://www.youtube.com/embed/oznr-1-poSU",
   websiteUrl: faker.internet.url(),
   donationUrl: faker.internet.url(),
+  mission:
+    "We support the recovery journeys of persons with mental health challenges and encourage help seeking among those at risk.",
+  email: faker.internet.email(),
+  socials: [
+    {
+      socialType: SocialType.Youtube,
+      url: "https://www.youtube.com/",
+    },
+    {
+      socialType: SocialType.Facebook,
+      url: "https://www.facebook.com/",
+    },
+    {
+      socialType: SocialType.LinkedIn,
+      url: "https://www.linkedin.com/",
+    },
+    {
+      socialType: SocialType.Instagram,
+      url: "https://www.instagram.com/",
+    },
+    {
+      socialType: SocialType.TikTok,
+      url: "https://www.tiktok.com/",
+    },
+  ],
 };
 
 export const testOrg4OurStory: IProfileContent[] = [
@@ -491,14 +558,14 @@ export const testOrg4PeopleSpotlight: IPeopleSpotlight[] = [
   },
 ];
 
-type testData = {
+type mockOrganisationData = {
   org: IOrganisation;
   summary: IOrganisationSummary;
   ourStory: IProfileContent[];
   peopleSpotlight: IPeopleSpotlight[];
 };
 
-export const testOrgs: testData[] = [
+export const mockOrganisations: mockOrganisationData[] = [
   {
     org: testOrg1,
     summary: testOrg1Summary,
