@@ -1,82 +1,50 @@
-import {
-  Box,
-  Button,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Text,
-  VStack,
-} from "@chakra-ui/react";
-import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { useState } from "react";
-import ForgotPassword from "./ForgotPassword";
-import Signup from "./SignUp";
-import GoogleSignInButton from "./GoogleSignInButton";
-import SignInButton from "./SignInButton";
+
+import { Box,Container,Stack} from '@mui/system';
+import * as React from 'react';
+import Typography from "@mui/material/Typography";
+import { Link,IconButton,Button,FormControl, TextField, InputAdornment} from '@mui/material';
+import { ChevronLeft } from '@mui/icons-material';
+import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import LoginDesign from "./LoginDesign";
+import LoginSection from "./LoginSection";
+import LoginTopBar from './LoginTopBar';
+import "./style.scss";
 
 export default function LoginForm() {
-  const [show, setShow] = useState(false);
-  const [noText, setNoText] = useState(true);
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleClick = () => setShow(!show);
-
-  const handleChange = (event: any) => {
-    if (event.target.value.length > 0) {
-      setNoText(false);
-    } else {
-      setNoText(true);
-    }
-
-    setPassword(event.target.value);
-  };
+  const [showPassword, setShowPassword] = React.useState(false);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   return (
-    <VStack spacing={4} align="stretch" minWidth="100%">
-      <Box>
-        <Text>Email</Text>
-        <Input
-          placeholder="Enter your email"
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </Box>
-      <Box>
-        <Text>Password</Text>
-        <InputGroup size="md">
-          <Input
-            pr="4.5rem"
-            type={show ? "text" : "password"}
-            placeholder="Enter password"
-            onChange={handleChange}
-          ></Input>
-
-          <InputRightElement width="4.5rem">
-            <Button
-              h="1.75rem"
-              size="sm"
-              onClick={handleClick}
-              disabled={noText}
-            >
-              {show ? <ViewOffIcon /> : <ViewIcon />}
-            </Button>
-          </InputRightElement>
-        </InputGroup>
-      </Box>
-
-      <Box>
-        <ForgotPassword />
-      </Box>
-      <Box>
-        <Box>
-          <SignInButton email={email} password={password} />
-          {/* <Box>
-                        <GoogleSignInButton />
-                    </Box> */}
-        </Box>
-        <Signup />
-      </Box>
-    </VStack>
+    <Stack spacing={9} sx={{justifyContent:'center'}}>
+      <Stack>
+        <Typography variant='h3'>Welcome Back 👋</Typography>
+        <Typography variant='body1'>Connect with our community and get access to resources.</Typography>
+      </Stack>
+      <Stack spacing={2} sx={{justifyContent:'center'}}>
+          <FormControl>
+            <Stack spacing={2}>
+              <TextField required type="email" autoComplete='username' placeholder="Enter your email" label="Email" variant='outlined'></TextField>
+              <TextField required type="password" autoComplete='current-password' placeholder="Enter your password" label="Password" variant='outlined' InputProps={{ 
+                  endAdornment: (
+                    <InputAdornment position='end'>
+                      <IconButton 
+                        onClick={handleClickShowPassword} 
+                        edge='end'
+                      >
+                        {showPassword ? <VisibilityOff/> : <Visibility/>}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              </Stack>
+          </FormControl>
+          <Link href="#" display='flex' sx={{ width:'100%',justifyContent:'end'}}> Forgot your password? </Link>
+          <Button color='primary' variant='contained'>NEXT</Button>
+          <Typography variant='body1' sx={{display:'flex', width:'100%', justifyItems:'center'}}>Don't have an account?{' '} <Link>Sign up</Link></Typography>
+      </Stack>
+    </Stack>
   );
 }

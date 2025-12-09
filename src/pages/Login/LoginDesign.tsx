@@ -1,15 +1,9 @@
-import { Center, Spacer, VStack, Image } from "@chakra-ui/react";
+import { Box,Container,Stack} from '@mui/system';
 
 export default function LoginDesign() {
   return (
-    <VStack>
-      <Spacer />
-      <Spacer />
-      <Center minH="10em"></Center>
-
-      <Center minH="10em">
-        <Image src="/images/login.png"></Image>
-      </Center>
-    </VStack>
+      <Box className="rounded_edge_rectangle" sx={{width:'50%', flex:"1", alignContent:'center', display:'flex', justifyContent:'center'}}>
+        <img src="/images/login.png" style={{ width:"40%", height:"auto", objectFit:"contain"}}/>
+      </Box>
   );
 }
