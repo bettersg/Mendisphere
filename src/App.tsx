@@ -9,6 +9,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import {muiTheme} from './theme/muiTheme'
 import { AuthProvider } from "./services/Firebase/AuthProvider";
 import { useGetWindowDimensionsHook } from "./utilities/useGetDdimensionsHook";
 import logo from "./assets/images/logo/Mendisphere Logo colour.png";
@@ -16,9 +17,6 @@ import mendisphereTheme from "./theme";
 import Routing, { Paths } from "./routing";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-
-// Create a MUI theme
-const muiTheme = createTheme();
 
 function App() {
   const { width } = useGetWindowDimensionsHook();
