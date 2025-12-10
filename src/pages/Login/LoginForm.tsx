@@ -47,7 +47,6 @@ export default function LoginForm() {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(formData);
     signInWithEmailAndPassword(auth, formData.email, formData.password)
       .then((userCredential) => {
         const user = userCredential.user;
@@ -90,7 +89,7 @@ export default function LoginForm() {
           />
           <Link component={RouterLink} to={Paths.forgotPassword} display='flex' sx={{ width:'100%',justifyContent:'end'}}> Forgot your password? </Link>
           <Button type="submit" color='primary' variant='contained'>LOGIN</Button>
-          <Typography variant='body1' sx={{display:'flex', width:'100%', justifyContent:'center'}}>Don't have an account?&nbsp;<Link component={RouterLink} to={Paths.signup}>Sign up</Link></Typography>
+          <Typography variant='body1' sx={{display:'flex',width:'100%', justifyContent:'center'}}>Don't have an account?&nbsp;<Link component={RouterLink} to={Paths.signup}>Sign up</Link></Typography>
       </Stack>
     </Stack>
     </form>
