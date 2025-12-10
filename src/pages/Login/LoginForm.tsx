@@ -1,7 +1,6 @@
 
 import { Box,Container,Stack} from '@mui/system';
-import * as React from 'react';
-import Typography from "@mui/material/Typography";
+import React, { useState } from "react";import Typography from "@mui/material/Typography";
 import { Link,IconButton,Button,FormControl, TextField, InputAdornment} from '@mui/material';
 import { ChevronLeft } from '@mui/icons-material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
@@ -11,40 +10,89 @@ import LoginDesign from "./LoginDesign";
 import LoginSection from "./LoginSection";
 import LoginTopBar from './LoginTopBar';
 import "./style.scss";
+import { Paths } from "../../routing";
+import { getAuth, signInWithEmailAndPassword} from 'firebase/auth';
+import {Link as RouterLink} from "react-router-dom"
+
+interface FormData{
+  email: string;
+  password: string;
+}
 
 export default function LoginForm() {
+  
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
+  const [formData,setFormData]=useState<FormData>({
+    email:"",
+    password:""
+  })
+
+  const handleChange=(e: React.ChangeEvent<HTMLInputElement>)=>{
+    setEmailError(false);
+    setPasswordError(false);
+    const {name, value}=e.target;
+    setFormData((prevState:FormData)=>({
+      ...prevState,
+      [name]:value,
+    }));
+  }
+  const [emailError,setEmailError]=useState(false);
+  const emailErrorMessage="This email isn’t registered with us. Please double-check or create an account to get started."
+  const [passwordError,setPasswordError]=useState(false)
+  const passwordErrorMessage="The password entered is incorrect. Kindly try again or reset your password."
+
+  const auth=getAuth();
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log(formData);
+    signInWithEmailAndPassword(auth, formData.email, formData.password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        //navigate to next page
+        alert("logged in")
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        if (errorCode=="auth/user-not-found"){
+          setEmailError(true);
+        }
+        if (errorCode=="auth/wrong-password"){
+          setPasswordError(true);
+        }
+      });
+  };
+  
   return (
+    <form onSubmit={handleSubmit}>
     <Stack spacing={9} sx={{justifyContent:'center'}}>
       <Stack>
         <Typography variant='h3'>Welcome Back 👋</Typography>
         <Typography variant='body1'>Connect with our community and get access to resources.</Typography>
       </Stack>
-      <Stack spacing={2} sx={{justifyContent:'center'}}>
-          <FormControl>
-            <Stack spacing={2}>
-              <TextField required type="email" autoComplete='username' placeholder="Enter your email" label="Email" variant='outlined'></TextField>
-              <TextField required type="password" autoComplete='current-password' placeholder="Enter your password" label="Password" variant='outlined' InputProps={{ 
-                  endAdornment: (
-                    <InputAdornment position='end'>
-                      <IconButton 
-                        onClick={handleClickShowPassword} 
-                        edge='end'
-                      >
-                        {showPassword ? <VisibilityOff/> : <Visibility/>}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              </Stack>
-          </FormControl>
-          <Link href="#" display='flex' sx={{ width:'100%',justifyContent:'end'}}> Forgot your password? </Link>
-          <Button color='primary' variant='contained'>NEXT</Button>
-          <Typography variant='body1' sx={{display:'flex', width:'100%', justifyItems:'center'}}>Don't have an account?{' '} <Link>Sign up</Link></Typography>
+      <Stack spacing={2}>
+          <TextField error={!!emailError} helperText={emailError ? emailErrorMessage:""} value={formData.email} onChange={handleChange} name="email" required type="email" autoComplete='username' placeholder="Enter your email" label="Email" variant='outlined'></TextField>
+          <TextField error={!!passwordError} helperText={passwordError ? passwordErrorMessage:""} value={formData.password} onChange={handleChange} name="password" required type={showPassword ? 'text':'password'} autoComplete='current-password' placeholder="Enter your password" label="Password" variant='outlined' InputProps={{ 
+              endAdornment: (
+                <InputAdornment position='end'>
+                  <IconButton 
+                    onClick={handleClickShowPassword} 
+                    edge='end'
+                  >
+                    {showPassword ? <VisibilityOff/> : <Visibility/>}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+          <Link component={RouterLink} to={Paths.forgotPassword} display='flex' sx={{ width:'100%',justifyContent:'end'}}> Forgot your password? </Link>
+          <Button type="submit" color='primary' variant='contained'>LOGIN</Button>
+          <Typography variant='body1' sx={{display:'flex', width:'100%', justifyContent:'center'}}>Don't have an account?&nbsp;<Link component={RouterLink} to={Paths.signup}>Sign up</Link></Typography>
       </Stack>
     </Stack>
+    </form>
   );
 }

@@ -3,11 +3,17 @@ import * as React from 'react';
 import Typography from "@mui/material/Typography";
 import { Link,IconButton,Button,FormControl, TextField, InputAdornment} from '@mui/material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import BreadcrumbsV2 from "../../components/BreadcrumbsV2"
+import PersonIcon from '@mui/icons-material/Person';
+import { muiTheme } from '../../theme/muiTheme';
 
 export default function LoginTopBar() {
   return (
-    <Box>
+    <Stack spacing={2} paddingTop={4} paddingBottom={4}>
+      <Box>
       <Button variant="text" sx={{color:'text.primary'}}><ArrowBackIosIcon/>Back</Button>
-    </Box>
+      </Box>
+      <BreadcrumbsV2 links={[{label: "Login", icon:<PersonIcon/>}]}/>
+    </Stack>
   );
 }
