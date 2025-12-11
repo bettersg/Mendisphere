@@ -15,7 +15,7 @@ const Login = () => {
   return (
     <Stack direction={['column','column','row']} sx={{minHeight:"100vH", display:'flex', height:'100%'}}>
       {isMobile?(
-      <Box className="rounded_edge_rectangle_horizontal" sx={{alignContent:'center', display:'flex', justifyContent:'center'}}>
+      <Box className="rounded_edge_rectangle_horizontal" sx={{alignContent:'center', display:'flex', justifyContent:'center', height:'7vh'}}>
           <img src="/images/login.png" style={{ width:"10%", height:"auto", objectFit:"contain"}}/>
       </Box>
       
