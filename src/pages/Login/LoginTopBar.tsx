@@ -11,7 +11,7 @@ export default function LoginTopBar() {
   return (
     <Stack spacing={2} paddingTop={4} paddingBottom={4}>
       <Box>
-      <Button variant="text" sx={{color:'text.primary'}}><ArrowBackIosIcon/>Back</Button>
+      <Button variant="text" onClick={()=>{window.history.back()}} sx={{color:'text.primary'}}><ArrowBackIosIcon/>Back</Button>
       </Box>
       <BreadcrumbsV2 links={[{label: "Login", icon:<PersonIcon/>}]}/>
     </Stack>
