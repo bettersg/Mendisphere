@@ -1,9 +1,10 @@
 import { Button, VStack } from "@chakra-ui/react";
-import { User, UserCredential } from "firebase/auth";
+import { UserCredential } from "firebase/auth";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AuthenticationRequestData } from "../../data/Auth/AuthRequestData";
 import { useAuth } from "../../services/Firebase/AuthProvider";
+import { loginUser } from "../../services/UserService";
 
 interface LoginCredentials {
   email: string;
@@ -12,39 +13,42 @@ interface LoginCredentials {
 
 export default function SignInButton(LoginCredentials: LoginCredentials) {
   const [isLoading, setLoading] = useState(false);
-  const { signIn } = useAuth();
+  const navigate = useNavigate();
   const authRequest: AuthenticationRequestData = {
     userName: "",
   };
 
-  const navigate = useNavigate();
   const handleSignIn = async () => {
     console.log(
       `sign in button clicked ${LoginCredentials.email}, ${LoginCredentials.password}`
     );
     try {
       setLoading(true);
-      let userCred: UserCredential = await signIn(
+      const user = await loginUser(
         LoginCredentials.email,
         LoginCredentials.password
       );
-      let user: User = userCred.user;
-      let token: string = await user.getIdToken();
-      console.log(`Authentication success userid: ${user.uid}, ${token}`);
-      authRequest.userName = user.uid;
+
+      console.log(`Authentication success for user: ${user.id}`);
+
+      // Check email verification status
+      if (!user.emailVerified) {
+        console.warn("Email not verified");
+        // Optionally redirect to verification page or show warning
+      }
+
       console.log("Routing to user dashboard page.");
       navigate("/dashboard");
     } catch (error: unknown) {
-      let errorMessage = "error.unknown";
-      if (typeof error === "string") {
-        errorMessage = error.toUpperCase();
-      } else if (error instanceof Error) {
+      let errorMessage = "Authentication failed";
+      if (error instanceof Error) {
         errorMessage = error.message;
       }
-
-      console.log(`Authentication failed ${errorMessage}`);
+      console.error(`Authentication failed: ${errorMessage}`);
+      // Optionally show error to user via toast/alert
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
