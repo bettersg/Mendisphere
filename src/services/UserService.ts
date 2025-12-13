@@ -191,7 +191,7 @@ export async function loginUser(
     console.log(`User logged in successfully: ${user.id}`);
     return user;
   } catch (error: any) {
-    if (error.code === 'auth/wrong-password' || error.code === 'auth/user-not-found') {
+    if (error.code === 'auth/invalid-credential') {
       throw new Error('Invalid email or password');
     } else if (error.code === 'auth/too-many-requests') {
       throw new Error('Too many failed login attempts. Please try again later.');
