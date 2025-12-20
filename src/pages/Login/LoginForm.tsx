@@ -1,26 +1,28 @@
 
 import { Box,Container,Stack} from '@mui/system';
-import React, { useState } from "react";import Typography from "@mui/material/Typography";
+import React, { Component, useState } from "react";import Typography from "@mui/material/Typography";
 import { Link,IconButton,Button,FormControl, TextField, InputAdornment} from '@mui/material';
 import { ChevronLeft } from '@mui/icons-material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import LoginDesign from "./LoginDesign";
-import LoginSection from "./LoginSection";
-import LoginTopBar from './LoginTopBar';
 import "./style.scss";
 import { Paths } from "../../routing";
 import { getAuth, signInWithEmailAndPassword} from 'firebase/auth';
 import {Link as RouterLink} from "react-router-dom"
+import UserService from "../../services/UserService"
+import { useNavigate } from "react-router-dom";
 
 interface FormData{
   email: string;
   password: string;
 }
 
+
+
 export default function LoginForm() {
-  
+  const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -30,8 +32,6 @@ export default function LoginForm() {
   })
 
   const handleChange=(e: React.ChangeEvent<HTMLInputElement>)=>{
-    setEmailError(false);
-    setPasswordError(false);
     const {name, value}=e.target;
     setFormData((prevState:FormData)=>({
       ...prevState,
@@ -44,26 +44,28 @@ export default function LoginForm() {
   const passwordErrorMessage="The password entered is incorrect. Kindly try again or reset your password."
 
   const auth=getAuth();
+const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  e.preventDefault();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    signInWithEmailAndPassword(auth, formData.email, formData.password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        //navigate to next page
-        alert("logged in")
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        if (errorCode=="auth/user-not-found"){
-          setEmailError(true);
-        }
-        if (errorCode=="auth/wrong-password"){
-          setPasswordError(true);
-        }
-      });
-  };
+  setEmailError(false);
+  setPasswordError(false);
+
+  try {
+    const user = await UserService.loginUser(formData.email, formData.password);
+
+    navigate(Paths.dashboard);
+
+  } catch (err: any) {
+    console.error(err);
+
+    if (err.code === "auth/user-not-found") {
+      setEmailError(true);
+    } else if (err.code === "auth/wrong-password") {
+      setPasswordError(true);
+    }
+  }
+};
+
   
   return (
     <form onSubmit={handleSubmit}>

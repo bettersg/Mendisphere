@@ -13,7 +13,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   return (
-    <Stack direction={['column','column','row']} sx={{minHeight:"100vH", display:'flex', height:'100%'}}>
+    <Stack direction={['column','column','row']} sx={{minHeight:{mobile:"auto",desktop:"100vh"}, display:'flex'}}>
       {isMobile?(
       <Box className="rounded_edge_rectangle_horizontal" sx={{alignContent:'center', display:'flex', justifyContent:'center', height:'7vh'}}>
           <img src="/images/login.png" style={{ width:"10%", height:"auto", objectFit:"contain"}}/>
@@ -28,7 +28,7 @@ const Login = () => {
       </Box>
       </>
     )}
-      <Stack spacing={{mobile:0, desktop:12}} sx={{order: { mobile:1, desktop:-1}, width:{mobile:'100%', desktop:'50%'}, padding:{ mobile:9, desktop:12}, pt:{mobile:0},pb:{mobile:0}}}>
+      <Stack spacing={{mobile:4, desktop:12}} sx={{order: { mobile:1, desktop:-1}, width:{mobile:'100%', desktop:'50%'}, px:9,py:4}}>
         <LoginTopBar/>
         <LoginForm/>
       </Stack>

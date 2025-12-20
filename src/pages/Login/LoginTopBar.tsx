@@ -9,7 +9,7 @@ import { muiTheme } from '../../theme/muiTheme';
 
 export default function LoginTopBar() {
   return (
-    <Stack spacing={2} paddingTop={4} paddingBottom={4}>
+    <Stack spacing={2}>
       <Box>
       <Button variant="text" onClick={()=>{window.history.back()}} sx={{color:'text.primary'}}><ArrowBackIosIcon/>Back</Button>
       </Box>
