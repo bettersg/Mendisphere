@@ -6,12 +6,13 @@ import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import BreadcrumbsV2 from "../../components/BreadcrumbsV2"
 import PersonIcon from '@mui/icons-material/Person';
 import { muiTheme } from '../../theme/muiTheme';
+import { ChevronLeft, PersonSharp } from "@mui/icons-material";
 
 export default function LoginTopBar() {
   return (
     <Stack spacing={2}>
       <Box>
-      <Button variant="text" onClick={()=>{window.history.back()}} sx={{color:'text.primary'}}><ArrowBackIosIcon/>Back</Button>
+      <Button onClick={()=>{window.history.back()}} startIcon={<ChevronLeft />} sx={{color:'text.primary'}}>BACK</Button>
       </Box>
       <BreadcrumbsV2 links={[{label: "Login", icon:<PersonIcon/>}]}/>
     </Stack>
