@@ -4,76 +4,96 @@ import {
     Box,
     Typography,
     Button,
-    Link,
+    Link, Stack
 } from "@mui/material";
 import CheckFilled from "../../assets/icons/checkFilled.svg";
 import { colors } from "../../theme/colours";
 import { Paths } from "../../routing";
-import NotFound from "../NotFound";
+import NotFound from "../NotFound/NotFound";
+import { getAuth } from "firebase/auth";
+import {emailVerification } from "../../services/UserService";
+import { useMediaQuery, useTheme } from '@mui/material';
+import RegistrationForm from "./RegistrationForm";
+import RegistrationTopBar from "./RegistrationTopBar";
+import { muiTheme } from '../../theme/muiTheme';
 
 const RegistrationVerification = () => {
+    const isMobile=useMediaQuery(muiTheme.breakpoints.down('desktop'))
+
+    
     const navigate = useNavigate();
     const location = useLocation();
     const email = location.state?.email || "";
-
+    const firebaseUser = location.state?.firebaseUser
+    ?? JSON.parse(localStorage.getItem("firebaseUser") || "null")
+    ?? getAuth().currentUser;
+    const [success, setSuccess] = React.useState(false);
+    const [error, setError] = React.useState<string | null>(null);
+    const handleResendEmailClick = async () => {
+    try {
+        if (!firebaseUser) {
+            setError("No user found to resend verification email");
+            return;
+        }
+        await emailVerification(firebaseUser);
+        setSuccess(true);
+        alert("Verification email resent successfully");
+    } catch (err: any) {
+        setError(err.message || "Failed to resend email");
+    }
+    };
     if (!email) {
         return <NotFound />;
     }
 
-    const handleResendEmailClick = () => {
-        alert("Resend email clicked!");
-    }
 
     return (
-        <>
-            <Typography
-                variant="h3"
-                fontWeight="bold"
-                sx={{
-                    marginBottom: "19px",
-                    color: colors.neutral.primary,
-                }}
-            >
-                Get Connected 🚀
-            </Typography>
-            <Typography
-                variant="body1"
-                sx={{
-                    marginBottom: "50px",
-                    color: colors.neutral.primary,
-                }}
-            >
-                Connect with our community and get access to resources.
-            </Typography>
-            <Box display="flex" alignItems="center" sx={{ marginBottom: 3 }}>
-                <img src={CheckFilled} alt="check icon" style={{ marginRight: "10px" }} width={64} height={64} />
-                <Typography variant="body1" sx={{ color: colors.neutral.primary }}>
-                    Account verification link has been sent. Please check your email to verify your account.
+    <Stack direction={['column','column','row']} sx={{minHeight:{mobile:"auto",desktop:"100vh"}, display:'flex'}}>
+      {isMobile?(
+      <Box className="rounded_edge_rectangle_horizontal" sx={{alignContent:'center', display:'flex', justifyContent:'center', height:'7vh'}}>
+          <img src="/images/registration.png" style={{ width:"10%", height:"auto", objectFit:"contain"}}/>
+      </Box>
+      
+      )
+      :
+      (
+      <>
+      <Box className="rounded_edge_rectangle" sx={{order: { mobile:-1, desktop:1},flex:"1", alignContent:'center', display:'flex', justifyContent:'center'}}>
+        <img src="/images/registration.png" style={{ width:"40%", height:"auto", objectFit:"contain"}}/>
+      </Box>
+      </>
+    )}
+      <Stack spacing={{mobile:4, desktop:12}} sx={{order: { mobile:1, desktop:-1}, width:{mobile:'100%', desktop:'50%'}, px:9,py:4}}>
+        <RegistrationTopBar/>
+        <Stack spacing={5}>
+            <Stack>
+                <Typography variant='h3'>Get Connected 🚀</Typography>
+                <Typography variant='body1'>Connect with our community and get access to resources.</Typography>
+            </Stack>
+            <Stack spacing={2}>
+                <Stack spacing={1} direction={"row"} alignItems={"center"}>
+                    <img src={CheckFilled} alt="check icon" width={64} height={64} />
+                    <Typography variant="body1" sx={{ color: colors.neutral.primary }}>
+                        Account verification link has been sent. Please check your email to verify your account.
+                    </Typography>
+                </Stack>
+                <Typography variant="body1" sx={{ color: colors.neutral.primary,}}>
+                Didn't receive the email? <Link onClick={handleResendEmailClick}>Resend Email</Link>
                 </Typography>
-            </Box>
-
-            <Typography variant="body1" sx={{ color: colors.neutral.primary, marginBottom: 6 }}>
-                Didn't receive the email? <Link onClick={handleResendEmailClick} style={{ cursor: "pointer" }} >Resend Email</Link>
-            </Typography>
+            </Stack>
 
             <Button
                 onClick={() => navigate(Paths.login)}
                 variant="contained"
                 color="primary"
                 fullWidth
-                sx={{
-                    backgroundColor: colors.brand.primary,
-                    color: colors.neutral.white,
-                    border: "none",
-                    boxShadow: "0px 3px 5px -1px #00000033, 0px 6px 10px 0px #00000024, 0px 1px 18px 0px #0000001F",
-                    "&:hover": {
-                        backgroundColor: colors.interaction.focus,
-                    },
-                }}
             >
                 SIGN IN
             </Button>
-    </>
+            </Stack>
+        </Stack>
+      </Stack>
+ 
     );
 };
 
