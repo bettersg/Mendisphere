@@ -15,7 +15,6 @@ import {
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { colors } from "../../theme/colours";
 import Autocomplete from "@mui/material/Autocomplete";
-import RegistrationWrapper from "./RegistrationWrapper";
 import { Paths } from "../../routing";
 import { getAllOrganisations } from "../../services/OrganisationService"; 
 import { Organisation } from "../../data/Model/Organisation";
@@ -84,20 +83,18 @@ function RegistrationForm(){
     const duplicateOrg = organisationOptions.find(
       (org) => org.id !== "new" && org.name.toLowerCase() === trimmedName
     );
-    console.log(duplicateOrg)
     if (duplicateOrg) {
       newErrors.newOrganisation = "An organisation with this name already exists";
     }
   }
 
     setErrors(newErrors);
-
+    let result;
     if (Object.keys(newErrors).length === 0) {
-      console.log("form submitted")
       try {
         if (userType === "organisation") {
           if (newOrganisationState) {
-            await createOrganisationWithUser(
+            result=await createOrganisationWithUser(
               email,
               password,
               givenName,
@@ -106,8 +103,9 @@ function RegistrationForm(){
               UserType.organisation,
               UserRole.admin
             );
+            result=result.user;
           } else {
-            await createUserWithAuth(
+            result=await createUserWithAuth(
               email,
               password,
               givenName,
@@ -118,7 +116,7 @@ function RegistrationForm(){
             );
           }
         } else {
-          await createUserWithAuth(
+          result=await createUserWithAuth(
             email,
             password,
             givenName,
@@ -127,6 +125,8 @@ function RegistrationForm(){
             UserRole.admin
           );
         }
+        console.log(email,result);
+        localStorage.setItem("firebaseUser", JSON.stringify(result.firebaseUser));
         navigate(Paths.emailVerification, { state: { email } });
       }
       catch(err:any){

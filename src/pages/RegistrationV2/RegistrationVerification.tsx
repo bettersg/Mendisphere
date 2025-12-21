@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react"; // Added useState
 import { useNavigate, useLocation } from "react-router-dom";
 import {
     Box,
     Typography,
     Button,
-    Link, Stack
+    Link, Stack,Snackbar,Alert
 } from "@mui/material";
 import CheckFilled from "../../assets/icons/checkFilled.svg";
 import { colors } from "../../theme/colours";
@@ -19,7 +19,10 @@ import { muiTheme } from '../../theme/muiTheme';
 
 const RegistrationVerification = () => {
     const isMobile=useMediaQuery(muiTheme.breakpoints.down('desktop'))
-
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState("");
+    const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">("success");
+    
     
     const navigate = useNavigate();
     const location = useLocation();
@@ -27,20 +30,25 @@ const RegistrationVerification = () => {
     const firebaseUser = location.state?.firebaseUser
     ?? JSON.parse(localStorage.getItem("firebaseUser") || "null")
     ?? getAuth().currentUser;
-    const [success, setSuccess] = React.useState(false);
-    const [error, setError] = React.useState<string | null>(null);
     const handleResendEmailClick = async () => {
+    
+    // State for Snackbar
+
     try {
         if (!firebaseUser) {
-            setError("No user found to resend verification email");
+            setSnackbarMessage("No user found to resend verification email");
+            setSnackbarSeverity("error");
+            setOpenSnackbar(true);
             return;
         }
         await emailVerification(firebaseUser);
-        setSuccess(true);
-        alert("Verification email resent successfully");
+        setSnackbarMessage("Verification email resent successfully");
+        setSnackbarSeverity("success");
+        setOpenSnackbar(true);
     } catch (err: any) {
-        setError(err.message || "Failed to resend email");
-    }
+        setSnackbarMessage(err.message || "Failed to resend email");
+        setSnackbarSeverity("error");
+        setOpenSnackbar(true);    }
     };
     if (!email) {
         return <NotFound />;
@@ -92,6 +100,20 @@ const RegistrationVerification = () => {
             </Button>
             </Stack>
         </Stack>
+        <Snackbar
+            open={openSnackbar}
+            autoHideDuration={4000}
+            onClose={() => setOpenSnackbar(false)}
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            >
+            <Alert 
+                onClose={() => setOpenSnackbar(false)} 
+                severity={snackbarSeverity} 
+                sx={{ width: '100%' }}
+            >
+                {snackbarMessage}
+            </Alert>
+            </Snackbar>
       </Stack>
  
     );

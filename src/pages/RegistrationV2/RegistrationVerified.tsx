@@ -8,50 +8,61 @@ import {
 } from "@mui/material";
 import CheckFilled from "../../assets/icons/checkFilled.svg";
 import { colors } from "../../theme/colours";
-import RegistrationWrapper from "./RegistrationWrapper";
 import { Paths } from "../../routing";
+import { useMediaQuery, useTheme } from '@mui/material';
+import RegistrationForm from "./RegistrationForm";
+import RegistrationTopBar from "./RegistrationTopBar";
+import { muiTheme } from '../../theme/muiTheme';
+import { Container,Stack} from '@mui/system';
 
 const RegistrationVerified = () => {
+    const isMobile=useMediaQuery(muiTheme.breakpoints.down('desktop'))
     const navigate = useNavigate();
 
     return (
-        <RegistrationWrapper>
-            <Typography
+    <Stack direction={['column','column','row']} sx={{minHeight:{mobile:"auto",desktop:"100vh"}, display:'flex'}}>
+      {isMobile?(
+      <Box className="rounded_edge_rectangle_horizontal" sx={{alignContent:'center', display:'flex', justifyContent:'center', height:'7vh'}}>
+          <img src="/images/registration.png" style={{ width:"10%", height:"auto", objectFit:"contain"}}/>
+      </Box>
+      
+      )
+      :
+      (
+      <>
+      <Box className="rounded_edge_rectangle" sx={{order: { mobile:-1, desktop:1},flex:"1", alignContent:'center', display:'flex', justifyContent:'center'}}>
+        <img src="/images/registration.png" style={{ width:"40%", height:"auto", objectFit:"contain"}}/>
+      </Box>
+      </>
+    )}
+      <Stack spacing={{mobile:4, desktop:12}} sx={{order: { mobile:1, desktop:-1}, width:{mobile:'100%', desktop:'50%'}, px:9,py:4}}>
+        <RegistrationTopBar/>
+        <Typography
                 fontWeight={"semibold"}
                 variant="h3"
-                sx={{
-                    marginBottom: "19px",
-                    color: colors.neutral.primary,
-                }}
             >
                 Email Verified!
             </Typography>
-            <Box textAlign="center" sx={{ marginBottom: 6, marginTop: 6 }}>
-                <img src={CheckFilled} alt="check icon" width={64} height={64} style={{ margin: "0px auto 20px auto" }} />
-                <Typography variant="body1" sx={{ color: colors.neutral.primary }} marginTop={2} marginBottom={2} >
+            <Stack display='flex' alignItems="center" spacing={2}>
+                <img src={CheckFilled} alt="check icon" width={64} height={64} />
+                <Typography variant="body1">
                     You have successfully verified your email! You may now proceed to sign in.
                 </Typography>
-            </Box>
+            </Stack>
 
             <Button
                 onClick={() => navigate(Paths.login)}
                 variant="contained"
                 color="primary"
                 fullWidth
-                sx={{
-                    backgroundColor: colors.brand.primary,
-                    color: colors.neutral.white,
-                    border: "none",
-                    boxShadow: "0px 3px 5px -1px #00000033, 0px 6px 10px 0px #00000024, 0px 1px 18px 0px #0000001F",
-                    "&:hover": {
-                        backgroundColor: colors.interaction.focus,
-                    },
-                }}
             >
                 SIGN IN
             </Button>
 
-        </RegistrationWrapper>
+      </Stack>
+    </Stack>
+        
+ 
     );
 };
 

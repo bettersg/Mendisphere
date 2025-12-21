@@ -7,7 +7,7 @@ import Home from "../pages/Home";
 import Registration from "../pages/RegistrationV2/Registration";
 import { Paths } from ".";
 import RegistrationVerificaion from "../pages/RegistrationV2/RegistrationVerification";
-import NotFound from "../pages/NotFound";
+import NotFound from "../pages/NotFound/NotFound";
 import RegistrationVerified from "../pages/RegistrationV2/RegistrationVerified";
 
 const Routing = () => {

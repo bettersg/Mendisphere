@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { User as FirebaseUser,getAuth, sendEmailVerification, createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "./Firebase/firebaseConfig";
 import { createUser, User } from "../data/Model/User";
 import { UserRole } from "../data/Enums/user-role.enum";
@@ -61,6 +61,8 @@ export async function createUserWithAuth(
     // Step 4: Create and return User instance with organisation if applicable
     const user = new User(firebaseUser, firstName,lastName,userRole, userType, organisation);
     await updateDisplayName(user, firstName, lastName);
+    await emailVerification(firebaseUser);
+
     console.log(`User created successfully: ${user.id}`);
     return user;
   } catch (error) {
@@ -110,7 +112,7 @@ export async function createOrganisationWithUser(
     // Step 4: Create and return User instance with organisation
     const user = new User(firebaseUser,firstName,lastName, userRole, userType, organisation);
     await updateDisplayName(user, firstName, lastName);
-
+    await emailVerification(firebaseUser);
     console.log(`Organisation and user created successfully: ${organisation.id}, ${user.id}`);
     
     return { user, organisation };
@@ -120,9 +122,27 @@ export async function createOrganisationWithUser(
   }
 }
 
+export async function emailVerification(user: FirebaseUser): Promise<void> {
+  try {
+    const user = auth.currentUser;
+    if (!user) {
+      throw new Error("No authenticated user to verify email for");
+    }
+    if (user.emailVerified) {
+      throw new Error("Email is already verified");
+    }
+    await sendEmailVerification(user);
+    console.log("email sent")
+  } catch (error) {
+    console.error("Error sending email verification:", error);
+    throw error;
+  }
+}
+
 const UserService = {
   createUserWithAuth,
   createOrganisationWithUser,
+  emailVerification
 };
 
 export default UserService;
