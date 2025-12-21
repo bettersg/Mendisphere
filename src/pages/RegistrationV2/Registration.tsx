@@ -1,12 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Box,Container,Stack} from '@mui/system';
 import { useMediaQuery, useTheme } from '@mui/material';
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { colors } from "../../theme/colours";
-import Autocomplete from "@mui/material/Autocomplete";
-import RegistrationWrapper from "./RegistrationWrapper";
-import { Paths } from "../../routing";
 import RegistrationForm from "./RegistrationForm";
 import RegistrationTopBar from "./RegistrationTopBar";
 import { muiTheme } from '../../theme/muiTheme';

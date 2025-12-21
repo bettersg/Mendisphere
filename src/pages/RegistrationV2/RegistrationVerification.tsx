@@ -8,7 +8,6 @@ import {
 } from "@mui/material";
 import CheckFilled from "../../assets/icons/checkFilled.svg";
 import { colors } from "../../theme/colours";
-import RegistrationWrapper from "./RegistrationWrapper";
 import { Paths } from "../../routing";
 import NotFound from "../NotFound";
 
@@ -26,7 +25,7 @@ const RegistrationVerification = () => {
     }
 
     return (
-        <RegistrationWrapper>
+        <>
             <Typography
                 variant="h3"
                 fontWeight="bold"
@@ -74,8 +73,7 @@ const RegistrationVerification = () => {
             >
                 SIGN IN
             </Button>
-
-        </RegistrationWrapper>
+    </>
     );
 };
 
