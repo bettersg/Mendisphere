@@ -33,6 +33,8 @@ export default function LoginForm() {
 
   const handleChange=(e: React.ChangeEvent<HTMLInputElement>)=>{
     const {name, value}=e.target;
+    setEmailError(false);
+    setPasswordError(false);
     setFormData((prevState:FormData)=>({
       ...prevState,
       [name]:value,
@@ -65,10 +67,10 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       setPasswordErrorMessage("The password entered is incorrect. Kindly try again or reset your password.")
       setPasswordError(true);
     }
-      else if(err.message=="Email not verified"){
+    else if(err.message=="Email not verified"){
         setEmailErrorMessage("Email is not verified. Please verify your email before logging in.")
         setEmailError(true);
-      }
+    }
   }
 };
 
@@ -82,18 +84,22 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
       </Stack>
       <Stack spacing={2}>
           <TextField error={!!emailError} helperText={emailError ? emailErrorMessage:""} value={formData.email} onChange={handleChange} name="email" required type="email" autoComplete='username' placeholder="Enter your email" label="Email" variant='outlined'></TextField>
-          <TextField error={!!passwordError} helperText={passwordError ? passwordErrorMessage:""} value={formData.password} onChange={handleChange} name="password" required type={showPassword ? 'text':'password'} autoComplete='current-password' placeholder="Enter your password" label="Password" variant='outlined' InputProps={{ 
+          <TextField error={!!passwordError} helperText={passwordError ? passwordErrorMessage:""} value={formData.password} onChange={handleChange} name="password" required type={showPassword ? 'text':'password'} autoComplete='current-password' placeholder="Enter your password" label="Password" variant='outlined'
+          slotProps={{
+            input: {
               endAdornment: (
-                <InputAdornment position='end'>
-                  <IconButton 
-                    onClick={handleClickShowPassword} 
-                    edge='end'
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={handleClickShowPassword}
+                    edge="end"
+                    aria-label="toggle password visibility"
                   >
-                    {showPassword ? <VisibilityOff/> : <Visibility/>}
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
                   </IconButton>
                 </InputAdornment>
               ),
-            }}
+            },
+          }}
           />
           <Link component={RouterLink} to={Paths.forgotPassword} display='flex' sx={{ width:'100%',justifyContent:'end'}}> Forgot your password? </Link>
           <Button type="submit" color='primary' variant='contained'>LOGIN</Button>
