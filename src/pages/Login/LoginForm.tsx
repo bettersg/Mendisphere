@@ -39,9 +39,9 @@ export default function LoginForm() {
     }));
   }
   const [emailError,setEmailError]=useState(false);
-  const emailErrorMessage="This email isn’t registered with us. Please double-check or create an account to get started."
+  const [emailErrorMessage,setEmailErrorMessage]=useState("")
   const [passwordError,setPasswordError]=useState(false)
-  const passwordErrorMessage="The password entered is incorrect. Kindly try again or reset your password."
+  const [passwordErrorMessage,setPasswordErrorMessage]=useState("")
 
   const auth=getAuth();
 const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -59,10 +59,16 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     console.error(err);
 
     if (err.code === "auth/user-not-found") {
+      setEmailErrorMessage("This email isn’t registered with us. Please double-check or create an account to get started.")
       setEmailError(true);
     } else if (err.code === "auth/wrong-password") {
+      setPasswordErrorMessage("The password entered is incorrect. Kindly try again or reset your password.")
       setPasswordError(true);
     }
+      else if(err.message=="Email not verified"){
+        setEmailErrorMessage("Email is not verified. Please verify your email before logging in.")
+        setEmailError(true);
+      }
   }
 };
 

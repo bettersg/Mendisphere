@@ -167,7 +167,9 @@ export async function loginUser(
 
     // Step 2: Fetch user document from Firestore
     const userDoc = await getDoc(doc(db, Collections.users, firebaseUser.uid));
-    
+    if (!firebaseUser.emailVerified) {
+      throw new Error("Email not verified");
+    }
     if (!userDoc.exists()) {
       throw new Error(`User document not found for ID ${firebaseUser.uid}`);
     }
