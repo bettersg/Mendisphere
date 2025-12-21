@@ -34,72 +34,72 @@ function App() {
     Paths.profileSetup,
   ].includes(currentPage);
 
-  if (isNotDesktopWidth) {
-    return (
-      <ChakraProvider theme={mendisphereTheme}>
-        <ThemeProvider theme={muiTheme}>
-          <Flex
-            direction={{ base: "column", md: "row" }}
-            height={{ base: "auto", md: "15vh", lg: "10vh" }}
-            borderBottom="1px"
-            borderColor="#d3d3d3"
-          >
-            <HStack className="page-width page-padding">
-              <Image src={logo} width="180px" height="auto" />
-            </HStack>
-          </Flex>
+  // if (isNotDesktopWidth) {
+  //   return (
+  //     <ChakraProvider theme={mendisphereTheme}>
+  //       <ThemeProvider theme={muiTheme}>
+  //         <Flex
+  //           direction={{ base: "column", md: "row" }}
+  //           height={{ base: "auto", md: "15vh", lg: "10vh" }}
+  //           borderBottom="1px"
+  //           borderColor="#d3d3d3"
+  //         >
+  //           <HStack className="page-width page-padding">
+  //             <Image src={logo} width="180px" height="auto" />
+  //           </HStack>
+  //         </Flex>
 
-          <VStack
-            className="page-width page-padding"
-            align="stretch"
-            spacing="0px"
-            py={{ base: 10, md: 0 }}
-          >
-            <Box>
-              <Flex
-                direction={{ base: "column", md: "row" }}
-                height={{ base: "auto", md: "80vh" }}
-                alignItems="center"
-                justifyContent="center"
-              >
-                <Box flex="1" mb={{ base: 4, md: 0 }}>
-                  <Box textAlign={{ base: "center", md: "left" }}>
-                    <Text
-                      fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
-                      fontWeight="bold"
-                      marginBottom={5}
-                      lineHeight={1.2}
-                    >
-                      Site not optimised for mobile resolution
-                    </Text>
-                    <Text
-                      fontSize={{ base: "md", md: "lg", lg: "2xl" }}
-                      marginBottom={3}
-                    >
-                      For the best possible experience, please access the portal
-                      via desktop or laptop with a screen resolution width of 720
-                      px or higher.
-                    </Text>
-                  </Box>
-                </Box>
+  //         <VStack
+  //           className="page-width page-padding"
+  //           align="stretch"
+  //           spacing="0px"
+  //           py={{ base: 10, md: 0 }}
+  //         >
+  //           <Box>
+  //             <Flex
+  //               direction={{ base: "column", md: "row" }}
+  //               height={{ base: "auto", md: "80vh" }}
+  //               alignItems="center"
+  //               justifyContent="center"
+  //             >
+  //               <Box flex="1" mb={{ base: 4, md: 0 }}>
+  //                 <Box textAlign={{ base: "center", md: "left" }}>
+  //                   <Text
+  //                     fontSize={{ base: "3xl", md: "4xl", lg: "5xl" }}
+  //                     fontWeight="bold"
+  //                     marginBottom={5}
+  //                     lineHeight={1.2}
+  //                   >
+  //                     Site not optimised for mobile resolution
+  //                   </Text>
+  //                   <Text
+  //                     fontSize={{ base: "md", md: "lg", lg: "2xl" }}
+  //                     marginBottom={3}
+  //                   >
+  //                     For the best possible experience, please access the portal
+  //                     via desktop or laptop with a screen resolution width of 720
+  //                     px or higher.
+  //                   </Text>
+  //                 </Box>
+  //               </Box>
 
-                <Box flex="1" mb={{ base: 10, md: 0 }}>
-                  <Center>
-                    <Image
-                      src="./images/disclaimer.png"
-                      alt="disclaimer"
-                      borderRadius="md"
-                      maxW="100%"
-                    />
-                  </Center>
-                </Box>
-              </Flex>
-            </Box>
-          </VStack>
-          </ThemeProvider>
-      </ChakraProvider>
-    );
-  }
+  //               <Box flex="1" mb={{ base: 10, md: 0 }}>
+  //                 <Center>
+  //                   <Image
+  //                     src="./images/disclaimer.png"
+  //                     alt="disclaimer"
+  //                     borderRadius="md"
+  //                     maxW="100%"
+  //                   />
+  //                 </Center>
+  //               </Box>
+  //             </Flex>
+  //           </Box>
+  //         </VStack>
+  //         </ThemeProvider>
+  //     </ChakraProvider>
+  //   );
+  // }
 
   return (
     <ChakraProvider theme={mendisphereTheme}>

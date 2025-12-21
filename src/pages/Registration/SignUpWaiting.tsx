@@ -68,16 +68,18 @@ const SignUpWaiting = (loginCredentials: LoginCredentials) => {
         );
 
         // Create Firebase Auth user and Firestore User document in one call
-        const user = await createUserWithAuth(
-          email,
-          password,
-          orgId,
-          UserType.organisation,
-          UserRole.admin
-        );
+        // const user = await createUserWithAuth(
+        //   email,
+        //   password,
+        //   submitData.name,
+        //   submitData.name,
+        //   UserType.organisation,
+        //   UserRole.admin,
+        //   orgId
+        // );
 
-        console.log("submitData", submitData);
-        console.log(`Authentication success - User ID: ${user.id}, Email: ${user.email}`);
+        // console.log("submitData", submitData);
+        // console.log(`Authentication success - User ID: ${user.id}, Email: ${user.email}`);
       }
 
       setLoading(false);

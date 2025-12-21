@@ -1,4 +1,4 @@
-import { getOrganisationById } from "../OrganisationService";
+import { getOrganisationById,getAllOrganisations } from "../OrganisationService";
 import { createOrganisation } from "../../data/Model/Organisation";
 import { IPCStatus } from "../../data/Enums/ipc-status.enum";
 import { VerificationStatus } from "../../data/Enums/verification-status.enum";
@@ -16,7 +16,50 @@ describe("OrganisationService", () => {
     // Clean up all test organisations after each test
     await cleanupFirebaseData();
   });
-  
+ 
+  describe("getAllOrganisations", () => {
+    it("should retrieve all organisations", async () => {
+      // Create two test organisations
+      const org1 = await createOrganisation({
+        name: "Org One",
+        ipcApproved: IPCStatus.Pending,
+        verified: VerificationStatus.Pending,
+        mainSpecialisation: Specialisation.NotSet,
+        mainSupportArea: SupportArea.NotSet,
+        services: [],
+        description: "First test org",
+        cardImageUrl: "org1.jpg",
+      });
+
+      const org2 = await createOrganisation({
+        name: "Org Two",
+        ipcApproved: IPCStatus.Approved,
+        verified: VerificationStatus.Verified,
+        mainSpecialisation: Specialisation.AntiStigmatism,
+        mainSupportArea: SupportArea.FundingSupport,
+        services: [Service.Counselling],
+        description: "Second test org",
+        cardImageUrl: "org2.jpg",
+      });
+
+      trackTestDoc({ collection: Collections.organisations, id: org1.id });
+      trackTestDoc({ collection: Collections.organisations, id: org2.id });
+
+      // Call the function
+      const organisations = await getAllOrganisations();
+
+      // Log for debugging
+      console.log("All organisations fetched:", organisations);
+
+      // Assertions
+      expect(organisations).toBeDefined();
+      expect(organisations?.length).toBeGreaterThanOrEqual(2);
+
+      const names = organisations?.map(o => o.name);
+      expect(names).toContain("Org One");
+      expect(names).toContain("Org Two");
+    });
+  });
   describe("getOrganisationById", () => {
     it("should retrieve an organisation by its ID", async () => {
       // Create a test organisation first

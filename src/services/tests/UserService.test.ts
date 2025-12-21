@@ -22,7 +22,8 @@ describe("UserService", () => {
     it("should create a Firebase Auth user and Firestore document", async () => {
       const testEmail = `test-${Date.now()}@example.com`;
       const testPassword = "TestPassword123!";
-
+      const testFirstName="Test";
+      const testLastName="User";
       // Create organisation first using your regular API
       const testOrg = await createOrganisation({
         name: "Test Organisation",
@@ -38,9 +39,11 @@ describe("UserService", () => {
       const user = await createUserWithAuth(
         testEmail,
         testPassword,
-        testOrg.id,
+        testFirstName,
+        testLastName,
         UserType.organisation,
-        UserRole.admin
+        UserRole.admin,
+        testOrg.id
       );
 
       // Track docs for cleanup
@@ -50,6 +53,8 @@ describe("UserService", () => {
       expect(user).toBeDefined();
       expect(user.email).toBe(testEmail);
       expect(user.role).toBe(UserRole.admin);
+      expect (user.firstName).toBe(testFirstName);
+      expect (user.lastName).toBe(testLastName);
       expect(user.type).toBe(UserType.organisation);
       expect(user.id).toBeDefined();
       expect(user.organisation).toBeDefined();
@@ -63,14 +68,17 @@ describe("UserService", () => {
       const testEmail = `test-${Date.now()}@example.com`;
       const testPassword = "TestPassword123!";
       const nonExistentOrgId = "non-existent-org-id";
-
+      const testFirstName="Test";
+      const testLastName="User";
       await expect(
         createUserWithAuth(
           testEmail,
           testPassword,
-          nonExistentOrgId,
+          testFirstName,
+          testLastName,
           UserType.organisation,
-          UserRole.admin
+          UserRole.admin,
+          nonExistentOrgId
         )
       ).rejects.toThrow("Organisation with ID non-existent-org-id does not exist");
     });
@@ -91,9 +99,11 @@ describe("UserService", () => {
         createUserWithAuth(
           "invalid-email",
           "TestPassword123!",
-          testOrg.id,
+          "Test",
+          "User",
           UserType.organisation,
-          UserRole.admin
+          UserRole.admin,
+          testOrg.id
         )
       ).rejects.toThrow();
 
@@ -116,9 +126,11 @@ describe("UserService", () => {
         createUserWithAuth(
           `test-${Date.now()}@example.com`,
           "weak",
-          testOrg.id,
+          "Test",
+          "User",
           UserType.organisation,
-          UserRole.admin
+          UserRole.admin,
+          testOrg.id
         )
       ).rejects.toThrow();
 
@@ -131,10 +143,13 @@ describe("UserService", () => {
       const testEmail = `test-${Date.now()}@example.com`;
       const testPassword = "TestPassword123!";
       const testOrgName = "Test Organisation";
-
+      const testFirstName="Test";
+      const testLastName="User";
       const result = await createOrganisationWithUser(
         testEmail,
         testPassword,
+        testFirstName,
+        testLastName,
         testOrgName
       );
 
@@ -159,10 +174,14 @@ describe("UserService", () => {
       const testEmail = `test-${Date.now()}@example.com`;
       const testPassword = "TestPassword123!";
       const testOrgName = "Another Test Org";
+      const testFirstName="Test";
+      const testLastName="User";
 
       const result = await createOrganisationWithUser(
         testEmail,
         testPassword,
+        testFirstName,
+        testLastName,
         testOrgName,
         UserType.organisation,
         UserRole.admin
@@ -185,6 +204,8 @@ describe("UserService", () => {
         createOrganisationWithUser(
           "invalid-email",
           "TestPassword123!",
+          "Test",
+          "User",
           "Test Org"
         )
       ).rejects.toThrow();
@@ -195,6 +216,8 @@ describe("UserService", () => {
         createOrganisationWithUser(
           `test-${Date.now()}@example.com`,
           "weak",
+          "Test",
+          "User",
           "Test Org"
         )
       ).rejects.toThrow();

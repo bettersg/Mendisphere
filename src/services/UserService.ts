@@ -9,7 +9,7 @@ import { VerificationStatus } from "../data/Enums/verification-status.enum";
 import { Specialisation } from "../data/Enums/specialisation.enum";
 import { SupportArea } from "../data/Enums/support-area.enum";
 import { getOrganisationById } from "./OrganisationService";
-
+import { updateProfile } from "firebase/auth";
 /**
  * Service for user-related operations that combine authentication and data management
  */
@@ -23,17 +23,28 @@ import { getOrganisationById } from "./OrganisationService";
  * @param userRole - Role of the user (admin, member, etc.)
  * @returns User instance with the Firebase Auth user and metadata
  */
+
+export async function updateDisplayName(user:User,firstName:string,lastName:string):Promise<void>{
+  await updateProfile(user.firebaseUser, {
+  displayName: `${firstName} ${lastName}`
+});
+}
 export async function createUserWithAuth(
   email: string,
   password: string,
-  orgID: string,
+  firstName: string,
+  lastName: string,
   userType: UserType,
-  userRole: UserRole
-): Promise<User> {
+  userRole: UserRole,
+  orgID?: string,
+): Promise<User>{
   try {
     // Step 1: If user type is organisation, verify the organisation exists
     let organisation: Organisation | undefined;
     if (userType === UserType.organisation) {
+      if(!orgID){
+        throw new Error("Organisation ID is required for organisation users");
+      }
       organisation = await getOrganisationById(orgID);
       if (!organisation) {
         throw new Error(`Organisation with ID ${orgID} does not exist`);
@@ -45,10 +56,11 @@ export async function createUserWithAuth(
     const firebaseUser = userCredential.user;
 
     // Step 3: Create Firestore User document with the Auth user's UID
-    await createUser(firebaseUser.uid, orgID, userType, userRole);
+    await createUser(firebaseUser.uid, firstName, lastName, userType, userRole, orgID);
 
     // Step 4: Create and return User instance with organisation if applicable
-    const user = new User(firebaseUser, userRole, userType, organisation);
+    const user = new User(firebaseUser, firstName,lastName,userRole, userType, organisation);
+    await updateDisplayName(user, firstName, lastName);
     console.log(`User created successfully: ${user.id}`);
     return user;
   } catch (error) {
@@ -69,6 +81,8 @@ export async function createUserWithAuth(
 export async function createOrganisationWithUser(
   email: string,
   password: string,
+  firstName: string,
+  lastName: string,
   organisationName: string,
   userType: UserType = UserType.organisation,
   userRole: UserRole = UserRole.admin
@@ -91,10 +105,12 @@ export async function createOrganisationWithUser(
     });
 
     // Step 3: Create Firestore User document linked to the organisation
-    await createUser(firebaseUser.uid, organisation.id, userType, userRole);
+    await createUser(firebaseUser.uid, firstName,lastName, userType, userRole, organisation.id);
 
     // Step 4: Create and return User instance with organisation
-    const user = new User(firebaseUser, userRole, userType, organisation);
+    const user = new User(firebaseUser,firstName,lastName, userRole, userType, organisation);
+    await updateDisplayName(user, firstName, lastName);
+
     console.log(`Organisation and user created successfully: ${organisation.id}, ${user.id}`);
     
     return { user, organisation };
