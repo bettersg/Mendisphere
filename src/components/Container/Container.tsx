@@ -1,9 +1,11 @@
+import { Container as MuiContainer } from '@mui/material';
+
 const Container = (props: any) => {
-  const { Children } = props;
+  const { children } = props;
   return (
-    <Container maxW="1440px" centerContent margin="auto">
-      {Children}
-    </Container>
+    <MuiContainer maxWidth="lg" sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      {children}
+    </MuiContainer>
   );
 };
 
