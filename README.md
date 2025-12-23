@@ -84,6 +84,7 @@ Instructions on setting up your project locally.
 1. Node and npm are installed on your machine
 2. Firebase CLI installed globally: `npm install -g firebase-tools`
 3. Firebase app secrets stored in the root level of the project in file named: `.env.development.local`
+4. Firebase Admin SDK - automatically installed when running `npm install`
 
 ### Firebase Emulator Setup
 
@@ -165,14 +166,60 @@ For more details, see the [Firebase Emulator Suite documentation](https://fireba
 
 ### Working with Mock Data
 
+The seeding script uses Firebase Admin SDK to populate the emulator with mock data. This requires:
+- Firebase Admin SDK (included in `package.json`)
+- Firebase emulators running locally
+- Environment variables configured in `.env.development.local`
+
+**Emulator Configuration for Seeding**
+The seed script reads emulator host configuration from your `.env.development.local` file:
+```
+REACT_APP_FIRESTORE_EMULATOR_HOST="localhost:9999"
+REACT_APP_STORAGE_EMULATOR_HOST="localhost:9199"
+REACT_APP_AUTH_EMULATOR_HOST="localhost:9099"
+```
+
+These default to `localhost:9999`, `localhost:9199`, and `localhost:9099` respectively if not specified.
+
+**Mock Data Files**
 - **Local data location**: `src/mocks/data/` (gitignored - not committed)
 - **Mock data definitions**: `src/mocks/definitions/`
 - **Seed script**: `src/mocks/SeedMockData.ts`
+
+**Seeding Commands**
+
+1. **Initial seed** (first time or after clearing data):
+   ```sh
+   npm run seed
+   ```
+   Creates mock organizations and consultants with authentication records.
+
+2. **Force re-seed** (clear and regenerate all data):
+   ```sh
+   npm run seed:force
+   ```
+   Deletes all existing data and creates fresh mock data. Use this when:
+   - You've updated mock data definitions in `src/mocks/definitions/`
+   - You want to start with a clean slate
+   - Mock data has become corrupted or inconsistent
+
+**What Gets Seeded**
+- Organizations with profiles, summaries, and people spotlights
+- Consultant users with:
+  - Firebase Authentication accounts
+  - Firestore user documents
+  - Profile photos in Firebase Storage
 
 To update mock data:
 1. Modify the test data in `src/mocks/definitions/`
 2. With the emulator running, run `npm run seed:force` to clear and regenerate the data
 3. The updated data will be saved locally in `src/mocks/data/` for your use
+
+**Troubleshooting Seeding Issues**
+- Ensure emulators are running before seeding (`npm run emulators`)
+- Check that `.env.development.local` has correct emulator configuration
+- Verify Firebase Admin SDK is installed (`npm list firebase-admin`)
+- Review emulator logs in the terminal for any connection errors
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
