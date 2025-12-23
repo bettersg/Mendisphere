@@ -6,7 +6,6 @@ import { ConsultantService } from "../Enums/consultant-service.enum";
 import { User } from "./User";
 
 export interface IConsultant {
-    name?: string;
     phone?: string;
     shortDescription?: string;
     about?: string;
@@ -16,7 +15,6 @@ export interface IConsultant {
 }
 
 export class Consultant extends User implements IConsultant {
-    name?: string;
     phone?: string;
     shortDescription?: string;
     about?: string;
@@ -25,22 +23,26 @@ export class Consultant extends User implements IConsultant {
 
     constructor(
         _firebaseUser: FirebaseUser,
+        _givenName: string,       // Add this
+        _familyName: string,        // Add this
         _role: UserRole,
         _organisation?: Organisation,
-        _name?: string,
         _phone?: string,
         _shortDescription?: string,
         _about?: string,
         _services?: ConsultantService[],
         _profileImageUrl?: string
     ) {
+        // Pass the names to the parent User class via super()
         super(
             _firebaseUser,
+            _givenName,
+            _familyName,
             _role,
             UserType.consultant,
             _organisation
         );
-        this.name = _name;
+        
         this.phone = _phone;
         this.shortDescription = _shortDescription;
         this.about = _about;
