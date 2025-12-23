@@ -2,6 +2,7 @@ import { collection, getDocs, deleteDoc, DocumentReference, doc, terminate } fro
 import { signOut } from "firebase/auth";
 import { db, auth } from "./firebaseConfig";
 import { Collections } from "./names";
+import { getEmulatorConfig } from "./emulatorConfig";
 
 // Track documents created during tests so we can clean up precisely
 const trackedDocs: DocumentReference[] = [];
@@ -32,12 +33,30 @@ export async function initializeFirebaseForTesting(): Promise<void> {
   }
 }
 
+
+export async function cleanupAuthEmulator(): Promise<void> {
+  try {
+    const { projectId, auth: authConfig } = getEmulatorConfig();
+      const response = await fetch(
+        `http://${authConfig.host}:${authConfig.port}/emulator/v1/projects/${projectId}/accounts`,
+        {
+          method: "DELETE",
+        }
+      );
+  } catch (error) {
+    console.warn("⚠ Auth cleanup encountered an error (this may be normal):", error);
+  }
+}
+
 /**
  * Cleans up all test data from Firestore
  * This is called after each test or test suite
  */
 export async function cleanupFirebaseData(): Promise<void> {
   try {
+    
+    await cleanupAuthEmulator();
+
     if (trackedDocs.length) {
       // Targeted cleanup: only delete docs created in this test run
       await Promise.all(trackedDocs.map(ref => deleteDoc(ref)));

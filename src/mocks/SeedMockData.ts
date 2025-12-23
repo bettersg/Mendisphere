@@ -2,8 +2,9 @@ import * as admin from 'firebase-admin';
 import { Collections, StorageDirectory } from '../services/Firebase/names';
 import { faker } from '@faker-js/faker';
 import fetch from 'node-fetch';
-import { mockConsultants } from './definitions/MockConsultants';
+import { mockConsultants, mockConsultantRole } from './definitions/MockConsultants';
 import { mockOrganisations } from './definitions/MockOrganisations';
+import { UserType } from '../data/Enums/user-type.enum';
 import * as dotenv from 'dotenv';
 import * as path from 'path';
 
@@ -15,8 +16,13 @@ const FAKER_SEED = 777;
 faker.seed(FAKER_SEED);
 
 // Connect to emulator
-process.env.FIRESTORE_EMULATOR_HOST = 'localhost:9999';
-process.env.FIREBASE_STORAGE_EMULATOR_HOST = 'localhost:9199';
+const firestoreHost = process.env.REACT_APP_FIRESTORE_EMULATOR_HOST || 'localhost:9999';
+const storageHost = process.env.REACT_APP_STORAGE_EMULATOR_HOST || 'localhost:9199';
+const authHost = process.env.REACT_APP_AUTH_EMULATOR_HOST || 'localhost:9099';
+
+process.env.FIRESTORE_EMULATOR_HOST = firestoreHost;
+process.env.FIREBASE_STORAGE_EMULATOR_HOST = storageHost;
+process.env.FIREBASE_AUTH_EMULATOR_HOST = authHost;
 
 const projectId = process.env.REACT_APP_MINDBETTER_PROJECT_ID || 'demo-mendisphere';
 const storageBucket = process.env.REACT_APP_MINDBETTER_STORAGE_BUCKET || 'demo-mendisphere.appspot.com';
@@ -26,6 +32,7 @@ admin.initializeApp({
   storageBucket
 });
 const db = admin.firestore();
+const auth = admin.auth();
 const storage = admin.storage().bucket();
 
 async function downloadImageAndAddToFirebaseStorage(
@@ -124,21 +131,38 @@ async function uploadOrgData(): Promise<void> {
 async function uploadConsultantData(): Promise<void> {
   console.log('👥 Uploading consultant data...');
   
-  for (const consultant of mockConsultants) {
-    const docId = `mock_${consultant.name?.replace(/\s/g, '')}`;
+  for (const consultantData of mockConsultants) {
+    const docId = `mock_${consultantData.name?.replace(/\s/g, '')}`;
+    const email = consultantData.email;
     
     try {
+      // Create auth record with verified email
+      const userRecord = await auth.createUser({
+        uid: docId,
+        email: email,
+        emailVerified: true,
+        password: 'TempPassword123!', // Temporary password for seeding
+        displayName: consultantData.name,
+      });
+      console.log(`  ✓ Created auth record for ${email}`);
       // Download and upload profile image if exists
-      if (consultant.profileImageUrl) {
-        consultant.profileImageUrl = await downloadImageAndAddToFirebaseStorage(
-          consultant.profileImageUrl,
+      if (consultantData.profileImageUrl) {
+        consultantData.profileImageUrl = await downloadImageAndAddToFirebaseStorage(
+          consultantData.profileImageUrl,
           StorageDirectory.consultantProfileImagesDirectory.replace(/:consultantId/g, docId)
         );
-        console.log(`  ✓ Uploaded photo for ${consultant.name}`);
+        console.log(`  ✓ Uploaded photo for ${consultantData.name}`);
       }
 
-      await db.collection(Collections.consultants).doc(docId).set(consultant);
-      console.log(`  ✓ ${docId} consultant added`);
+      // Create consultant document in users collection with type discriminator
+      const consultantDoc = {
+        ...consultantData,
+        type: UserType.consultant,
+        role: mockConsultantRole,
+      };
+
+      await db.collection(Collections.users).doc(docId).set(consultantDoc);
+      console.log(`  ✓ ${docId} consultant added to users collection`);
     } catch (error) {
       console.error(`  ✗ Error uploading ${docId}:`, error);
     }
@@ -168,9 +192,16 @@ async function clearAllData(): Promise<void> {
       deletePromises.push(orgDoc.ref.delete());
     }
     
-    // Clear consultants
-    const consultantsSnapshot = await db.collection(Collections.consultants).get();
-    consultantsSnapshot.docs.forEach(doc => deletePromises.push(doc.ref.delete()));
+    // Clear consultants from users collection (type discriminator) and auth
+    const usersSnapshot = await db.collection(Collections.users).get();
+    usersSnapshot.docs.forEach(doc => {
+      const userData = doc.data();
+      if (userData.type === UserType.consultant) {
+        deletePromises.push(doc.ref.delete());
+        // Also delete from auth
+        deletePromises.push(auth.deleteUser(doc.id));
+      }
+    });
     
     await Promise.all(deletePromises);
     console.log('  ✓ All data cleared');
