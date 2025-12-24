@@ -74,6 +74,21 @@ export const muiTheme = createTheme({
     }
   },
   components: {
+    MuiToggleButton:{
+      styleOverrides:{
+        root: ({ theme }) => ({
+            "&.Mui-selected": {
+              backgroundColor: theme.palette.primary.main,
+              color: "white",
+            },
+            "&.Mui-selected:hover": {
+              backgroundColor: theme.palette.primary.main,
+              color: "white",
+            },
+        })
+
+      }
+    },
     MuiTypography: {
       defaultProps: {
         variantMapping: {

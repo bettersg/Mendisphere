@@ -4,6 +4,8 @@ export class Paths {
   static readonly organisationProfile = "/organisations/:orgId";
   static readonly login = "/login";
   static readonly signup = "/registration";
+  static readonly emailVerification = "/verification";
+  static readonly emailVerified = "/verified";
   static readonly profileSetup = "/profile-setup";
   static readonly dashboard = "/dashboard";
   static readonly about = "/about-us";

@@ -16,19 +16,18 @@ export interface IUser {
   organisation?: Organisation;
 }
 
-export class User implements IUser {
+export class User {
   firebaseUser: FirebaseUser;
+  givenName:string;
+  familyName:string;
   role: UserRole;
   type: UserType;
   organisation?: Organisation;
 
-  constructor(
-    _firebaseUser: FirebaseUser,
-    _role: UserRole,
-    _type: UserType,
-    _organisation?: Organisation
-  ) {
+  constructor(_firebaseUser: FirebaseUser,_givenName:string,_familyName:string, _role: UserRole, _type: UserType, _organisation?: Organisation) {
     this.firebaseUser = _firebaseUser;
+    this.givenName=_givenName;
+    this.familyName=_familyName;
     this.role = _role;
     this.type = _type;
     this.organisation = _organisation;
@@ -45,21 +44,30 @@ export class User implements IUser {
   get displayName(): string | null {
     return this.firebaseUser.displayName;
   }
-
   get emailVerified(): boolean {
     return this.firebaseUser.emailVerified;
   }
 }
-
 export async function createUser(
   userID: string,
-  orgID: string,
+  givenName:string,
+  familyName:string,
   userType: UserType,
-  userRole: UserRole
+  userRole: UserRole,
+  orgID?: string,
 ): Promise<void> {
-  await setDoc(doc(db, Collections.users, userID), {
-    orgID: orgID,
+  const data: any = {
+    givenName: givenName,
+    familyName: familyName,
     role: userRole,
     type: userType,
-  }).then(() => console.log("User Data added"));
+  };
+
+  // Only include orgID if it's defined
+  if (orgID) {
+    data.orgID = orgID;
+  }
+
+  await setDoc(doc(db, Collections.users, userID), data);
+  console.log("User Data added");
 }
