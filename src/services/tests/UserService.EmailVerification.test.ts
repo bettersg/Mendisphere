@@ -31,6 +31,8 @@ describe("EmailVerification", () => {
     for (let i = 0; i < 3; i++) {
       const testEmail = `verify-test-${i}-${Date.now()}@example.com`;
       const testPassword = "TestPassword123!";
+      const testGivenName = `TestGiven${i}`;
+      const testFamilyName = `TestFamily${i}`;
 
       const testOrg = await createOrganisation({
         name: `Test Organisation ${i}`,
@@ -46,10 +48,12 @@ describe("EmailVerification", () => {
       const user = await createUserWithAuth(
         testEmail,
         testPassword,
-        testOrg.id,
+        testGivenName, 
+        testFamilyName,
         UserType.organisation,
         UserRole.admin,
-        true // Send verification email
+        true,          
+        testOrg.id   
       );
 
       trackTestDoc({ collection: Collections.organisations, id: testOrg.id });
