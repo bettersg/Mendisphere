@@ -46,7 +46,7 @@ export async function createConsultant(
     password: string,
     givenName: string,
     familyName: string,
-    userRole: UserRole = UserRole.contributor,
+    userRole: UserRole = UserRole.admin,
     sendVerificationEmail: boolean = true,
     orgID?: string,
     phone?: string,

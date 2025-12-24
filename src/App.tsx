@@ -31,6 +31,7 @@ function App() {
     Paths.signup,
     Paths.emailVerification,
     Paths.emailVerified,
+    Paths.verifyEmail,
     Paths.profileSetup,
   ].includes(currentPage);
 

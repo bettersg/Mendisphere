@@ -5,7 +5,7 @@ import UserDashboardPage from "../pages/UserDashboard";
 import OrgProfilePage from "../pages/OrganisationProfile";
 import Home from "../pages/Home";
 import Registration from "../pages/RegistrationV2/Registration";
-import VerifyEmail from "../pages/VerifyEmail";
+import VerifyEmail from "../pages/RegistrationV2/VerifyEmail";
 import { Paths } from ".";
 import RegistrationVerificaion from "../pages/RegistrationV2/RegistrationVerification";
 import NotFound from "../pages/NotFound/NotFound";

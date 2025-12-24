@@ -1,4 +1,4 @@
-import React, { useState } from "react"; // Added useState
+import React, { useState,useEffect} from "react"; // Added useState
 import { useNavigate, useLocation } from "react-router-dom";
 import {
     Box,
@@ -10,8 +10,8 @@ import CheckFilled from "../../assets/icons/checkFilled.svg";
 import { colors } from "../../theme/colours";
 import { Paths } from "../../routing";
 import NotFound from "../NotFound/NotFound";
+import { resendVerificationEmail } from "../../services/UserService";
 import { getAuth } from "firebase/auth";
-import {emailVerification } from "../../services/UserService";
 import { useMediaQuery, useTheme } from '@mui/material';
 import RegistrationForm from "./RegistrationForm";
 import RegistrationTopBar from "./RegistrationTopBar";
@@ -23,6 +23,7 @@ const RegistrationVerification = () => {
     const [snackbarMessage, setSnackbarMessage] = useState("");
     const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">("success");
     
+    const [isChecking, setIsChecking] = useState(false);
     
     const navigate = useNavigate();
     const location = useLocation();
@@ -30,29 +31,48 @@ const RegistrationVerification = () => {
     const firebaseUser = location.state?.firebaseUser
     ?? JSON.parse(localStorage.getItem("firebaseUser") || "null")
     ?? getAuth().currentUser;
-    const handleResendEmailClick = async () => {
-    
-    // State for Snackbar
 
-    try {
-        if (!firebaseUser) {
-            setSnackbarMessage("No user found to resend verification email");
+    const checkVerificationStatus = async () => {
+        setIsChecking(true);
+        try {
+            const auth = getAuth();
+            if (auth.currentUser) {
+                await auth.currentUser.reload(); 
+                
+                if (auth.currentUser.emailVerified) {
+                    setSnackbarMessage("Email verified! Redirecting...");
+                    setSnackbarSeverity("success");
+                    setOpenSnackbar(true);
+                    setTimeout(() => navigate(Paths.dashboard), 1500); 
+                }
+            }
+        } catch (err: any) {
+            setSnackbarMessage("Error checking status: " + err.message);
             setSnackbarSeverity("error");
             setOpenSnackbar(true);
-            return;
+        } finally {
+            setIsChecking(false);
         }
-        await emailVerification(firebaseUser);
-        setSnackbarMessage("Verification email resent successfully");
-        setSnackbarSeverity("success");
-        setOpenSnackbar(true);
-    } catch (err: any) {
-        setSnackbarMessage(err.message || "Failed to resend email");
-        setSnackbarSeverity("error");
-        setOpenSnackbar(true);    }
     };
-    if (!email) {
-        return <NotFound />;
-    }
+
+    useEffect(() => {
+        window.addEventListener('focus', checkVerificationStatus);
+        return () => window.removeEventListener('focus', checkVerificationStatus);
+    }, []);
+    
+    const handleResendEmailClick = async () => {
+        try {
+            await resendVerificationEmail(); 
+            
+            setSnackbarMessage("Verification email resent successfully");
+            setSnackbarSeverity("success");
+            setOpenSnackbar(true);
+        } catch (err: any) {
+            setSnackbarMessage(err.message || "Failed to resend email");
+            setSnackbarSeverity("error");
+            setOpenSnackbar(true);
+        }
+    };
 
 
     return (

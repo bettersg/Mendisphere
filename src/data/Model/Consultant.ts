@@ -6,6 +6,8 @@ import { ConsultantService } from "../Enums/consultant-service.enum";
 import { User } from "./User";
 
 export interface IConsultant {
+    givenName:string;
+    familyName:string;
     phone?: string;
     shortDescription?: string;
     about?: string;

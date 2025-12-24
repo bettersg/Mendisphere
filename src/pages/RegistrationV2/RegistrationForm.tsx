@@ -22,6 +22,7 @@ import { createOrganisationWithUser,createUserWithAuth} from "../../services/Use
 import { UserType } from "../../data/Enums/user-type.enum";
 import { UserRole } from "../../data/Enums/user-role.enum";
 import {User } from "../../data/Model/User";
+import { createConsultant } from "../../services/ConsultantService";
 
 function RegistrationForm(){
   const navigate = useNavigate();
@@ -40,7 +41,6 @@ function RegistrationForm(){
   const [newOrganisation,setNewOrganisation]=useState("");
   const [organisationId, setOrganisationId] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [organisation, setOrganisation] = useState("");
   const [userType, setUserType] = useState<"organisation" | "consultant">("organisation");
   const [givenName, setGivenName] = useState("");
   const [familyName, setFamilyName] = useState("");
@@ -101,7 +101,8 @@ function RegistrationForm(){
               familyName,
               newOrganisation,
               UserType.organisation,
-              UserRole.admin
+              UserRole.admin,
+              false
             );
             result=result.user;
           } else {
@@ -112,16 +113,16 @@ function RegistrationForm(){
               familyName,
               UserType.organisation,
               UserRole.admin,
-              organisationId
+              false,
+              organisationId,
             );
           }
         } else {
-          result=await createUserWithAuth(
+          result=await createConsultant(
             email,
             password,
             givenName,
             familyName,
-            UserType.consultant,
             UserRole.admin
           );
         }

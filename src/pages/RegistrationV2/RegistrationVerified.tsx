@@ -1,5 +1,5 @@
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { useNavigate,useSearchParams } from "react-router-dom";
 import {
     Box,
     Typography,
@@ -14,10 +14,25 @@ import RegistrationForm from "./RegistrationForm";
 import RegistrationTopBar from "./RegistrationTopBar";
 import { muiTheme } from '../../theme/muiTheme';
 import { Container,Stack} from '@mui/system';
+import { verifyEmail, resendVerificationEmail } from '../../services/UserService';
+
+enum VerificationStatus {
+  LOADING = 'loading',
+  SUCCESS = 'success',
+  ERROR = 'error',
+  INVALID = 'invalid'
+}
+
 
 const RegistrationVerified = () => {
     const isMobile=useMediaQuery(muiTheme.breakpoints.down('desktop'))
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    const [status, setStatus] = useState<VerificationStatus>(VerificationStatus.LOADING);
+    const [errorMessage, setErrorMessage] = useState<string>('');
+    const [isResending, setIsResending] = useState<boolean>(false);
+    const [resendMessage, setResendMessage] = useState<string>('');
+
 
     return (
     <Stack direction={['column','column','row']} sx={{minHeight:{mobile:"auto",desktop:"100vh"}, display:'flex'}}>
@@ -58,7 +73,7 @@ const RegistrationVerified = () => {
             >
                 SIGN IN
             </Button>
-
+      
       </Stack>
     </Stack>
         
