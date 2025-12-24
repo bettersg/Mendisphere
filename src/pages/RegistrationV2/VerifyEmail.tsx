@@ -48,7 +48,9 @@ const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">("s
               setSnackbarMessage("Verification email resent successfully");
               setSnackbarSeverity("success");
               setOpenSnackbar(true);
-              navigate(Paths.emailVerification)
+              setTimeout(() => {
+                navigate(Paths.emailVerification);
+                }, 1500);
           } catch (err: any) {
               setSnackbarMessage(err.message || "Failed to resend email");
               setSnackbarSeverity("error");
@@ -231,8 +233,23 @@ const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">("s
                   </Box>
                   </>
                 )}
+
                   <Stack spacing={{mobile:4, desktop:12}} sx={{order: { mobile:1, desktop:-1}, width:{mobile:'100%', desktop:'50%'}, px:9,py:4}}>
                     <RegistrationTopBar/>
+                    <Snackbar
+                            open={openSnackbar}
+                            autoHideDuration={4000}
+                            onClose={() => setOpenSnackbar(false)}
+                            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+                            >
+                            <Alert 
+                                onClose={() => setOpenSnackbar(false)} 
+                                severity={snackbarSeverity} 
+                                sx={{ width: '100%' }}
+                            >
+                                {snackbarMessage}
+                            </Alert>
+                    </Snackbar>
                     <Typography
                             fontWeight={"semibold"}
                             variant="h3"
@@ -253,20 +270,7 @@ const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">("s
                         >
                             RESEND LINK
                         </Button>
-                        <Snackbar
-                            open={openSnackbar}
-                            autoHideDuration={4000}
-                            onClose={() => setOpenSnackbar(false)}
-                            anchorOrigin={{ vertical: "top", horizontal: "center" }}
-                            >
-                            <Alert 
-                                onClose={() => setOpenSnackbar(false)} 
-                                severity={snackbarSeverity} 
-                                sx={{ width: '100%' }}
-                            >
-                                {snackbarMessage}
-                            </Alert>
-                        </Snackbar>
+                        
                   </Stack>
                 </Stack>
         
