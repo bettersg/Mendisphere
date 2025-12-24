@@ -16,7 +16,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import CheckFilled from "../../assets/icons/checkFilled.svg";
 import { colors } from "../../theme/colours";
 import { Paths } from "../../routing";
-
+import {auth} from "../../services/Firebase/firebaseConfig"
 
 enum VerificationStatus {
   LOADING = 'loading',
@@ -57,52 +57,47 @@ const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">("s
               setOpenSnackbar(true);
           }
       };
+useEffect(() => {
+  const tryVerifyEmail = async () => {
+    const oobCode = searchParams.get('oobCode');
+    const mode = searchParams.get('mode');
 
-  useEffect(() => {
-    const tryVerifyEmail = async () => {
-      console.log('Starting email verification process');
+    if (!oobCode || mode !== 'verifyEmail') {
+      // Set up auth state listener for emulator redirects
+      const unsubscribe = auth.onAuthStateChanged(async (user) => {
+        if (user) {
+          await user.reload();
+          if (user.emailVerified) {
+            setStatus(VerificationStatus.SUCCESS);
+            setTimeout(() => navigate(Paths.dashboard), 3000);
+          } else {
+            setStatus(VerificationStatus.INVALID);
+            setErrorMessage('Verification link is missing or has expired.');
+          }
+        } else {
+          setStatus(VerificationStatus.INVALID);
+          setErrorMessage('Verification link is missing or has expired.');
+        }
+      });
 
-      // Get the action code from the URL
-      const oobCode = searchParams.get('oobCode');
-      const mode = searchParams.get('mode');
+      // Cleanup listener after a short delay
+      setTimeout(() => unsubscribe(), 2000);
+      return;
+    }
 
-      console.log('VerifyEmail component mounted with:', { oobCode, mode });
+    // Normal verification flow with oobCode
+    try {
+      await verifyEmail(oobCode);
+      setStatus(VerificationStatus.SUCCESS);
+      setTimeout(() => navigate(Paths.dashboard), 3000);
+    } catch (error: any) {
+      setStatus(VerificationStatus.ERROR);
+      setErrorMessage(error.message);
+    }
+  };
 
-      // Validate that this is an email verification action
-      if (mode !== 'verifyEmail') {
-        console.log('Mode is not verifyEmail, marking invalid');
-        setStatus(VerificationStatus.INVALID);
-        setErrorMessage('Invalid verification link. Please request a new one.');
-        return;
-      }
-
-      if (!oobCode) {
-        console.log('No oobCode provided, marking invalid');
-        setStatus(VerificationStatus.INVALID);
-        setErrorMessage('Verification code is missing. Please request a new link.');
-        return;
-      }
-
-      try {
-        console.log('Starting email verification with code:', oobCode);
-        await verifyEmail(oobCode);
-        console.log('Email verified successfully');
-        setStatus(VerificationStatus.SUCCESS);
-
-        // Redirect to dashboard after 3 seconds
-        setTimeout(() => {
-          navigate('/dashboard');
-        }, 3000);
-      } catch (error: any) {
-        console.error('Error verifying email:', error);
-        setStatus(VerificationStatus.ERROR);
-        setErrorMessage(error.message || 'An error occurred while verifying your email.');
-      }
-    };
-
-    tryVerifyEmail();
-  }, [searchParams, navigate]);
-
+  tryVerifyEmail();
+}, [searchParams, navigate]);
 
   const renderContent = () => {
     switch (status) {

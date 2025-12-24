@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, sendEmailVerification, applyActionCode, signInWithEmailAndPassword, sendPasswordResetEmail, verifyPasswordResetCode, confirmPasswordReset } from "firebase/auth";
+import {ActionCodeSettings, createUserWithEmailAndPassword, sendEmailVerification, applyActionCode, signInWithEmailAndPassword, sendPasswordResetEmail, verifyPasswordResetCode, confirmPasswordReset } from "firebase/auth";
 import { doc, getDoc, getDoc as getFirestoreDoc } from "firebase/firestore";
 import { auth, db } from "./Firebase/firebaseConfig";
 import { createUser, User } from "../data/Model/User";
@@ -12,6 +12,7 @@ import { SupportArea } from "../data/Enums/support-area.enum";
 import { getOrganisationById } from "./OrganisationService";
 import { Collections } from "./Firebase/names";
 import { updateProfile } from "firebase/auth";
+import { Paths } from "../routing";
 /**
  * Service for user-related operations that combine authentication and data management
  */
@@ -26,6 +27,12 @@ import { updateProfile } from "firebase/auth";
  * @param sendVerificationEmail - Whether to send email verification (default: true for production safety)
  * @returns User instance with the Firebase Auth user and metadata
  */
+
+const getActionCodeSettings = (): ActionCodeSettings => ({
+  url: `${window.location.origin}${Paths.verifyEmail}`,
+  handleCodeInApp: true,
+});
+
 export async function createUserWithAuth(
   email: string,
   password: string,
@@ -55,7 +62,7 @@ export async function createUserWithAuth(
     
     // Step 3: Send email verification (default: true for security)
     if (sendVerificationEmail) {
-      await sendEmailVerification(firebaseUser);
+      sendEmailVerification(firebaseUser, getActionCodeSettings());
       console.log(`Verification email sent to ${email}`);
     }
 
@@ -138,9 +145,25 @@ export async function createOrganisationWithUser(
  * @throws Error if the code is invalid, expired, or already used
  */
 export async function verifyEmail(oobCode: string): Promise<void> {
+  const currentUser = auth.currentUser;
+  if (currentUser) {
+    await currentUser.reload();
+    if (currentUser.emailVerified) {
+      console.log("User already verified, skipping applyActionCode.");
+      return;
+    }
+  }
+
   try {
     await applyActionCode(auth, oobCode);
   } catch (error: any) {
+    if (error.code === 'auth/invalid-action-code' && currentUser) {
+      await currentUser.reload();
+      if (currentUser.emailVerified) {
+        return; 
+      }
+    }
+
     if (error.code === 'auth/expired-action-code') {
       throw new Error('This verification link has expired. Please request a new one.');
     } else if (error.code === 'auth/invalid-action-code') {
@@ -160,7 +183,7 @@ export async function resendVerificationEmail(): Promise<void> {
     throw new Error('No user is currently logged in.');
   }
   try {
-    await sendEmailVerification(auth.currentUser);
+    await sendEmailVerification(auth.currentUser, getActionCodeSettings());
   } catch (error: any) {
     throw new Error('Failed to resend verification email. Please try again.');
   }
