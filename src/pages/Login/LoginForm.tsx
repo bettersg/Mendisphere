@@ -46,7 +46,7 @@ export default function LoginForm() {
   const [passwordErrorMessage,setPasswordErrorMessage]=useState("")
 
   const auth=getAuth();
-const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
 
   setEmailError(false);
@@ -70,6 +70,10 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     else if(err.message=="Email not verified"){
         setEmailErrorMessage("Email is not verified. Please verify your email before logging in.")
         setEmailError(true);
+    }
+    else {
+      setEmailErrorMessage("An unexpected error occurred. Please try again later.")
+      setEmailError(true);
     }
   }
 };

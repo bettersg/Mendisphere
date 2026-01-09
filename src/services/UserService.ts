@@ -11,8 +11,6 @@ import { Specialisation } from "../data/Enums/specialisation.enum";
 import { SupportArea } from "../data/Enums/support-area.enum";
 import { getOrganisationById } from "./OrganisationService";
 import { Collections } from "./Firebase/names";
-import { Create } from "@mui/icons-material";
-import { Collections } from "./Firebase/names";
 
 /**
  * Service for user-related operations that combine authentication and data management
@@ -35,8 +33,6 @@ export async function createUserWithAuth(
   userType: UserType,
   userRole: UserRole,
   sendVerificationEmail: boolean = true
-  userRole: UserRole,
-  sendVerificationEmail: boolean = true
 ): Promise<User> {
   try {
     // Step 1: If user type is organisation, verify the organisation exists
@@ -52,13 +48,6 @@ export async function createUserWithAuth(
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const firebaseUser = userCredential.user;
 
-    // Step 3: Send email verification (default: true for security)
-    if (sendVerificationEmail) {
-      await sendEmailVerification(firebaseUser);
-      console.log(`Verification email sent to ${email}`);
-    }
-
-    // Step 4: Create Firestore User document with the Auth user's UID
     // Step 3: Send email verification (default: true for security)
     if (sendVerificationEmail) {
       await sendEmailVerification(firebaseUser);
@@ -108,18 +97,6 @@ export async function createOrganisationWithUser(
       cardImageUrl: "",
     });
 
-    // Step 2: Create Firebase Auth user
-    
-    return createUserWithAuth(
-      email,
-      password,
-      organisation.id,
-      userType,
-      userRole,
-      sendVerificationEmail
-    ).then((user : User) => {
-      return { user, organisation };
-    });
     // Step 2: Create Firebase Auth user
     
     return createUserWithAuth(
@@ -189,9 +166,7 @@ export async function loginUser(
 
     // Step 2: Fetch user document from Firestore
     const userDoc = await getDoc(doc(db, Collections.users, firebaseUser.uid));
-    if (!firebaseUser.emailVerified) {
-      throw new Error("Email not verified");
-    }
+    
     if (!userDoc.exists()) {
       throw new Error(`User document not found for ID ${firebaseUser.uid}`);
     }
@@ -221,6 +196,80 @@ export async function loginUser(
       throw new Error('Too many failed login attempts. Please try again later.');
     }
     console.error("Error logging in user:", error);
+    throw error;
+  }
+}
+
+/**
+ * Sends a password reset email to the specified email address
+ * @param email - The email address to send the password reset link to
+ * @throws Error if the email is not found or reset email fails
+ */
+export async function sendPasswordReset(email: string): Promise<void> {
+  try {
+    await sendPasswordResetEmail(auth, email);
+    console.log(`Password reset email sent to ${email}`);
+  } catch (error: any) {
+    if (error.code === 'auth/user-not-found') {
+      throw new Error('No account found with this email address');
+    } else if (error.code === 'auth/invalid-email') {
+      throw new Error('Please provide a valid email address');
+    } else if (error.code === 'auth/too-many-requests') {
+      throw new Error('Too many reset requests. Please try again later.');
+    }
+    console.error("Error sending password reset email:", error);
+    throw error;
+  }
+}
+
+/**
+ * Verifies a password reset code to ensure it's valid and not expired
+ * @param oobCode - The out-of-band code from the password reset email link
+ * @returns The email address associated with the reset code
+ * @throws Error if the code is invalid or expired
+ */
+export async function verifyPasswordResetOobCode(oobCode: string): Promise<string> {
+  try {
+    const email = await verifyPasswordResetCode(auth, oobCode);
+    console.log(`Password reset code verified for email: ${email}`);
+    return email;
+  } catch (error: any) {
+    if (error.code === 'auth/expired-action-code') {
+      throw new Error('This password reset link has expired. Please request a new one.');
+    } else if (error.code === 'auth/invalid-action-code') {
+      throw new Error('This password reset link is invalid or has already been used.');
+    } else if (error.code === 'auth/user-disabled') {
+      throw new Error('This account has been disabled.');
+    }
+    console.error("Error verifying password reset code:", error);
+    throw error;
+  }
+}
+
+/**
+ * Confirms a password reset with a new password
+ * @param oobCode - The out-of-band code from the password reset email link
+ * @param newPassword - The new password to set
+ * @throws Error if the code is invalid, expired, or password is weak
+ */
+export async function confirmPasswordResetWithCode(
+  oobCode: string,
+  newPassword: string
+): Promise<void> {
+  try {
+    await confirmPasswordReset(auth, oobCode, newPassword);
+    console.log('Password reset confirmed successfully');
+  } catch (error: any) {
+    if (error.code === 'auth/expired-action-code') {
+      throw new Error('This password reset link has expired. Please request a new one.');
+    } else if (error.code === 'auth/invalid-action-code') {
+      throw new Error('This password reset link is invalid or has already been used.');
+    } else if (error.code === 'auth/weak-password') {
+      throw new Error('Password should be at least 6 characters and contain a mix of characters.');
+    } else if (error.code === 'auth/user-disabled') {
+      throw new Error('This account has been disabled.');
+    }
+    console.error("Error confirming password reset:", error);
     throw error;
   }
 }
