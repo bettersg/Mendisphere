@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, sendEmailVerification, applyActionCode, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, sendEmailVerification, applyActionCode, signInWithEmailAndPassword, sendPasswordResetEmail, verifyPasswordResetCode, confirmPasswordReset } from "firebase/auth";
 import { doc, getDoc, getDoc as getFirestoreDoc } from "firebase/firestore";
 import { auth, db } from "./Firebase/firebaseConfig";
 import { createUser, User } from "../data/Model/User";
@@ -10,6 +10,7 @@ import { VerificationStatus } from "../data/Enums/verification-status.enum";
 import { Specialisation } from "../data/Enums/specialisation.enum";
 import { SupportArea } from "../data/Enums/support-area.enum";
 import { getOrganisationById } from "./OrganisationService";
+import { Collections } from "./Firebase/names";
 import { Create } from "@mui/icons-material";
 import { Collections } from "./Firebase/names";
 
@@ -34,6 +35,8 @@ export async function createUserWithAuth(
   userType: UserType,
   userRole: UserRole,
   sendVerificationEmail: boolean = true
+  userRole: UserRole,
+  sendVerificationEmail: boolean = true
 ): Promise<User> {
   try {
     // Step 1: If user type is organisation, verify the organisation exists
@@ -49,6 +52,13 @@ export async function createUserWithAuth(
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const firebaseUser = userCredential.user;
 
+    // Step 3: Send email verification (default: true for security)
+    if (sendVerificationEmail) {
+      await sendEmailVerification(firebaseUser);
+      console.log(`Verification email sent to ${email}`);
+    }
+
+    // Step 4: Create Firestore User document with the Auth user's UID
     // Step 3: Send email verification (default: true for security)
     if (sendVerificationEmail) {
       await sendEmailVerification(firebaseUser);
@@ -98,6 +108,18 @@ export async function createOrganisationWithUser(
       cardImageUrl: "",
     });
 
+    // Step 2: Create Firebase Auth user
+    
+    return createUserWithAuth(
+      email,
+      password,
+      organisation.id,
+      userType,
+      userRole,
+      sendVerificationEmail
+    ).then((user : User) => {
+      return { user, organisation };
+    });
     // Step 2: Create Firebase Auth user
     
     return createUserWithAuth(
@@ -209,6 +231,9 @@ const UserService = {
   verifyEmail,
   resendVerificationEmail,
   loginUser,
+  sendPasswordReset,
+  verifyPasswordResetOobCode,
+  confirmPasswordResetWithCode,
 };
 
 export default UserService;

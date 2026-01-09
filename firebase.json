@@ -1,25 +1,10 @@
 {
-  "storage": {
-    "rules": "src/services/Firebase/rules/storage.rules"
-  },
+  
   "firestore": {
     "rules": "src/services/Firebase/rules/firestore.rules"
   },
-  "emulators": {
-    "auth": {
-      "port": 9099
-    },
-    "firestore": {
-      "port": 9999
-    },
-    "storage": {
-      "port": 9199
-    },
-    "ui": {
-      "enabled": true,
-      "port": 4000
-    },
-    "singleProjectMode": true
+  "storage": {
+    "rules": "src/services/Firebase/rules/storage.rules"
   },
   "hosting": [
     {

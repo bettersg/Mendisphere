@@ -16,13 +16,18 @@ export interface IUser {
   organisation?: Organisation;
 }
 
-export class User {
+export class User implements IUser {
   firebaseUser: FirebaseUser;
   role: UserRole;
   type: UserType;
   organisation?: Organisation;
 
-  constructor(_firebaseUser: FirebaseUser, _role: UserRole, _type: UserType, _organisation?: Organisation) {
+  constructor(
+    _firebaseUser: FirebaseUser,
+    _role: UserRole,
+    _type: UserType,
+    _organisation?: Organisation
+  ) {
     this.firebaseUser = _firebaseUser;
     this.role = _role;
     this.type = _type;
@@ -39,6 +44,10 @@ export class User {
 
   get displayName(): string | null {
     return this.firebaseUser.displayName;
+  }
+
+  get emailVerified(): boolean {
+    return this.firebaseUser.emailVerified;
   }
 }
 

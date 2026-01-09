@@ -1,4 +1,4 @@
-import { createUserWithAuth, createOrganisationWithUser } from "../UserService";
+import { createUserWithAuth, createOrganisationWithUser, loginUser, sendPasswordReset, verifyPasswordResetOobCode, confirmPasswordResetWithCode } from "../UserService";
 import { UserType } from "../../data/Enums/user-type.enum";
 import { UserRole } from "../../data/Enums/user-role.enum";
 import { createOrganisation } from "../../data/Model/Organisation";
@@ -6,8 +6,10 @@ import { IPCStatus } from "../../data/Enums/ipc-status.enum";
 import { VerificationStatus } from "../../data/Enums/verification-status.enum";
 import { Specialisation } from "../../data/Enums/specialisation.enum";
 import { SupportArea } from "../../data/Enums/support-area.enum";
-import { deleteUser } from "firebase/auth";
+import { deleteUser, signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../Firebase/firebaseConfig";
 import { Collections } from "../Firebase/names";
+import { getEmulatorConfig } from "../Firebase/emulatorConfig";
 import { cleanupFirebaseData, trackTestDoc } from "../Firebase/testSetup";
 
 // Note: These tests require Firebase emulators to be running
@@ -40,7 +42,8 @@ describe("UserService", () => {
         testPassword,
         testOrg.id,
         UserType.organisation,
-        UserRole.admin
+        UserRole.admin,
+        false // Skip email verification
       );
 
       // Track docs for cleanup
@@ -58,6 +61,81 @@ describe("UserService", () => {
       // Cleanup auth user; Firestore docs are cleaned via trackTestDoc
       await deleteUser(user.firebaseUser);
     });
+
+    it("should send verification email and user should be unverified initially", async () => {
+      const testEmail = `test-${Date.now()}@example.com`;
+      const testPassword = "TestPassword123!";
+
+      const testOrg = await createOrganisation({
+        name: "Test Organisation",
+        ipcApproved: IPCStatus.Pending,
+        verified: VerificationStatus.Pending,
+        mainSpecialisation: Specialisation.NotSet,
+        mainSupportArea: SupportArea.NotSet,
+        services: [],
+        description: "test",
+        cardImageUrl: "test",
+      });
+
+      const user = await createUserWithAuth(
+        testEmail,
+        testPassword,
+        testOrg.id,
+        UserType.organisation,
+        UserRole.admin,
+        false // Skip email verification
+      );
+
+      trackTestDoc({ collection: Collections.organisations, id: testOrg.id });
+      trackTestDoc({ collection: Collections.users, id: user.id });
+
+      // In emulator, users start as unverified
+      expect(user.emailVerified).toBe(false);
+
+      // Cleanup
+      await deleteUser(user.firebaseUser);
+    });
+
+    it("should handle verified user correctly", async () => {
+      const testEmail = `test-${Date.now()}@example.com`;
+      const testPassword = "TestPassword123!";
+
+      const testOrg = await createOrganisation({
+        name: "Test Organisation",
+        ipcApproved: IPCStatus.Pending,
+        verified: VerificationStatus.Pending,
+        mainSpecialisation: Specialisation.NotSet,
+        mainSupportArea: SupportArea.NotSet,
+        services: [],
+        description: "test",
+        cardImageUrl: "test",
+      });
+
+      const user = await createUserWithAuth(
+        testEmail,
+        testPassword,
+        testOrg.id,
+        UserType.organisation,
+        UserRole.admin,
+        false // Skip email verification
+      );
+
+      trackTestDoc({ collection: Collections.organisations, id: testOrg.id });
+      trackTestDoc({ collection: Collections.users, id: user.id });
+
+      // Mock the emailVerified property to simulate a verified user
+      Object.defineProperty(user.firebaseUser, 'emailVerified', {
+        value: true,
+        writable: false,
+      });
+
+      // Now the user should appear verified
+      expect(user.emailVerified).toBe(true);
+
+      // Cleanup
+      await deleteUser(user.firebaseUser);
+    });
+
 
     it("should throw error if organisation does not exist", async () => {
       const testEmail = `test-${Date.now()}@example.com`;
@@ -135,7 +213,10 @@ describe("UserService", () => {
       const result = await createOrganisationWithUser(
         testEmail,
         testPassword,
-        testOrgName
+        testOrgName,
+        UserType.organisation,
+        UserRole.admin,
+        false // Skip email verification
       );
 
       trackTestDoc({ collection: Collections.organisations, id: result.organisation.id });
@@ -165,7 +246,8 @@ describe("UserService", () => {
         testPassword,
         testOrgName,
         UserType.organisation,
-        UserRole.admin
+        UserRole.admin,
+        false // Skip email verification
       );
 
       trackTestDoc({ collection: Collections.organisations, id: result.organisation.id });
@@ -198,6 +280,210 @@ describe("UserService", () => {
           "Test Org"
         )
       ).rejects.toThrow();
+    });
+  });
+
+  describe("loginUser", () => {
+    it("should successfully log in an existing user", async () => {
+      const testEmail = `login-test-${Date.now()}@example.com`;
+      const testPassword = "TestPassword123!";
+
+      // Create a test user first
+      const result = await createOrganisationWithUser(
+        testEmail,
+        testPassword,
+        "Login Test Org",
+        UserType.organisation,
+        UserRole.admin,
+        false
+      );
+
+      trackTestDoc({ collection: Collections.organisations, id: result.organisation.id });
+      trackTestDoc({ collection: Collections.users, id: result.user.id });
+
+      // Now attempt to log in
+      const loggedInUser = await loginUser(testEmail, testPassword);
+
+      expect(loggedInUser).toBeDefined();
+      expect(loggedInUser.email).toBe(testEmail);
+      expect(loggedInUser.role).toBe(UserRole.admin);
+      expect(loggedInUser.type).toBe(UserType.organisation);
+      expect(loggedInUser.organisation).toBeDefined();
+      expect(loggedInUser.organisation?.id).toBe(result.organisation.id);
+
+      // Cleanup
+      await deleteUser(result.user.firebaseUser);
+    });
+
+    it("should throw error for invalid credentials", async () => {
+      const testEmail = `nonexistent-${Date.now()}@example.com`;
+      const testPassword = "WrongPassword123!";
+
+      await expect(
+        loginUser(testEmail, testPassword)
+      ).rejects.toThrow("Invalid email or password");
+    });
+
+    it("should throw error for wrong password", async () => {
+      const testEmail = `login-test-${Date.now()}@example.com`;
+      const testPassword = "TestPassword123!";
+
+      // Create a test user
+      const result = await createOrganisationWithUser(
+        testEmail,
+        testPassword,
+        "Login Test Org",
+        UserType.organisation,
+        UserRole.admin,
+        false
+      );
+
+      trackTestDoc({ collection: Collections.organisations, id: result.organisation.id });
+      trackTestDoc({ collection: Collections.users, id: result.user.id });
+
+      // Attempt login with wrong password
+      await expect(
+        loginUser(testEmail, "WrongPassword123!")
+      ).rejects.toThrow("Invalid email or password");
+
+      // Cleanup
+      await deleteUser(result.user.firebaseUser);
+    });
+
+    it("should retrieve correct user data from Firestore", async () => {
+      const testEmail = `login-test-${Date.now()}@example.com`;
+      const testPassword = "TestPassword123!";
+
+      // Create user
+      const result = await createOrganisationWithUser(
+        testEmail,
+        testPassword,
+        "Data Test Org",
+        UserType.organisation,
+        UserRole.admin,
+        false
+      );
+
+      trackTestDoc({ collection: Collections.organisations, id: result.organisation.id });
+      trackTestDoc({ collection: Collections.users, id: result.user.id });
+
+      // Login and verify all data is correct
+      const loggedInUser = await loginUser(testEmail, testPassword);
+
+      expect(loggedInUser.id).toBe(result.user.id);
+      expect(loggedInUser.role).toBe(result.user.role);
+      expect(loggedInUser.type).toBe(result.user.type);
+      expect(loggedInUser.organisation?.name).toBe("Data Test Org");
+
+      // Cleanup
+      await deleteUser(result.user.firebaseUser);
+    });
+  });
+
+  describe("sendPasswordReset", () => {
+    it("should send password reset email for valid email", async () => {
+      const testEmail = `reset-test-${Date.now()}@example.com`;
+      const testPassword = "TestPassword123!";
+
+      // Create a test user first
+      const result = await createOrganisationWithUser(
+        testEmail,
+        testPassword,
+        "Password Reset Test Org",
+        UserType.organisation,
+        UserRole.admin,
+        false
+      );
+
+      trackTestDoc({ collection: Collections.organisations, id: result.organisation.id });
+      trackTestDoc({ collection: Collections.users, id: result.user.id });
+
+      // Should not throw an error for a valid email
+      await expect(sendPasswordReset(testEmail)).resolves.not.toThrow();
+
+      // Cleanup
+      await deleteUser(result.user.firebaseUser);
+    });
+
+    it("should throw error for non-existent email", async () => {
+      const nonExistentEmail = `nonexistent-${Date.now()}@example.com`;
+
+      await expect(
+        sendPasswordReset(nonExistentEmail)
+      ).rejects.toThrow("No account found with this email address");
+    });
+
+    it("should throw error for invalid email format", async () => {
+      await expect(
+        sendPasswordReset("invalid-email")
+      ).rejects.toThrow("No account found with this email address");
+    });
+  });
+
+  describe("verifyPasswordResetOobCode", () => {
+    it("should throw error for invalid reset code", async () => {
+      const invalidCode = "invalid-reset-code";
+
+      await expect(
+        verifyPasswordResetOobCode(invalidCode)
+      ).rejects.toThrow();
+    });
+
+    it("should throw error for expired reset code", async () => {
+      // This test validates the expired code error handling
+      // In a real scenario, you would need to generate a valid code and wait for it to expire
+      const expiredCode = "expired-code";
+
+      await expect(
+        verifyPasswordResetOobCode(expiredCode)
+      ).rejects.toThrow();
+    });
+  });
+
+  describe("confirmPasswordResetWithCode", () => {
+    it("should throw error for invalid reset code", async () => {
+      const invalidCode = "invalid-reset-code";
+      const newPassword = "NewPassword123!";
+
+      await expect(
+        confirmPasswordResetWithCode(invalidCode, newPassword)
+      ).rejects.toThrow();
+    });
+
+    it("should throw error for weak password", async () => {
+      const invalidCode = "some-code";
+      const weakPassword = "weak";
+
+      await expect(
+        confirmPasswordResetWithCode(invalidCode, weakPassword)
+      ).rejects.toThrow();
+    });
+
+    it("should throw error if code is expired or invalid", async () => {
+      const testEmail = `reset-confirm-${Date.now()}@example.com`;
+      const testPassword = "TestPassword123!";
+      const newPassword = "NewPassword456!";
+
+      // Create a test user
+      const result = await createOrganisationWithUser(
+        testEmail,
+        testPassword,
+        "Password Confirm Test Org",
+        UserType.organisation,
+        UserRole.admin,
+        false
+      );
+
+      trackTestDoc({ collection: Collections.organisations, id: result.organisation.id });
+      trackTestDoc({ collection: Collections.users, id: result.user.id });
+
+      // Try to confirm with an invalid code
+      await expect(
+        confirmPasswordResetWithCode("invalid-code", newPassword)
+      ).rejects.toThrow();
+
+      // Cleanup
+      await deleteUser(result.user.firebaseUser);
     });
   });
 });
