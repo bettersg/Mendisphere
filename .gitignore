@@ -20,3 +20,4 @@ firebase-debug.log
 *.log
 
 /src/mocks/data/*
+.env.development.local
