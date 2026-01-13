@@ -132,9 +132,10 @@ async function uploadConsultantData(): Promise<void> {
   console.log('👥 Uploading consultant data...');
   
   for (const consultantData of mockConsultants) {
-    const docId = `mock_${consultantData.name?.replace(/\s/g, '')}`;
-    const email = consultantData.email;
     
+    const email = consultantData.email;
+    const docId = `${consultantData.givenName}-${consultantData.familyName}`.toLowerCase().replace(/\s+/g, '-');
+
     try {
       // Create auth record with verified email
       const userRecord = await auth.createUser({
@@ -142,7 +143,6 @@ async function uploadConsultantData(): Promise<void> {
         email: email,
         emailVerified: true,
         password: 'TempPassword123!', // Temporary password for seeding
-        displayName: consultantData.name,
       });
       console.log(`  ✓ Created auth record for ${email}`);
       // Download and upload profile image if exists
@@ -151,7 +151,7 @@ async function uploadConsultantData(): Promise<void> {
           consultantData.profileImageUrl,
           StorageDirectory.consultantProfileImagesDirectory.replace(/:consultantId/g, docId)
         );
-        console.log(`  ✓ Uploaded photo for ${consultantData.name}`);
+        console.log(`  ✓ Uploaded photo for ${consultantData.givenName}`);
       }
 
       // Create consultant document in users collection with type discriminator

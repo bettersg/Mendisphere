@@ -18,12 +18,19 @@ const useElementOnScreen = (
       },
       { rootMargin }
     );
-
-    observer.observe(ref.current);
-
-    return () => observer.disconnect();
-  }, [ref, rootMargin]);
-
+    
+    const currentRef = ref.current; // Best practice: capture ref.current in a variable
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+    
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
+    };
+  }, [ref, rootMargin]); // Added dependencies for stability
+  
   return isIntersecting;
 };
 

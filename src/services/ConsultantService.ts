@@ -14,7 +14,7 @@ import { SupportArea } from "../data/Enums/support-area.enum";
 import { ConsultantService } from "../data/Enums/consultant-service.enum";
 import { createUserWithAuth, createOrganisationWithUser, loginUser } from "./UserService";
 import { User } from "../data/Model/User";
-
+import { updateDisplayName } from "./UserService";
 /**
  * Creates both a Firebase Auth user and a Firestore Consultant document in one transaction.
  * 
@@ -44,22 +44,24 @@ import { User } from "../data/Model/User";
 export async function createConsultant(
     email: string,
     password: string,
-    orgID: string,
-    name: string,
-    phone: string,
-    services: ConsultantService[],
-    profileImageUrl: string,
+    givenName: string,
+    familyName: string,
+    userRole: UserRole = UserRole.admin,
+    sendVerificationEmail: boolean = true,
+    orgID?: string,
+    phone?: string,
+    services?: ConsultantService[],
+    profileImageUrl?: string,
     shortDescription?: string,
     about?: string,
-    userRole: UserRole = UserRole.contributor,
-    sendVerificationEmail: boolean = true
 ): Promise<Consultant> {
     try {
         // Step 1: Create user with consultant type using UserService
         const user = await createUserWithAuth(
             email,
             password,
-            orgID,
+            givenName,
+            familyName,
             UserType.consultant,
             userRole,
             sendVerificationEmail
@@ -74,16 +76,17 @@ export async function createConsultant(
         // Step 3: Cast User to Consultant with consultant-specific properties
         const consultant = new Consultant(
             user.firebaseUser,
+            givenName,
+            familyName,
             user.role,
             organisation,
-            name,
             phone,
             shortDescription,
             about,
             services,
             profileImageUrl
         );
-        
+        await updateDisplayName(consultant, givenName, familyName);
         console.log(`Consultant created successfully: ${consultant.id}`);
         return consultant;
     }
@@ -145,9 +148,10 @@ export async function loginConsultant(
     // Construct Consultant instance
     const consultant = new Consultant(
         user.firebaseUser,
+        user.givenName,
+        user.familyName,
         user.role,
         organisation,
-        data.name,
         data.phone,
         data.shortDescription,
         data.about,
@@ -205,7 +209,8 @@ export async function createOrganisationWithConsultant(
     email: string,
     password: string,
     organisationName: string,
-    name: string,
+    givenName: string,
+    familyName: string,
     phone: string,
     services: ConsultantService[],
     profileImageUrl: string,
@@ -233,18 +238,21 @@ export async function createOrganisationWithConsultant(
         const user = await createUserWithAuth(
             email,
             password,
-            organisation.id,
+            givenName,
+            familyName,
             UserType.consultant,
             userRole,
-            sendVerificationEmail
+            sendVerificationEmail,
+            organisation.id
         );
 
         // Step 3: Cast User to Consultant with consultant-specific properties
         const consultant = new Consultant(
             user.firebaseUser,
+            user.givenName,
+            user.familyName,
             user.role,
             organisation,
-            name,
             phone,
             shortDescription,
             about,
