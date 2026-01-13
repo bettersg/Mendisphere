@@ -30,6 +30,7 @@ function App() {
     Paths.login,
     Paths.signup,
     Paths.profileSetup,
+    Paths.forgotPassword,
   ].includes(currentPage);
 
   if (isNotDesktopWidth) {
