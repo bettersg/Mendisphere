@@ -1,18 +1,38 @@
-import { Box, Flex } from "@chakra-ui/react";
-import LoginDesign from "./LoginDesign";
-import LoginSection from "./LoginSection";
+
+import { Box,Container,Stack} from '@mui/system';
+import * as React from 'react';
+import LoginTopBar from './LoginTopBar';
+import { muiTheme } from '../../theme/muiTheme';
+import LoginForm from './LoginForm';
 import "./style.scss";
+import { useMediaQuery, useTheme } from '@mui/material';
 
 const Login = () => {
+  const isMobile=useMediaQuery(muiTheme.breakpoints.down('desktop'))
+
+  const [showPassword, setShowPassword] = React.useState(false);
+  const handleClickShowPassword = () => setShowPassword((show) => !show);
   return (
-    <Flex minH="100vH">
-      <Box flex="1">
-        <LoginSection />
+    <Stack direction={['column','column','row']} sx={{minHeight:{mobile:"auto",desktop:"100vh"}, display:'flex'}}>
+      {isMobile?(
+      <Box className="rounded_edge_rectangle_horizontal" sx={{alignContent:'center', display:'flex', justifyContent:'center', height:'7vh'}}>
+          <img src="/images/login.png" style={{ width:"10%", height:"auto", objectFit:"contain"}}/>
       </Box>
-      <Box flex="1" className="rounded_edge_rectangle">
-        <LoginDesign />
+      
+      )
+      :
+      (
+      <>
+      <Box className="rounded_edge_rectangle" sx={{order: { mobile:-1, desktop:1},flex:"1", alignContent:'center', display:'flex', justifyContent:'center'}}>
+        <img src="/images/login.png" style={{ width:"40%", height:"auto", objectFit:"contain"}}/>
       </Box>
-    </Flex>
+      </>
+    )}
+      <Stack spacing={{mobile:4, desktop:12}} sx={{order: { mobile:1, desktop:-1}, width:{mobile:'100%', desktop:'50%'}, px:9,py:4}}>
+        <LoginTopBar/>
+        <LoginForm/>
+      </Stack>
+    </Stack>
   );
 };
 

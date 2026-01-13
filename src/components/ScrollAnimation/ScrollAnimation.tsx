@@ -1,5 +1,6 @@
 // credits: https://betterprogramming.pub/simple-react-scroll-animations-with-zero-dependencies-b496c1e1c7bd
 import { useState, useEffect, useRef } from "react";
+
 const useElementOnScreen = (
   ref: React.RefObject<Element | null>,
   rootMargin = "0px"
@@ -7,6 +8,8 @@ const useElementOnScreen = (
   const [isIntersecting, setIsIntersecting] = useState(true);
 
   useEffect(() => {
+    if (!ref.current) return;
+
     if (!ref.current) return;
 
     const observer = new IntersectionObserver(
