@@ -5,13 +5,28 @@ import LoginTopBar from './LoginTopBar';
 import { muiTheme } from '../../theme/muiTheme';
 import LoginForm from './LoginForm';
 import "./style.scss";
+import { isUserAuth } from '../../services/UserService';
+import PersonIcon from '@mui/icons-material/Person';
 import { useMediaQuery, useTheme } from '@mui/material';
+import { Paths } from "../../routing";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const isMobile=useMediaQuery(muiTheme.breakpoints.down('desktop'))
-
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
+  
+  React.useEffect(() => {
+    const checkAuth = async () => {
+      const isAuth = await isUserAuth();
+      if (isAuth) {
+        navigate(Paths.dashboard);
+      }
+    };
+    checkAuth();
+  }, [navigate]);
+
   return (
     <Stack direction={['column','column','row']} sx={{minHeight:{mobile:"auto",desktop:"100vh"}, display:'flex'}}>
       {isMobile?(
