@@ -4,7 +4,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import { ChevronRight } from "@mui/icons-material";
 
 interface BreadcrumbsV2Props {
-  links: { label: string; href?: string; icon?: JSX.Element | null }[];
+  links: { label?: string; href?: string; icon?: JSX.Element | null }[];
   separator?: JSX.Element;
 }
 

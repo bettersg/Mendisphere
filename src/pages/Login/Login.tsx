@@ -1,10 +1,11 @@
 
 import { Box,Container,Stack} from '@mui/system';
 import * as React from 'react';
-import LoginTopBar from './LoginTopBar';
+import TopBar from './TopBar';
 import { muiTheme } from '../../theme/muiTheme';
 import LoginForm from './LoginForm';
 import "./style.scss";
+import PersonIcon from '@mui/icons-material/Person';
 import { useMediaQuery, useTheme } from '@mui/material';
 
 const Login = () => {
@@ -29,7 +30,11 @@ const Login = () => {
       </>
     )}
       <Stack spacing={{mobile:4, desktop:12}} sx={{order: { mobile:1, desktop:-1}, width:{mobile:'100%', desktop:'50%'}, px:9,py:4}}>
-        <LoginTopBar/>
+        <TopBar
+          links={[
+            { label: "Login", icon: <PersonIcon />, href: "/" },
+          ]}
+        />
         <LoginForm/>
       </Stack>
     </Stack>

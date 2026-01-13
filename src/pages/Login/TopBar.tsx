@@ -8,13 +8,19 @@ import PersonIcon from '@mui/icons-material/Person';
 import { muiTheme } from '../../theme/muiTheme';
 import { ChevronLeft, PersonSharp } from "@mui/icons-material";
 
-export default function LoginTopBar() {
+type TopBarProps = {
+  links: { label?: string; href?: string; icon?: JSX.Element | null }[];
+};
+
+
+
+export default function TopBar({ links }: TopBarProps) {
   return (
     <Stack spacing={2}>
       <Box>
       <Button onClick={()=>{window.history.back()}} startIcon={<ChevronLeft />} sx={{color:'text.primary'}}>BACK</Button>
       </Box>
-      <BreadcrumbsV2 links={[{label: "Login", icon:<PersonIcon/>}]}/>
+      <BreadcrumbsV2 links={links}/>
     </Stack>
   );
 }

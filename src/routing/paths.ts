@@ -10,7 +10,6 @@ export class Paths {
   static readonly about = "/about-us";
   static readonly contactUs = "/contact-us";
   static readonly verifyEmail = "/auth/action";
-  static readonly forgotPassword = "/forgot-password";
 }
 
 export const buildOrgProfilePath = (orgId: string) =>
