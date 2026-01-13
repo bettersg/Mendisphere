@@ -34,7 +34,7 @@ const Login = () => {
       <Stack spacing={{mobile:4, desktop:12}} sx={{order: { mobile:1, desktop:-1}, width:{mobile:'100%', desktop:'50%'}, px:9,py:4}}>
         <TopBar
           links={[
-            { label: "", icon: <PersonIcon />, href: "/" },
+            { label: "", icon: <PersonIcon />, href: "/login" },
             { label: "Forgot Password", icon: <LockIcon />}
         ]}
         />

@@ -248,21 +248,25 @@ export async function loginUser(
  * @throws Error if the email is not found or reset email fails
  */
 export async function sendPasswordReset(email: string): Promise<void> {
-  try {
-    await sendPasswordResetEmail(auth, email);
-    console.log(`Password reset email sent to ${email}`);
-  } catch (error: any) {
-    if (error.code === 'auth/user-not-found') {
-      throw new Error('No account found with this email address');
-    } else if (error.code === 'auth/invalid-email') {
-      throw new Error('Please provide a valid email address');
-    } else if (error.code === 'auth/too-many-requests') {
-      throw new Error('Too many reset requests. Please try again later.');
-    }
-    console.error("Error sending password reset email:", error);
-    throw error;
-  }
+  await sendPasswordResetEmail(auth, email);
 }
+
+// export async function sendPasswordReset(email: string): Promise<void> {
+//   try {
+//     await sendPasswordResetEmail(auth, email);
+//     console.log(`Password reset email sent to ${email}`);
+//   } catch (error: any) {
+//     if (error.code === 'auth/user-not-found') {
+//       throw new Error('No account found with this email address');
+//     } else if (error.code === 'auth/invalid-email') {
+//       throw new Error('Please provide a valid email address');
+//     } else if (error.code === 'auth/too-many-requests') {
+//       throw new Error('Too many reset requests. Please try again later.');
+//     }
+//     console.error("Error sending password reset email:", error);
+//     throw error;
+//   }
+// }
 
 /**
  * Verifies a password reset code to ensure it's valid and not expired

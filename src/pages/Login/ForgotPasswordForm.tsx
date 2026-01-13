@@ -13,24 +13,20 @@ import { getAuth, signInWithEmailAndPassword} from 'firebase/auth';
 import {Link as RouterLink} from "react-router-dom"
 import UserService from "../../services/UserService"
 import { useNavigate } from "react-router-dom";
+import { colors } from "../../theme/colours";
    
 interface FormData{
   email: string;
-  password: string;
 }
 
 
 
 export default function ForgotPasswordForm() {
-  const navigate = useNavigate();
+    const navigate = useNavigate();
 
-  const [showPassword, setShowPassword] = React.useState(false);
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-
-  const [formData,setFormData]=useState<FormData>({
-    email:"",
-    password:""
-  })
+    const [formData,setFormData]=useState<FormData>({
+        email:"",
+    })
 
   const handleChange=(e: React.ChangeEvent<HTMLInputElement>)=>{
     const {name, value}=e.target;
@@ -42,6 +38,7 @@ export default function ForgotPasswordForm() {
   }
   const [emailError,setEmailError]=useState(false);
   const [emailErrorMessage,setEmailErrorMessage]=useState("")
+  const [emailSent,setEmailSent]=useState(false);
 
   const auth=getAuth();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -51,48 +48,73 @@ export default function ForgotPasswordForm() {
 
   try {
     const user = await UserService.sendPasswordReset(formData.email);
-
-    navigate(Paths.dashboard);
-
+    setEmailSent(true);
   } catch (err: any) {
-    console.error(err);
+  console.error(err);
 
-    if (err.code === "auth/user-not-found") {
-      setEmailErrorMessage("This email isn’t registered with us. Please double-check or create an account to get started.")
-      setEmailError(true);
-    }
-    else if(err.message=="Email not verified"){
-        setEmailErrorMessage("Email is not verified. Please verify your email before logging in.")
+  switch(err.code) {
+    case 'auth/user-not-found':
         setEmailError(true);
-    }
-    else {
-      setEmailErrorMessage("An unexpected error occurred. Please try again later.")
-      setEmailError(true);
-    }
+        setEmailErrorMessage("This email isn’t registered with us. Please double-check or create an account.");
+        break;
+    case 'auth/invalid-email':
+        setEmailError(true);
+        setEmailErrorMessage("Please provide a valid email address.");
+        break;
+    case 'auth/too-many-requests':
+        setEmailError(true);
+        setEmailErrorMessage("Too many reset requests. Please try again later.");
+        break;
+    default:
+        setEmailError(true);
+        setEmailErrorMessage("An unexpected error occurred. Please try again later.");
+  }
   }
 };
 
   
   return (
-    <>
-    <form onSubmit={handleSubmit}>
     <Stack spacing={9} sx={{justifyContent:'center'}}>
-      <Stack>
-        <Typography variant='h3'>Password Recovery</Typography>
-        <Typography variant='body1'>Provide the email address associated with your account for password recovery details.</Typography>
-      </Stack>
-      <Stack spacing={2}>
-        <TextField error={!!emailError} helperText={emailError ? emailErrorMessage:""} value={formData.email} onChange={handleChange} name="email" required type="email" autoComplete='username' placeholder="Enter your account email" label="Account Email" variant='outlined'></TextField>
-        <Button type="submit" color='primary' variant='contained'>SEND</Button>
-      </Stack>
+        {emailSent?(
+            <>
+            <Stack>
+                <Typography variant='h3'>Password Recovery</Typography>
+                <Typography variant='body1'>Provide the email address associated with your account for password recovery details.</Typography>
+            </Stack>
+            <Stack spacing={2}>
+                <form onSubmit={handleSubmit}>
+                <TextField error={!!emailError} helperText={emailError ? emailErrorMessage:""} value={formData.email} onChange={handleChange} name="email" required type="email" autoComplete='username' placeholder="Enter your account email" label="Account Email" variant='outlined'></TextField>
+                <Button type="submit" color='primary' variant='contained'>SEND</Button>
+                </form>
+            </Stack>
+            </>
+    ):(
+        <>
+        <Stack>
+            <Typography variant='h3'>Password Recovery</Typography>
+        </Stack>
+        <Stack spacing={5}>
+            <Stack spacing={2}>
+                <Stack spacing={1} direction={"row"} alignItems={"center"}>
+                    <img src={CheckFilled} alt="check icon" width={64} height={64} />
+                    <Typography variant="body1" sx={{ color: colors.neutral.primary }}>
+                Your password recovery details have been emailed to you. Navigate to Sign In to continue logging in.
+                    </Typography>
+                </Stack>
+            </Stack>
+
+            <Button
+                onClick={() => navigate(Paths.login)}
+                variant="contained"
+                color="primary"
+                fullWidth
+            >
+                Navigate
+            </Button>
+            </Stack>
+        </>
+    )}
+      
     </Stack>
-    </form>
-    <Stack direction='row'>
-        <img src={CheckFilled} alt="check icon" width={64} height={64} />
-        <Typography variant="body1">
-            You have successfully verified your email! You may now proceed to sign in.
-        </Typography>
-    </Stack>
-   </>
   );
 }
