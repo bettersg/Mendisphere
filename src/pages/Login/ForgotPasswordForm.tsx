@@ -1,6 +1,7 @@
 
 import { Box,Container,Stack} from '@mui/system';
-import React, { Component, useState } from "react";import Typography from "@mui/material/Typography";
+import React, { Component, useState } from "react";
+import Typography from "@mui/material/Typography";
 import { Link,IconButton,Button,FormControl, TextField, InputAdornment} from '@mui/material';
 import { ChevronLeft } from '@mui/icons-material';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
@@ -22,74 +23,62 @@ interface FormData{
 
 
 export default function ForgotPasswordForm() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState<FormData>({ email: "" });
+  const [emailError, setEmailError] = useState(false);
+  const [emailErrorMessage, setEmailErrorMessage] = useState("");
+  const [emailSent, setEmailSent] = useState(false);
 
-    const [formData,setFormData]=useState<FormData>({
-        email:"",
-    })
-
-  const handleChange=(e: React.ChangeEvent<HTMLInputElement>)=>{
-    const {name, value}=e.target;
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
     setEmailError(false);
-    setFormData((prevState:FormData)=>({
-      ...prevState,
-      [name]:value,
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
     }));
-  }
-  const [emailError,setEmailError]=useState(false);
-  const [emailErrorMessage,setEmailErrorMessage]=useState("")
-  const [emailSent,setEmailSent]=useState(false);
+  };
 
-  const auth=getAuth();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-  e.preventDefault();
+    e.preventDefault();
+    setEmailError(false);
+    setEmailErrorMessage("");
 
-  setEmailError(false);
-
-  try {
-    const user = await UserService.sendPasswordReset(formData.email);
-    setEmailSent(true);
-  } catch (err: any) {
-  console.error(err);
-
-  switch(err.code) {
-    case 'auth/user-not-found':
-        setEmailError(true);
-        setEmailErrorMessage("This email isn’t registered with us. Please double-check or create an account.");
-        break;
-    case 'auth/invalid-email':
-        setEmailError(true);
-        setEmailErrorMessage("Please provide a valid email address.");
-        break;
-    case 'auth/too-many-requests':
-        setEmailError(true);
-        setEmailErrorMessage("Too many reset requests. Please try again later.");
-        break;
-    default:
-        setEmailError(true);
-        setEmailErrorMessage("An unexpected error occurred. Please try again later.");
-  }
-  }
-};
+    try {
+      await UserService.sendPasswordReset(formData.email);
+      setEmailSent(true);
+    } catch (err: any) {
+      console.error(err);
+      switch (err.code) {
+        case "auth/user-not-found":
+          setEmailError(true);
+          setEmailErrorMessage(
+            "This email isn’t registered with us. Please double-check or create an account."
+          );
+          break;
+        case "auth/invalid-email":
+          setEmailError(true);
+          setEmailErrorMessage("Please provide a valid email address.");
+          break;
+        case "auth/too-many-requests":
+          setEmailError(true);
+          setEmailErrorMessage(
+            "Too many reset requests. Please try again later."
+          );
+          break;
+        default:
+          setEmailError(true);
+          setEmailErrorMessage(
+            "An unexpected error occurred. Please try again later."
+          );
+      }
+    }
+  };
 
   
   return (
     <Stack spacing={9} sx={{justifyContent:'center'}}>
         {emailSent?(
             <>
-            <Stack>
-                <Typography variant='h3'>Password Recovery</Typography>
-                <Typography variant='body1'>Provide the email address associated with your account for password recovery details.</Typography>
-            </Stack>
-            <Stack spacing={2}>
-                <form onSubmit={handleSubmit}>
-                <TextField error={!!emailError} helperText={emailError ? emailErrorMessage:""} value={formData.email} onChange={handleChange} name="email" required type="email" autoComplete='username' placeholder="Enter your account email" label="Account Email" variant='outlined'></TextField>
-                <Button type="submit" color='primary' variant='contained'>SEND</Button>
-                </form>
-            </Stack>
-            </>
-    ):(
-        <>
         <Stack>
             <Typography variant='h3'>Password Recovery</Typography>
         </Stack>
@@ -113,6 +102,18 @@ export default function ForgotPasswordForm() {
             </Button>
             </Stack>
         </>
+    ):(
+        <>
+            <Stack>
+                <Typography variant='h3'>Password Recovery</Typography>
+                <Typography variant='body1'>Provide the email address associated with your account for password recovery details.</Typography>
+            </Stack>
+            <Stack component="form" onSubmit={handleSubmit} direction="column" spacing={2}>
+                <TextField error={!!emailError} helperText={emailError ? emailErrorMessage:""} value={formData.email} onChange={handleChange} name="email" required type="email" autoComplete='username' placeholder="Enter your account email" label="Account Email" variant='outlined'></TextField>
+                <Button type="submit" color='primary' variant='contained'>SEND</Button>
+            </Stack>
+            </>
+        
     )}
       
     </Stack>

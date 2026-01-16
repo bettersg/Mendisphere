@@ -11,7 +11,8 @@ import { Paths } from ".";
 import RegistrationVerificaion from "../pages/RegistrationV2/RegistrationVerification";
 import NotFound from "../pages/NotFound/NotFound";
 import RegistrationVerified from "../pages/RegistrationV2/RegistrationVerified";
-
+import ResetPassword
+ from "../pages/Login/ResetPassword";
 const Routing = () => {
   return (
     <Routes>
@@ -26,6 +27,8 @@ const Routing = () => {
       <Route path={Paths.organisationProfile} element={<OrgProfilePage />} />
       <Route path={Paths.verifyEmail} element={<VerifyEmail />} />
       <Route path={Paths.forgotPassword} element={<ForgotPassword />} />
+      <Route path={Paths.resetPassword} element={<ResetPassword />} />
+
     </Routes>
   );
 };

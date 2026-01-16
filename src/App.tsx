@@ -32,6 +32,7 @@ function App() {
     Paths.emailVerification,
     Paths.emailVerified,
     Paths.verifyEmail,
+    Paths.resetPassword,
     Paths.profileSetup,
     Paths.forgotPassword,
   ].includes(currentPage);
