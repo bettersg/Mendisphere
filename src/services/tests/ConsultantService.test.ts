@@ -25,6 +25,8 @@ describe("ConsultantService", () => {
 		it("creates consultant and associates organisation", async () => {
 			const testEmail = `consultant-create-${Date.now()}@example.com`;
 			const testPassword = "TestPassword123!";
+			const testGivenName = "Jane";
+            const testFamilyName = "Smith";
 
 			// Create organisation first
 			const testOrg = await createOrganisation({
@@ -41,8 +43,11 @@ describe("ConsultantService", () => {
 			const consultant = await createConsultant(
 				testEmail,
 				testPassword,
+				testGivenName,
+				testFamilyName,
+				UserRole.contributor,
+				false,
 				testOrg.id,
-				"Dr. Jane Smith",
 				"+65 9123 4567",
 				[ConsultantServiceEnum.PostAwardManagement],
 				"https://example.com/profile.jpg",
@@ -59,7 +64,8 @@ describe("ConsultantService", () => {
 			expect(consultant.type).toBe(UserType.consultant);
 			expect(consultant.role).toBe(UserRole.contributor);
 			expect(consultant.organisation?.id).toBe(testOrg.id);
-			expect(consultant.name).toBe("Dr. Jane Smith");
+			expect(consultant.givenName).toBe(testGivenName);
+            expect(consultant.familyName).toBe(testFamilyName);
 			expect(consultant.phone).toBe("+65 9123 4567");
 			expect(consultant.services).toEqual([ConsultantServiceEnum.PostAwardManagement]);
 
@@ -79,6 +85,8 @@ describe("ConsultantService", () => {
 		it("defaults role to contributor when not specified", async () => {
 			const testEmail = `consultant-default-${Date.now()}@example.com`;
 			const testPassword = "TestPassword123!";
+			const testGivenName = "John";
+			const testFamilyName = "Doe";
 
 			const testOrg = await createOrganisation({
 				name: "Test Organisation",
@@ -94,9 +102,12 @@ describe("ConsultantService", () => {
 			const consultant = await createConsultant(
 				testEmail,
 				testPassword,
-				testOrg.id,
-				"John Doe",
-				"+65 8888 8888",
+				testGivenName,                  // givenName
+				testFamilyName,                 // familyName
+				undefined,                      // userRole (leave undefined to test default)
+				false,                          // sendVerificationEmail
+				testOrg.id,                     // orgID
+				"+65 8888 8888",                // phone
 				[ConsultantServiceEnum.PostAwardManagement],
 				"https://example.com/john.jpg"
 			);
@@ -105,6 +116,11 @@ describe("ConsultantService", () => {
 			trackTestDoc({ collection: Collections.users, id: consultant.id });
 
 			expect(consultant.role).toBe(UserRole.contributor);
+			expect(consultant.givenName).toBe(testGivenName);
+			expect(consultant.familyName).toBe(testFamilyName);
+			
+			expect(consultant.firebaseUser.displayName).toBe(`${testGivenName} ${testFamilyName}`);
+
 			await deleteUser(consultant.firebaseUser);
 		});
 	});
@@ -113,12 +129,17 @@ describe("ConsultantService", () => {
 		it("creates organisation and consultant, links by orgID", async () => {
 			const testEmail = `consultant-org-${Date.now()}@example.com`;
 			const testPassword = "TestPassword123!";
+			const testOrgName = "My Consulting Firm";
+			
+			const testGivenName = "Jane";
+			const testFamilyName = "Smith";
 
 			const { consultant, organisation } = await createOrganisationWithConsultant(
 				testEmail,
 				testPassword,
-				"My Consulting Firm",
-				"Dr. Jane Smith",
+				testOrgName,
+				testGivenName,
+				testFamilyName, 
 				"+65 9123 4567",
 				[ConsultantServiceEnum.PostAwardManagement],
 				"https://example.com/photo.jpg",
@@ -133,6 +154,13 @@ describe("ConsultantService", () => {
 
 			expect(organisation).toBeDefined();
 			expect(consultant).toBeDefined();
+			expect(organisation.name).toBe(testOrgName);
+			
+			expect(consultant.givenName).toBe(testGivenName);
+			expect(consultant.familyName).toBe(testFamilyName);
+			
+			expect(consultant.firebaseUser.displayName).toBe(`${testGivenName} ${testFamilyName}`);
+
 			expect(consultant.organisation?.id).toBe(organisation.id);
 			expect(consultant.role).toBe(UserRole.admin);
 			expect(consultant.type).toBe(UserType.consultant);
@@ -140,7 +168,13 @@ describe("ConsultantService", () => {
 			const docRef = doc(db, Collections.users, consultant.id);
 			const docSnap = await getDoc(docRef);
 			expect(docSnap.exists()).toBe(true);
-			expect(docSnap.data()?.orgID).toBe(organisation.id);
+			
+			const data = docSnap.data();
+			expect(data?.orgID).toBe(organisation.id);
+			expect(data?.givenName).toBe(testGivenName);
+			expect(data?.familyName).toBe(testFamilyName);
+
+			await deleteUser(consultant.firebaseUser);
 		});
 	});
 
@@ -148,6 +182,8 @@ describe("ConsultantService", () => {
 		it("authenticates consultant and constructs instance from Firestore", async () => {
 			const testEmail = `consultant-login-${Date.now()}@example.com`;
 			const testPassword = "TestPassword123!";
+			const testGivenName = "Jane";
+			const testFamilyName = "Smith";
 
 			const testOrg = await createOrganisation({
 				name: "Test Organisation",
@@ -172,7 +208,8 @@ describe("ConsultantService", () => {
 				type: UserType.consultant,
 				role: UserRole.contributor,
 				orgID: testOrg.id,
-				name: "Dr. Jane Smith",
+				givenName: testGivenName,  // Updated field name
+				familyName: testFamilyName, // Updated field name
 				phone: "+65 9123 4567",
 				shortDescription: "Experienced clinical psychologist",
 				about: "Specializing in anxiety and depression",
@@ -187,12 +224,13 @@ describe("ConsultantService", () => {
 
 			expect(consultant).toBeDefined();
 			expect(consultant.type).toBe(UserType.consultant);
-			expect(consultant.role).toBe(UserRole.contributor);
+			expect(consultant.givenName).toBe(testGivenName);
+			expect(consultant.familyName).toBe(testFamilyName);
+			
+
 			expect(consultant.organisation?.id).toBe(testOrg.id);
-			expect(consultant.name).toBe("Dr. Jane Smith");
 			expect(consultant.phone).toBe("+65 9123 4567");
 			expect(consultant.services).toEqual([ConsultantServiceEnum.PostAwardManagement]);
-			expect(consultant.profileImageUrl).toBe("https://example.com/profile.jpg");
 
 			await deleteUser(firebaseUser);
 		});

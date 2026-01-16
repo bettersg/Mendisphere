@@ -24,7 +24,8 @@ describe("UserService", () => {
     it("should create a Firebase Auth user and Firestore document", async () => {
       const testEmail = `test-${Date.now()}@example.com`;
       const testPassword = "TestPassword123!";
-
+      const testGivenName = "John";
+      const testFamilyName = "Doe";
       // Create organisation first using your regular API
       const testOrg = await createOrganisation({
         name: "Test Organisation",
@@ -40,10 +41,12 @@ describe("UserService", () => {
       const user = await createUserWithAuth(
         testEmail,
         testPassword,
-        testOrg.id,
+        testGivenName,
+        testFamilyName,
         UserType.organisation,
         UserRole.admin,
-        false // Skip email verification
+        false, // Skip email verification
+        testOrg.id,
       );
 
       // Track docs for cleanup
@@ -51,6 +54,8 @@ describe("UserService", () => {
       trackTestDoc({ collection: Collections.users, id: user.id });
 
       expect(user).toBeDefined();
+      expect(user.givenName).toBe(testGivenName);
+      expect(user.familyName).toBe(testFamilyName);
       expect(user.email).toBe(testEmail);
       expect(user.role).toBe(UserRole.admin);
       expect(user.type).toBe(UserType.organisation);
@@ -65,6 +70,8 @@ describe("UserService", () => {
     it("should send verification email and user should be unverified initially", async () => {
       const testEmail = `test-${Date.now()}@example.com`;
       const testPassword = "TestPassword123!";
+      const testGivenName = "Jane";
+      const testFamilyName = "Smith";
 
       const testOrg = await createOrganisation({
         name: "Test Organisation",
@@ -80,10 +87,12 @@ describe("UserService", () => {
       const user = await createUserWithAuth(
         testEmail,
         testPassword,
-        testOrg.id,
+        testGivenName,
+        testFamilyName,
         UserType.organisation,
         UserRole.admin,
-        false // Skip email verification
+        false, // Skip email verification
+        testOrg.id
       );
 
       trackTestDoc({ collection: Collections.organisations, id: testOrg.id });
@@ -99,6 +108,8 @@ describe("UserService", () => {
     it("should handle verified user correctly", async () => {
       const testEmail = `test-${Date.now()}@example.com`;
       const testPassword = "TestPassword123!";
+      const testGivenName = "Bob";
+      const testFamilyName = "Johnson";
 
       const testOrg = await createOrganisation({
         name: "Test Organisation",
@@ -114,10 +125,12 @@ describe("UserService", () => {
       const user = await createUserWithAuth(
         testEmail,
         testPassword,
-        testOrg.id,
+        testGivenName,
+        testFamilyName,
         UserType.organisation,
         UserRole.admin,
-        false // Skip email verification
+        false, // Skip email verification
+        testOrg.id
       );
 
       trackTestDoc({ collection: Collections.organisations, id: testOrg.id });
@@ -140,20 +153,28 @@ describe("UserService", () => {
     it("should throw error if organisation does not exist", async () => {
       const testEmail = `test-${Date.now()}@example.com`;
       const testPassword = "TestPassword123!";
+      const testGivenName = "Alice";
+      const testFamilyName = "Williams";
       const nonExistentOrgId = "non-existent-org-id";
 
       await expect(
         createUserWithAuth(
           testEmail,
           testPassword,
-          nonExistentOrgId,
+          testGivenName,
+          testFamilyName,
           UserType.organisation,
-          UserRole.admin
+          UserRole.admin,
+          false,
+          nonExistentOrgId
         )
       ).rejects.toThrow("Organisation with ID non-existent-org-id does not exist");
     });
 
     it("should throw error for invalid email", async () => {
+      const testGivenName = "Charlie";
+      const testFamilyName = "Brown";
+
       const testOrg = await createOrganisation({
         name: "Test Organisation",
         ipcApproved: IPCStatus.Pending,
@@ -169,9 +190,12 @@ describe("UserService", () => {
         createUserWithAuth(
           "invalid-email",
           "TestPassword123!",
-          testOrg.id,
+          testGivenName,
+          testFamilyName,
           UserType.organisation,
-          UserRole.admin
+          UserRole.admin,
+          false,
+          testOrg.id
         )
       ).rejects.toThrow();
 
@@ -179,6 +203,9 @@ describe("UserService", () => {
     });
 
     it("should throw error for weak password", async () => {
+      const testGivenName = "David";
+      const testFamilyName = "Miller";
+
       const testOrg = await createOrganisation({
         name: "Test Organisation",
         ipcApproved: IPCStatus.Pending,
@@ -194,9 +221,12 @@ describe("UserService", () => {
         createUserWithAuth(
           `test-${Date.now()}@example.com`,
           "weak",
-          testOrg.id,
+          testGivenName,
+          testFamilyName,
           UserType.organisation,
-          UserRole.admin
+          UserRole.admin,
+          false,
+          testOrg.id
         )
       ).rejects.toThrow();
 
@@ -208,11 +238,15 @@ describe("UserService", () => {
     it("should create an organisation and user together", async () => {
       const testEmail = `test-${Date.now()}@example.com`;
       const testPassword = "TestPassword123!";
+      const testGivenName = "Emma";
+      const testFamilyName = "Davis";
       const testOrgName = "Test Organisation";
 
       const result = await createOrganisationWithUser(
         testEmail,
         testPassword,
+        testGivenName,
+        testFamilyName,
         testOrgName,
         UserType.organisation,
         UserRole.admin,
@@ -224,6 +258,8 @@ describe("UserService", () => {
 
       expect(result.user).toBeDefined();
       expect(result.organisation).toBeDefined();
+      expect(result.user.givenName).toBe(testGivenName);
+      expect(result.user.familyName).toBe(testFamilyName);
       expect(result.user.email).toBe(testEmail);
       expect(result.user.role).toBe(UserRole.admin);
       expect(result.user.type).toBe(UserType.organisation);
@@ -239,11 +275,15 @@ describe("UserService", () => {
     it("should create organisation with default values", async () => {
       const testEmail = `test-${Date.now()}@example.com`;
       const testPassword = "TestPassword123!";
+      const testGivenName = "Oliver";
+      const testFamilyName = "Wilson";
       const testOrgName = "Another Test Org";
 
       const result = await createOrganisationWithUser(
         testEmail,
         testPassword,
+        testGivenName,
+        testFamilyName,
         testOrgName,
         UserType.organisation,
         UserRole.admin,
@@ -267,6 +307,8 @@ describe("UserService", () => {
         createOrganisationWithUser(
           "invalid-email",
           "TestPassword123!",
+          "Sophia",
+          "Martinez",
           "Test Org"
         )
       ).rejects.toThrow();
@@ -277,6 +319,8 @@ describe("UserService", () => {
         createOrganisationWithUser(
           `test-${Date.now()}@example.com`,
           "weak",
+          "Liam",
+          "Anderson",
           "Test Org"
         )
       ).rejects.toThrow();
@@ -287,11 +331,15 @@ describe("UserService", () => {
     it("should successfully log in an existing user", async () => {
       const testEmail = `login-test-${Date.now()}@example.com`;
       const testPassword = "TestPassword123!";
+      const testGivenName = "Login";
+      const testFamilyName = "User";
 
       // Create a test user first
       const result = await createOrganisationWithUser(
         testEmail,
         testPassword,
+        testGivenName,
+        testFamilyName,
         "Login Test Org",
         UserType.organisation,
         UserRole.admin,
@@ -327,11 +375,15 @@ describe("UserService", () => {
     it("should throw error for wrong password", async () => {
       const testEmail = `login-test-${Date.now()}@example.com`;
       const testPassword = "TestPassword123!";
+      const testGivenName = "Wrong";
+      const testFamilyName = "Password";
 
       // Create a test user
       const result = await createOrganisationWithUser(
         testEmail,
         testPassword,
+        testGivenName,
+        testFamilyName,
         "Login Test Org",
         UserType.organisation,
         UserRole.admin,
@@ -353,11 +405,15 @@ describe("UserService", () => {
     it("should retrieve correct user data from Firestore", async () => {
       const testEmail = `login-test-${Date.now()}@example.com`;
       const testPassword = "TestPassword123!";
+      const testGivenName = "Data";
+      const testFamilyName = "Test";
 
       // Create user
       const result = await createOrganisationWithUser(
         testEmail,
         testPassword,
+        testGivenName,
+        testFamilyName,
         "Data Test Org",
         UserType.organisation,
         UserRole.admin,
@@ -384,11 +440,15 @@ describe("UserService", () => {
     it("should send password reset email for valid email", async () => {
       const testEmail = `reset-test-${Date.now()}@example.com`;
       const testPassword = "TestPassword123!";
+      const testGivenName = "Reset";
+      const testFamilyName = "Test";
 
       // Create a test user first
       const result = await createOrganisationWithUser(
         testEmail,
         testPassword,
+        testGivenName,
+        testFamilyName,
         "Password Reset Test Org",
         UserType.organisation,
         UserRole.admin,
@@ -462,12 +522,16 @@ describe("UserService", () => {
     it("should throw error if code is expired or invalid", async () => {
       const testEmail = `reset-confirm-${Date.now()}@example.com`;
       const testPassword = "TestPassword123!";
+      const testGivenName = "Confirm";
+      const testFamilyName = "Reset";
       const newPassword = "NewPassword456!";
 
       // Create a test user
       const result = await createOrganisationWithUser(
         testEmail,
         testPassword,
+        testGivenName,
+        testFamilyName,
         "Password Confirm Test Org",
         UserType.organisation,
         UserRole.admin,
