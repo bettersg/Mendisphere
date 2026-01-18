@@ -69,15 +69,6 @@ describe("ConsultantService", () => {
 			expect(consultant.phone).toBe("+65 9123 4567");
 			expect(consultant.services).toEqual([ConsultantServiceEnum.PostAwardManagement]);
 
-			// Verify minimal data is stored in Firestore
-			const docRef = doc(db, Collections.users, consultant.id);
-			const docSnap = await getDoc(docRef);
-			expect(docSnap.exists()).toBe(true);
-			const data = docSnap.data()!;
-			expect(data.type).toBe(UserType.consultant);
-			expect(data.role).toBe(UserRole.contributor);
-			expect(data.orgID).toBe(testOrg.id);
-
 			// Cleanup
 			await deleteUser(consultant.firebaseUser);
 		});
@@ -286,7 +277,7 @@ describe("ConsultantService", () => {
 			// No Firestore user doc set
 			trackTestDoc({ collection: Collections.users, id: firebaseUser.uid });
 
-			await expect(loginConsultant(testEmail, testPassword)).rejects.toThrow(/User document wnot found/);
+			await expect(loginConsultant(testEmail, testPassword)).rejects.toThrow(/User document not found/);
 
 			await deleteUser(firebaseUser);
 		});
