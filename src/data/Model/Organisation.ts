@@ -1,22 +1,12 @@
 import {
-  collection,
   addDoc,
   DocumentData,
   FirestoreDataConverter,
-  getDocs,
   QueryDocumentSnapshot,
   SnapshotOptions,
-  QuerySnapshot,
-  where,
-  query,
-  QueryConstraint,
   getDoc,
   doc,
-  limit,
-  startAfter,
-  DocumentSnapshot,
-  getCountFromServer,
-  orderBy,
+  collection,
 } from "firebase/firestore";
 import { Collections } from "../../services/Firebase/names";
 import { db } from "../../services/Firebase/firebaseConfig";
@@ -109,125 +99,6 @@ export const organisationConverter: FirestoreDataConverter<Organisation> = {
     );
   },
 };
-
-export type OrganisationListingQueryFilters = {
-  specialisations?: Specialisation[];
-  services?: Service[];
-  ipcStatus?: IPCStatus[];
-  supportAreas?: SupportArea[];
-};
-// get all organisations in the collection with pagination
-// list parameters must be limited to a size of 10 due to
-// limitations in firestore
-export async function getOrganisationsForListingsPage(
-  filters?: OrganisationListingQueryFilters,
-  skipOrgName?: string,
-  limitNum: number = 0,
-  lastVisible?: DocumentSnapshot<DocumentData>,
-  sortField?: string,
-  sortDirection?: "asc" | "desc"
-): Promise<{
-  organisations: Organisation[];
-  lastVisible: DocumentSnapshot<DocumentData> | null;
-  totalCount: number;
-}> {
-  const queryConstraints: QueryConstraint[] = [];
-  let onlyServicesFilter = false;
-
-  if (filters) {
-    if ((filters.specialisations?.length ?? 0) > 10) {
-      return Promise.reject(
-        new RangeError(
-          `Specialisations provided for filter exceeds maximum allowed limit of 10.`
-        )
-      );
-    }
-
-    if ((filters.services?.length ?? 0) > 10) {
-      return Promise.reject(
-        new RangeError(
-          `Services provided for filter exceeds maximum allowed limit of 10.`
-        )
-      );
-    }
-
-    if ((filters.supportAreas?.length ?? 0) > 10) {
-      return Promise.reject(
-        new RangeError(
-          `Support areas provided for filter exceeds maximum allowed limit of 10.`
-        )
-      );
-    }
-
-    if (filters.specialisations !== undefined) {
-      queryConstraints.push(
-        where("mainSpecialisation", "in", filters.specialisations)
-      );
-    }
-
-    if (filters.ipcStatus !== undefined) {
-      queryConstraints.push(where("ipcApproved", "in", filters.ipcStatus));
-    }
-
-    if (filters.supportAreas !== undefined) {
-      queryConstraints.push(
-        where("mainSupportArea", "in", filters.supportAreas)
-      );
-    }
-
-    if (filters.services !== undefined && !queryConstraints.length) {
-      onlyServicesFilter = true;
-      queryConstraints.push(
-        where("services", "array-contains-any", filters.services)
-      );
-    }
-  }
-
-  if (skipOrgName) {
-    queryConstraints.push(where("name", "!=", skipOrgName));
-  }
-
-  if (lastVisible) {
-    queryConstraints.push(startAfter(lastVisible));
-  }
-
-  if (sortField && sortDirection) {
-    queryConstraints.push(orderBy(sortField, sortDirection));
-  }
-
-  const orgsRef = collection(db, Collections.organisations).withConverter(
-    organisationConverter
-  );
-
-  // Get total count
-  const totalCountSnapshot = await getCountFromServer(
-    query(orgsRef, ...queryConstraints)
-  );
-  const totalCount = totalCountSnapshot.data().count;
-
-  if (limitNum > 0) {
-    queryConstraints.push(limit(limitNum));
-  }
-
-  // Get paginated organisations
-  const querySnapshot: QuerySnapshot<Organisation> = await getDocs(
-    query(orgsRef, ...queryConstraints)
-  );
-
-  const orgs: Organisation[] = [];
-  querySnapshot.forEach((doc) => {
-    orgs.push(doc.data());
-  });
-
-  return {
-    organisations: orgs,
-    lastVisible:
-      querySnapshot.docs.length > 0
-        ? querySnapshot.docs[querySnapshot.docs.length - 1]
-        : null,
-    totalCount: totalCount,
-  };
-}
 
 // get an organisation for profile page
 export async function getOrganisationForProfilePage(
