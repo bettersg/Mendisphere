@@ -321,7 +321,7 @@ describe("UserService", () => {
 
       await expect(
         loginUser(testEmail, testPassword)
-      ).rejects.toThrow("Invalid email or password");
+      ).rejects.toThrow("auth/user-not-found");
     });
 
     it("should throw error for wrong password", async () => {
@@ -344,7 +344,7 @@ describe("UserService", () => {
       // Attempt login with wrong password
       await expect(
         loginUser(testEmail, "WrongPassword123!")
-      ).rejects.toThrow("Invalid email or password");
+      ).rejects.toThrow("auth/wrong-password");
 
       // Cleanup
       await deleteUser(result.user.firebaseUser);
