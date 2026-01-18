@@ -9,14 +9,11 @@ import {
 import CardView from "./CardView";
 import ListView from "./ListView";
 import ViewToggle from "./ViewToggle";
-import {
-  getOrganisationsForListingsPage,
-  Organisation,
-  OrganisationListingQueryFilters,
-} from "../../data/Model/Organisation";
+import {  Organisation } from "../../data/Model/Organisation";
 import Breadcrumbs from "../../components/Breadcrumbs";
 import "../style.scss";
 import { MultiSelect } from "react-multi-select-component";
+import { getOrganisations, OrganisationFilters } from "../../services/OrganisationService";
 import {
   ipcOptions,
   serviceOptions,
@@ -60,7 +57,7 @@ const OrganisationList: React.FC = () => {
   const [services, setServices] = useState<Option[]>([]);
   const [ipcStatus, setIpcStatus] = useState<Option[]>([]);
   const [supportAreas, setSupportAreas] = useState<Option[]>([]);
-  const [filters, setFilters] = useState<OrganisationListingQueryFilters>({
+  const [filters, setFilters] = useState<OrganisationFilters>({
     specialisations: undefined,
     services: undefined,
     ipcStatus: undefined,
@@ -72,7 +69,7 @@ const OrganisationList: React.FC = () => {
   useEffect(() => {
     setIsLoading(true);
     // fetch organisation data on page load
-    getOrganisationsForListingsPage(filters, "", limit, undefined)
+    getOrganisations(filters, "", limit, undefined)
       .then((res) => {
         setOrgList(res.organisations);
         setLastVisible(res.lastVisible);
@@ -98,7 +95,7 @@ const OrganisationList: React.FC = () => {
     if (isLoadMoreLoading || lastVisible === null) return;
 
     setIsLoadMoreLoading(true);
-    getOrganisationsForListingsPage(filters, "", limit, lastVisible)
+    getOrganisations(filters, "", limit, lastVisible)
       .then((res) => {
         setOrgList((prevState) => [...prevState, ...res.organisations]);
         setLastVisible(res.lastVisible);
@@ -115,7 +112,7 @@ const OrganisationList: React.FC = () => {
     sortField: string,
     sortDirection: "asc" | "desc"
   ) => {
-    getOrganisationsForListingsPage(
+    getOrganisations(
       filters,
       "",
       limit,
