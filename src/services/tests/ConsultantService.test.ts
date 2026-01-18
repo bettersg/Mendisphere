@@ -248,7 +248,7 @@ describe("ConsultantService", () => {
 			// No Firestore user doc set
 			trackTestDoc({ collection: Collections.users, id: firebaseUser.uid });
 
-			await expect(loginConsultant(testEmail, testPassword)).rejects.toThrow(/User document wnot found/);
+			await expect(loginConsultant(testEmail, testPassword)).rejects.toThrow(/User document not found/);
 
 			await deleteUser(firebaseUser);
 		});
