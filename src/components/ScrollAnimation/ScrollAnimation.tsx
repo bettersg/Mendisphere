@@ -10,20 +10,27 @@ const useElementOnScreen = (
   useEffect(() => {
     if (!ref.current) return;
 
+    if (!ref.current) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsIntersecting(entry.isIntersecting);
       },
       { rootMargin }
     );
-
-    observer.observe(ref.current);
-
+    
+    const currentRef = ref.current; // Best practice: capture ref.current in a variable
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
+    
     return () => {
-      observer.disconnect();
+      if (currentRef) {
+        observer.unobserve(currentRef);
+      }
     };
-  }, [ref, rootMargin]);
-
+  }, [ref, rootMargin]); // Added dependencies for stability
+  
   return isIntersecting;
 };
 

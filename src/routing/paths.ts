@@ -5,11 +5,14 @@ export class Paths {
   static readonly login = "/login";
   static readonly signup = "/registration";
   static readonly forgotPassword="/forgot-password"
+  static readonly emailVerification = "/verification";
+  static readonly emailVerified = "/verified";
   static readonly profileSetup = "/profile-setup";
   static readonly dashboard = "/dashboard";
   static readonly about = "/about-us";
   static readonly contactUs = "/contact-us";
   static readonly verifyEmail = "/auth/action";
+  static readonly resetPassword="/reset-password"
 }
 
 export const buildOrgProfilePath = (orgId: string) =>
