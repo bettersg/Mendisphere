@@ -1,4 +1,4 @@
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc,getDocs,collection} from "firebase/firestore";
 import { db } from "./Firebase/firebaseConfig";
 import { Collections } from "./Firebase/names";
 import { Organisation, organisationConverter } from "../data/Model/Organisation";
@@ -37,8 +37,29 @@ export async function getOrganisationById(
   }
 }
 
+
+export async function getAllOrganisations(): Promise<Organisation[]> {
+  const organisations: Organisation[] = [];
+  try {
+    const organisationsRef = collection(db, Collections.organisations).withConverter(
+    organisationConverter
+    );
+    const organisationsSnap = await getDocs(organisationsRef);
+    organisationsSnap.forEach((doc) => {
+      console.log(doc.data());
+      const organisation=doc.data();
+      organisations.push(organisation);
+    });
+    return organisations;
+  } catch (error) {
+    console.error("Error fetching all organisations:", error);
+    throw error;
+  }
+}
+
 const OrganisationService = {
   getOrganisationById,
+  getAllOrganisations
 };
 
 export default OrganisationService;

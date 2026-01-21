@@ -1,4 +1,4 @@
-import { getOrganisationById } from "../OrganisationService";
+import { getOrganisationById,getAllOrganisations } from "../OrganisationService";
 import { createOrganisation } from "../../data/Model/Organisation";
 import { IPCStatus } from "../../data/Enums/ipc-status.enum";
 import { VerificationStatus } from "../../data/Enums/verification-status.enum";
@@ -16,7 +16,81 @@ describe("OrganisationService", () => {
     // Clean up all test organisations after each test
     await cleanupFirebaseData();
   });
-  
+ 
+  describe("getAllOrganisations", () => {
+
+  it("should retrieve all organisations", async () => {
+    // Create two test organisations
+    const org1 = await createOrganisation({
+      name: "Org One",
+      ipcApproved: IPCStatus.Pending,
+      verified: VerificationStatus.Pending,
+      mainSpecialisation: Specialisation.NotSet,
+      mainSupportArea: SupportArea.NotSet,
+      services: [],
+      description: "First test org",
+      cardImageUrl: "org1.jpg",
+    });
+
+    const org2 = await createOrganisation({
+      name: "Org Two",
+      ipcApproved: IPCStatus.Approved,
+      verified: VerificationStatus.Verified,
+      mainSpecialisation: Specialisation.AntiStigmatism,
+      mainSupportArea: SupportArea.FundingSupport,
+      services: [Service.Counselling],
+      description: "Second test org",
+      cardImageUrl: "org2.jpg",
+    });
+
+    // Track for cleanup
+    trackTestDoc({ collection: Collections.organisations, id: org1.id });
+    trackTestDoc({ collection: Collections.organisations, id: org2.id });
+
+    // Call the function
+    const organisations = await getAllOrganisations();
+
+    expect(organisations).toBeDefined();
+    expect(organisations.length).toBeGreaterThanOrEqual(2);
+
+    const names = organisations.map(o => o.name);
+    expect(names).toContain("Org One");
+    expect(names).toContain("Org Two");
+
+    // Check all fields are returned for first org
+    const retrievedOrg1 = organisations.find(o => o.id === org1.id);
+    expect(retrievedOrg1).toMatchObject({
+      name: "Org One",
+      ipcApproved: IPCStatus.Pending,
+      verified: VerificationStatus.Pending,
+      mainSpecialisation: Specialisation.NotSet,
+      mainSupportArea: SupportArea.NotSet,
+      services: [],
+      description: "First test org",
+      cardImageUrl: "org1.jpg",
+    });
+
+    // Check all fields for second org
+    const retrievedOrg2 = organisations.find(o => o.id === org2.id);
+    expect(retrievedOrg2).toMatchObject({
+      name: "Org Two",
+      ipcApproved: IPCStatus.Approved,
+      verified: VerificationStatus.Verified,
+      mainSpecialisation: Specialisation.AntiStigmatism,
+      mainSupportArea: SupportArea.FundingSupport,
+      services: [Service.Counselling],
+      description: "Second test org",
+      cardImageUrl: "org2.jpg",
+    });
+  });
+
+  it("should return an empty array if no organisations exist", async () => {
+    const organisations = await getAllOrganisations();
+    expect(organisations).toBeDefined();
+    expect(Array.isArray(organisations)).toBe(true);
+    expect(organisations.length).toBe(0);
+  });
+  });
   describe("getOrganisationById", () => {
     it("should retrieve an organisation by its ID", async () => {
       // Create a test organisation first

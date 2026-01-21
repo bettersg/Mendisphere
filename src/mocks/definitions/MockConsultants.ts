@@ -8,7 +8,8 @@ interface IMockConsultant extends IConsultant {
 }
 
 const mockConsultant1: IMockConsultant = {
-  name: faker.person.fullName(),
+  givenName: faker.person.firstName(),
+  familyName: faker.person.lastName(),
   email: faker.internet.email(),
   phone: faker.phone.number(),
   shortDescription: faker.lorem.sentence(),
@@ -18,7 +19,8 @@ const mockConsultant1: IMockConsultant = {
 };
 
 const mockConsultant2: IMockConsultant = {
-  name: faker.person.fullName(),
+  givenName: faker.person.firstName(),
+  familyName: faker.person.lastName(),
   email: faker.internet.email(),
   phone: faker.phone.number(),
   shortDescription: faker.lorem.sentence(),
