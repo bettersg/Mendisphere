@@ -1,10 +1,17 @@
 // credits: https://betterprogramming.pub/simple-react-scroll-animations-with-zero-dependencies-b496c1e1c7bd
 import { useState, useEffect, useRef } from "react";
 
-const useElementOnScreen = (ref: React.RefObject<Element | null>, rootMargin = "0px") => {
-  const [isIntersecting, setIsIntersecting] = useState(false); // Start false for "fade in" effect
-  
+const useElementOnScreen = (
+  ref: React.RefObject<Element | null>,
+  rootMargin = "0px"
+) => {
+  const [isIntersecting, setIsIntersecting] = useState(true);
+
   useEffect(() => {
+    if (!ref.current) return;
+
+    if (!ref.current) return;
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         setIsIntersecting(entry.isIntersecting);
@@ -25,7 +32,8 @@ const useElementOnScreen = (ref: React.RefObject<Element | null>, rootMargin = "
   }, [ref, rootMargin]); // Added dependencies for stability
   
   return isIntersecting;
-}
+};
+
 
 const AnimateIn: React.FC<
 React.PropsWithChildren<{ from: React.CSSProperties; to: React.CSSProperties }>

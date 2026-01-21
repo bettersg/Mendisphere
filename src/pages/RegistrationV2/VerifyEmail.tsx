@@ -33,12 +33,10 @@ const VerifyEmail: React.FC = () => {
   const navigate = useNavigate();
   const [status, setStatus] = useState<VerificationStatus>(VerificationStatus.LOADING);
   const [errorMessage, setErrorMessage] = useState<string>('');
-  const [isResending, setIsResending] = useState<boolean>(false);
-  const [resendMessage, setResendMessage] = useState<string>('');
 
-const [openSnackbar, setOpenSnackbar] = useState(false);
-const [snackbarMessage, setSnackbarMessage] = useState("");
-const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">("success");
+  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">("success");
 
   console.log('Current status:', status);
   const handleResendEmailClick = async () => {
@@ -57,6 +55,7 @@ const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error">("s
               setOpenSnackbar(true);
           }
       };
+
 useEffect(() => {
   const tryVerifyEmail = async () => {
     const oobCode = searchParams.get('oobCode');
@@ -103,7 +102,7 @@ useEffect(() => {
     switch (status) {
       case VerificationStatus.LOADING:
         return (
-           <Box sx={{ display: 'flex' }}>
+           <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <CircularProgress />
             </Box>
         );
