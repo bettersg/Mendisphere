@@ -2,7 +2,7 @@ import React, { useState, useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Box,
-  Grid,Stack,
+  Stack,
   Typography,
   Button,
   TextField,
@@ -13,7 +13,6 @@ import {
   ToggleButtonGroup
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { colors } from "../../theme/colours";
 import Autocomplete from "@mui/material/Autocomplete";
 import { Paths } from "../../routing";
 import { getAllOrganisations } from "../../services/OrganisationService"; 
@@ -21,7 +20,6 @@ import { Organisation } from "../../data/Model/Organisation";
 import { createOrganisationWithUser,createUserWithAuth} from "../../services/UserService";
 import { UserType } from "../../data/Enums/user-type.enum";
 import { UserRole } from "../../data/Enums/user-role.enum";
-import {User } from "../../data/Model/User";
 import { createConsultant } from "../../services/ConsultantService";
 
 function RegistrationForm(){

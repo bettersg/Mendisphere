@@ -1,5 +1,5 @@
-import { Box,Container,Stack} from '@mui/system';
-import { useMediaQuery, useTheme } from '@mui/material';
+import { Box, Stack } from '@mui/system';
+import { useMediaQuery } from '@mui/material';
 import RegistrationForm from "./RegistrationForm";
 import RegistrationTopBar from "./RegistrationTopBar";
 import { muiTheme } from '../../theme/muiTheme';

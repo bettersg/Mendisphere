@@ -9,11 +9,9 @@ import {
 import CheckFilled from "../../assets/icons/checkFilled.svg";
 import { colors } from "../../theme/colours";
 import { Paths } from "../../routing";
-import NotFound from "../NotFound/NotFound";
 import { resendVerificationEmail } from "../../services/UserService";
 import { getAuth } from "firebase/auth";
-import { useMediaQuery, useTheme } from '@mui/material';
-import RegistrationForm from "./RegistrationForm";
+import { useMediaQuery } from '@mui/material';
 import RegistrationTopBar from "./RegistrationTopBar";
 import { muiTheme } from '../../theme/muiTheme';
 
