@@ -1,37 +1,19 @@
-import React, { useEffect, useState } from 'react';
-import { useNavigate,useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
     Box,
     Typography,
     Button,
-    Link,
+    useMediaQuery,
 } from "@mui/material";
 import CheckFilled from "../../assets/icons/checkFilled.svg";
-import { colors } from "../../theme/colours";
 import { Paths } from "../../routing";
-import { useMediaQuery, useTheme } from '@mui/material';
-import RegistrationForm from "./RegistrationForm";
 import RegistrationTopBar from "./RegistrationTopBar";
 import { muiTheme } from '../../theme/muiTheme';
-import { Container,Stack} from '@mui/system';
-import { verifyEmail, resendVerificationEmail } from '../../services/UserService';
-
-enum VerificationStatus {
-  LOADING = 'loading',
-  SUCCESS = 'success',
-  ERROR = 'error',
-  INVALID = 'invalid'
-}
-
+import { Stack } from '@mui/system';
 
 const RegistrationVerified = () => {
     const isMobile=useMediaQuery(muiTheme.breakpoints.down('desktop'))
     const navigate = useNavigate();
-    const [searchParams] = useSearchParams();
-    const [status, setStatus] = useState<VerificationStatus>(VerificationStatus.LOADING);
-    const [errorMessage, setErrorMessage] = useState<string>('');
-    const [isResending, setIsResending] = useState<boolean>(false);
-    const [resendMessage, setResendMessage] = useState<string>('');
 
 
     return (

@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { verifyEmail, resendVerificationEmail } from '../../services/UserService';
-import { useMediaQuery, useTheme } from '@mui/material';
+import { useMediaQuery } from '@mui/material';
 import RegistrationTopBar from "./RegistrationTopBar";
 import { muiTheme } from '../../theme/muiTheme';
 import {
     Box,
     Typography,
     Button,
-    Link,Snackbar,Alert, CircularProgress
+    Snackbar,
+    Alert,
+    CircularProgress
 } from "@mui/material";
 import {Stack} from '@mui/system';
-import ClearIcon from '@mui/icons-material/Clear';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckFilled from "../../assets/icons/checkFilled.svg";
-import { colors } from "../../theme/colours";
 import { Paths } from "../../routing";
 import {auth} from "../../services/Firebase/firebaseConfig"
 
