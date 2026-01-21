@@ -1,29 +1,18 @@
 
-import { Box,Container,Stack} from '@mui/system';
-import { Alert, Snackbar, Link,IconButton,Button,FormControl, TextField, InputAdornment} from '@mui/material';
-
+import { Box, Stack } from '@mui/system';
+import { Alert, Snackbar, IconButton, Button, TextField, InputAdornment, useMediaQuery } from '@mui/material';
 import React, { useState } from 'react';
 import Typography from "@mui/material/Typography";
 import LockIcon from '@mui/icons-material/Lock';
 import PersonIcon from '@mui/icons-material/Person';
 import TopBar from './TopBar';
 import { muiTheme } from '../../theme/muiTheme';
-import LoginForm from './LoginForm';
 import "./style.scss";
-import { useMediaQuery, useTheme } from '@mui/material';
-import ForgotPasswordForm from './ForgotPasswordForm';
-import { ChevronLeft } from '@mui/icons-material';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import "./style.scss";
-import CheckFilled from "../../assets/icons/checkFilled.svg";
 import { Paths } from "../../routing";
-import { getAuth, signInWithEmailAndPassword} from 'firebase/auth';
-import {Link as RouterLink} from "react-router-dom"
 import UserService from "../../services/UserService"
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { colors } from "../../theme/colours";
 interface FormData{
   password: string;
 }

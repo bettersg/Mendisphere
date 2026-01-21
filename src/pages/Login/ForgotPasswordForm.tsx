@@ -1,17 +1,11 @@
 
-import { Box,Container,Stack} from '@mui/system';
-import React, { Component, useState } from "react";
+import { Stack } from '@mui/system';
+import React, { useState } from "react";
 import Typography from "@mui/material/Typography";
-import { Link,IconButton,Button,FormControl, TextField, InputAdornment} from '@mui/material';
-import { ChevronLeft } from '@mui/icons-material';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
-import Visibility from '@mui/icons-material/Visibility';
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import { Button, TextField } from '@mui/material';
 import "./style.scss";
 import CheckFilled from "../../assets/icons/checkFilled.svg";
 import { Paths } from "../../routing";
-import { getAuth, signInWithEmailAndPassword} from 'firebase/auth';
-import {Link as RouterLink} from "react-router-dom"
 import UserService from "../../services/UserService"
 import { useNavigate } from "react-router-dom";
 import { colors } from "../../theme/colours";
