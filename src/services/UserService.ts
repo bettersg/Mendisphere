@@ -1,5 +1,5 @@
-import {ActionCodeSettings, createUserWithEmailAndPassword, sendEmailVerification, applyActionCode, signInWithEmailAndPassword, sendPasswordResetEmail, verifyPasswordResetCode, confirmPasswordReset } from "firebase/auth";
-import { doc, getDoc, getDoc as getFirestoreDoc } from "firebase/firestore";
+import {getAuth,ActionCodeSettings, createUserWithEmailAndPassword, sendEmailVerification, applyActionCode, signInWithEmailAndPassword, sendPasswordResetEmail, verifyPasswordResetCode, confirmPasswordReset } from "firebase/auth";
+import { doc, getDoc} from "firebase/firestore";
 import { auth, db } from "./Firebase/firebaseConfig";
 import { createUser, User } from "../data/Model/User";
 import { UserRole } from "../data/Enums/user-role.enum";
@@ -241,7 +241,17 @@ export async function loginUser(
     throw error;
   }
 }
-
+/**
+ * Check if user is logged in
+ * @param email - User's email address
+ * @param password - User's password
+ * @returns User instance with the Firebase Auth user and metadata from Firestore
+ */
+export async function isUserAuth(){
+  const auth = getAuth();
+  const user = auth.currentUser;
+  return !!user;
+}
 /**
  * Sends a password reset email to the specified email address
  * @param email - The email address to send the password reset link to

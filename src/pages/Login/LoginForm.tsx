@@ -1,14 +1,12 @@
 
-import { Box,Container,Stack} from '@mui/system';
-import React, { Component, useState } from "react";import Typography from "@mui/material/Typography";
-import { Link,IconButton,Button,FormControl, TextField, InputAdornment} from '@mui/material';
-import { ChevronLeft } from '@mui/icons-material';
-import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
+import { Stack } from '@mui/system';
+import React, { useState } from "react";
+import Typography from "@mui/material/Typography";
+import { Link, IconButton, Button, TextField, InputAdornment } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import "./style.scss";
 import { Paths } from "../../routing";
-import { getAuth, signInWithEmailAndPassword} from 'firebase/auth';
 import {Link as RouterLink} from "react-router-dom"
 import UserService from "../../services/UserService"
 import { useNavigate } from "react-router-dom";
@@ -45,7 +43,6 @@ export default function LoginForm() {
   const [passwordError,setPasswordError]=useState(false)
   const [passwordErrorMessage,setPasswordErrorMessage]=useState("")
 
-  const auth=getAuth();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
 
