@@ -1,5 +1,5 @@
-import {getAuth, onAuthStateChanged,ActionCodeSettings, createUserWithEmailAndPassword, sendEmailVerification, applyActionCode, signInWithEmailAndPassword, sendPasswordResetEmail, verifyPasswordResetCode, confirmPasswordReset } from "firebase/auth";
-import { doc, getDoc, getDoc as getFirestoreDoc } from "firebase/firestore";
+import {getAuth,ActionCodeSettings, createUserWithEmailAndPassword, sendEmailVerification, applyActionCode, signInWithEmailAndPassword, sendPasswordResetEmail, verifyPasswordResetCode, confirmPasswordReset } from "firebase/auth";
+import { doc, getDoc} from "firebase/firestore";
 import { auth, db } from "./Firebase/firebaseConfig";
 import { createUser, User } from "../data/Model/User";
 import { UserRole } from "../data/Enums/user-role.enum";

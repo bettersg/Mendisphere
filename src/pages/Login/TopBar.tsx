@@ -4,7 +4,7 @@ import BreadcrumbsV2 from "../../components/BreadcrumbsV2"
 import { ChevronLeft } from "@mui/icons-material";
 
 type TopBarProps = {
-  links: { label?: string; href?: string; icon?: JSX.Element | null }[];
+  links: { label: string; href?: string; icon?: JSX.Element | null }[];
 };
 
 
