@@ -66,6 +66,12 @@ export async function getOrganisationById(
 // get all organisations in the collection with pagination
 // list parameters must be limited to a size of 10 due to
 // limitations in firestore
+export type GetOrganisationsResult = {
+  organisations: Organisation[];
+  lastVisible: DocumentSnapshot<DocumentData> | null;
+  totalCount: number;
+};
+
 export async function getOrganisations(
   filters?: OrganisationFilters,
   skipOrgName?: string,
@@ -73,12 +79,7 @@ export async function getOrganisations(
   lastVisible?: DocumentSnapshot<DocumentData>,
   sortField?: string,
   sortDirection?: "asc" | "desc"
-): Promise<{
-  organisations: Organisation[];
-  lastVisible: DocumentSnapshot<DocumentData> | null;
-  totalCount: number;
-}> {
-
+): Promise<GetOrganisationsResult> {
   const filterConstraints: QueryConstraint[] = [];
 
   // Correct order: where → orderBy → startAfter → limit

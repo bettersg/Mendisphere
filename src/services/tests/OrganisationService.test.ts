@@ -17,7 +17,7 @@ describe("OrganisationService", () => {
     await cleanupFirebaseData();
   });
  
-  describe("getAllOrganisations", () => {
+  describe("getOrganisations", () => {
 
   it("should retrieve all organisations", async () => {
     // Create two test organisations
@@ -48,17 +48,17 @@ describe("OrganisationService", () => {
     trackTestDoc({ collection: Collections.organisations, id: org2.id });
 
     // Call the function
-    const organisations = await getAllOrganisations();
+    const result = await getOrganisations();
 
-    expect(organisations).toBeDefined();
-    expect(organisations.length).toBeGreaterThanOrEqual(2);
+    expect(result.organisations).toBeDefined();
+    expect(result.organisations.length).toBeGreaterThanOrEqual(2);
 
-    const names = organisations.map(o => o.name);
+    const names = result.organisations.map(o => o.name);
     expect(names).toContain("Org One");
     expect(names).toContain("Org Two");
 
     // Check all fields are returned for first org
-    const retrievedOrg1 = organisations.find(o => o.id === org1.id);
+    const retrievedOrg1 = result.organisations.find(o => o.id === org1.id);
     expect(retrievedOrg1).toMatchObject({
       name: "Org One",
       ipcApproved: IPCStatus.Pending,
@@ -71,7 +71,7 @@ describe("OrganisationService", () => {
     });
 
     // Check all fields for second org
-    const retrievedOrg2 = organisations.find(o => o.id === org2.id);
+    const retrievedOrg2 = result.organisations.find(o => o.id === org2.id);
     expect(retrievedOrg2).toMatchObject({
       name: "Org Two",
       ipcApproved: IPCStatus.Approved,
@@ -85,10 +85,10 @@ describe("OrganisationService", () => {
   });
 
   it("should return an empty array if no organisations exist", async () => {
-    const organisations = await getAllOrganisations();
-    expect(organisations).toBeDefined();
-    expect(Array.isArray(organisations)).toBe(true);
-    expect(organisations.length).toBe(0);
+    const result = await getOrganisations();
+    expect(result.organisations).toBeDefined();
+    expect(Array.isArray(result.organisations)).toBe(true);
+    expect(result.organisations.length).toBe(0);
   });
   });
   describe("getOrganisationById", () => {
