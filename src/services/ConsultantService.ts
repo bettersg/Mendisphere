@@ -46,7 +46,7 @@ export async function createConsultant(
     password: string,
     givenName: string,
     familyName: string,
-    userRole: UserRole = UserRole.admin,
+    userRole: UserRole = UserRole.contributor,
     sendVerificationEmail: boolean = true,
     orgID?: string,
     phone?: string,
@@ -86,6 +86,7 @@ export async function createConsultant(
             services,
             profileImageUrl
         );
+
         await updateDisplayName(consultant, givenName, familyName);
         console.log(`Consultant created successfully: ${consultant.id}`);
         return consultant;

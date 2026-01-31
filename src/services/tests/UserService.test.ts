@@ -311,7 +311,7 @@ describe("UserService", () => {
           "Martinez",
           "Test Org"
         )
-      ).rejects.toThrow();
+      ).rejects.toThrow('auth/invalid-email');
     });
 
     it("should throw error for weak password", async () => {
@@ -323,7 +323,7 @@ describe("UserService", () => {
           "Anderson",
           "Test Org"
         )
-      ).rejects.toThrow();
+      ).rejects.toThrow('auth/weak-password');
     });
   });
 
@@ -369,7 +369,7 @@ describe("UserService", () => {
 
       await expect(
         loginUser(testEmail, testPassword)
-      ).rejects.toThrow("Invalid email or password");
+      ).rejects.toThrow("auth/user-not-found");
     });
 
     it("should throw error for wrong password", async () => {
@@ -396,7 +396,7 @@ describe("UserService", () => {
       // Attempt login with wrong password
       await expect(
         loginUser(testEmail, "WrongPassword123!")
-      ).rejects.toThrow("Invalid email or password");
+      ).rejects.toThrow("auth/wrong-password");
 
       // Cleanup
       await deleteUser(result.user.firebaseUser);
@@ -470,13 +470,13 @@ describe("UserService", () => {
 
       await expect(
         sendPasswordReset(nonExistentEmail)
-      ).rejects.toThrow("No account found with this email address");
+      ).rejects.toThrow("auth/user-not-found");
     });
 
     it("should throw error for invalid email format", async () => {
       await expect(
         sendPasswordReset("invalid-email")
-      ).rejects.toThrow("No account found with this email address");
+      ).rejects.toThrow("auth/user-not-found");
     });
   });
 
@@ -486,7 +486,7 @@ describe("UserService", () => {
 
       await expect(
         verifyPasswordResetOobCode(invalidCode)
-      ).rejects.toThrow();
+      ).rejects.toThrow("This password reset link is invalid or has already been used.");
     });
 
     it("should throw error for expired reset code", async () => {
