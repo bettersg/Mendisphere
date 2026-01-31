@@ -62,8 +62,12 @@ export async function createUserWithAuth(
     
     // Step 3: Send email verification (default: true for security)
     if (sendVerificationEmail) {
-      sendEmailVerification(firebaseUser, getActionCodeSettings());
-      console.log(`Verification email sent to ${email}`);
+      try {
+        await sendEmailVerification(firebaseUser, getActionCodeSettings());
+        console.log(`Verification email sent to ${email}`);
+      } catch (emailError) {
+        console.error(`Failed to send verification email:`, emailError);
+      }
     }
 
     // Step 4: Create Firestore User document with the Auth user's UID
