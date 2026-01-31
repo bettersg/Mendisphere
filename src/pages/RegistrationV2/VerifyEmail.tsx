@@ -61,6 +61,12 @@ useEffect(() => {
     const oobCode = searchParams.get('oobCode');
     const mode = searchParams.get('mode');
 
+    // Handle password reset mode - redirect to reset password page
+    if (mode === 'resetPassword' && oobCode) {
+      navigate(`${Paths.resetPassword}?oobCode=${oobCode}`);
+      return;
+    }
+
     if (!oobCode || mode !== 'verifyEmail') {
       // Set up auth state listener for emulator redirects
       const unsubscribe = auth.onAuthStateChanged(async (user) => {

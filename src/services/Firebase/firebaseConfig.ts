@@ -43,11 +43,15 @@ if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "test") {
     console.log('Firestore emulator already connected or error:', e);
   }
   
-  try {
-    connectAuthEmulator(auth, `http://${config.auth.host}:${config.auth.port}`);
-    console.log(`Connected to Auth emulator at ${config.auth.host}:${config.auth.port}`);
-  } catch (e) {
-    console.log('Auth emulator already connected or error:', e);
+  if (process.env.REACT_APP_USE_REAL_AUTH !== 'true') {
+    try {
+      connectAuthEmulator(auth, `http://${config.auth.host}:${config.auth.port}`);
+      console.log(`Connected to Auth emulator at ${config.auth.host}:${config.auth.port}`);
+    } catch (e) {
+      console.log('Auth emulator already connected or error:', e);
+    }
+  } else {
+    console.log('Using real Firebase Auth (emails will be sent)');
   }
   
   try {

@@ -11,14 +11,18 @@ import { Paths } from ".";
 import RegistrationVerificaion from "../pages/RegistrationV2/RegistrationVerification";
 import NotFound from "../pages/NotFound/NotFound";
 import RegistrationVerified from "../pages/RegistrationV2/RegistrationVerified";
-import ResetPassword
- from "../pages/Login/ResetPassword";
+import ResetPassword from "../pages/Login/ResetPassword";
+import ProtectedRoute from "./ProtectedRoute";
 const Routing = () => {
   return (
     <Routes>
       <Route path={Paths.home} element={<Home />} />
       <Route path={Paths.login} element={<LoginPage />} />
-      <Route path={Paths.dashboard} element={<UserDashboardPage />} />
+      <Route path={Paths.dashboard} element={
+        <ProtectedRoute requireEmailVerified>
+          <UserDashboardPage />
+        </ProtectedRoute>
+      } />
       <Route path={Paths.signup} element={<Registration />} />
       <Route path={Paths.emailVerification} element={<RegistrationVerificaion />} />
       <Route path={Paths.emailVerified} element={<RegistrationVerified />} />

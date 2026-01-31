@@ -111,7 +111,7 @@ function RegistrationForm(){
               familyName,
               UserType.organisation,
               UserRole.admin,
-              false,
+              true,
               organisationId,
             );
           }
@@ -271,7 +271,7 @@ function RegistrationForm(){
           NEXT
         </Button>
         <Typography variant="body1" align="center">
-          Already have an account? <Link href="/signin">Sign in</Link>
+          Already have an account? <Link href="/login">Sign in</Link>
         </Typography>
       </Stack>
     </Stack>
