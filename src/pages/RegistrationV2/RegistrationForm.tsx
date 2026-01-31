@@ -111,7 +111,7 @@ function RegistrationForm(){
               familyName,
               UserType.organisation,
               UserRole.admin,
-              false,
+              true,
               organisationId,
             );
           }
