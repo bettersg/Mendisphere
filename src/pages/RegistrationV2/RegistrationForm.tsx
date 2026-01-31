@@ -15,7 +15,7 @@ import {
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import Autocomplete from "@mui/material/Autocomplete";
 import { Paths } from "../../routing";
-import { getAllOrganisations } from "../../services/OrganisationService"; 
+import { getOrganisations, GetOrganisationsResult } from "../../services/OrganisationService"; 
 import { Organisation } from "../../data/Model/Organisation";
 import { createOrganisationWithUser,createUserWithAuth} from "../../services/UserService";
 import { UserType } from "../../data/Enums/user-type.enum";
@@ -26,11 +26,11 @@ function RegistrationForm(){
   const navigate = useNavigate();
   const [organisationOptions, setOrganisationOptions] = useState<Organisation[]>([]);
   useEffect(() => {
-  getAllOrganisations().then(orgs => {
-      if (!orgs) return;
+  getOrganisations().then((result: GetOrganisationsResult) => {
+      if (!result) return;
 
       setOrganisationOptions([
-        ...orgs,
+        ...result.organisations,
         { id: "new", name: "+ Add New Organisation" } as Organisation,
       ]);
     });
