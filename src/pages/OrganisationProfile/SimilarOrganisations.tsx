@@ -3,25 +3,24 @@ import "../scss/similar-orgs.scss";
 import "../style.scss";
 import { useEffect, useState } from "react";
 import {
-  getOrganisationsForListingsPage,
   Organisation,
-  OrganisationListingQueryFilters,
 } from "../../data/Model/Organisation";
 import CardView from "../OrganisationList/CardView";
 import { Specialisation } from "../../data/Enums/specialisation.enum";
+import { getOrganisations, OrganisationFilters } from "../../services/OrganisationService";
 
 const SimilarOrganisations: React.FC<{ org: Organisation }> = ({ org }) => {
   // store organisation card data
   const [orgList, setOrgList] = useState<Organisation[]>([]);
   // states of the 4 filters
-  const filter: OrganisationListingQueryFilters = {
+  const filter: OrganisationFilters = {
     // For testing only, replace with org.mainSpecialisation
     specialisations: [Specialisation.OverallMentalWellbeing],
   };
 
   useEffect(() => {
     // fetch organisation data on page load
-    getOrganisationsForListingsPage(filter, org.name, 4, undefined)
+    getOrganisations(filter, org.name, 4, undefined)
       .then((res) => {
         // console.log('orgs', orgs)
         setOrgList(res.organisations);
