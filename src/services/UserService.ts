@@ -62,8 +62,12 @@ export async function createUserWithAuth(
     
     // Step 3: Send email verification (default: true for security)
     if (sendVerificationEmail) {
-      sendEmailVerification(firebaseUser, getActionCodeSettings());
-      console.log(`Verification email sent to ${email}`);
+      try {
+        await sendEmailVerification(firebaseUser, getActionCodeSettings());
+        console.log(`Verification email sent to ${email}`);
+      } catch (emailError) {
+        console.error(`Failed to send verification email:`, emailError);
+      }
     }
 
     // Step 4: Create Firestore User document with the Auth user's UID
@@ -243,14 +247,22 @@ export async function loginUser(
 }
 /**
  * Check if user is logged in
- * @param email - User's email address
- * @param password - User's password
- * @returns User instance with the Firebase Auth user and metadata from Firestore
+ * @returns true if user is logged in, false otherwise
  */
 export async function isUserAuth(){
   const auth = getAuth();
   const user = auth.currentUser;
+
   return !!user;
+}
+
+/**
+ * Check if the current user's email is verified
+ * @returns true if user is logged in AND email is verified, false otherwise
+ */
+export function isEmailVerified(): boolean {
+  const user = auth.currentUser;
+  return !!user && user.emailVerified;
 }
 /**
  * Sends a password reset email to the specified email address
@@ -341,6 +353,8 @@ const UserService = {
   verifyEmail,
   resendVerificationEmail,
   loginUser,
+  isUserAuth,
+  isEmailVerified,
   sendPasswordReset,
   verifyPasswordResetOobCode,
   confirmPasswordResetWithCode,

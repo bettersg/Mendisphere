@@ -5,7 +5,7 @@ import TopBar from './TopBar';
 import { muiTheme } from '../../theme/muiTheme';
 import LoginForm from './LoginForm';
 import "./style.scss";
-import { isUserAuth } from '../../services/UserService';
+import { isEmailVerified, isUserAuth } from '../../services/UserService';
 import PersonIcon from '@mui/icons-material/Person';
 import { useMediaQuery, useTheme } from '@mui/material';
 import { Paths } from "../../routing";
@@ -19,7 +19,7 @@ const Login = () => {
   
   React.useEffect(() => {
     const checkAuth = async () => {
-      const isAuth = await isUserAuth();
+      const isAuth = await isEmailVerified();
       if (isAuth) {
         navigate(Paths.dashboard);
       }
