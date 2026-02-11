@@ -21,3 +21,12 @@ firebase-debug.log
 
 /src/mocks/data/*
 .env.development.local
+.env.local
+CLAUDE.md
+firebase-export-1768325986174ojNJ4N/firestore_export/firestore_export.overall_export_metadata
+firebase-export-1768325986174ojNJ4N/firestore_export/all_namespaces/all_kinds/all_namespaces_all_kinds.export_metadata
+firebase-export-1768325986174ojNJ4N/firestore_export/all_namespaces/all_kinds/output-0
+firebase-export-1768984343038uON9gE/firestore_export/firestore_export.overall_export_metadata
+firebase-export-1768984343038uON9gE/firestore_export/all_namespaces/all_kinds/all_namespaces_all_kinds.export_metadata
+firebase-export-1768984343038uON9gE/firestore_export/all_namespaces/all_kinds/output-0
+nul
