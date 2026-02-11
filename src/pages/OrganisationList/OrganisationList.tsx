@@ -74,6 +74,7 @@ const OrganisationList: React.FC = () => {
         setOrgList(res.organisations);
         setLastVisible(res.lastVisible);
         setTotalCount(res.totalCount);
+        console.log(res)
       })
       .finally(() => setIsLoading(false))
       .catch((err) => {

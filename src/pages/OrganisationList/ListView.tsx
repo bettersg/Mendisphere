@@ -7,6 +7,7 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Chip
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as Approved } from "../../assets/icons/statusApproved.svg";
@@ -21,6 +22,7 @@ import { Organisation } from "../../data/Model/Organisation";
 import { VerificationStatus } from "../../data/Enums/verification-status.enum";
 import { IPCStatus } from "../../data/Enums/ipc-status.enum";
 import "./style.scss";
+import { muiTheme } from "../../theme/muiTheme";
 
 const ipcUIMap = {
   [IPCStatus.Approved]: <Approved />,
@@ -29,8 +31,8 @@ const ipcUIMap = {
 };
 
 const verifiedUIMap = {
-  [VerificationStatus.Verified]: <Verified />,
-  [VerificationStatus.NotVerified]: <NotVerified />,
+  [VerificationStatus.Verified]: <Chip label="Chip Filled" color="success"/>,
+  [VerificationStatus.NotVerified]: <Chip label="Chip Filled" color="error"/>,
   [VerificationStatus.Pending]: <Pending />,
 };
 
@@ -101,6 +103,23 @@ const ListView: React.FC<{
               </div>
             </TableCell>
             <TableCell
+              onClick={() => handleSort("verified")}
+              style={{ cursor: "pointer" }}
+            >
+              <div className="table-header" style={{ fontWeight: 400, letterSpacing: '0.2em' }}>
+                VERIFIED
+                {currentSortField === "verified" ? (
+                  currentSortDirection === "asc" ? (
+                    <SortUp />
+                  ) : (
+                    <SortDown />
+                  )
+                ) : (
+                  <Sort />
+                )}
+              </div>
+            </TableCell>
+            <TableCell
               onClick={() => handleSort("mainSpecialisation")}
               style={{ cursor: "pointer" }}
             >
@@ -124,6 +143,23 @@ const ListView: React.FC<{
               <div className="table-header" style={{ fontWeight: 400, letterSpacing: '0.2em' }}>
                 LOOKING FOR
                 {currentSortField === "mainSupportArea" ? (
+                  currentSortDirection === "asc" ? (
+                    <SortUp />
+                  ) : (
+                    <SortDown />
+                  )
+                ) : (
+                  <Sort />
+                )}
+              </div>
+            </TableCell>
+            <TableCell
+              onClick={() => handleSort("ipcStatus")}
+              style={{ cursor: "pointer" }}
+            >
+              <div className="table-header" style={{ fontWeight: 400, letterSpacing: '0.2em' }}>
+                IPC STATUS
+                {currentSortField === "ipcStatus" ? (
                   currentSortDirection === "asc" ? (
                     <SortUp />
                   ) : (
@@ -158,8 +194,10 @@ const ListView: React.FC<{
                 {organisation.name}
               </TableCell>
               <TableCell>{organisation.description}</TableCell>
+              <TableCell>{organisation.verified}</TableCell>
               <TableCell>{organisation.mainSpecialisation}</TableCell>
               <TableCell>{organisation.mainSupportArea}</TableCell>
+              <TableCell>{organisation.ipcApproved}</TableCell>
             </TableRow>
           ))}
         </TableBody>

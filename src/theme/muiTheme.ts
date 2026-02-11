@@ -50,6 +50,9 @@ export const muiTheme = createTheme({
       dark:'#15843E',
       light: "#9FF8BF",     // focus.successHighlight
     },
+    pending:{
+      main:"#FFD0B6"
+    }
   },
 
   typography: {
