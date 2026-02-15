@@ -5,6 +5,12 @@ declare module '@mui/material/styles' {
     mobile: true; // adds the `mobile` breakpoint
     desktop: true;
   }
+  interface Palette {
+    pending: Palette['primary'];
+  }
+  interface PaletteOptions {
+    pending?: PaletteOptions['primary'];
+  }
 }
 
 export const muiTheme = createTheme({
