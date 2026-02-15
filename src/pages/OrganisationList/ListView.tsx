@@ -10,11 +10,11 @@ import {
   Chip
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import {ReactComponent as NotVerified} from "../../assets/icons/statusNotVerified.svg"
+import {ReactComponent as Verified} from "../../assets/icons/statusVerified.svg"
 import { ReactComponent as Approved } from "../../assets/icons/statusApproved.svg";
 import { ReactComponent as NotApproved } from "../../assets/icons/statusNotApproved.svg";
 import { ReactComponent as Pending } from "../../assets/icons/statusPending.svg";
-import { ReactComponent as Verified } from "../../assets/icons/statusVerified.svg";
-import { ReactComponent as NotVerified } from "../../assets/icons/statusNotVerified.svg";
 import { ReactComponent as Sort } from "../../assets/icons/sort.svg";
 import { ReactComponent as SortUp } from "../../assets/icons/sortUp.svg";
 import { ReactComponent as SortDown } from "../../assets/icons/sortDown.svg";
@@ -31,8 +31,8 @@ const ipcUIMap = {
 };
 
 const verifiedUIMap = {
-  [VerificationStatus.Verified]: <Chip label="Chip Filled" color="success"/>,
-  [VerificationStatus.NotVerified]: <Chip label="Chip Filled" color="error"/>,
+  [VerificationStatus.Verified]: <Verified/>,
+  [VerificationStatus.NotVerified]: <NotVerified/>,
   [VerificationStatus.Pending]: <Pending />,
 };
 
@@ -104,6 +104,7 @@ const ListView: React.FC<{
             </TableCell>
             <TableCell
               onClick={() => handleSort("verified")}
+              sx={{display:{xs:'none',md:'table-cell'}}}
               style={{ cursor: "pointer" }}
             >
               <div className="table-header" style={{ fontWeight: 400, letterSpacing: '0.2em' }}>
@@ -156,6 +157,7 @@ const ListView: React.FC<{
             <TableCell
               onClick={() => handleSort("ipcStatus")}
               style={{ cursor: "pointer" }}
+              sx={{display:{xs:'none',md:'table-cell'}}}
             >
               <div className="table-header" style={{ fontWeight: 400, letterSpacing: '0.2em' }}>
                 IPC STATUS
@@ -194,10 +196,10 @@ const ListView: React.FC<{
                 {organisation.name}
               </TableCell>
               <TableCell>{organisation.description}</TableCell>
-              <TableCell>{organisation.verified}</TableCell>
+              <TableCell sx={{display:{xs:'none',md:'table-cell'}}}>{verifiedUIMap[organisation.verified]}</TableCell>
               <TableCell>{organisation.mainSpecialisation}</TableCell>
               <TableCell>{organisation.mainSupportArea}</TableCell>
-              <TableCell>{organisation.ipcApproved}</TableCell>
+              <TableCell sx={{display:{xs:'none',md:'table-cell'}}}>{ipcUIMap[organisation.ipcApproved]}</TableCell>
             </TableRow>
           ))}
         </TableBody>
