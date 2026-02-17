@@ -12,7 +12,7 @@ import { VerificationStatus } from "../data/Enums/verification-status.enum";
 import { Specialisation } from "../data/Enums/specialisation.enum";
 import { SupportArea } from "../data/Enums/support-area.enum";
 import { ConsultantService } from "../data/Enums/consultant-service.enum";
-import { createUserWithAuth, createOrganisationWithUser, loginUser } from "./UserService";
+import { createUserWithAuth, loginUser } from "./UserService";
 import { User } from "../data/Model/User";
 import { updateDisplayName } from "./UserService";
 /**
