@@ -100,7 +100,7 @@ function RegistrationForm(){
               newOrganisation,
               UserType.organisation,
               UserRole.admin,
-              false
+              true
             );
             result=result.user;
           } else {
