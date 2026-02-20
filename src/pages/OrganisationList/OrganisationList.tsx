@@ -53,6 +53,8 @@ const OrganisationList: React.FC = () => {
   const [isLoadMoreLoading, setIsLoadMoreLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [viewOption, setViewOption] = useState<EViewOption>(EViewOption.Card);
+  const [currentSortField, setCurrentSortField] = useState<string | undefined>(undefined);
+  const [currentSortDirection, setCurrentSortDirection] = useState<"asc" | "desc">("asc");
 
   // states of the 4 filters
   const [specialisations, setSpecialisations] = useState<Option[]>([]);
@@ -98,7 +100,7 @@ const OrganisationList: React.FC = () => {
     if (isLoadMoreLoading || lastVisible === null) return;
 
     setIsLoadMoreLoading(true);
-    getOrganisations(filters, "", limit, lastVisible)
+    getOrganisations(filters, "", limit, lastVisible, currentSortField, currentSortField ? currentSortDirection : undefined)
       .then((res) => {
         setOrgList((prevState) => [...prevState, ...res.organisations]);
         setLastVisible(res.lastVisible);
@@ -116,6 +118,8 @@ const OrganisationList: React.FC = () => {
     sortField: string,
     sortDirection: "asc" | "desc"
   ) => {
+    setCurrentSortField(sortField);
+    setCurrentSortDirection(sortDirection);
     getOrganisations(
       filters,
       "",
@@ -158,7 +162,7 @@ const OrganisationList: React.FC = () => {
 
       {/* Filters drop down */}
       <Box bgcolor="white" paddingY="32px">
-        <Container className="page-width page-padding">
+        <Container className="page-width ">
           <Typography fontWeight={500} variant="h6" marginBottom={1.5}>Find an organisation you want to support</Typography>
           <Typography variant="body2" color="#707070" paddingBottom={1}>
             Filter by
@@ -222,11 +226,11 @@ const OrganisationList: React.FC = () => {
                   onChange={(option) => setViewOption(option)}
                   viewOption={viewOption}
                 />
-                <Container className="page-width page-padding" sx={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 5, padding: "0 !important" }}>
+                <Container className="page-width" sx={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 5, padding: "0 !important" }}>
                   <Box
                     display="flex"
                     flexDirection="column"
-                    alignItems="center"
+                    alignItems="start"
                     paddingBottom="60px"
                     width="100%"
                   >
@@ -240,8 +244,8 @@ const OrganisationList: React.FC = () => {
                     )}
 
                     <Typography marginTop="60px" marginBottom="20px">
-                      Displaying <strong>{orgList.length}</strong> out of{" "}
-                      <strong>{totalCount}</strong> results
+                      Displaying {orgList.length} out of{" "}
+                      {totalCount} results
                     </Typography>
                     {orgList.length === totalCount ? (
                       <Typography>

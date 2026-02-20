@@ -20,10 +20,12 @@ const ViewToggle: React.FC<IViewToggle> = ({
 }) => {
   return (
     <Box
-      className="page-width page-padding"
+      className="page-width"
       display="flex"
+      px={4}
       justifyContent="flex-end"
       marginBottom={5}
+      maxW={"1200px"}
       marginTop={30}
     >
       <div
@@ -36,8 +38,7 @@ const ViewToggle: React.FC<IViewToggle> = ({
       >
         {length && totalCount && (
           <Text>
-            Displaying <strong>{length}</strong> out of{" "}
-            <strong>{totalCount}</strong> results
+            Displaying {length} out of {totalCount} results
           </Text>
         )}
         <div
