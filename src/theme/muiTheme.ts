@@ -5,6 +5,12 @@ declare module '@mui/material/styles' {
     mobile: true; // adds the `mobile` breakpoint
     desktop: true;
   }
+  interface Palette {
+    pending: Palette['primary'];
+  }
+  interface PaletteOptions {
+    pending?: PaletteOptions['primary'];
+  }
 }
 
 export const muiTheme = createTheme({
@@ -46,10 +52,13 @@ export const muiTheme = createTheme({
       light: "#FFEFEF",     // focus.errorHighlight (Good for Alert backgrounds)
     },
     success: {
-      main: "#79BD92",      // focus.success
+      main: "#25BB5C",      // focus.success
       dark:'#15843E',
       light: "#9FF8BF",     // focus.successHighlight
     },
+    pending:{
+      main:"#FDA900"
+    }
   },
 
   typography: {
@@ -71,7 +80,12 @@ export const muiTheme = createTheme({
     },
     h6:{
       fontWeight:'600',
-    }
+    },
+      subtitle2: {
+    fontWeight: 500,   // medium weight
+    fontSize: "14px",  // size 14
+    lineHeight: 1.43,  // optional, recommended for readability
+  },
   },
   components: {
     MuiToggleButton:{

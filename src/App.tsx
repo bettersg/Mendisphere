@@ -3,6 +3,7 @@ import {
   ChakraProvider,
 
 } from "@chakra-ui/react";
+import {useLocation } from "react-router-dom";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import {muiTheme} from './theme/muiTheme'
 import { AuthProvider } from "./services/Firebase/AuthProvider";
@@ -17,7 +18,8 @@ function App() {
   const isNotDesktopWidth = width <= 720;
 
   // Get current page
-  const currentPage = window.location.pathname;
+  const location = useLocation();
+  const currentPage = location.pathname; 
 
   // Check the current page is not login and registration page
   const isShowHeaderAndFooter = ![

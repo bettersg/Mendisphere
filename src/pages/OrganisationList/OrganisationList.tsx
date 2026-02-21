@@ -9,8 +9,8 @@ import {
 import CardView from "./CardView";
 import ListView from "./ListView";
 import ViewToggle from "./ViewToggle";
-import {  Organisation } from "../../data/Model/Organisation";
-import Breadcrumbs from "../../components/Breadcrumbs";
+import { Organisation } from "../../data/Model/Organisation";
+import { IPCStatus } from "../../data/Enums/ipc-status.enum";
 import "../style.scss";
 import { MultiSelect } from "react-multi-select-component";
 import { getOrganisations, OrganisationFilters } from "../../services/OrganisationService";
@@ -24,6 +24,8 @@ import { DocumentData, DocumentSnapshot } from "firebase/firestore";
 import { colors } from "../../theme/colours";
 import CardViewLoadingScreen from "./CardViewloadingScreen";
 import ListViewLoadingScreen from "./ListViewloadingScreen";
+import Homepage_Breadcrumbs from "../../components/Breadcrumbs/HomePage_BreadCrumbs";
+import { VStack } from "@chakra-ui/react";
 
 export enum EViewOption {
   Card = "card",
@@ -41,6 +43,12 @@ const updateFilters = (arr: any[]) => {
   return arr.length > 0 ? arr.map((obj) => obj.value) : undefined;
 };
 
+const ipcSortPriority: Record<IPCStatus, number> = {
+  [IPCStatus.Approved]: 2,
+  [IPCStatus.Pending]: 1,
+  [IPCStatus.NotApproved]: 0,
+};
+
 const OrganisationList: React.FC = () => {
   // store organisation card data
   const [orgList, setOrgList] = useState<Organisation[]>([]);
@@ -51,6 +59,8 @@ const OrganisationList: React.FC = () => {
   const [isLoadMoreLoading, setIsLoadMoreLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [viewOption, setViewOption] = useState<EViewOption>(EViewOption.Card);
+  const [currentSortField, setCurrentSortField] = useState<string | undefined>(undefined);
+  const [currentSortDirection, setCurrentSortDirection] = useState<"asc" | "desc">("asc");
 
   // states of the 4 filters
   const [specialisations, setSpecialisations] = useState<Option[]>([]);
@@ -64,7 +74,7 @@ const OrganisationList: React.FC = () => {
     supportAreas: undefined,
   });
 
-  const limit = 8;
+  const limit = 12;
 
   useEffect(() => {
     setIsLoading(true);
@@ -74,6 +84,7 @@ const OrganisationList: React.FC = () => {
         setOrgList(res.organisations);
         setLastVisible(res.lastVisible);
         setTotalCount(res.totalCount);
+        console.log(res)
       })
       .finally(() => setIsLoading(false))
       .catch((err) => {
@@ -95,10 +106,11 @@ const OrganisationList: React.FC = () => {
     if (isLoadMoreLoading || lastVisible === null) return;
 
     setIsLoadMoreLoading(true);
-    getOrganisations(filters, "", limit, lastVisible)
+    getOrganisations(filters, "", limit, lastVisible, currentSortField, currentSortField ? currentSortDirection : undefined)
       .then((res) => {
         setOrgList((prevState) => [...prevState, ...res.organisations]);
         setLastVisible(res.lastVisible);
+        setTotalCount(res.totalCount);
       })
       .finally(() => setIsLoadMoreLoading(false))
       .catch((err) => {
@@ -112,16 +124,28 @@ const OrganisationList: React.FC = () => {
     sortField: string,
     sortDirection: "asc" | "desc"
   ) => {
+    setCurrentSortField(sortField);
+    setCurrentSortDirection(sortDirection);
+
+    const isIpcSort = sortField === "ipcApproved";
+
     getOrganisations(
       filters,
       "",
       limit,
       undefined,
-      sortField,
-      sortDirection
+      isIpcSort ? undefined : sortField,
+      isIpcSort ? undefined : sortDirection
     )
       .then((res) => {
-        setOrgList(res.organisations);
+        let orgs = res.organisations;
+        if (isIpcSort) {
+          orgs = [...orgs].sort((a, b) => {
+            const diff = ipcSortPriority[a.ipcApproved] - ipcSortPriority[b.ipcApproved];
+            return sortDirection === "desc" ? -diff : diff;
+          });
+        }
+        setOrgList(orgs);
         setLastVisible(res.lastVisible);
         setTotalCount(res.totalCount);
       })
@@ -133,29 +157,29 @@ const OrganisationList: React.FC = () => {
   };
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="stretch">
-      <Breadcrumbs />
+    <Box display="flex" flexDirection="column" alignItems="stretch" sx={{backgroundColor:"grey.100"}}>
+      <Homepage_Breadcrumbs/>
 
       {/* Description */}
       <Box width="100%" paddingBottom="25px">
-        <Container className="page-width" sx={{ display: 'flex', alignItems: 'center', width: "782px" }}>
+        <Container className="page-width" sx={{ display: 'flex', alignItems: 'center'}}>
           <Box component="img" src={require("../../assets/images/org-listing-image.png")} sx={{ maxWidth: '50%' }} />
-          <Box sx={{ minWidth: '45%', marginLeft: '24px' }}>
-            <Typography variant="h4" fontSize={40} component="h1">Mendisphere</Typography>
-            <Typography variant="h4" fontSize={40} component="h2">Community</Typography>
+          <VStack alignItems="start" sx={{ minWidth: '45%', marginLeft: '24px' }} gap={2} height={"full"}>
+            <Typography variant="h4" sx={{ fontSize: { xs: "24px", sm: "40px" } }}>Mendisphere Community</Typography>
+          
             <Typography variant="body1" sx={{ marginTop: 2 }}>
               Looking to fund or partner with a mental health organisation?
               Browse below for the full list of registered organisations under
               Mendisphere. There's always someone in need of your support.
             </Typography>
-          </Box>
+          </VStack>
         </Container>
       </Box>
 
       {/* Filters drop down */}
-      <Box bgcolor="#E0E5FF" paddingY="32px">
-        <Container className="page-width page-padding">
-          <Typography fontWeight={400} variant="h6" marginBottom={1.5}>How can we help you today?</Typography>
+      <Box bgcolor="white" paddingY="32px">
+        <Container className="page-width ">
+          <Typography fontWeight={500} variant="h6" marginBottom={1.5}>Find an organisation you want to support</Typography>
           <Typography variant="body2" color="#707070" paddingBottom={1}>
             Filter by
           </Typography>
@@ -201,7 +225,7 @@ const OrganisationList: React.FC = () => {
       </Box>
 
       {/* Cards listing view */}
-      <Box paddingBottom={5} paddingTop={5}>
+      <Box paddingBottom={5} paddingTop={5} bgcolor={"white"}>
         {isLoading ? (
           viewOption === EViewOption.Card ? (
             <CardViewLoadingScreen />
@@ -218,11 +242,11 @@ const OrganisationList: React.FC = () => {
                   onChange={(option) => setViewOption(option)}
                   viewOption={viewOption}
                 />
-                <Container className="page-width page-padding" sx={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 5, padding: "0 !important" }}>
+                <Container className="page-width" sx={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 5, padding: "0 !important" }}>
                   <Box
                     display="flex"
                     flexDirection="column"
-                    alignItems="center"
+                    alignItems="start"
                     paddingBottom="60px"
                     width="100%"
                   >
@@ -236,8 +260,8 @@ const OrganisationList: React.FC = () => {
                     )}
 
                     <Typography marginTop="60px" marginBottom="20px">
-                      Displaying <strong>{orgList.length}</strong> out of{" "}
-                      <strong>{totalCount}</strong> results
+                      Displaying {orgList.length} out of{" "}
+                      {totalCount} results
                     </Typography>
                     {orgList.length === totalCount ? (
                       <Typography>
