@@ -9,6 +9,7 @@ import {
   Paper,
   Chip,
   Box,
+  Stack
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { Typography } from "@mui/material";
@@ -23,6 +24,8 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { muiTheme } from "../../theme/muiTheme";
 import VerifiedUserOutlinedIcon from "@mui/icons-material/VerifiedUserOutlined";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+
+
 const ipcUIMap = {
   [IPCStatus.Approved]: (
     <Chip
@@ -81,7 +84,6 @@ const ListView: React.FC<{
       <Table>
         <TableHead sx={{ display: { xs: "none", md: "table-header-group" } }}>
           <TableRow>
-            <TableCell sx={{ width: 56 }} />
             <TableCell
               onClick={() => handleSort("name")}
               style={{ cursor: "pointer" }}
@@ -89,24 +91,6 @@ const ListView: React.FC<{
               <div className="table-header" style={{ fontWeight: 600 }}>
                 Organisations
                 {currentSortField === "name" ? (
-                  currentSortDirection === "asc" ? (
-                    <SortUp />
-                  ) : (
-                    <SortDown />
-                  )
-                ) : null}
-              </div>
-            </TableCell>
-            <TableCell
-              onClick={() => handleSort("verified")}
-              sx={{ display: { xs: "none", md: "table-cell" } }}
-              style={{ cursor: "pointer" }}
-            >
-              <div
-                className="table-header"
-                style={{ fontWeight: 400, letterSpacing: "0.2em" }}
-              >
-                {currentSortField === "verified" ? (
                   currentSortDirection === "asc" ? (
                     <SortUp />
                   ) : (
@@ -162,13 +146,13 @@ const ListView: React.FC<{
               </div>
             </TableCell>
             <TableCell
-              onClick={() => handleSort("ipcStatus")}
+              onClick={() => handleSort("ipcApproved")}
               style={{ cursor: "pointer" }}
               sx={{ display: { xs: "none", md: "table-cell" } }}
             >
               <div className="table-header" style={{ fontWeight: 600 }}>
                 IPC Registered
-                {currentSortField === "ipcStatus" ? (
+                {currentSortField === "ipcApproved" ? (
                   currentSortDirection === "asc" ? (
                     <SortUp />
                   ) : (
@@ -193,28 +177,29 @@ const ListView: React.FC<{
                 },
               }}
             >
-              <TableCell sx={{ width: 56, padding: "8px" }}>
-                {organisation.cardImageUrl && (
-                  <img
-                    src={organisation.cardImageUrl}
-                    alt={organisation.name}
-                    style={{
-                      width: 40,
-                      height: 40,
-                      objectFit: "cover",
-                      borderRadius: 4,
-                      display: "block",
-                    }}
-                  />
-                )}
-              </TableCell>
               <TableCell style={{ fontWeight: 700, fontSize: "16px" }}>
-                <Typography variant="subtitle2">{organisation.name}</Typography>
-                <Box sx={{ display: { xs: "block", md: "none" }, mt: 0.5 }}>
-                  <Chip label={organisation.mainSpecialisation} size="small" />
-                </Box>
+                <Stack direction="row" spacing={1} alignItems="center">
+                  {organisation.cardImageUrl && (
+                    <img
+                      src={organisation.cardImageUrl}
+                      alt={organisation.name}
+                      style={{
+                        width: 40,
+                        height: 40,
+                        objectFit: "cover",
+                        borderRadius: 4,
+                        display: "block",
+                        flexShrink: 0,
+                      }}
+                    />
+                  )}
+                  <Typography variant="subtitle2">{organisation.name}</Typography>
+                  {verifiedUIMap[organisation.verified]}
+                  <Box sx={{ display: { xs: "block", md: "none" }, mt: 0.5 }}>
+                    <Chip label={organisation.mainSpecialisation} size="small" />
+                  </Box>
+                </Stack>
               </TableCell>
-              <TableCell>{verifiedUIMap[organisation.verified]}</TableCell>
               <TableCell sx={{ display: { xs: "none", md: "table-cell" } }}>
                 {organisation.description}
               </TableCell>
