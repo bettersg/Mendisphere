@@ -10,7 +10,6 @@ import CardView from "./CardView";
 import ListView from "./ListView";
 import ViewToggle from "./ViewToggle";
 import {  Organisation } from "../../data/Model/Organisation";
-import Breadcrumbs from "../../components/Breadcrumbs";
 import "../style.scss";
 import { MultiSelect } from "react-multi-select-component";
 import { getOrganisations, OrganisationFilters } from "../../services/OrganisationService";
