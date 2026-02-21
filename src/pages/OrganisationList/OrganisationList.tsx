@@ -9,7 +9,8 @@ import {
 import CardView from "./CardView";
 import ListView from "./ListView";
 import ViewToggle from "./ViewToggle";
-import {  Organisation } from "../../data/Model/Organisation";
+import { Organisation } from "../../data/Model/Organisation";
+import { IPCStatus } from "../../data/Enums/ipc-status.enum";
 import "../style.scss";
 import { MultiSelect } from "react-multi-select-component";
 import { getOrganisations, OrganisationFilters } from "../../services/OrganisationService";
@@ -40,6 +41,12 @@ interface Option {
 
 const updateFilters = (arr: any[]) => {
   return arr.length > 0 ? arr.map((obj) => obj.value) : undefined;
+};
+
+const ipcSortPriority: Record<IPCStatus, number> = {
+  [IPCStatus.Approved]: 2,
+  [IPCStatus.Pending]: 1,
+  [IPCStatus.NotApproved]: 0,
 };
 
 const OrganisationList: React.FC = () => {
@@ -119,16 +126,26 @@ const OrganisationList: React.FC = () => {
   ) => {
     setCurrentSortField(sortField);
     setCurrentSortDirection(sortDirection);
+
+    const isIpcSort = sortField === "ipcApproved";
+
     getOrganisations(
       filters,
       "",
       limit,
       undefined,
-      sortField,
-      sortDirection
+      isIpcSort ? undefined : sortField,
+      isIpcSort ? undefined : sortDirection
     )
       .then((res) => {
-        setOrgList(res.organisations);
+        let orgs = res.organisations;
+        if (isIpcSort) {
+          orgs = [...orgs].sort((a, b) => {
+            const diff = ipcSortPriority[a.ipcApproved] - ipcSortPriority[b.ipcApproved];
+            return sortDirection === "desc" ? -diff : diff;
+          });
+        }
+        setOrgList(orgs);
         setLastVisible(res.lastVisible);
         setTotalCount(res.totalCount);
       })
