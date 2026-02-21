@@ -8,10 +8,6 @@ import {
   Container,
   Stack,
   Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemText,
   Divider,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -135,40 +131,55 @@ const Header = () => {
 
       {/* Mobile drawer */}
       <Drawer
-        anchor="right"
+        anchor="left"
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
-        PaperProps={{ sx: { width: 260 } }}
+        slotProps={{ paper: { sx: { width: 260 } } }}
       >
-        <Box sx={{ display: "flex", justifyContent: "flex-end", p: 1 }}>
+        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", p: 2 }}>
+          <IconButton
+            color="inherit"
+            component={RouterLink}
+            to="/"
+            onClick={() => setDrawerOpen(false)}
+            sx={{ "&:hover": { backgroundColor: "transparent" } }}
+          >
+           
+          </IconButton>
           <IconButton onClick={() => setDrawerOpen(false)} aria-label="close menu">
             <CloseIcon />
           </IconButton>
         </Box>
-        <Divider />
-        <List>
-          {menuItems.map((item, index) => (
-            <ListItem key={index} disablePadding>
-              {item.link === "footer" ? (
-                <ListItemButton onClick={(event) => handleScroll(event, item.link)}>
-                  <ListItemText primary={item.text} />
-                </ListItemButton>
-              ) : (
-                <ListItemButton
-                  component={RouterLink}
-                  to={item.link}
-                  onClick={() => setDrawerOpen(false)}
-                  selected={isActive(item.link)}
-                >
-                  <ListItemText
-                    primary={item.text}
-                    sx={{ color: isActive(item.link) ? "primary.main" : "inherit" }}
-                  />
-                </ListItemButton>
-              )}
-            </ListItem>
-          ))}
-        </List>
+        <Stack direction="column" sx={{ px: 3, py: 2 }} gap={2}>
+          <img src={logo} alt="Logo" style={{ marginBottom: "16px" }}/>
+          {menuItems.map((item, index) =>
+            item.link === "footer" ? (
+              <Button
+                key={index}
+                color="inherit"
+                onClick={(event) => handleScroll(event, item.link)}
+                sx={{ textTransform: "capitalize", justifyContent: "flex-start" }}
+              >
+                {item.text}
+              </Button>
+            ) : (
+              <Button
+                key={index}
+                color="inherit"
+                component={RouterLink}
+                to={item.link}
+                onClick={() => setDrawerOpen(false)}
+                sx={{
+                  textTransform: "capitalize",
+                  justifyContent: "flex-start",
+                  color: isActive(item.link) ? "primary.main" : "inherit",
+                }}
+              >
+                {item.text}
+              </Button>
+            )
+          )}
+        </Stack>
         <Divider />
         <Stack direction="column" gap={2} sx={{ p: 2 }}>
           <Button
