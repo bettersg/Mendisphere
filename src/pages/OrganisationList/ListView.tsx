@@ -74,6 +74,7 @@ const ListView: React.FC<{
       <Table>
         <TableHead sx={{ display: { xs: 'none', md: 'table-header-group' } }}>
           <TableRow>
+            <TableCell sx={{ width: 56 }} />
             <TableCell
               onClick={() => handleSort("name")}
               style={{ cursor: "pointer" }}
@@ -196,6 +197,15 @@ const ListView: React.FC<{
                 },
               }}
             >
+              <TableCell sx={{ width: 56, padding: '8px' }}>
+                {organisation.cardImageUrl && (
+                  <img
+                    src={organisation.cardImageUrl}
+                    alt={organisation.name}
+                    style={{ width: 40, height: 40, objectFit: 'cover', borderRadius: 4, display: 'block' }}
+                  />
+                )}
+              </TableCell>
               <TableCell style={{ fontWeight: 700, fontSize: "16px" }}>
                 <Typography variant="subtitle2">
                   {organisation.name}
